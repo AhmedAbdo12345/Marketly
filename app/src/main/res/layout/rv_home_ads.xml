@@ -45,7 +45,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Check"
-            android:background="@drawable/button_bck"
+            android:background="@drawable/btn_bg"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"/>
     </LinearLayout>
