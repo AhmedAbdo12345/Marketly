@@ -1,7 +1,8 @@
-package iti.mad.marketly
+package iti.workshop.admin.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import iti.workshop.admin.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
