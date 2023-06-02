@@ -6,19 +6,19 @@
         android:title="Home"
         android:icon="@drawable/ic_home"/>
     <item
-        android:id="@+id/CartFragment"
+        android:id="@+id/cartFragment"
         android:title="Cart"
         android:icon="@drawable/ic_shopping_cart"/>
     <item
-        android:id="@+id/CategoryFragment"
+        android:id="@+id/categoryFragment"
         android:title="Category"
         android:icon="@drawable/ic_bag"/>
     <item
-        android:id="@+id/FavouriteFragment"
+        android:id="@+id/favouriteFragment"
         android:title="Favourites"
         android:icon="@drawable/ic_fav"/>
     <item
-        android:id="@+id/ProfileFragment"
+        android:id="@+id/profileFragment"
         android:title="Profile"
         android:icon="@drawable/ic_profile"/>
 
