@@ -14,4 +14,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_by_name">Search Product By Name</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="email_error">email must contain @</string>
+    <string name="password">Password</string>
+    <string name="password_error">Password must equal 8 chars</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">name</string>
+    <string name="already_have_account">already Have Account</string>
 </resources>
