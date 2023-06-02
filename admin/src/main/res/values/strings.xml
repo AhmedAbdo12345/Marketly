@@ -14,4 +14,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_by_name">Search Product By Name</string>
+    <string name="home_navigation_title">Home</string>
+    <string name="product_navigation_title">Products</string>
+    <string name="coupon_navigation_title">Coupouns</string>
+    <string name="inventory_navigation_title">Inventory</string>
 </resources>
