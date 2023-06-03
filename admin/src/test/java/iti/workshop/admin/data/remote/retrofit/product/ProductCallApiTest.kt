@@ -1,8 +1,9 @@
-package iti.workshop.admin.data.remote.retrofit
+package iti.workshop.admin.data.remote.retrofit.product
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import iti.workshop.admin.data.dto.*
+import iti.workshop.admin.data.remote.retrofit.RetrofitInstance
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking

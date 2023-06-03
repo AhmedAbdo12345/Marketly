@@ -1,4 +1,4 @@
-package iti.workshop.admin.data.remote.retrofit
+package iti.workshop.admin.data.remote.retrofit.product
 
 import iti.workshop.admin.data.dto.*
 import retrofit2.Response
