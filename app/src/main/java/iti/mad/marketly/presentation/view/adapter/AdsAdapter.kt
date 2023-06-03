@@ -3,11 +3,15 @@ package iti.mad.marketly.presentation.view.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.data.model.HomeAdsModel
+import iti.mad.marketly.data.model.SmartCollection
 import iti.mad.marketly.databinding.RvHomeAdsBinding
 
-class AdsAdapter (var adsModel: List<HomeAdsModel>?, var mClickListener: ListItemClickListener) : RecyclerView.Adapter<AdsAdapter.AdsViewHolder>() {
+class AdsAdapter ( var mClickListener: ListItemClickListener) :
+    ListAdapter<HomeAdsModel, AdsAdapter.AdsViewHolder>(AdsDiffUtils()) {
+
     lateinit var binding: RvHomeAdsBinding
     interface ListItemClickListener {
         fun onClickAds(homeAdsModel: HomeAdsModel)
@@ -22,10 +26,8 @@ class AdsAdapter (var adsModel: List<HomeAdsModel>?, var mClickListener: ListIte
     }
 
     override fun onBindViewHolder(holder: AdsViewHolder, position: Int)  {
-    binding.imgVAds.setImageResource(adsModel!![position].img)
+    binding.imgVAds.setImageResource(getItem(position).img)
 
     }
-    override fun getItemCount(): Int {
-        return adsModel?.size ?: 1
-    }
+
 }

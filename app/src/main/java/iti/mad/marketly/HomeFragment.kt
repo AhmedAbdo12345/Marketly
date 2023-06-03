@@ -51,8 +51,9 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var adsAdapter = AdsAdapter(this@HomeFragment)
         var list= listOf<HomeAdsModel>(HomeAdsModel(R.drawable.bn),HomeAdsModel(R.drawable.ads_img),HomeAdsModel(R.drawable.bn))
-        var adsAdapter = AdsAdapter(list,this@HomeFragment)
+        adsAdapter.submitList(list)
         binding.adsRecView.apply {
             adapter = adsAdapter
             setHasFixedSize(true)
