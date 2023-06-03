@@ -22,7 +22,6 @@ object RetrofitInstance {
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(httpClient)
-            .client(cashAndLoggerManager())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

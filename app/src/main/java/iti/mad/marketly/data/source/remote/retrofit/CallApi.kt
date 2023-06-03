@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface CallApi {
     @GET("smart_collections.json")
-    suspend fun getBrands() : BrandsResponse
+    suspend fun getBrandsFromAPI() : BrandsResponse
 }
