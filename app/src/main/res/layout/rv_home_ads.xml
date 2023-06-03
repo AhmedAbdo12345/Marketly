@@ -12,7 +12,7 @@
 
 
         <ImageView
-            android:id="@+id/productImage_coverPage"
+            android:id="@+id/imgV_ads"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -27,7 +27,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/productImage_coverPage"
+            app:layout_constraintBottom_toBottomOf="@+id/imgV_ads"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="40dp">
@@ -42,7 +42,7 @@
                 android:maxLines="2"
                 android:text="Fashion Sale"
                 android:textColor="@color/white"
-                android:textSize="40dp"></TextView>
+                android:textSize="40dp"/>
 
             <Button
                 android:id="@+id/productCheck_coverPage"

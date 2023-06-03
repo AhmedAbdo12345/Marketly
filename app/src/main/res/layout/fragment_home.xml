@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/coverRecView"
+                android:id="@+id/adsRecView"
                 android:layout_width="match_parent"
                 android:layout_height="480dp"
                 app:layout_constraintEnd_toEndOf="parent"
