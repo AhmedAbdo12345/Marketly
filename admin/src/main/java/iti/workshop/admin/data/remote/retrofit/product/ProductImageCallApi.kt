@@ -4,19 +4,41 @@ import iti.workshop.admin.data.dto.*
 import retrofit2.Response
 import retrofit2.http.*
 
-interface ProductImageCallApi{
-    @GET("products.json")
-    suspend fun getProduct(): Response<SuccessProductResponse>
+interface ProductImageCallApi {
+    @GET("products/{product_id}/images/count.json")
+    suspend fun getCountImageProduct(
+        @Path("product_id") product_id: Long
+    ): Response<Count>
 
-    @POST("products.json")
-    suspend fun addProduct(@Body data: PostProduct): Response<Product>
+    @GET("products/{product_id}/images.json")
+    suspend fun getImageProducts(
+        @Path("product_id") product_id: Long
+    ): Response<ImagesListResponse>
 
-    @PUT("products/{id}.json")
-    suspend fun updateProduct(@Path("id") id:Long, @Body data: UpdateProduct): Response<Product>
+    @GET("products/{product_id}/images/{image_id}.json")
+    suspend fun getImageProduct(
+        @Path("product_id") product_id: Long,
+        @Path("image_id") image_id: Long,
+    ): Response<ImagesSingleResponse>
 
-    @DELETE("products/{id}.json")
-    suspend fun deleteProduct(@Path("id") id:Long): Response<Void>
+    @POST("products/{product_id}/images.json")
+    suspend fun addImageProduct(
+        @Path("product_id") product_id: Long,
+        @Body data: PostImage
+    ): Response<ImagesSingleResponse>
 
-    @GET("products/count.json")
-    suspend fun getCount(): Response<Count>
+    @PUT("products/{product_id}/images/{image_id}.json")
+    suspend fun updateImageProduct(
+        @Path("product_id") product_id: Long,
+        @Path("image_id") image_id: Long,
+        @Body data: PostImage
+    ): Response<ImagesSingleResponse>
+
+    @DELETE("products/{product_id}/images/{image_id}.json")
+    suspend fun deleteImageProduct(
+        @Path("product_id") product_id: Long,
+        @Path("image_id") image_id: Long,
+    ): Response<Void>
+
+
 }

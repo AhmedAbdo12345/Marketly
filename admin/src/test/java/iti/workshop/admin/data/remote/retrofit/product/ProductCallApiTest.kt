@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-//@Config(sdk = [32],manifest=Config.NONE)
+
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class ProductCallApiTest {
@@ -46,7 +46,7 @@ class ProductCallApiTest {
     fun addProduct_callAddProduct_retrieveProductData201() = runBlocking {
         // Given
         val product = PostProduct(
-            PostSingleProduct(
+            Product(
                 body_html="<strong>Good snowboard!</strong>",
                 product_type="Snowboard",
                 status="draft",
@@ -67,8 +67,8 @@ class ProductCallApiTest {
     fun updateProduct_callUpdateProduct_retrieveProductData200() = runBlocking {
         // Given
         val product = UpdateProduct(
-            PutSingleProduct(
-                id = 8399806759222,
+            Product(
+                id = 8400380395830,
                 body_html="<strong>Good snowboard!</strong>",
                 product_type="Snowboard",
                 status="draft",
@@ -77,7 +77,7 @@ class ProductCallApiTest {
              )
         )
         // When
-        val response = async{ productCallApi.updateProduct(product.product.id,product) }
+        val response = async{ productCallApi.updateProduct(product.product.id ?: -1,product) }
         // Then
         MatcherAssert.assertThat(response.await().code().toString(), Is.`is`("200"))
         MatcherAssert.assertThat(response.await().body(), CoreMatchers.notNullValue())
@@ -89,7 +89,7 @@ class ProductCallApiTest {
     @Test
     fun deleteProduct_callDeleteProduct_retrieveNothing200() = runBlocking {
         // Given
-        val id = 8399901032758
+        val id = 8400528277814
         // When
         val response = async{ productCallApi.deleteProduct(id) }
         // Then

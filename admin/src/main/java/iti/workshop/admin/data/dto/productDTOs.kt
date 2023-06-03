@@ -1,107 +1,59 @@
 package iti.workshop.admin.data.dto
 
 data class SuccessProductResponse(
-    val products: List<Product>
+    val products: List<Product>?=null
+)
+data class UpdateProduct(
+    val product: Product
+)
+data class PostProduct(
+    val product: Product
 )
 
 data class Product(
-    val admin_graphql_api_id: String,
-    val body_html: String,
-    val created_at: String,
-    val handle: String,
-    val id: Long,
-    val image: Image,
-    val images: List<Image>,
-    val options: List<Option>,
-    val product_type: String,
-    val published_at: String,
-    val published_scope: String,
-    val status: String,
-    val tags: String,
-    val title: String,
-    val updated_at: String,
-    val variants: List<Variant>,
-    val vendor: String
-)
+    val id: Long?=null,
 
-data class Image(
-    val admin_graphql_api_id: String,
-    val alt: String,
-    val created_at: String,
-    val height: Int,
-    val id: Long,
-    val position: Int,
-    val product_id: Long,
-    val src: String,
-    val updated_at: String,
-    val width: Int
-)
+    var title: String?=null,
+    val body_html: String?=null,
 
-data class Option(
-    val id: Long,
-    val name: String,
-    val position: Int,
-    val product_id: Long,
-    val values: List<String>
-)
+    val admin_graphql_api_id: String?=null,
+    val handle: String?=null,
+    val image: AddImage?=null,
 
-data class Variant(
-    val admin_graphql_api_id: String,
-//    val barcode: Any,
-    val compare_at_price: String,
-    val created_at: String,
-    val fulfillment_service: String,
-    val grams: Int,
-    val id: Long,
-//    val image_id: Any,
-    val inventory_item_id: Long,
-    val inventory_management: String,
-    val inventory_policy: String,
-    val inventory_quantity: Int,
-    val old_inventory_quantity: Int,
-    val option1: String,
-    val option2: String,
-//    val option3: Any,
-    val position: Int,
-    val price: String,
-    val product_id: Long,
-    val requires_shipping: Boolean,
-    val sku: String,
-    val taxable: Boolean,
-    val title: String,
-    val updated_at: String,
-    val weight: Int,
-    val weight_unit: String
-)
+    val product_type: String?=null,
+    val published_scope: String?=null,
+    val status: String?=null,
+    val tags: String?=null,
+    val vendor: String?=null,
 
+    val published_at: String?=null,
+    val created_at: String?=null,
+    val updated_at: String?=null,
 
+    val images: List<Image>?=null,
+    val variants: List<Variant>?=null,
+    val options: List<Option>?=null,
 
-data class PostProduct(
-    val product: PostSingleProduct
-)
-data class PostSingleProduct(
-    val body_html: String,
-    val product_type: String,
-    val status: String,
-    val title: String,
-    val vendor: String
-)
-
-
-
-data class UpdateProduct(
-    val product: PutSingleProduct
-)
-data class PutSingleProduct(
-    val id: Long,
-    val body_html: String,
-    val product_type: String,
-    val status: String,
-    val title: String,
-    val vendor: String,
     val metafields: List<Metafield> = listOf( Metafield() ),
+
     )
 
+
+
+
+data class Option(
+    val id: Long?=null,
+    val name: String?=null,
+    val position: Int?=null,
+    val product_id: Long?=null,
+    val values: List<String>?=null
+)
+
+
+
+
+
+// Metafield
 data class Metafield(
     val key: String=  "new",
     val namespace: String = System.currentTimeMillis().toString(),
