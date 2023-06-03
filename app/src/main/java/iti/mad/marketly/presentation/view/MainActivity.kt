@@ -1,4 +1,4 @@
-package iti.mad.marketly.presentation
+package iti.mad.marketly.presentation.view
 
 import iti.mad.marketly.R
 
