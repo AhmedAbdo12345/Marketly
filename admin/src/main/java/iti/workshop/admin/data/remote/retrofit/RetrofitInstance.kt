@@ -7,17 +7,18 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .client(cashAndLoggerManager())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+    private val retrofit: Retrofit  =  Retrofit.Builder()
+        .baseUrl(Constants.BASE_URL)
+        .client(cashAndLoggerManager())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
-    val api: CallApi by lazy {
-        retrofit.create(CallApi::class.java)
-    }
+    val couponCallApi:CouponCallApi = retrofit.create(CouponCallApi::class.java)
+
+    val inventoryCallApi:InventoryCallApi  = retrofit.create(InventoryCallApi::class.java)
+
+    val productCallApi:ProductCallApi = retrofit.create(ProductCallApi::class.java)
+
 
 
     private fun cashAndLoggerManager(): OkHttpClient {
