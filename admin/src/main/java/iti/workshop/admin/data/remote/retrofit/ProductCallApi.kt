@@ -6,6 +6,7 @@ import iti.workshop.admin.data.dto.SuccessProductResponse
 import iti.workshop.admin.data.dto.UpdateProduct
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -20,4 +21,7 @@ interface ProductCallApi {
 
     @PUT("products/{id}.json")
     suspend fun updateProduct(@Path("id") id:Long,@Body data: UpdateProduct):Response<Product>
+
+    @DELETE("products/{id}.json")
+    suspend fun deleteProduct(@Path("id") id:Long):Response<Void>
 }

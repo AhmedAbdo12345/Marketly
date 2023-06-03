@@ -32,7 +32,7 @@ class ProductCallApiTest {
     }
 
     @Test
-    fun getProduct_callGetProduct_retrieveData() = runBlocking {
+    fun getProduct_callGetProduct_retrieveData200() = runBlocking {
         // When
         val response = async{ productCallApi.getProduct() }
         // Then
@@ -42,7 +42,7 @@ class ProductCallApiTest {
     }
 
     @Test
-    fun addProduct_callAddProduct_retrieveProductData() = runBlocking {
+    fun addProduct_callAddProduct_retrieveProductData201() = runBlocking {
         // Given
         val product = PostProduct(
             PostSingleProduct(
@@ -63,7 +63,7 @@ class ProductCallApiTest {
     }
 
     @Test
-    fun updateProduct_callUpdateProduct_retrieveProductData() = runBlocking {
+    fun updateProduct_callUpdateProduct_retrieveProductData200() = runBlocking {
         // Given
         val product = UpdateProduct(
             PutSingleProduct(
@@ -83,4 +83,18 @@ class ProductCallApiTest {
         MatcherAssert.assertThat(response.await().errorBody(), CoreMatchers.nullValue())
         MatcherAssert.assertThat(response.await().body(),CoreMatchers.isA(Product::class.java))
     }
+
+
+    @Test
+    fun deleteProduct_callDeleteProduct_retrieveNothing200() = runBlocking {
+        // Given
+        val id = 8399901032758
+        // When
+        val response = async{ productCallApi.deleteProduct(id) }
+        // Then
+        MatcherAssert.assertThat(response.await().code().toString(), Is.`is`("200"))
+    }
+
+
+
 }
