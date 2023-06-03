@@ -2,6 +2,9 @@ package iti.workshop.admin.data.remote.retrofit
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import iti.workshop.admin.data.dto.PostProduct
+import iti.workshop.admin.data.dto.Product
+import iti.workshop.admin.data.dto.SingleProduct
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -40,5 +43,26 @@ class ProductCallApiTest {
         MatcherAssert.assertThat(response.await().code().toString(), Is.`is`("200"))
         MatcherAssert.assertThat(response.await().body(), CoreMatchers.notNullValue())
         MatcherAssert.assertThat(response.await().errorBody(), CoreMatchers.nullValue())
+    }
+
+    @Test
+    fun addProduct_callAddProduct_retrieveProductData() = runBlocking {
+        // Given
+        val product = PostProduct(
+            SingleProduct(
+                body_html="<strong>Good snowboard!</strong>",
+                product_type="Snowboard",
+                status="draft",
+                title="Mohamed Product",
+                vendor="Burton",
+            )
+        )
+        // When
+        val response = async{ productCallApi.addProduct(product) }
+        // Then
+        MatcherAssert.assertThat(response.await().code().toString(), Is.`is`("201"))
+        MatcherAssert.assertThat(response.await().body(), CoreMatchers.notNullValue())
+        MatcherAssert.assertThat(response.await().errorBody(), CoreMatchers.nullValue())
+        MatcherAssert.assertThat(response.await().body(),CoreMatchers.isA(Product::class.java))
     }
 }
