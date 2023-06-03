@@ -32,6 +32,5 @@ class CouponCallApiTest {
         val response = async { couponCallApi.getCount() }
         print("count is: ${response.await().body()?.count}")
         MatcherAssert.assertThat(response.await().code().toString(), Is.`is`("200"))
-
     }
 }
