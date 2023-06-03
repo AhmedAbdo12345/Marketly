@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface ProductCallApi {
     @GET("products.json")
-    fun getProduct():Response<SuccessProductResponse>
+    suspend fun getProduct():Response<SuccessProductResponse>
 
 }

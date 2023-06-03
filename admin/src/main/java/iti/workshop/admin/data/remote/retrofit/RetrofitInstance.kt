@@ -39,7 +39,7 @@ object RetrofitInstance {
             addInterceptor(Interceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
-                    .header("Authorization", Constants.API_KEY)
+                    .header("X-Shopify-Access-Token", Constants.API_KEY)
                     .header("Accept", "application/json")
                     .header("Content-Type", "application/json")
                 val request = requestBuilder.build()
