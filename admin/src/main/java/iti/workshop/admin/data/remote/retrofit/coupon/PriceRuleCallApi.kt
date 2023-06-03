@@ -25,5 +25,4 @@ interface PriceRuleCallApi {
 
     @DELETE("price_rules/{price_rule_id}.json")
     suspend fun deletePriceRule(@Path("price_rule_id") price_rule_id: Long): Response<Void>
-
 }
