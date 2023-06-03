@@ -8,11 +8,16 @@ interface DiscountCodeCallApi {
     @GET("discount_codes/count.json")
     suspend fun getCount(): Response<Count>
 
-    @GET("products.json")
-    suspend fun getDiscounts(): Response<SuccessProductResponse>
+    @GET("price_rules/{price_rule_id}/discount_codes.json")
+    suspend fun getDiscounts(
+        @Path("price_rule_id") price_rule_id: Long,
+        ): Response<DiscountCodeListResponse>
 
     @POST("price_rules/{price_rule_id}/discount_codes.json")
-    suspend fun addDiscount(@Body data: DiscountCodeRequestAndResponse): Response<DiscountCodeRequestAndResponse>
+    suspend fun addDiscount(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Body data: DiscountCodeRequestAndResponse
+    ): Response<DiscountCodeRequestAndResponse>
 
     @PUT("price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json")
     suspend fun updateDiscount(
