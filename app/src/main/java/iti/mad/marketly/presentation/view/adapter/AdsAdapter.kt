@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.data.model.HomeAdsModel
-import iti.mad.marketly.data.model.SmartCollection
 import iti.mad.marketly.databinding.RvHomeAdsBinding
 
 class AdsAdapter ( var mClickListener: ListItemClickListener) :
