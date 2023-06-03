@@ -7,9 +7,21 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
+
+
     private val retrofit: Retrofit by lazy {
+        val httpClient = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("X-Shopify-Access-Token", Constants.API_ACCESS_TOKEN)
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .client(httpClient)
             .client(cashAndLoggerManager())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
