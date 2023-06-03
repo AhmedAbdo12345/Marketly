@@ -77,12 +77,34 @@ data class Variant(
 
 
 data class PostProduct(
-    val product: SingleProduct
+    val product: PostSingleProduct
 )
-data class SingleProduct(
+data class PostSingleProduct(
     val body_html: String,
     val product_type: String,
     val status: String,
     val title: String,
     val vendor: String
+)
+
+
+
+data class UpdateProduct(
+    val product: PutSingleProduct
+)
+data class PutSingleProduct(
+    val id: Long,
+    val body_html: String,
+    val product_type: String,
+    val status: String,
+    val title: String,
+    val vendor: String,
+    val metafields: List<Metafield> = listOf( Metafield() ),
+    )
+
+data class Metafield(
+    val key: String=  "new",
+    val namespace: String = System.currentTimeMillis().toString(),
+    val type: String = "single_line_text_field",
+    val value: String = "newvalue"
 )
