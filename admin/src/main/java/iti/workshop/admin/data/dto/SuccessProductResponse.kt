@@ -73,3 +73,11 @@ data class Variant(
     val weight: Int,
     val weight_unit: String
 )
+
+data class PostProduct(
+    val body_html: String,
+    val product_type: String,
+    val status: String,
+    val title: String,
+    val vendor: String
+)
