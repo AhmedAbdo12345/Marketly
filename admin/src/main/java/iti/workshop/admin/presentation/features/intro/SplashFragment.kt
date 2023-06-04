@@ -1,4 +1,4 @@
-package iti.workshop.admin.presentation.intro
+package iti.workshop.admin.presentation.features.intro
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

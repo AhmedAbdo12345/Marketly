@@ -16,25 +16,30 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
-data class APICalls(
+data class CouponAPICalls(
     // Coupon
     val discountCodeCallApi: DiscountCodeCallApi = RetrofitInstance.discountCodeCallApi,
-    val priceRuleCallApi:PriceRuleCallApi = RetrofitInstance.priceRuleCallApi,
+    val priceRuleCallApi: PriceRuleCallApi = RetrofitInstance.priceRuleCallApi,
+)
 
+data class InventoryAPICalls(
     // Inventory
     val inventoryItemCallApi: InventoryItemCallApi = RetrofitInstance.inventoryItemCallApi,
-    val inventoryLevelCallApi:InventoryLevelCallApi = RetrofitInstance.inventoryLevelCallApi,
-    val inventoryLocationCallApi:InventoryLocationCallApi = RetrofitInstance.inventoryLocationCallApi,
+    val inventoryLevelCallApi: InventoryLevelCallApi = RetrofitInstance.inventoryLevelCallApi,
+    val inventoryLocationCallApi: InventoryLocationCallApi = RetrofitInstance.inventoryLocationCallApi,
+    )
 
+data class ProductAPICalls(
     // Product
     val productCallApi: ProductCallApi = RetrofitInstance.productCallApi,
-    val productImageCallApi:ProductImageCallApi = RetrofitInstance.productImageCallApi,
-    val productVariantCallApi:ProductVariantCallApi = RetrofitInstance.productVariantCallApi
-
+    val productImageCallApi: ProductImageCallApi = RetrofitInstance.productImageCallApi,
+    val productVariantCallApi: ProductVariantCallApi = RetrofitInstance.productVariantCallApi
 )
+
+
 object RetrofitInstance {
 
-    private val retrofit: Retrofit  =  Retrofit.Builder()
+    private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .client(loggerInterceptor())
         .addConverterFactory(GsonConverterFactory.create())
@@ -43,23 +48,21 @@ object RetrofitInstance {
 
     // Coupon
     val discountCodeCallApi: DiscountCodeCallApi = retrofit.create(DiscountCodeCallApi::class.java)
-    val priceRuleCallApi:PriceRuleCallApi = retrofit.create(PriceRuleCallApi::class.java)
+    val priceRuleCallApi: PriceRuleCallApi = retrofit.create(PriceRuleCallApi::class.java)
 
     // Inventory
-    val inventoryItemCallApi: InventoryItemCallApi = retrofit.create(InventoryItemCallApi::class.java)
-    val inventoryLevelCallApi:InventoryLevelCallApi = retrofit.create(InventoryLevelCallApi::class.java)
-    val inventoryLocationCallApi:InventoryLocationCallApi = retrofit.create(InventoryLocationCallApi::class.java)
+    val inventoryItemCallApi: InventoryItemCallApi =
+        retrofit.create(InventoryItemCallApi::class.java)
+    val inventoryLevelCallApi: InventoryLevelCallApi =
+        retrofit.create(InventoryLevelCallApi::class.java)
+    val inventoryLocationCallApi: InventoryLocationCallApi =
+        retrofit.create(InventoryLocationCallApi::class.java)
 
     // Product
     val productCallApi: ProductCallApi = retrofit.create(ProductCallApi::class.java)
-    val productImageCallApi:ProductImageCallApi = retrofit.create(ProductImageCallApi::class.java)
-    val productVariantCallApi:ProductVariantCallApi = retrofit.create(ProductVariantCallApi::class.java)
-
-
-
-
-
-
+    val productImageCallApi: ProductImageCallApi = retrofit.create(ProductImageCallApi::class.java)
+    val productVariantCallApi: ProductVariantCallApi =
+        retrofit.create(ProductVariantCallApi::class.java)
 
 
     private fun loggerInterceptor(): OkHttpClient {
@@ -72,8 +75,8 @@ object RetrofitInstance {
             .build()
     }
 
-    private fun headerConfiguration():OkHttpClient{
-        return  OkHttpClient.Builder().apply {
+    private fun headerConfiguration(): OkHttpClient {
+        return OkHttpClient.Builder().apply {
             addInterceptor(Interceptor { chain ->
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
@@ -85,7 +88,6 @@ object RetrofitInstance {
             })
         }.build()
     }
-
 
 
 }

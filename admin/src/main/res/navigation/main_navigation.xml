@@ -7,26 +7,26 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="iti.workshop.admin.presentation.intro.SplashFragment"
+        android:name="iti.workshop.admin.presentation.features.intro.SplashFragment"
         android:label="SplashFragment" />
     <fragment
         android:id="@+id/couponFragment"
-        android:name="iti.workshop.admin.presentation.coupon.CouponFragment"
+        android:name="iti.workshop.admin.presentation.features.coupon.ui.fragments.CouponFragment"
         android:label="fragment_coupon"
         tools:layout="@layout/fragment_coupon" />
     <fragment
         android:id="@+id/inventoryFragment"
-        android:name="iti.workshop.admin.presentation.inventory.InventoryFragment"
+        android:name="iti.workshop.admin.presentation.features.inventory.ui.fragments.InventoryFragment"
         android:label="fragment_inventory"
         tools:layout="@layout/fragment_inventory" />
     <fragment
         android:id="@+id/productsListFragment"
-        android:name="iti.workshop.admin.presentation.product.ProductsListFragment"
+        android:name="iti.workshop.admin.presentation.features.product.ui.fragments.ProductsListFragment"
         android:label="fragment_products_list"
-        tools:layout="@layout/fragment_products_list" />
+        tools:layout="@layout/products_product_list_fragment" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="iti.workshop.admin.presentation.home.HomeFragment"
+        android:name="iti.workshop.admin.presentation.features.home.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 
