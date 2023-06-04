@@ -23,4 +23,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="name">name</string>
     <string name="already_have_account">already Have Account</string>
+    <string name="required">this field is required</string>
+    <string name="password_length_error">password length must be more than 8 char</string>
+    <string name="confirm_password_error">passsword must be identical</string>
 </resources>

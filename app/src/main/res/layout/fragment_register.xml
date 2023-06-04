@@ -4,187 +4,196 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.RegisterFragment">
+    tools:context=".presentation.auth.RegisterFragment">
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="56dp"
-        android:backgroundTint="@android:color/transparent"
-        android:contentDescription="knk"
-        android:src="@drawable/ic_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/loginTV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/metropolis_bold"
-        android:text="@string/sign_up"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTV">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/nameEt"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/edit_text_bg"
-            android:drawableEnd="@null"
-            android:fontFamily="@font/metropolis_regular"
-            android:hint="@string/name"
-            android:inputType="textPersonName"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/emailEt"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edit_text_bg"
-            android:drawableEnd="@null"
-            android:fontFamily="@font/metropolis_regular"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameEt" />
-
-        <TextView
-            android:id="@+id/emailErrorTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/metropolis_regular"
-            android:text="@string/email_error"
-            android:textColor="@color/primary"
-            android:textSize="12sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/emailEt"
-            app:layout_constraintStart_toStartOf="@+id/emailEt"
-            app:layout_constraintTop_toBottomOf="@+id/emailEt" />
-
-        <EditText
-            android:id="@+id/PasswordET"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edit_text_bg"
-            android:drawableEnd="@null"
-            android:fontFamily="@font/metropolis_regular"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/emailEt"
-            app:layout_constraintStart_toStartOf="@+id/emailEt"
-            app:layout_constraintTop_toBottomOf="@id/emailEt" />
-
-        <TextView
-            android:id="@+id/passwordErrorTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/metropolis_regular"
-            android:text="@string/password_error"
-            android:textColor="@color/primary"
-            android:textSize="12sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/PasswordET"
-            app:layout_constraintStart_toStartOf="@+id/PasswordET"
-            app:layout_constraintTop_toBottomOf="@+id/PasswordET" />
-        <EditText
-            android:id="@+id/confirmPasswordET"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edit_text_bg"
-            android:drawableEnd="@null"
-            android:fontFamily="@font/metropolis_regular"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/passwordErrorTV"
-            app:layout_constraintStart_toStartOf="@+id/passwordErrorTV"
-            app:layout_constraintTop_toBottomOf="@id/passwordErrorTV" />
-
-        <TextView
-            android:id="@+id/confirmPasswordErrorTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/metropolis_regular"
-            android:text="@string/password_error"
-            android:textColor="@color/primary"
-            android:textSize="12sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/confirmPasswordET"
-            app:layout_constraintStart_toStartOf="@+id/confirmPasswordET"
-            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordET" />
-
-        <TextView
-            android:id="@+id/alreadyHaveAccTV"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/metropolis_regular"
-            android:gravity="end"
-            android:text="@string/already_have_account"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/confirmPasswordET"
-            app:layout_constraintStart_toStartOf="@+id/confirmPasswordET"
-            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordErrorTV" />
-
-        <Button
-            android:id="@+id/signUpBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:background="@drawable/btn_bg"
-            android:elevation="8dp"
-            android:fontFamily="@font/metropolis_regular"
-            android:text="@string/sign_up"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/alreadyHaveAccTV"
-            app:layout_constraintStart_toStartOf="@+id/alreadyHaveAccTV"
-            app:layout_constraintTop_toBottomOf="@+id/alreadyHaveAccTV" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginEnd="16dp"
+             android:layout_height="wrap_content" android:layout_width="match_parent">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="knk"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/loginTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/metropolis_bold"
+                android:text="@string/sign_up"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageButton" />
+
+            <EditText
+                android:id="@+id/nameEt"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="48dp"
+                android:background="@drawable/edit_text_bg"
+                android:drawableEnd="@null"
+                android:fontFamily="@font/metropolis_regular"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loginTV" />
+
+            <EditText
+                android:id="@+id/emailEt"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_bg"
+                android:drawableEnd="@null"
+                android:fontFamily="@font/metropolis_regular"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nameEt" />
+
+            <TextView
+                android:id="@+id/emailErrorTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/email_error"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/emailEt"
+                app:layout_constraintStart_toStartOf="@+id/emailEt"
+                app:layout_constraintTop_toBottomOf="@+id/emailEt" />
+
+            <EditText
+                android:id="@+id/PasswordET"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_bg"
+                android:drawableEnd="@null"
+                android:fontFamily="@font/metropolis_regular"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/emailEt"
+                app:layout_constraintStart_toStartOf="@+id/emailEt"
+                app:layout_constraintTop_toBottomOf="@id/emailEt" />
+
+            <TextView
+                android:id="@+id/passwordErrorTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/password_error"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/PasswordET"
+                app:layout_constraintStart_toStartOf="@+id/PasswordET"
+                app:layout_constraintTop_toBottomOf="@+id/PasswordET" />
+
+            <EditText
+                android:id="@+id/confirmPasswordET"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edit_text_bg"
+                android:drawableEnd="@null"
+                android:fontFamily="@font/metropolis_regular"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/passwordErrorTV"
+                app:layout_constraintStart_toStartOf="@+id/passwordErrorTV"
+                app:layout_constraintTop_toBottomOf="@id/passwordErrorTV" />
+
+            <TextView
+                android:id="@+id/confirmPasswordErrorTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/password_error"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/confirmPasswordET"
+                app:layout_constraintStart_toStartOf="@+id/confirmPasswordET"
+                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordET" />
+
+            <TextView
+                android:id="@+id/alreadyHaveAccTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:gravity="end"
+                android:text="@string/already_have_account"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/confirmPasswordET"
+                app:layout_constraintStart_toStartOf="@+id/confirmPasswordET"
+                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordErrorTV" />
+
+            <Button
+                android:id="@+id/signUpBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="48dp"
+                android:background="@drawable/btn_bg"
+                android:elevation="8dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/sign_up"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/alreadyHaveAccTV"
+                app:layout_constraintStart_toStartOf="@+id/alreadyHaveAccTV"
+                app:layout_constraintTop_toBottomOf="@+id/alreadyHaveAccTV" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
