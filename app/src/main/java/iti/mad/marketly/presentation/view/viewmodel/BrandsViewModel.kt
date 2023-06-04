@@ -4,9 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import iti.mad.marketly.data.repository.brands.BrandsRepo
 import iti.mad.marketly.presentation.view.BrandApiStatus
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 class BrandsViewModel: ViewModel() {
    private var brands : MutableStateFlow<BrandApiStatus> = MutableStateFlow(BrandApiStatus.Loading())
@@ -16,11 +20,15 @@ class BrandsViewModel: ViewModel() {
 
     fun getAllBrands( brandsRepo: BrandsRepo){
         viewModelScope.launch{
-            try {
-                brands.emit(BrandApiStatus.Success(brandsRepo.getBrands()))
-            }catch (e:Exception) {
-                brands.emit(BrandApiStatus.Failed(e.localizedMessage))
-            }
+
+
+                brandsRepo.getBrands().flowOn(Dispatchers.IO).catch {
+                    brands.emit(BrandApiStatus.Failed(it.localizedMessage))
+
+                }.collect{
+                    brands.emit(BrandApiStatus.Success(it))
+                }
+
 
         }
     }
