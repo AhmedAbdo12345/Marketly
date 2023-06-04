@@ -1,14 +1,14 @@
 package iti.mad.marketly.presentation.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import iti.mad.marketly.data.model.brands.SmartCollection
+import iti.mad.marketly.data.model.brandproduct.Product
 
-class BrandProductDiffUtils: DiffUtil.ItemCallback<SmartCollection>()  {
-    override fun areItemsTheSame(oldItem: SmartCollection, newItem: SmartCollection): Boolean {
+class BrandProductDiffUtils: DiffUtil.ItemCallback<Product>()  {
+    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: SmartCollection, newItem: SmartCollection): Boolean {
+    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem == newItem
     }
 }
