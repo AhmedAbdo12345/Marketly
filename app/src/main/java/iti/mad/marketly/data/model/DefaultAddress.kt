@@ -1,6 +1,6 @@
 package iti.mad.marketly.data.model
 
-data class Addresse(
+data class DefaultAddress(
     val address1: String?,
     val address2: Any?,
     val city: String?,
