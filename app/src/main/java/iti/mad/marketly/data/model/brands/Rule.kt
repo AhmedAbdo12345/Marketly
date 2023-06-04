@@ -1,4 +1,4 @@
-package iti.mad.marketly.data.model
+package iti.mad.marketly.data.model.brands
 
 data class Rule(
     val column: String,
