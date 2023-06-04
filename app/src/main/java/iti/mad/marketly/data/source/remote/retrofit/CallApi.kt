@@ -9,6 +9,7 @@ import retrofit2.http.Query
 import iti.mad.marketly.data.model.BrandsResponse
 
 
+import retrofit2.http.Path
 
 interface CallApi {
     @POST("customers.json")
@@ -18,4 +19,8 @@ interface CallApi {
 
     @GET("smart_collections.json")
     suspend fun getBrandsFromAPI() : BrandsResponse
+
+    @GET("collections/{brand_Id}/products.json\n")
+    suspend fun getBrandProductFromAPI(@Path("brand_Id") brandID: String) : BrandsResponse
+
 }

@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.apollographql.apollo3' version '3.8.2'
     id 'kotlin-kapt'
+    id "dagger.hilt.android.plugin"
     id 'com.google.gms.google-services'
     id 'androidx.navigation.safeargs'
 
@@ -81,7 +82,11 @@ dependencies {
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"
-
+    //hilt
+    implementation "com.google.dagger:hilt-android:2.42"
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    kapt "com.google.dagger:hilt-android-compiler:2.42"
     //Work Manager
     implementation "androidx.work:work-runtime-ktx:2.8.1"
 
@@ -98,7 +103,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.firebase:firebase-database:20.2.2'
     implementation 'com.google.firebase:firebase-firestore:24.6.1'
-
+    //for SharedPreference
+    implementation 'androidx.preference:preference:1.2.0'
     // Unit Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.test:core-ktx:1.5.0"

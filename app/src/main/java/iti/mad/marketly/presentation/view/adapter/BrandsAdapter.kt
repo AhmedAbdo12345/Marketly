@@ -1,13 +1,13 @@
 package iti.mad.marketly.presentation.view.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import iti.mad.marketly.data.model.BrandsResponse
-import iti.mad.marketly.data.model.SmartCollection
+import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.databinding.RvHomeBrandBinding
 
 class BrandsAdapter (var mClickListener: BrandsAdapter.ListItemClickListener) : ListAdapter<SmartCollection, BrandsAdapter.BrandViewHolder>(BrandsDiffUtils()) {
@@ -27,11 +27,18 @@ class BrandsAdapter (var mClickListener: BrandsAdapter.ListItemClickListener) : 
     }
 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int)  {
-        if (getItem(position).image.src != null) {
-            Picasso.get().load(getItem(position).image.src).into(binding.imgVBrand)
+        if (getItem(position).image?.src != null) {
+            Picasso.get().load(getItem(position).image?.src).into(binding.imgVBrand)
+           /* Glide.with(context)
+                .load(getItem(position).image?.src)
+                .into(binding.imgVBrand)*/
         }
 
         holder.binding.tvBrandName.text= getItem(position).title
+        holder.binding.brandModel = getItem(position)
+        holder.binding.action= mClickListener
+
+        Log.d("zxcvv", "onBindViewHolder: "+getItem(position).title + " "+ getItem(position).image!!.src)
 
     }
 }

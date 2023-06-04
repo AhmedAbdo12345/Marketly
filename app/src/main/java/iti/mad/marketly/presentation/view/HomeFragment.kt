@@ -1,4 +1,4 @@
-package iti.mad.marketly
+package iti.mad.marketly.presentation.view
 
 import android.os.Bundle
 import android.util.Log
@@ -6,23 +6,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import iti.mad.marketly.data.model.BrandsResponse
+import iti.mad.marketly.R
 import iti.mad.marketly.data.model.HomeAdsModel
-import iti.mad.marketly.data.model.SmartCollection
+import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.data.repository.brands.BrandsRepoImpl
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentHomeBinding
-import iti.mad.marketly.presentation.view.BrandApiStatus
+
 import iti.mad.marketly.presentation.view.adapter.AdsAdapter
 import iti.mad.marketly.presentation.view.adapter.BrandsAdapter
 import iti.mad.marketly.presentation.view.viewmodel.BrandsViewModel
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 
 class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapter.ListItemClickListener{
@@ -44,7 +46,7 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
         // Inflate the layout for this fragment
        // return inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(layoutInflater,container,false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -65,30 +67,33 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
         var api = RetrofitInstance.api
         var repo = BrandsRepoImpl(api)
         brandsViewModel.getAllBrands(repo)
-        lifecycleScope.launch{
-            brandsViewModel._brands.collect{
-                when(it){
-                    is  BrandApiStatus.Loading ->{
+        viewLifecycleOwner.lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                brandsViewModel._brands.collect{
+                    when(it){
+                        is  BrandApiStatus.Loading ->{
 
-                    }
-                    is BrandApiStatus.Success -> {
-                    var brandAdapter = BrandsAdapter(this@HomeFragment)
-                        brandAdapter.submitList(it.brandsResponse.smart_collections)
-                        binding.brandsRecView.apply {
-                            adapter = brandAdapter
-                            setHasFixedSize(true)
-                            layoutManager = GridLayoutManager(context, 2).apply {
-                                orientation = RecyclerView.VERTICAL
+                        }
+                        is BrandApiStatus.Success -> {
+                            var brandAdapter = BrandsAdapter(this@HomeFragment)
+                            brandAdapter.submitList(it.brandsResponse.smart_collections)
+                            binding.brandsRecView.apply {
+                                adapter = brandAdapter
+                                setHasFixedSize(true)
+                                layoutManager = GridLayoutManager(context, 2).apply {
+                                    orientation = RecyclerView.VERTICAL
+                                }
                             }
                         }
-                    }
-                    is BrandApiStatus.Failed  -> {
-                        Log.d("zxcv", "onViewCreated: 88888888888888")
+                        is BrandApiStatus.Failed  -> {
+                            Log.d("zxcv", "onViewCreated: 88888888888888")
 
-                    }
+                        }
 
-                    else -> {}
-                }
+                        else -> {}
+                    }
+            }
+
             }
 
         }
@@ -96,7 +101,17 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
 
 
     override fun onClickBrand(smartCollection: SmartCollection) {
-        TODO("Not yet implemented")
+    /*val action: ActionHomeFragmentToBrandProductFragment = HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
+       Navigation.findNavController(requireView()).navigate(action)
+        Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()*/
+if(smartCollection != null) {
+    Log.d("zxcv", "onClickBrand: 8888"+smartCollection.title)
+
+    var action: HomeFragmentDirections.ActionHomeFragmentToBrandProductFragment =
+        HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
+ findNavController().navigate(action)
+
+}
     }
 
     override fun onClickAds(homeAdsModel: HomeAdsModel) {
