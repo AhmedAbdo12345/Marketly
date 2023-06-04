@@ -4,7 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="productModel"
+            type="iti.mad.marketly.data.model.brandproduct.Product" />
+        <variable
+            name="action"
+            type="iti.mad.marketly.presentation.view.adapter.BrandProductAdapter.ListItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +28,8 @@
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/backgroundAd"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{()->action.onClickProduct(productModel)}">
 
             <ImageView
                 android:id="@+id/imgv_brand_product"
