@@ -39,6 +39,6 @@ data class AddImage(
     val filename: String?=null,
     val metafields: List<Metafield?>? = listOf(Metafield()),
     val position: Int? = null,
-    val src: String?=null,
+    val src: String?="https://img.freepik.com/free-vector/warehouse-robotization-abstract-concept-vector-illustration_335657-5680.jpg",
 
     )

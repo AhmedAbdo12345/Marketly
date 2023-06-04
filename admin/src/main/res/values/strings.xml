@@ -18,4 +18,7 @@
     <string name="product_navigation_title">Products</string>
     <string name="coupon_navigation_title">Coupouns</string>
     <string name="inventory_navigation_title">Inventory</string>
+    <string name="save_product">Save Product</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>

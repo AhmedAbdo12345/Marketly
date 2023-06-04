@@ -23,11 +23,39 @@
         android:id="@+id/productsListFragment"
         android:name="iti.workshop.admin.presentation.features.product.ui.fragments.ProductsListFragment"
         android:label="fragment_products_list"
-        tools:layout="@layout/products_product_list_fragment" />
+        tools:layout="@layout/products_product_list_fragment" >
+        <action
+            android:id="@+id/action_productsListFragment_to_addAndEditProductFragment"
+            app:destination="@id/addAndEditProductFragment" />
+        <action
+            android:id="@+id/action_productsListFragment_to_previewProductFragment"
+            app:destination="@id/previewProductFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="iti.workshop.admin.presentation.features.home.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/addAndEditProductFragment"
+        android:name="iti.workshop.admin.presentation.features.product.ui.fragments.AddAndEditProductFragment"
+        android:label="AddAndEditProductFragment" >
+        <argument
+            android:name="product"
+            app:argType="iti.workshop.admin.data.dto.Product"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/previewProductFragment"
+        android:name="iti.workshop.admin.presentation.features.product.ui.fragments.PreviewProductFragment"
+        android:label="PreviewProductFragment" >
+        <action
+            android:id="@+id/action_previewProductFragment_to_addAndEditProductFragment"
+            app:destination="@id/addAndEditProductFragment" />
+        <argument
+            android:name="product"
+            app:argType="iti.workshop.admin.data.dto.Product" />
+    </fragment>
 
 </navigation>

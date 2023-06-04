@@ -1,5 +1,7 @@
 package iti.workshop.admin.data.dto
 
+import java.io.Serializable
+
 data class SuccessProductResponse(
     val products: List<Product>?=null
 )
@@ -11,32 +13,32 @@ data class PostProduct(
 )
 
 data class Product(
-    val id: Long?=null,
+    val id: Long=-1L,
 
     var title: String?=null,
-    val body_html: String?=null,
+    var body_html: String?=null,
 
-    val admin_graphql_api_id: String?=null,
-    val handle: String?=null,
-    val image: AddImage?=null,
+    var admin_graphql_api_id: String?=null,
+    var handle: String?=null,
+    var image: AddImage?=null,
 
-    val product_type: String?=null,
-    val published_scope: String?=null,
-    val status: String?=null,
-    val tags: String?=null,
-    val vendor: String?=null,
+    var product_type: String?=null,
+    var published_scope: String?=null,
+    var status: String?=null,
+    var tags: String?=null,
+    var vendor: String?=null,
 
-    val published_at: String?=null,
-    val created_at: String?=null,
-    val updated_at: String?=null,
+    var published_at: String?=null,
+    var created_at: String?=null,
+    var updated_at: String?=null,
 
-    val images: List<Image>?=null,
-    val variants: List<Variant>?=null,
-    val options: List<Option>?=null,
+    var images: List<Image>?=null,
+    var variants: List<Variant>?=null,
+    var options: List<Option>?=null,
 
-    val metafields: List<Metafield> = listOf( Metafield() ),
+    var metafields: List<Metafield> = listOf( Metafield() ),
 
-    )
+    ): Serializable
 
 
 

@@ -6,14 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.databinding.ProductFragmentListProductsBinding
+import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.product.ui.adapters.ItemOnCLickListener
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdapter
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
@@ -30,6 +34,18 @@ class ProductsListFragment : Fragment() {
     lateinit var adapter: ProductsAdapter
 
     private fun updateUISate() {
+
+        lifecycleScope.launch {
+            viewModel.deleteResponse.collect { state ->
+                if (state)
+                    Toast.makeText(requireContext(), "Data has been deleted", Toast.LENGTH_SHORT)
+                        .show()
+                else
+                    Toast.makeText(requireContext(), "Error Happend", Toast.LENGTH_SHORT)
+                        .show()
+            }
+        }
+
         lifecycleScope.launch {
             viewModel.productResponses.collect{state->
                 when(state){
@@ -74,17 +90,25 @@ class ProductsListFragment : Fragment() {
         binding.mAdapter = adapter
         viewModel.getCountOfProducts()
         updateUISate()
+        navigateToAddNewProduct()
 
         return binding.root
     }
 
-    private fun deleteProduct(product: Product) {
+    private fun navigateToAddNewProduct() {
+        binding.floatingActionButton.setOnClickListener {
+            findNavController().navigate(R.id.action_productsListFragment_to_addAndEditProductFragment)
+        }
+    }
 
+    private fun deleteProduct(product: Product) {
+        viewModel.deleteProduct(product)
     }
 
     private fun selectProduct(product: Product) {
-
-
+        val bundle = Bundle()
+        bundle.putSerializable(ConstantsKeys.PRODUCT_KEY, product)
+        findNavController().navigate(R.id.action_productsListFragment_to_previewProductFragment,bundle)
     }
 
     private fun showProgressBar() {
@@ -96,4 +120,6 @@ class ProductsListFragment : Fragment() {
         binding.shimmerResults.visibility = View.GONE
         binding.recyclerView.visibility = View.VISIBLE
     }
+
+
 }

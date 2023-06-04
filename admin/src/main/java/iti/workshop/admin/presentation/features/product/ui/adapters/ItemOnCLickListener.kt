@@ -4,8 +4,8 @@ import iti.workshop.admin.data.dto.Product
 
 class ItemOnCLickListener(
     val clickListener: (product: Product) -> Unit,
-    val saveFavListener: (product: Product) -> Unit
+    val deleteItemListener: (product: Product) -> Unit
 ) {
     fun onClick(product: Product) = clickListener(product)
-    fun onSaveFav(product: Product) = saveFavListener(product)
+    fun onDeleteItem(product: Product) = deleteItemListener(product)
 }

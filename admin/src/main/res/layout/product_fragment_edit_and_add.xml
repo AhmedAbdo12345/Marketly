@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel" />
+        <variable
+            name="dataModel"
+            type="iti.workshop.admin.data.dto.Product" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/productImage_ProductDetailsPage"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/avatars"
+                    app:thumbnail="@{dataModel.image.src}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/productImage_ProductDetailsPage">
+
+
+                    <EditText
+                        android:id="@+id/titleProduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:textSize="15sp"
+                        android:paddingLeft="20dp"
+                        android:drawableRight="@null"
+                        android:paddingRight="20dp"
+                        android:textColor="@color/mainText"
+                        android:background="@drawable/edit_text_bg"
+                        android:fontFamily="@font/metropolis_regular"
+                        android:hint="@string/title"
+                        android:text="@={dataModel.title}"
+                        android:inputType="textPersonName"
+                        android:maxLines="1" />
+
+                    <EditText
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:textSize="15sp"
+                        android:paddingLeft="20dp"
+                        android:text="@={dataModel.body_html}"
+                        android:drawableEnd="@null"
+                        android:paddingRight="20dp"
+                        android:textColor="@color/mainText"
+                        android:background="@drawable/edit_text_bg"
+                        android:fontFamily="@font/metropolis_regular"
+                        android:hint="@string/description"
+                        android:inputType="text"
+                        android:maxLines="5" />
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundAd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <Button
+                android:id="@+id/addToCart_ProductDetailsPage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/btn_bg"
+                android:onClick="@{()->viewModel.addOrEditProduct(dataModel)}"
+                android:text="@string/save_product" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
