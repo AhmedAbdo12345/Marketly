@@ -38,5 +38,7 @@ data class AddImage(
     val attachment: String?=null,
     val filename: String?=null,
     val metafields: List<Metafield?>? = listOf(Metafield()),
-    val position: Int? = null
-)
+    val position: Int? = null,
+    val src: String?=null,
+
+    )
