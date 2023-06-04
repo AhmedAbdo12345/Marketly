@@ -8,25 +8,67 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.firebase.auth.FirebaseAuth
+import iti.mad.marketly.R
+import iti.mad.marketly.ResultResponse
 import iti.mad.marketly.databinding.FragmentLoginBinding
-import iti.mad.marketly.presentation.MainActivity
+import iti.mad.marketly.presentation.auth.viewmodel.LoginViewModel
+import iti.mad.marketly.presentation.auth.viewmodel.RegisterViewModel
+import iti.mad.marketly.presentation.view.MainActivity
+import kotlinx.coroutines.launch
 
 
 class LoginFragment : Fragment() {
-
     lateinit var firebaseAuth: FirebaseAuth
     lateinit var binding: FragmentLoginBinding
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var errorTextView: TextView
+    private val loginViewModel by viewModels<LoginViewModel> {
+        LoginViewModel.Factory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
 
+                loginViewModel.customerRespoonse.collect { uiState ->
+
+                    when (uiState) {
+                        is ResultResponse.OnSuccess -> {
+                            //todo
+                            // navigate to main page
+                            val intent = Intent(requireContext(), MainActivity::class.java)
+                            startActivity(intent)
+                            requireActivity().finish()
+                        }
+                        is ResultResponse.OnLoading -> {
+                            //todo
+
+                        }
+
+                        is ResultResponse.OnError ->{
+                            //todo
+                            AlertDialog.Builder(requireContext())
+                                .setTitle(getString(R.string.error))
+                                .setMessage(getString(R.string.email_or_password_error))
+                                .setPositiveButton(R.string.ok) { _, _ -> }
+                                .setIcon(R.drawable.ic_baseline_clear_24)
+                                .show()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -45,21 +87,51 @@ class LoginFragment : Fragment() {
         loginButton = binding.loginBtn
         errorTextView = binding.emailErrorTV
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(requireActivity()) { task ->
+            if (isUserValid()){
+                firebaseAuth.signInWithEmailAndPassword(
+                    emailEditText.text.toString(),
+                    passwordEditText.text.toString()
+                ).addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        val intent = Intent(requireContext(), MainActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
+                        getUserData(emailEditText.text.toString())
                     } else {
                         errorTextView.text = task.exception?.message
                     }
                 }
+            }
+
         }
+    }
+
+    private fun getUserData(email: String) {
+        loginViewModel.loginWithEmail(email)
 
     }
 
+    private fun isUserValid(): Boolean {
 
+        var isUserDataValid = false
+        when {
+
+            emailEditText.text.isNullOrEmpty() -> emailEditText.error =
+                getString(R.string.required)
+
+            !isValidEmail(emailEditText.text.toString()) -> emailEditText.error =
+                getString(R.string.invalid_email)
+
+            passwordEditText.text.isNullOrEmpty() -> binding.passwordErrorTV.error =
+                getString(R.string.required)
+
+            passwordEditText.text.length < 8 -> binding.passwordErrorTV.error =
+                getString(R.string.password_length_error)
+
+            else -> isUserDataValid = true
+        }
+        return isUserDataValid
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+        return emailRegex.matches(email)
+    }
 }

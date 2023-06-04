@@ -26,4 +26,8 @@
     <string name="required">this field is required</string>
     <string name="password_length_error">password length must be more than 8 char</string>
     <string name="confirm_password_error">passsword must be identical</string>
+    <string name="invalid_email">Not a valid email address. Should be your@email.com</string>
+    <string name="ok">ok</string>
+    <string name="email_or_password_error">email or password error</string>
+    <string name="error">error</string>
 </resources>
