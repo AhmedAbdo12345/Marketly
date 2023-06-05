@@ -72,7 +72,7 @@
             android:text="@string/email_error"
             android:textColor="@color/primary"
             android:textSize="12sp"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/emailEt"
             app:layout_constraintStart_toStartOf="@+id/emailEt"
             app:layout_constraintTop_toBottomOf="@+id/emailEt" />
@@ -105,7 +105,7 @@
             android:text="@string/password_error"
             android:textColor="@color/primary"
             android:textSize="12sp"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/PasswordET"
             app:layout_constraintStart_toStartOf="@+id/PasswordET"
             app:layout_constraintTop_toBottomOf="@+id/PasswordET" />
