@@ -1,7 +1,6 @@
 package iti.mad.marketly.presentation.view.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -9,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import iti.mad.marketly.data.model.brandproduct.Product
 import iti.mad.marketly.databinding.RvBrandProductBinding
-import iti.mad.marketly.databinding.RvHomeBrandBinding
+import iti.mad.marketly.presentation.view.DiffUtils.BrandProductDiffUtils
 
-class BrandProductAdapter (var mClickListener: BrandProductAdapter.ListItemClickListener) : ListAdapter<Product, BrandProductAdapter.BrandProductViewHolder>(BrandProductDiffUtils()) {
+class BrandProductAdapter (var mClickListener: BrandProductAdapter.ListItemClickListener) : ListAdapter<Product, BrandProductAdapter.BrandProductViewHolder>(
+    BrandProductDiffUtils()
+) {
 
     lateinit var binding: RvBrandProductBinding
 

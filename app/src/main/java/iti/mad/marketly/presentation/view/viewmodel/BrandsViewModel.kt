@@ -2,6 +2,8 @@ package iti.mad.marketly.presentation.view.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import iti.mad.marketly.ResultResponse
+import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.repository.brands.BrandsRepo
 import iti.mad.marketly.presentation.view.states.BrandApiStatus
 import kotlinx.coroutines.Dispatchers
@@ -12,8 +14,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class BrandsViewModel: ViewModel() {
-   private var brands : MutableStateFlow<BrandApiStatus> = MutableStateFlow(BrandApiStatus.Loading())
-    val _brands: StateFlow<BrandApiStatus> = brands
+   private var brands : MutableStateFlow<ResultResponse<BrandsResponse>> = MutableStateFlow(ResultResponse.OnLoading())
+    val _brands: StateFlow<ResultResponse<BrandsResponse>> = brands
 
 
 
@@ -22,10 +24,10 @@ class BrandsViewModel: ViewModel() {
 
 
                 brandsRepo.getBrands().flowOn(Dispatchers.IO).catch {
-                    brands.emit(BrandApiStatus.Failed(it.localizedMessage))
+                    brands.emit(ResultResponse.OnError(it.localizedMessage))
 
                 }.collect{
-                    brands.emit(BrandApiStatus.Success(it))
+                    brands.emit(ResultResponse.OnSuccess(it))
                 }
 
 

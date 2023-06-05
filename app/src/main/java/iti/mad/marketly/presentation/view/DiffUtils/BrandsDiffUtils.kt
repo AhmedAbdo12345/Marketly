@@ -1,4 +1,4 @@
-package iti.mad.marketly.presentation.view.adapter
+package iti.mad.marketly.presentation.view.DiffUtils
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil

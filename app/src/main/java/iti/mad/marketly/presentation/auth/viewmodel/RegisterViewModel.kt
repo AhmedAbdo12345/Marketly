@@ -19,11 +19,11 @@ import kotlinx.coroutines.launch
 class RegisterViewModel(private val repo: IAuthRepository) : ViewModel() {
 
     private val _customerResponse =
-        MutableStateFlow<ResultResponse<CustomerBody>>(ResultResponse.OnLoading(true))
+        MutableStateFlow<ResultResponse<CustomerBody>>(ResultResponse.OnLoading())
     val customerRespoonse: StateFlow<ResultResponse<CustomerBody>> = _customerResponse
 
     fun registerUser(customer: CustomerBody) {
-        _customerResponse.value = ResultResponse.OnLoading(true)
+        _customerResponse.value = ResultResponse.OnLoading()
         viewModelScope.launch {
                 repo.registerUser(customer).flowOn(Dispatchers.IO).catch { e ->
                     _customerResponse.value =
