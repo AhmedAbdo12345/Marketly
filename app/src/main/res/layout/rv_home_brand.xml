@@ -8,7 +8,7 @@
             type="iti.mad.marketly.data.model.brands.SmartCollection" />
         <variable
             name="action"
-            type="iti.mad.marketly.presentation.view.adapter.BrandsAdapter.ListItemClickListener" />
+            type="iti.mad.marketly.presentation.home.brands.BrandsAdapter.ListItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

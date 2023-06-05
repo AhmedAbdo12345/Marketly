@@ -9,7 +9,7 @@
             type="iti.mad.marketly.data.model.brandproduct.Product" />
         <variable
             name="action"
-            type="iti.mad.marketly.presentation.view.adapter.BrandProductAdapter.ListItemClickListener" />
+            type="iti.mad.marketly.presentation.brandProduct.BrandProductAdapter.ListItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -3,7 +3,7 @@ package iti.mad.marketly.data.source.local.sharedpreference
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
-import iti.mad.marketly.data.Constants
+import iti.mad.marketly.utils.Constants
 
 object SharedPreferenceManager {
     lateinit var shared:SharedPreferences

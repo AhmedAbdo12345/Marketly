@@ -9,7 +9,7 @@
             type="iti.mad.marketly.data.model.category.CustomCollection"/>
         <variable
             name="action"
-            type="iti.mad.marketly.presentation.view.adapter.CategoryAdapter.ListItemClickListener" />
+            type="iti.mad.marketly.presentation.category.CategoryAdapter.ListItemClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
