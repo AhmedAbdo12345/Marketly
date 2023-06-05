@@ -3,8 +3,7 @@ package iti.mad.marketly.presentation.view.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import iti.mad.marketly.data.repository.brandproduct.BrandProductRepo
-import iti.mad.marketly.data.repository.brands.BrandsRepo
-import iti.mad.marketly.presentation.view.BrandApiStatus
+
 import iti.mad.marketly.presentation.view.BrandProductApiStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
