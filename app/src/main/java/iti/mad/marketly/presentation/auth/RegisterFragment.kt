@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
 import iti.mad.marketly.ResultResponse
@@ -53,11 +54,8 @@ class RegisterFragment : Fragment() {
 
                     when (uiState) {
                         is ResultResponse.OnSuccess -> {
-                            //todo
-                            // navigate to login fragment
-                            val intent = Intent(requireContext(), MainActivity::class.java)
-                            startActivity(intent)
-                            requireActivity().finish()
+                            val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                            findNavController().navigate(action)
                         }
 
                         is ResultResponse.OnLoading -> {
@@ -66,13 +64,9 @@ class RegisterFragment : Fragment() {
                         }
 
                         is ResultResponse.OnError -> {
-                            //todo
-                            AlertDialog.Builder(requireContext())
-                                .setTitle(getString(R.string.error))
-                                .setMessage(getString(R.string.email_or_password_error))
-                                .setPositiveButton(R.string.ok) { _, _ -> }
-                                .setIcon(R.drawable.ic_baseline_clear_24)
-                                .show()
+
+                            showErrorDialog()
+
                         }
                     }
                 }
@@ -98,8 +92,9 @@ class RegisterFragment : Fragment() {
         }
         alreadyHaveAccountTextView = binding.alreadyHaveAccTV.apply {
             setOnClickListener {
-                //todo:
 
+                val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                findNavController().navigate(action)
             }
         }
         passwordEditText = binding.PasswordET.apply { setCustomFocusChangeListener() }
@@ -127,7 +122,7 @@ class RegisterFragment : Fragment() {
                             registerViewModel.registerUser(customerBody)
 
                         } else {
-                            errorTextView.text = task.exception?.message
+                           showErrorDialog()
                         }
                     }
 
@@ -167,8 +162,16 @@ class RegisterFragment : Fragment() {
         return isUserDataValid
     }
 
-    fun isValidEmail(email: String): Boolean {
+    private fun isValidEmail(email: String): Boolean {
         val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
         return emailRegex.matches(email)
+    }
+    private fun showErrorDialog(){
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.error))
+            .setMessage(getString(R.string.email_or_password_error))
+            .setPositiveButton(R.string.ok) { _, _ -> }
+            .setIcon(R.drawable.ic_baseline_clear_24)
+            .show()
     }
 }

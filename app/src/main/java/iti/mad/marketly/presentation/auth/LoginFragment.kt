@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -14,12 +15,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import iti.mad.marketly.ForgetPasswordFragment
 import iti.mad.marketly.R
 import iti.mad.marketly.ResultResponse
 import iti.mad.marketly.databinding.FragmentLoginBinding
 import iti.mad.marketly.presentation.auth.viewmodel.LoginViewModel
 import iti.mad.marketly.presentation.auth.viewmodel.RegisterViewModel
+import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import iti.mad.marketly.presentation.view.MainActivity
 import kotlinx.coroutines.launch
 
@@ -30,7 +34,11 @@ class LoginFragment : Fragment() {
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
+    private lateinit var backButton:  ImageButton
+
     private lateinit var errorTextView: TextView
+    private lateinit var forgetPasswordButton: TextView
+
     private val loginViewModel by viewModels<LoginViewModel> {
         LoginViewModel.Factory
     }
@@ -45,25 +53,18 @@ class LoginFragment : Fragment() {
 
                     when (uiState) {
                         is ResultResponse.OnSuccess -> {
-                            //todo
-                            // navigate to main page
                             val intent = Intent(requireContext(), MainActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
                         }
+
                         is ResultResponse.OnLoading -> {
                             //todo
 
                         }
 
-                        is ResultResponse.OnError ->{
-                            //todo
-                            AlertDialog.Builder(requireContext())
-                                .setTitle(getString(R.string.error))
-                                .setMessage(getString(R.string.email_or_password_error))
-                                .setPositiveButton(R.string.ok) { _, _ -> }
-                                .setIcon(R.drawable.ic_baseline_clear_24)
-                                .show()
+                        is ResultResponse.OnError -> {
+                            showErrorDialog()
                         }
                     }
                 }
@@ -82,12 +83,28 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        emailEditText = binding.emailEt
-        passwordEditText = binding.PasswordET
+        emailEditText = binding.emailEt.apply {
+            setCustomFocusChangeListener()
+        }
+        passwordEditText = binding.PasswordET.apply {
+            setCustomFocusChangeListener()
+        }
+        forgetPasswordButton= binding.forgotPasswordTv.apply {
+            setOnClickListener {
+                val action = LoginFragmentDirections.actionLoginFragmentToForgetPasswordFragment()
+                findNavController().navigate(action)
+            }
+        }
         loginButton = binding.loginBtn
         errorTextView = binding.emailErrorTV
+        backButton = binding.backButton.apply {
+            setOnClickListener {
+                findNavController().navigateUp()
+            }
+
+        }
         loginButton.setOnClickListener {
-            if (isUserValid()){
+            if (isUserValid()) {
                 firebaseAuth.signInWithEmailAndPassword(
                     emailEditText.text.toString(),
                     passwordEditText.text.toString()
@@ -95,7 +112,7 @@ class LoginFragment : Fragment() {
                     if (task.isSuccessful) {
                         getUserData(emailEditText.text.toString())
                     } else {
-                        errorTextView.text = task.exception?.message
+                        showErrorDialog()
                     }
                 }
             }
@@ -133,5 +150,13 @@ class LoginFragment : Fragment() {
     private fun isValidEmail(email: String): Boolean {
         val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
         return emailRegex.matches(email)
+    }
+    fun showErrorDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.error))
+            .setMessage(getString(R.string.email_or_password_error))
+            .setPositiveButton(R.string.ok) { _, _ -> }
+            .setIcon(R.drawable.ic_baseline_clear_24)
+            .show()
     }
 }
