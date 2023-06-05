@@ -30,7 +30,6 @@ class BrandProductAdapter (var mClickListener: BrandProductAdapter.ListItemClick
     override fun onBindViewHolder(holder: BrandProductViewHolder, position: Int)  {
         if (getItem(position).image?.src != null) {
             Picasso.get().load(getItem(position).image?.src).into(binding.imgvBrandProduct)
-
         }
 
         holder.binding.tvBrandProductName.text= getItem(position).vendor
