@@ -76,6 +76,29 @@
                     <include layout="@layout/product_shimmer_product_item" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/nothing_data_response"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone">
+
+                    <include layout="@layout/utils_no_data_view_lottie" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/error_data_response"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone">
+
+                    <include layout="@layout/utils_offline_network_view_lottie" />
+                </LinearLayout>
+
+
+
                 <androidx.recyclerview.widget.RecyclerView
 
                     android:id="@+id/recycler_view"

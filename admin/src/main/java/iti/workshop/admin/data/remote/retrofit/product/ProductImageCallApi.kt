@@ -8,7 +8,7 @@ interface ProductImageCallApi {
     @GET("products/{product_id}/images/count.json")
     suspend fun getCountImageProduct(
         @Path("product_id") product_id: Long
-    ): Response<Count>
+    ): Response<iti.workshop.admin.data.dto.Count>
 
     @GET("products/{product_id}/images.json")
     suspend fun getImageProducts(

@@ -17,5 +17,5 @@ class ImplProductRepository(private val _api: ProductAPICalls) : IProductReposit
     override suspend fun deleteProduct(id: Long): Response<Void> =
         _api.productCallApi.deleteProduct(id)
 
-    override suspend fun getCount(): Response<Count> = _api.productCallApi.getCount()
+    override suspend fun getCount(): Response<iti.workshop.admin.data.dto.Count> = _api.productCallApi.getCount()
 }

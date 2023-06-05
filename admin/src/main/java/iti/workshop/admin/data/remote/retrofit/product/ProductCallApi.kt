@@ -24,5 +24,5 @@ interface ProductCallApi {
     suspend fun deleteProduct(@Path("id") id:Long):Response<Void>
 
     @GET("products/count.json")
-    suspend fun getCount(): Response<Count>
+    suspend fun getCount(): Response<iti.workshop.admin.data.dto.Count>
 }

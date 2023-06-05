@@ -15,7 +15,7 @@ interface ProductVariantCallApi {
     @GET("products/{product_id}/variants/count.json")
     suspend fun getCountProductVariant(
         @Path("product_id") product_id: Long
-    ): Response<Count>
+    ): Response<iti.workshop.admin.data.dto.Count>
 
     @GET("products/{product_id}/variants.json")
     suspend fun getProductVariants(

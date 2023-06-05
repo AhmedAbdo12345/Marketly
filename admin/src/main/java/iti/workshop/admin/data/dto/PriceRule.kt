@@ -1,11 +1,11 @@
 package iti.workshop.admin.data.dto
 
 data class PriceRuleCodeListResponse(
-    val price_rules: List<PriceRule>
+    val price_rules: List<iti.workshop.admin.data.dto.PriceRule>
 )
 
 data class PriceRuleRequestAndResponse(
-    val price_rule: PriceRule?=null
+    val price_rule: iti.workshop.admin.data.dto.PriceRule?=null
 )
 data class PriceRule(
     val id: Int?=null,

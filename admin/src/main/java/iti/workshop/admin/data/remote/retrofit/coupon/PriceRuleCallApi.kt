@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface PriceRuleCallApi {
     @GET("price_rules/count.json")
-    suspend fun getCountPriceRule(): Response<Count>
+    suspend fun getCountPriceRule(): Response<iti.workshop.admin.data.dto.Count>
 
     @GET("price_rules.json")
     suspend fun getPriceRules(): Response<PriceRuleCodeListResponse>
@@ -14,8 +14,8 @@ interface PriceRuleCallApi {
     @POST("price_rules/{price_rule_id}/discount_codes.json")
     suspend fun addPriceRule(
         @Path("price_rule_id") price_rule_id: Long,
-        @Body data: DiscountCodeRequestAndResponse
-    ): Response<DiscountCodeRequestAndResponse>
+        @Body data: iti.workshop.admin.data.dto.DiscountCodeRequestAndResponse
+    ): Response<iti.workshop.admin.data.dto.DiscountCodeRequestAndResponse>
 
     @PUT("price_rules/{price_rule_id}.json")
     suspend fun updatePriceRule(

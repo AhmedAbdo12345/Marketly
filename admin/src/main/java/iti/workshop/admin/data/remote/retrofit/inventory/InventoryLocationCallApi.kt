@@ -17,6 +17,6 @@ interface InventoryLocationCallApi {
     ):Response<LocationSingleResponse>
 
     @GET("locations/count.json")
-    suspend fun retrieveCountLocations():Response<Count>
+    suspend fun retrieveCountLocations():Response<iti.workshop.admin.data.dto.Count>
 
 }

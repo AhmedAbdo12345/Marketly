@@ -2,10 +2,10 @@ package iti.workshop.admin.data.dto
 
 
 data class DiscountCodeListResponse(
-    val discount_codes: List<DiscountCode>
+    val discount_codes: List<iti.workshop.admin.data.dto.DiscountCode>
 )
 data class DiscountCodeRequestAndResponse(
-    val discount_code: DiscountCode
+    val discount_code: iti.workshop.admin.data.dto.DiscountCode
 )
 data class DiscountCode(
     val id: Int?=null,

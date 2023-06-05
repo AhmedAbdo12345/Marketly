@@ -3,17 +3,15 @@ package iti.workshop.admin.presentation.features.product.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import iti.workshop.admin.data.dto.Count
 import iti.workshop.admin.data.dto.PostProduct
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.data.dto.UpdateProduct
 import iti.workshop.admin.data.repository.IProductRepository
 import iti.workshop.admin.presentation.features.product.models.ProductUIModel
 import iti.workshop.admin.presentation.utils.DataResponseState
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -25,6 +23,7 @@ class ProductViewModel @Inject constructor(
     private val _productResponses = MutableStateFlow<DataResponseState<ProductUIModel>>(DataResponseState.OnLoading())
     val productResponses:StateFlow<DataResponseState<ProductUIModel>> get() = _productResponses
 
+    private var products:List<Product>? = mutableListOf()
 
     private val _deleteResponse = MutableStateFlow<Boolean>(false)
     val deleteResponse:StateFlow<Boolean> get() = _deleteResponse
@@ -62,17 +61,48 @@ class ProductViewModel @Inject constructor(
             val responseProductList = async { _repo.getProduct() }
 
             if (responseCount.await().isSuccessful && responseProductList.await().isSuccessful){
-                val productViewModel = ProductUIModel(
-                    count = responseCount.await().body(),
-                    products = responseProductList.await().body()?.products
-                )
-                _productResponses.value = DataResponseState.OnSuccess(productViewModel)
-            }
+
+                val count = responseCount.await().body()
+                products = responseProductList.await().body()?.products
+
+                if (count?.count == 0){
+                    _productResponses.value = DataResponseState.OnNothingData()
+
+                }else{
+                    ProductUIModel(
+                        count = count,
+                        products = products).apply {
+                        _productResponses.value = DataResponseState.OnSuccess(this)
+                    }
+                }
+
+             }
             if (!responseCount.await().isSuccessful)
                 _productResponses.value = DataResponseState.OnError(responseCount.await().errorBody().toString())
 
             if (!responseProductList.await().isSuccessful)
                 _productResponses.value = DataResponseState.OnError(responseProductList.await().errorBody().toString())
         }
+    }
+
+    fun queryProductByTitle(searchQuery: CharSequence?=null) {
+        viewModelScope.launch {
+            delay(500)
+            if (searchQuery!=null){
+                val productResult = products?.filter {product -> product.title?.startsWith(searchQuery)?:false }
+                if(productResult?.isNotEmpty() == true){
+                    _productResponses.value = DataResponseState.OnSuccess(
+                        ProductUIModel(
+                            products = productResult,
+                            count = Count(count = products?.size ?: 0)
+                        )
+                    )
+                }else{
+                    _productResponses.value = DataResponseState.OnNothingData()
+                }
+
+            }
+        }
+
     }
 }

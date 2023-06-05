@@ -4,10 +4,10 @@ package iti.workshop.admin.data.dto
 // InventoryItems
 
 data class InventoryItemResponseAndRequest(
-    val inventory_item: InventoryItem?
+    val inventory_item: iti.workshop.admin.data.dto.InventoryItem?
 )
 data class InventoryItemsResponse(
-    val inventory_items: List<InventoryItem?>?
+    val inventory_items: List<iti.workshop.admin.data.dto.InventoryItem?>?
 )
 
 data class InventoryItem(
@@ -27,7 +27,7 @@ data class InventoryItem(
 
 // InventoryLevels
 data class InventoryLevelsResponse(
-    val inventory_levels: List<InventoryLevel?>?
+    val inventory_levels: List<iti.workshop.admin.data.dto.InventoryLevel?>?
 )
 
 data class InventoryLevel(
@@ -41,11 +41,11 @@ data class InventoryLevel(
 
 // Location
 data class LocationListResponse(
-    val locations: List<Location?>?
+    val locations: List<iti.workshop.admin.data.dto.Location?>?
 )
 
 data class LocationSingleResponse(
-    val location:Location?
+    val location: iti.workshop.admin.data.dto.Location?
 )
 
 

@@ -3,11 +3,11 @@ package iti.workshop.admin.data.dto
 
 
 data class VariantListResponse(
-    val variants: List<Variant?>?
+    val variants: List<iti.workshop.admin.data.dto.Variant?>?
 )
 
 data class VariantSingleResponseAndRequest(
-    val variant: Variant?
+    val variant: iti.workshop.admin.data.dto.Variant?
 )
 data class Variant(
     // IDs
