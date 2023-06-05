@@ -23,4 +23,9 @@
             android:name="smartCollection"
             app:argType="iti.mad.marketly.data.model.brands.SmartCollection" />
     </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="iti.mad.marketly.presentation.view.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
 </navigation>
