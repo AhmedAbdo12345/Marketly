@@ -13,6 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.R
+import iti.mad.marketly.ResultResponse
+import iti.mad.marketly.data.model.brandproduct.BrandProductResponse
 import iti.mad.marketly.data.model.brandproduct.Product
 import iti.mad.marketly.data.repository.brandproduct.BrandProductRepo
 import iti.mad.marketly.data.repository.brandproduct.BrandProductRepoImp
@@ -61,12 +63,12 @@ class BrandProductFragment : Fragment(),BrandProductAdapter.ListItemClickListene
                 brandProductViewModel._brandProduct.collect{
 
                     when(it){
-                        is  BrandProductApiStatus.Loading ->{
+                        is  ResultResponse.OnLoading ->{
 
                         }
-                        is BrandProductApiStatus.Success -> {
+                        is ResultResponse.OnSuccess -> {
                             var brandAdapter = BrandProductAdapter(this@BrandProductFragment)
-                            brandAdapter.submitList(it.brandProductResponse.products)
+                            brandAdapter.submitList(it.response.products)
                             binding.brandProductRecycleView.apply {
                                 adapter = brandAdapter
                                 setHasFixedSize(true)
@@ -75,7 +77,7 @@ class BrandProductFragment : Fragment(),BrandProductAdapter.ListItemClickListene
                                 }
                             }
                         }
-                        is BrandProductApiStatus.Failed  -> {
+                        is ResultResponse.OnError  -> {
                             Log.d("zxcv", "onViewCreated: 88888888888888")
 
                         }

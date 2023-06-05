@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.databinding.RvHomeBrandBinding
+import iti.mad.marketly.presentation.view.DiffUtils.BrandsDiffUtils
 
-class BrandsAdapter (var mClickListener: BrandsAdapter.ListItemClickListener) : ListAdapter<SmartCollection, BrandsAdapter.BrandViewHolder>(BrandsDiffUtils()) {
+class BrandsAdapter (var mClickListener: BrandsAdapter.ListItemClickListener) : ListAdapter<SmartCollection, BrandsAdapter.BrandViewHolder>(
+    BrandsDiffUtils()
+) {
 
     lateinit var binding: RvHomeBrandBinding
 

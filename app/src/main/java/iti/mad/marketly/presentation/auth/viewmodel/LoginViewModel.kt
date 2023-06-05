@@ -20,11 +20,11 @@ import kotlinx.coroutines.launch
 class LoginViewModel(private val repo: IAuthRepository) : ViewModel() {
 
     private val _customerResponse =
-        MutableStateFlow<ResultResponse<CustomerResponse>>(ResultResponse.OnLoading(true))
+        MutableStateFlow<ResultResponse<CustomerResponse>>(ResultResponse.OnLoading())
     val customerRespoonse: StateFlow<ResultResponse<CustomerResponse>> = _customerResponse
 
     fun loginWithEmail(email: String) {
-        _customerResponse.value = ResultResponse.OnLoading(true)
+        _customerResponse.value = ResultResponse.OnLoading()
         viewModelScope.launch {
 
             repo.loginWithEmail(email).flowOn(Dispatchers.IO).catch { e ->

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
+import iti.mad.marketly.ResultResponse
 import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.data.repository.adsrepo.AdsRepoImplementation
 import iti.mad.marketly.data.repository.brands.BrandsRepoImpl
@@ -75,13 +76,13 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 brandsViewModel._brands.collect{
                     when(it){
-                        is  BrandApiStatus.Loading ->{
+                        is  ResultResponse.OnLoading ->{
 
                         }
-                        is BrandApiStatus.Success -> {
+                        is ResultResponse.OnSuccess -> {
 
                             var brandAdapter = BrandsAdapter(this@HomeFragment)
-                            brandAdapter.submitList(it.brandsResponse.smart_collections)
+                            brandAdapter.submitList(it.response.smart_collections)
                             binding.brandsRecView.apply {
                                 adapter = brandAdapter
                                 setHasFixedSize(true)
@@ -90,9 +91,8 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener{
                                 }
                             }
                         }
-                        is BrandApiStatus.Failed  -> {
+                        is ResultResponse.OnSuccess  -> {
                             Log.d("zxcv", "onViewCreated: 88888888888888")
-
                         }
 
                         else -> {}
