@@ -17,14 +17,14 @@ object SharedPreferenceManager {
     }
     fun saveCurrency(cur:String,context: Context){
         checkPreferences(context)
-        shared.edit().putString(Constants.CURRENCY,cur)
+        shared.edit().putString(Constants.CURRENCY,cur).apply()
     }
     fun getSavedCurrency(context: Context):String?{
         return shared.getString(Constants.CURRENCY,"")
     }
     fun saveDefaultAddress(address:String,context: Context){
         checkPreferences(context)
-        shared.edit().putString(Constants.DEFAULTADDRESS,address)
+        shared.edit().putString(Constants.DEFAULTADDRESS,address).apply()
     }
     fun getDefaultAddress(context: Context):String?{
         return shared.getString(Constants.DEFAULTADDRESS,"")
