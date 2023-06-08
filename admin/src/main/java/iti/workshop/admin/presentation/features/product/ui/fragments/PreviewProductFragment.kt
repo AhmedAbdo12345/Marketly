@@ -7,20 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Product
-import iti.workshop.admin.databinding.ProductFragmentListProductsBinding
 import iti.workshop.admin.databinding.ProductFragmentPreviewProductBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
-import iti.workshop.admin.presentation.features.product.ui.adapters.ItemOnCLickListener
-import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdapter
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
-import iti.workshop.admin.presentation.utils.DataResponseState
-import iti.workshop.admin.presentation.utils.Message
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint

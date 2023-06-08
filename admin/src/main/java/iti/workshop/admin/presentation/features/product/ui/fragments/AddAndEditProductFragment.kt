@@ -13,14 +13,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.databinding.ProductFragmentEditAndAddBinding
-import iti.workshop.admin.databinding.ProductFragmentListProductsBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
-import iti.workshop.admin.presentation.features.product.ui.adapters.ItemOnCLickListener
-import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdapter
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
-import iti.workshop.admin.presentation.utils.DataResponseState
-import iti.workshop.admin.presentation.utils.Message
-import kotlinx.coroutines.flow.collect
+import iti.workshop.admin.presentation.utils.DataListResponseState
 import kotlinx.coroutines.launch
 
 
@@ -55,14 +50,14 @@ class AddAndEditProductFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.productResponses.collect { state ->
                 when (state) {
-                    is DataResponseState.OnError -> {
+                    is DataListResponseState.OnError -> {
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
-                    is DataResponseState.OnLoading -> {
+                    is DataListResponseState.OnLoading -> {
                     }
-                    is DataResponseState.OnNothingData -> {
+                    is DataListResponseState.OnNothingData -> {
                     }
-                    is DataResponseState.OnSuccess -> {
+                    is DataListResponseState.OnSuccess -> {
                         Toast.makeText(requireContext(), "Data Has been Added", Toast.LENGTH_SHORT)
                             .show()
 

@@ -3,13 +3,10 @@ package iti.workshop.admin.presentation.features.product.ui.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -23,7 +20,7 @@ import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.product.ui.adapters.ItemOnCLickListener
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdapter
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
-import iti.workshop.admin.presentation.utils.DataResponseState
+import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.Message
 import iti.workshop.admin.presentation.utils.alert
 import kotlinx.coroutines.launch
@@ -70,7 +67,7 @@ class ProductsListFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.productResponses.collect{state->
                 when(state){
-                    is DataResponseState.OnError -> {
+                    is DataListResponseState.OnError -> {
                         dataViewStates(DataStates.Error)
                         state.message.let { message ->
                             Message.snakeMessage(
@@ -81,13 +78,13 @@ class ProductsListFragment : Fragment() {
                             )?.show()
                         }
                     }
-                    is DataResponseState.OnLoading -> {
+                    is DataListResponseState.OnLoading -> {
                         dataViewStates(DataStates.Loading)
                     }
-                    is DataResponseState.OnNothingData -> {
+                    is DataListResponseState.OnNothingData -> {
                         dataViewStates(DataStates.Nothing)
                     }
-                    is DataResponseState.OnSuccess -> {
+                    is DataListResponseState.OnSuccess -> {
                         dataViewStates(DataStates.Data)
                         adapter.submitList(state.data.products)
 

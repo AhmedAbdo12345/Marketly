@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="model"
+            type="iti.workshop.admin.presentation.features.home.model.HomeModel" />
     </data>
 
     <ScrollView
@@ -84,7 +86,6 @@
                         android:id="@+id/imageView3"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_marginStart="12dp"
                         android:src="@drawable/ic_products"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_product_title"
@@ -122,7 +123,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="2"
+                        android:text="@{model.productCount}"
+                        tools:text="22"
+
                         android:textColor="@color/white"
                         android:textSize="60sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -133,7 +136,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Count"
+                        android:text="@string/count"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toTopOf="@+id/tv_home_card_product_count"
                         app:layout_constraintEnd_toEndOf="@+id/tv_home_card_product_count"
@@ -146,7 +149,7 @@
                         android:id="@+id/divider"
                         android:layout_width="2dp"
                         android:layout_height="70dp"
-                        android:layout_marginEnd="32dp"
+                        android:layout_marginEnd="5dp"
                         android:background="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_product_count"
@@ -194,7 +197,6 @@
                         android:id="@+id/iv_home_card_coupon_image"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_marginStart="12dp"
                         android:src="@drawable/ic_coupons"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_coupon_title"
@@ -232,7 +234,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="2"
+                        android:text="@{model.couponsCount}"
+                        tools:text="30"
                         android:textColor="@color/white"
                         android:textSize="60sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -243,7 +246,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Count"
+                        android:text="@string/count"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toTopOf="@+id/tv_home_card_coupon_count"
                         app:layout_constraintEnd_toEndOf="@+id/tv_home_card_coupon_count"
@@ -256,7 +259,7 @@
                         android:id="@+id/divider2"
                         android:layout_width="2dp"
                         android:layout_height="70dp"
-                        android:layout_marginEnd="32dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_coupon_count"
@@ -301,7 +304,6 @@
                         android:id="@+id/iv_home_card_inventory_image"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_marginStart="12dp"
                         android:src="@drawable/ic_inventory"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_inventory_title"
@@ -339,7 +341,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="2"
+                        tools:text="0"
+                        android:text="@{model.inventoryLocationCount}"
                         android:textColor="@color/white"
                         android:textSize="60sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -350,7 +353,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Count"
+                        android:text="Locations"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toTopOf="@+id/tv_home_card_inventory_count"
                         app:layout_constraintEnd_toEndOf="@+id/tv_home_card_inventory_count"
@@ -363,7 +366,7 @@
                         android:id="@+id/divider3"
                         android:layout_width="2dp"
                         android:layout_height="70dp"
-                        android:layout_marginEnd="32dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_inventory_count"

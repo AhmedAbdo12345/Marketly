@@ -1,6 +1,5 @@
 package iti.workshop.admin.data.remote.retrofit
 
-import iti.workshop.admin.data.Constants
 import iti.workshop.admin.data.remote.retrofit.coupon.DiscountCodeCallApi
 import iti.workshop.admin.data.remote.retrofit.coupon.PriceRuleCallApi
 import iti.workshop.admin.data.remote.retrofit.inventory.InventoryItemCallApi
@@ -14,26 +13,25 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 data class CouponAPICalls(
     // Coupon
-    val discountCodeCallApi: DiscountCodeCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.discountCodeCallApi,
-    val priceRuleCallApi: PriceRuleCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.priceRuleCallApi,
+    val discountCodeCallApi: DiscountCodeCallApi = RetrofitInstance.discountCodeCallApi,
+    val priceRuleCallApi: PriceRuleCallApi = RetrofitInstance.priceRuleCallApi,
 )
 
 data class InventoryAPICalls(
     // Inventory
-    val inventoryItemCallApi: InventoryItemCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.inventoryItemCallApi,
-    val inventoryLevelCallApi: InventoryLevelCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.inventoryLevelCallApi,
-    val inventoryLocationCallApi: InventoryLocationCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.inventoryLocationCallApi,
-    )
+    val inventoryItemCallApi: InventoryItemCallApi = RetrofitInstance.inventoryItemCallApi,
+    val inventoryLevelCallApi: InventoryLevelCallApi = RetrofitInstance.inventoryLevelCallApi,
+    val inventoryLocationCallApi: InventoryLocationCallApi = RetrofitInstance.inventoryLocationCallApi,
+)
 
 data class ProductAPICalls(
     // Product
-    val productCallApi: ProductCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.productCallApi,
-    val productImageCallApi: ProductImageCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.productImageCallApi,
-    val productVariantCallApi: ProductVariantCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.productVariantCallApi
+    val productCallApi: ProductCallApi = RetrofitInstance.productCallApi,
+    val productImageCallApi: ProductImageCallApi = RetrofitInstance.productImageCallApi,
+    val productVariantCallApi: ProductVariantCallApi = RetrofitInstance.productVariantCallApi
 )
 
 
@@ -41,28 +39,28 @@ object RetrofitInstance {
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(iti.workshop.admin.data.Constants.BASE_URL)
-        .client(iti.workshop.admin.data.remote.retrofit.RetrofitInstance.loggerInterceptor())
+        .client(RetrofitInstance.loggerInterceptor())
         .addConverterFactory(GsonConverterFactory.create())
-        .client(iti.workshop.admin.data.remote.retrofit.RetrofitInstance.headerConfiguration())
+        .client(RetrofitInstance.headerConfiguration())
         .build()
 
     // Coupon
-    val discountCodeCallApi: DiscountCodeCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(DiscountCodeCallApi::class.java)
-    val priceRuleCallApi: PriceRuleCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(PriceRuleCallApi::class.java)
+    val discountCodeCallApi: DiscountCodeCallApi = RetrofitInstance.retrofit.create(DiscountCodeCallApi::class.java)
+    val priceRuleCallApi: PriceRuleCallApi = RetrofitInstance.retrofit.create(PriceRuleCallApi::class.java)
 
     // Inventory
     val inventoryItemCallApi: InventoryItemCallApi =
-        iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(InventoryItemCallApi::class.java)
+        RetrofitInstance.retrofit.create(InventoryItemCallApi::class.java)
     val inventoryLevelCallApi: InventoryLevelCallApi =
-        iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(InventoryLevelCallApi::class.java)
+        RetrofitInstance.retrofit.create(InventoryLevelCallApi::class.java)
     val inventoryLocationCallApi: InventoryLocationCallApi =
-        iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(InventoryLocationCallApi::class.java)
+        RetrofitInstance.retrofit.create(InventoryLocationCallApi::class.java)
 
     // Product
-    val productCallApi: ProductCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(ProductCallApi::class.java)
-    val productImageCallApi: ProductImageCallApi = iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(ProductImageCallApi::class.java)
+    val productCallApi: ProductCallApi = RetrofitInstance.retrofit.create(ProductCallApi::class.java)
+    val productImageCallApi: ProductImageCallApi = RetrofitInstance.retrofit.create(ProductImageCallApi::class.java)
     val productVariantCallApi: ProductVariantCallApi =
-        iti.workshop.admin.data.remote.retrofit.RetrofitInstance.retrofit.create(ProductVariantCallApi::class.java)
+        RetrofitInstance.retrofit.create(ProductVariantCallApi::class.java)
 
 
     private fun loggerInterceptor(): OkHttpClient {

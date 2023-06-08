@@ -35,7 +35,7 @@
         android:id="@+id/homeFragment"
         android:name="iti.workshop.admin.presentation.features.home.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/home_fragment" />
     <fragment
         android:id="@+id/addAndEditProductFragment"
         android:name="iti.workshop.admin.presentation.features.product.ui.fragments.AddAndEditProductFragment"
