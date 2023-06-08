@@ -5,11 +5,11 @@
 
     <data>
         <variable
-            name="productModel"
-            type="iti.mad.marketly.data.model.brandproduct.Product" />
+            name="categoryProductModel"
+            type="iti.mad.marketly.data.model.categoryProduct.Product" />
         <variable
             name="action"
-            type="iti.mad.marketly.presentation.brandProduct.BrandProductAdapter.ListItemClickListener" />
+            type="iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter.ListItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,13 +29,13 @@
             app:cardBackgroundColor="@color/backgroundAd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{()->action.onClickProduct(productModel)}">
+            android:onClick="@{()->action.onClickCategoryProduct(categoryProductModel)}">
 
             <ImageView
-                android:id="@+id/imgv_brand_product"
+                android:id="@+id/imgv_category_product"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@drawable/bn" />
 
         </androidx.cardview.widget.CardView>
@@ -65,14 +65,14 @@
             android:id="@+id/linearLayout5"
             android:layout_width="180dp"
             android:layout_height="110dp"
+            android:paddingStart="10dp"
             android:background="@color/background"
             android:orientation="vertical"
-            android:paddingStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <RatingBar
-                android:id="@+id/productRating"
+                android:id="@+id/categoryProductRating"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:numStars="5"
@@ -84,7 +84,7 @@
                 android:transformPivotY="15dp" />
 
             <TextView
-                android:id="@+id/tv_brandProduct_name"
+                android:id="@+id/tv_categoryProduct_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/metropolis_light"
@@ -94,7 +94,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/tv_product_name"
+                android:id="@+id/tv_category_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/metropolis_regular"
@@ -104,7 +104,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/tv_product_price"
+                android:id="@+id/tv_category_product_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

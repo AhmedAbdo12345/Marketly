@@ -6,8 +6,10 @@ import retrofit2.http.Body
 import iti.mad.marketly.data.model.brandproduct.BrandProductResponse
 import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.category.CategoryResponse
+import iti.mad.marketly.data.model.categoryProduct.CategoryProductResponse
 import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.pricingrules.PricingRules
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -30,7 +32,8 @@ interface ApiService {
     @GET("custom_collections.json")
     suspend fun getCategoryFromAPI() : CategoryResponse
 
-
+    @GET("collections/{id}/products.json")
+    suspend fun getCategoryProducts(@Path("id") id: Long): CategoryProductResponse
 
     //Discounts
     @GET("price_rules/{pricing_rule}/discount_codes.json")

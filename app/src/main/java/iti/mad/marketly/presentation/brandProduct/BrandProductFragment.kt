@@ -52,7 +52,6 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         viewLifecycleOwner.lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 brandProductViewModel._brandProduct.collect{
-
                     when(it){
                         is  ResponseState.OnLoading ->{
 
