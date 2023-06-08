@@ -23,10 +23,10 @@ class ProductViewModel @Inject constructor(
     private val _productResponses = MutableStateFlow<DataResponseState<ProductUIModel>>(DataResponseState.OnLoading())
     val productResponses:StateFlow<DataResponseState<ProductUIModel>> get() = _productResponses
 
-    private var products:List<Product>? = mutableListOf()
+    private var products:MutableList<Product>? = mutableListOf()
 
-    private val _deleteResponse = MutableStateFlow<Boolean>(false)
-    val deleteResponse:StateFlow<Boolean> get() = _deleteResponse
+    private val _deleteResponse = MutableStateFlow<Boolean?>(null)
+    val deleteResponse:StateFlow<Boolean?> get() = _deleteResponse
 
     private val _addOrEditResponses = MutableStateFlow<DataResponseState<Product>>(DataResponseState.OnLoading())
     val addOrEditResponses:StateFlow<DataResponseState<Product>> get() = _addOrEditResponses
@@ -36,6 +36,16 @@ class ProductViewModel @Inject constructor(
     fun deleteProduct(product: Product){
         viewModelScope.launch {
             val response = async{ _repo.deleteProduct(product.id) }
+            if(response.await().isSuccessful){
+
+                products?.remove(product)
+                _productResponses.value = DataResponseState.OnSuccess(
+                    ProductUIModel(
+                        products = products,
+                        count = Count(count = products?.size ?: 0)
+                    )
+                )
+            }
             _deleteResponse.value = response.await().isSuccessful
         }
     }
@@ -57,13 +67,14 @@ class ProductViewModel @Inject constructor(
     }
     fun getCountOfProducts(){
         viewModelScope.launch {
+
             val responseCount = async{ _repo.getCount() }
             val responseProductList = async { _repo.getProduct() }
 
             if (responseCount.await().isSuccessful && responseProductList.await().isSuccessful){
 
                 val count = responseCount.await().body()
-                products = responseProductList.await().body()?.products
+                products = responseProductList.await().body()?.products as MutableList<Product>
 
                 if (count?.count == 0){
                     _productResponses.value = DataResponseState.OnNothingData()

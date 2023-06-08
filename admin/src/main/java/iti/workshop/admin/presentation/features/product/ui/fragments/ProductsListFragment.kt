@@ -25,6 +25,7 @@ import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdap
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataResponseState
 import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.alert
 import kotlinx.coroutines.launch
 
 
@@ -54,12 +55,15 @@ class ProductsListFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.deleteResponse.collect { state ->
-                if (state)
-                    Toast.makeText(requireContext(), "Data has been deleted", Toast.LENGTH_SHORT)
-                        .show()
-                else
-                    Toast.makeText(requireContext(), "Error Happend", Toast.LENGTH_SHORT)
-                        .show()
+                state?.let {
+                    if (it)
+                        Toast.makeText(requireContext(), "Data has been deleted", Toast.LENGTH_SHORT)
+                            .show()
+                    else
+                        Toast.makeText(requireContext(), "Error Happend", Toast.LENGTH_SHORT)
+                            .show()
+                }
+
             }
         }
 
@@ -120,7 +124,11 @@ class ProductsListFragment : Fragment() {
     }
 
     private fun deleteProduct(product: Product) {
-        viewModel.deleteProduct(product)
+        requireContext().alert("Delete Action","Do you want delete ${product.title} ? \n Are you sure?",{
+            viewModel.deleteProduct(product)
+        },{
+
+        })
     }
 
     private fun selectProduct(product: Product) {
