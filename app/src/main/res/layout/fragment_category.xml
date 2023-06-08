@@ -12,18 +12,26 @@
         android:layout_height="match_parent"
         tools:context=".presentation.category.CategoryFragment">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categoryRecView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            tools:listitem="@layout/rv_category"
-            tools:itemCount="5"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryProductRecView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            tools:listitem="@layout/rv_category_product"
+            tools:itemCount="5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -67,6 +67,7 @@
             android:layout_height="110dp"
             android:background="@color/background"
             android:orientation="vertical"
+            android:paddingStart="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView">
 

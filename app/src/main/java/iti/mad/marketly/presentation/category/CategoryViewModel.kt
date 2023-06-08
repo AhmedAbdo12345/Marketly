@@ -31,8 +31,6 @@ class CategoryViewModel(val categoryRepo: CategoryRepo): ViewModel() {
 
             }
         }
-
-
     }
 
     companion object {
