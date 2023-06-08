@@ -39,8 +39,7 @@ class HomeViewModel @Inject constructor(
                    productCount = (productsCounts.await().body()?.count ?: 0).toString()
                )
                _counts.value = DataResponseState.OnSuccess(_model)
-           }
-           else {
+           } else {
                _counts.value =
                    DataResponseState.OnError(productsCounts.await().errorBody().toString())
            }
@@ -51,7 +50,7 @@ class HomeViewModel @Inject constructor(
                     couponsCount = (couponsCounts.await().body()?.count ?: 0).toString()
                 )
                 _counts.value = DataResponseState.OnSuccess(_model)
-            }else {
+            } else {
                 _counts.value =
                     DataResponseState.OnError(couponsCounts.await().errorBody().toString())
             }
@@ -63,8 +62,7 @@ class HomeViewModel @Inject constructor(
                         ?: 0).toString()
                 )
                 _counts.value = DataResponseState.OnSuccess(_model)
-            }
-            else {
+            } else {
                 _counts.value =
                     DataResponseState.OnError(inventoryLocationCount.await().errorBody().toString())
             }

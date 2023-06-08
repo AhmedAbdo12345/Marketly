@@ -35,7 +35,17 @@
         android:id="@+id/homeFragment"
         android:name="iti.workshop.admin.presentation.features.home.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_productsListFragment"
+            app:destination="@id/productsListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_couponFragment"
+            app:destination="@id/couponFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addAndEditProductFragment"
         android:name="iti.workshop.admin.presentation.features.product.ui.fragments.AddAndEditProductFragment"

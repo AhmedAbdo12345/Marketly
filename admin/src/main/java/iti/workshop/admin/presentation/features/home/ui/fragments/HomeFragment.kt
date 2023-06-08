@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.databinding.HomeFragmentBinding
@@ -34,6 +35,14 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.home_fragment,container,false)
         binding.lifecycleOwner = this
 
+        navigationSelect()
+
+        updateUI()
+
+        return binding.root
+    }
+
+    private fun updateUI() {
         lifecycleScope.launch {
             viewModel.counts.collect{
                 when(it){
@@ -49,8 +58,12 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
 
-        return binding.root
+    private fun navigationSelect() {
+        binding.cardsHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_productsListFragment) }
+        binding.inventoryHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_inventoryFragment) }
+        binding.couponHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_couponFragment) }
     }
 
 }

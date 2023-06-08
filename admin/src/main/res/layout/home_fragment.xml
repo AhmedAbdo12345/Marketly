@@ -75,75 +75,50 @@
                 app:cardBackgroundColor="#673AB7"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
 
-                    <ImageView
-                        android:id="@+id/imageView3"
+                    <LinearLayout
                         android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/ic_products"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_home_card_product_title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_home_card_product_subtitle"
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/ic_products" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="44dp"
-                        android:text="Manage your products"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/divider"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/tv_home_card_product_title" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_home_card_product_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="76dp"
-                        android:text="Products"
-                        android:textColor="@color/white"
-                        android:textSize="22sp"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_home_card_product_subtitle"
-                        app:layout_constraintEnd_toStartOf="@+id/divider"
-                        app:layout_constraintTop_toTopOf="@+id/imageView3"
-                        app:layout_constraintVertical_bias="0.0" />
+                        <TextView
+                            android:id="@+id/tv_home_card_product_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="76dp"
+                            android:text="Products"
+                            android:textColor="@color/white"
+                            android:textSize="22sp" />
 
-                    <TextView
-                        android:id="@+id/tv_home_card_product_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{model.productCount}"
-                        tools:text="22"
-
-                        android:textColor="@color/white"
-                        android:textSize="60sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.523" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/count"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_home_card_product_count"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_home_card_product_count"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="@+id/tv_home_card_product_count"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.375" />
+                        <TextView
+                            android:id="@+id/tv_home_card_product_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="44dp"
+                            android:text="Manage your products"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                     <View
                         android:id="@+id/divider"
@@ -156,16 +131,42 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.516" />
 
-                    <androidx.constraintlayout.widget.Barrier
-                        android:id="@+id/barrier4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:barrierDirection="left"
-                        app:constraint_referenced_ids="divider" />
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="100dp"                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/count"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_home_card_product_count"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_home_card_product_count"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="@+id/tv_home_card_product_count"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.375" />
+
+                        <TextView
+                            android:id="@+id/tv_home_card_product_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:text="@{model.productCount}"
+                            tools:text="22"
+
+                            android:textColor="@color/white"
+                            android:textSize="60sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.523" />
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    </LinearLayout>
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -186,74 +187,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cards_holder">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-
-                    <ImageView
-                        android:id="@+id/iv_home_card_coupon_image"
+                    <LinearLayout
                         android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/ic_coupons"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_home_card_coupon_title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_home_card_coupon_subtitle"
+                        <ImageView
+                            android:id="@+id/iv_home_card_coupon_image"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/ic_coupons" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="40dp"
-                        android:text="Manage your coupons"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_home_card_coupon_title"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/tv_home_card_coupon_title" />
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_home_card_coupon_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="84dp"
+                            android:text="Coupons"
+                            android:textColor="@color/white"
+                            android:textSize="22sp" />
 
-                    <TextView
-                        android:id="@+id/tv_home_card_coupon_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="84dp"
-                        android:text="Coupons"
-                        android:textColor="@color/white"
-                        android:textSize="22sp"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_home_card_coupon_subtitle"
-                        app:layout_constraintEnd_toStartOf="@+id/divider2"
-                        app:layout_constraintTop_toTopOf="@+id/iv_home_card_coupon_image"
-                        app:layout_constraintVertical_bias="0.136" />
+                        <TextView
+                            android:id="@+id/tv_home_card_coupon_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="40dp"
+                            android:text="Manage your coupons"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_home_card_coupon_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{model.couponsCount}"
-                        tools:text="30"
-                        android:textColor="@color/white"
-                        android:textSize="60sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.523" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/count"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_home_card_coupon_count"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_home_card_coupon_count"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="@+id/tv_home_card_coupon_count"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.375" />
 
                     <View
                         android:id="@+id/divider2"
@@ -266,18 +243,42 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.516" />
 
-                    <androidx.constraintlayout.widget.Barrier
-                        android:id="@+id/barrier5"
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="100dp"                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/count"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_home_card_coupon_count"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_home_card_coupon_count"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="@+id/tv_home_card_coupon_count"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.375" />
+                        <TextView
+                        android:id="@+id/tv_home_card_coupon_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:barrierDirection="left"
-                        app:constraint_referenced_ids="divider2" />
+                        android:layout_marginEnd="16dp"
+                        android:text="@{model.couponsCount}"
+                        tools:text="30"
+                        android:textColor="@color/white"
+                        android:textSize="60sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.523" />
+                    </LinearLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
 
             <com.google.android.material.card.MaterialCardView
+
                 android:id="@+id/inventory_holder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/home_card_height"
@@ -293,74 +294,60 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/coupon_holder">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-
-                    <ImageView
-                        android:id="@+id/iv_home_card_inventory_image"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/ic_inventory"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/tv_home_card_inventory_title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tv_home_card_inventory_subtitle"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="40dp"
-                        android:text="Manage your inventories"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_home_card_inventory_title"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@+id/tv_home_card_inventory_title" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_home_card_inventory_title"
+                        <ImageView
+                            android:id="@+id/iv_home_card_inventory_image"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/ic_inventory"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/tv_home_card_inventory_title"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="84dp"
-                        android:text="Inventory"
-                        android:textColor="@color/white"
-                        android:textSize="22sp"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_home_card_inventory_subtitle"
-                        app:layout_constraintEnd_toStartOf="@+id/divider3"
-                        app:layout_constraintTop_toTopOf="@+id/iv_home_card_inventory_image"
-                        app:layout_constraintVertical_bias="0.136" />
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_home_card_inventory_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="84dp"
+                            android:text="Inventory"
+                            android:textColor="@color/white"
+                            android:textSize="22sp"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_home_card_inventory_subtitle"
+                            app:layout_constraintEnd_toStartOf="@+id/divider3"
+                            app:layout_constraintTop_toTopOf="@+id/iv_home_card_inventory_image"
+                            app:layout_constraintVertical_bias="0.136" />
+                        <TextView
+                            android:id="@+id/tv_home_card_inventory_subtitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="40dp"
+                            android:text="Manage your inventories"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_home_card_inventory_title"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/tv_home_card_inventory_title" />
 
-                    <TextView
-                        android:id="@+id/tv_home_card_inventory_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        tools:text="0"
-                        android:text="@{model.inventoryLocationCount}"
-                        android:textColor="@color/white"
-                        android:textSize="60sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.523" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Locations"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toTopOf="@+id/tv_home_card_inventory_count"
-                        app:layout_constraintEnd_toEndOf="@+id/tv_home_card_inventory_count"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="@+id/tv_home_card_inventory_count"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.375" />
+                    </LinearLayout>
 
                     <View
                         android:id="@+id/divider3"
@@ -372,15 +359,39 @@
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_inventory_count"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.516" />
-
-                    <androidx.constraintlayout.widget.Barrier
-                        android:id="@+id/barrier6"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        app:barrierDirection="left"
-                        app:constraint_referenced_ids="divider3" />
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Locations"
+                            android:textColor="@color/white"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_home_card_inventory_count"
+                            app:layout_constraintEnd_toEndOf="@+id/tv_home_card_inventory_count"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toStartOf="@+id/tv_home_card_inventory_count"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.375" />
+                        <TextView
+                            android:id="@+id/tv_home_card_inventory_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            tools:text="0"
+                            android:text="@{model.inventoryLocationCount}"
+                            android:textColor="@color/white"
+                            android:textSize="60sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.523" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
