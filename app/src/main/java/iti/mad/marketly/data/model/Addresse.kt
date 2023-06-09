@@ -2,9 +2,9 @@ package iti.mad.marketly.data.model
 
 data class Addresse(
     val address1: String?,
-    val address2: Any?,
+    val address2: String?,
     val city: String?,
-    val company: Any?,
+    val company: String?,
     val country: String?,
     val country_code: String?,
     val country_name: String?,
