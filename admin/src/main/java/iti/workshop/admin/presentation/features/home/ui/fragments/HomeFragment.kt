@@ -35,9 +35,7 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.home_fragment,container,false)
         binding.lifecycleOwner = this
 
-        navigationSelect()
-
-        updateUI()
+        navigationSelect();updateUI()
 
         return binding.root
     }
