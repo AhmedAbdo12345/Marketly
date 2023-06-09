@@ -94,7 +94,8 @@ dependencies {
     implementation "androidx.room:room-runtime:2.5.1"
     kapt "androidx.room:room-compiler:2.5.1"
     implementation "androidx.room:room-ktx:2.5.1"
-
+    //image slider
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     //  Firebase
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
     implementation platform('com.google.firebase:firebase-bom:31.1.1')

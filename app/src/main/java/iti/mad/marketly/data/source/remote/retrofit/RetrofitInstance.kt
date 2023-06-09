@@ -1,6 +1,6 @@
 package iti.mad.marketly.data.source.remote.retrofit
 
-import iti.mad.marketly.data.Constants
+import iti.mad.marketly.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,8 +26,8 @@ object RetrofitInstance {
             .build()
     }
 
-    val api: CallApi by lazy {
-        retrofit.create(CallApi::class.java)
+    val api: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
     }
 
 
