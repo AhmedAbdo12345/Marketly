@@ -49,12 +49,11 @@ class RegisterFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 registerViewModel.customerRespoonse.collect { uiState ->
-
                     when (uiState) {
                         is ResultResponse.OnSuccess -> {
-                            val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                            val action =
+                                RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                             findNavController().navigate(action)
                         }
 
@@ -111,8 +110,7 @@ class RegisterFragment : Fragment() {
                 auth.createUserWithEmailAndPassword(
                     emailEditText.text.toString(),
                     passwordEditText.text.toString()
-                )
-                    .addOnCompleteListener(requireActivity()) { task ->
+                ).addOnCompleteListener(requireActivity()) { task ->
                         if (task.isSuccessful) {
                             val customer = Customer()
                             customer.email = emailEditText.text.toString()
@@ -122,7 +120,7 @@ class RegisterFragment : Fragment() {
                             registerViewModel.registerUser(customerBody)
 
                         } else {
-                           showErrorDialog()
+                            showErrorDialog()
                         }
                     }
 
@@ -166,7 +164,8 @@ class RegisterFragment : Fragment() {
         val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
         return emailRegex.matches(email)
     }
-    private fun showErrorDialog(){
+
+    private fun showErrorDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.error))
             .setMessage(getString(R.string.email_or_password_error))

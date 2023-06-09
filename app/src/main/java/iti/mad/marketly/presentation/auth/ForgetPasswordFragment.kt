@@ -1,4 +1,4 @@
-package iti.mad.marketly
+package iti.mad.marketly.presentation.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import iti.mad.marketly.R
 import iti.mad.marketly.databinding.FragmentForgetPasswordBinding
-import iti.mad.marketly.databinding.FragmentRegisterBinding
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
 
 class ForgetPasswordFragment : Fragment() {

@@ -27,10 +27,11 @@ import iti.mad.marketly.presentation.view.viewmodel.BrandsViewModel
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapter.ListItemClickListener{
+class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener,
+    AdsAdapter.ListItemClickListener {
 
-     lateinit var brandsViewModel: BrandsViewModel
-    lateinit var binding : FragmentHomeBinding
+    lateinit var brandsViewModel: BrandsViewModel
+    lateinit var binding: FragmentHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +45,8 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       // return inflater.inflate(R.layout.fragment_home, container, false)
-        binding = FragmentHomeBinding.inflate(layoutInflater,container,false)
+        // return inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -54,7 +55,11 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
         super.onViewCreated(view, savedInstanceState)
 
         var adsAdapter = AdsAdapter(this@HomeFragment)
-        var list= listOf<HomeAdsModel>(HomeAdsModel(R.drawable.bn),HomeAdsModel(R.drawable.ads_img),HomeAdsModel(R.drawable.bn))
+        var list = listOf<HomeAdsModel>(
+            HomeAdsModel(R.drawable.bn),
+            HomeAdsModel(R.drawable.ads_img),
+            HomeAdsModel(R.drawable.bn)
+        )
         adsAdapter.submitList(list)
         binding.adsRecView.apply {
             adapter = adsAdapter
@@ -67,13 +72,14 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
         var api = RetrofitInstance.api
         var repo = BrandsRepoImpl(api)
         brandsViewModel.getAllBrands(repo)
-        viewLifecycleOwner.lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                brandsViewModel._brands.collect{
-                    when(it){
-                        is  BrandApiStatus.Loading ->{
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                brandsViewModel._brands.collect {
+                    when (it) {
+                        is BrandApiStatus.Loading -> {
 
                         }
+
                         is BrandApiStatus.Success -> {
                             var brandAdapter = BrandsAdapter(this@HomeFragment)
                             brandAdapter.submitList(it.brandsResponse.smart_collections)
@@ -85,14 +91,15 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
                                 }
                             }
                         }
-                        is BrandApiStatus.Failed  -> {
+
+                        is BrandApiStatus.Failed -> {
                             Log.d("zxcv", "onViewCreated: 88888888888888")
 
                         }
 
                         else -> {}
                     }
-            }
+                }
 
             }
 
@@ -101,17 +108,17 @@ class HomeFragment : Fragment()  , BrandsAdapter.ListItemClickListener,AdsAdapte
 
 
     override fun onClickBrand(smartCollection: SmartCollection) {
-    /*val action: ActionHomeFragmentToBrandProductFragment = HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
-       Navigation.findNavController(requireView()).navigate(action)
-        Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()*/
-if(smartCollection != null) {
-    Log.d("zxcv", "onClickBrand: 8888"+smartCollection.title)
+        /*val action: ActionHomeFragmentToBrandProductFragment = HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
+           Navigation.findNavController(requireView()).navigate(action)
+            Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()*/
+        if (smartCollection != null) {
+            Log.d("zxcv", "onClickBrand: 8888" + smartCollection.title)
 
-    var action: HomeFragmentDirections.ActionHomeFragmentToBrandProductFragment =
-        HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
- findNavController().navigate(action)
+            var action: HomeFragmentDirections.ActionHomeFragmentToBrandProductFragment =
+                HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
+            findNavController().navigate(action)
 
-}
+        }
     }
 
     override fun onClickAds(homeAdsModel: HomeAdsModel) {

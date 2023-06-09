@@ -17,12 +17,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import iti.mad.marketly.ForgetPasswordFragment
 import iti.mad.marketly.R
 import iti.mad.marketly.ResultResponse
 import iti.mad.marketly.databinding.FragmentLoginBinding
 import iti.mad.marketly.presentation.auth.viewmodel.LoginViewModel
-import iti.mad.marketly.presentation.auth.viewmodel.RegisterViewModel
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import iti.mad.marketly.presentation.view.MainActivity
 import kotlinx.coroutines.launch
