@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.databinding.FragmentLoginBinding
-import iti.mad.marketly.presentation.auth.viewmodel.LoginViewModel
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import iti.mad.marketly.presentation.MainActivity
 import kotlinx.coroutines.launch

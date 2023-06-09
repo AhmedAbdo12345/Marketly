@@ -16,20 +16,18 @@ import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 
 object AppDependencies {
-    lateinit var authRepository: IAuthRepository
     lateinit var productDetailsRepository: ProductDetailsRepository
-    fun initialization() {
     lateinit var authRepository: AuthRepositoryImpl
     lateinit var categoryRepo: CategoryRepo
     lateinit var categoryProductRepo: CategoryProductRepo
-    lateinit var  brandsRepo: BrandsRepo
-    fun initialization(appContext: Context) {
+    lateinit var brandsRepo: BrandsRepo
+    fun initialization() {
         val api = RetrofitInstance.api
         val remote = RemoteDataSource(api)
         authRepository = AuthRepositoryImpl(remote)
         productDetailsRepository = ProductDetailsRepositoryImpl(remote)
         categoryRepo = CategoryRepoImpl(api)
         categoryProductRepo = CategoryProductRepoImpl(api)
-         brandsRepo = BrandsRepoImpl(api)
+        brandsRepo = BrandsRepoImpl(api)
     }
 }

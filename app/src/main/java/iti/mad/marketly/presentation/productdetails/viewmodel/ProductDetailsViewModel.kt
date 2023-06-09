@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import iti.mad.marketly.AppDependencies
-import iti.mad.marketly.ResultResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepository
+import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,17 +20,17 @@ import kotlinx.coroutines.launch
 class ProductDetailsViewModel(private val repo: ProductDetailsRepository) : ViewModel() {
 
     private val _productDetails =
-        MutableStateFlow<ResultResponse<ProductDetails>>(ResultResponse.OnLoading(true))
-    val productDetails: StateFlow<ResultResponse<ProductDetails>> = _productDetails
+        MutableStateFlow<ResponseState<ProductDetails>>(ResponseState.OnLoading())
+    val productDetails: StateFlow<ResponseState<ProductDetails>> = _productDetails
 
     fun getProductDetails(id: Long) {
-        _productDetails.value = ResultResponse.OnLoading(true)
+        _productDetails.value = ResponseState.OnLoading()
         viewModelScope.launch {
             repo.getProductDetails(id).flowOn(Dispatchers.IO).catch { e ->
-                _productDetails.value = ResultResponse.OnError(e.localizedMessage ?: "eerrror")
+                _productDetails.value = ResponseState.OnError(e.localizedMessage ?: "eerrror")
                 print(e.printStackTrace())
             }.collect {
-                _productDetails.value = ResultResponse.OnSuccess(it)
+                _productDetails.value = ResponseState.OnSuccess(it)
                 print(it.toString())
             }
 

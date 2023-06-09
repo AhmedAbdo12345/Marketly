@@ -21,16 +21,13 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import iti.mad.marketly.ResultResponse
 import iti.mad.marketly.data.model.productDetails.Image
-import iti.mad.marketly.data.model.productDetails.Product
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
-import iti.mad.marketly.presentation.auth.viewmodel.LoginViewModel
 import iti.mad.marketly.presentation.productdetails.Reviewer
 import iti.mad.marketly.presentation.productdetails.ReviewsAdapter
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
-import iti.mad.marketly.presentation.view.MainActivity
+import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -51,14 +48,14 @@ class ProductDetailsFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.productDetails.collect { uiState ->
                     when (uiState) {
-                        is ResultResponse.OnSuccess -> {
-                            renderDataOnScreen(uiState.data)
+                        is ResponseState.OnSuccess -> {
+                            renderDataOnScreen(uiState.response)
                         }
 
-                        is ResultResponse.OnLoading -> {
+                        is ResponseState.OnLoading -> {
                             //todo
                         }
-                        is ResultResponse.OnError -> {
+                        is ResponseState.OnError -> {
                             //todo
                         }
                     }

@@ -9,6 +9,7 @@ import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.categoryProduct.CategoryProductResponse
 import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.pricingrules.PricingRules
+import iti.mad.marketly.data.model.productDetails.ProductDetails
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -41,4 +42,8 @@ interface ApiService {
     //Pricing Rule
     @GET("price_rules.json")
     suspend fun getPricingRule():PricingRules
+    @GET("products/{id}.json")
+    suspend fun getProductDetails(
+        @Path("id") id: Long
+    ): ProductDetails
 }

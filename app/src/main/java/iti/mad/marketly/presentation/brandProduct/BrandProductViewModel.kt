@@ -25,10 +25,10 @@ class BrandProductViewModel : ViewModel() {
 
 
             brandsRepo.getBrandProduct().flowOn(Dispatchers.IO).catch {
-                brandProduct.value= BrandProductApiStatus.Failed(it.localizedMessage?:"")
+                brandProduct.value= ResponseState.OnError(it.localizedMessage?:"")
 
             }.collect{
-                brandProduct.value = BrandProductApiStatus.Success(it)
+                brandProduct.value = ResponseState.OnSuccess(it)
             }
 
 

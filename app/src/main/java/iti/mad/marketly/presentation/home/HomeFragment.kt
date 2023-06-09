@@ -21,7 +21,6 @@ import com.denzcoskun.imageslider.models.SlideModel
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.data.repository.adsrepo.AdsRepoImplementation
-import iti.mad.marketly.data.repository.brands.BrandsRepoImpl
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentHomeBinding
 import iti.mad.marketly.utils.AdsManager
