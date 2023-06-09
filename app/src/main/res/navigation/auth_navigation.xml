@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgetPasswordFragment"
-        android:name="iti.mad.marketly.ForgetPasswordFragment"
+        android:name="iti.mad.marketly.presentation.auth.ForgetPasswordFragment"
         android:label="fragment_forget_password"
         tools:layout="@layout/fragment_forget_password" />
 </navigation>

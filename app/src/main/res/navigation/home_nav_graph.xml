@@ -22,5 +22,17 @@
         <argument
             android:name="smartCollection"
             app:argType="iti.mad.marketly.data.model.brands.SmartCollection" />
+        <action
+            android:id="@+id/action_brandProductFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="iti.mad.marketly.presentation.productdetails.view.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" >
+        <argument
+            android:name="product_ID"
+            app:argType="long" />
     </fragment>
 </navigation>
