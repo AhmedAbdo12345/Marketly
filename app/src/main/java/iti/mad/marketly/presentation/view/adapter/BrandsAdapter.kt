@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.databinding.RvHomeBrandBinding
@@ -29,7 +30,7 @@ class BrandsAdapter (var mClickListener: BrandsAdapter.ListItemClickListener) : 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int)  {
         if (getItem(position).image?.src != null) {
             Picasso.get().load(getItem(position).image?.src).into(binding.imgVBrand)
-           /* Glide.with(context)
+            /*Glide.with(context)
                 .load(getItem(position).image?.src)
                 .into(binding.imgVBrand)*/
         }

@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.R
@@ -27,9 +28,9 @@ import iti.mad.marketly.presentation.view.viewmodel.BrandsViewModel
 import kotlinx.coroutines.launch
 
 
-class BrandProductFragment : Fragment(),BrandProductAdapter.ListItemClickListener {
+class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListener {
     lateinit var brandProductViewModel: BrandProductViewModel
-    lateinit var binding : FragmentBrandProductBinding
+    lateinit var binding: FragmentBrandProductBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         brandProductViewModel = ViewModelProvider(this).get(BrandProductViewModel::class.java)
@@ -41,8 +42,8 @@ class BrandProductFragment : Fragment(),BrandProductAdapter.ListItemClickListene
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-       // return inflater.inflate(R.layout.fragment_brand_product, container, false)
-        binding = FragmentBrandProductBinding.inflate(layoutInflater,container,false)
+        // return inflater.inflate(R.layout.fragment_brand_product, container, false)
+        binding = FragmentBrandProductBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -50,20 +51,22 @@ class BrandProductFragment : Fragment(),BrandProductAdapter.ListItemClickListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var smartCollection = BrandProductFragmentArgs.fromBundle(requireArguments()).smartCollection
+        var smartCollection =
+            BrandProductFragmentArgs.fromBundle(requireArguments()).smartCollection
 
 
         var api = RetrofitInstance.api
         var repo = BrandProductRepoImp(api, (smartCollection.id).toString())
         brandProductViewModel.getAllBrandProduct(repo)
-        viewLifecycleOwner.lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                brandProductViewModel._brandProduct.collect{
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                brandProductViewModel._brandProduct.collect {
 
-                    when(it){
-                        is  BrandProductApiStatus.Loading ->{
+                    when (it) {
+                        is BrandProductApiStatus.Loading -> {
 
                         }
+
                         is BrandProductApiStatus.Success -> {
                             var brandAdapter = BrandProductAdapter(this@BrandProductFragment)
                             brandAdapter.submitList(it.brandProductResponse.products)
@@ -75,7 +78,8 @@ class BrandProductFragment : Fragment(),BrandProductAdapter.ListItemClickListene
                                 }
                             }
                         }
-                        is BrandProductApiStatus.Failed  -> {
+
+                        is BrandProductApiStatus.Failed -> {
                             Log.d("zxcv", "onViewCreated: 88888888888888")
 
                         }
@@ -90,7 +94,11 @@ class BrandProductFragment : Fragment(),BrandProductAdapter.ListItemClickListene
     }
 
     override fun onClickProduct(product: Product) {
-        TODO("Not yet implemented")
+        val action =
+            BrandProductFragmentDirections.actionBrandProductFragmentToProductDetailsFragment(
+                product.id
+            )
+        findNavController().navigate(action)
     }
 
 

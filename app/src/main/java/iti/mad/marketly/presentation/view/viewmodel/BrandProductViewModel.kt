@@ -24,10 +24,10 @@ class BrandProductViewModel : ViewModel() {
 
 
             brandsRepo.getBrandProduct().flowOn(Dispatchers.IO).catch {
-                brandProduct.emit(BrandProductApiStatus.Failed(it.localizedMessage))
+                brandProduct.value= BrandProductApiStatus.Failed(it.localizedMessage?:"")
 
             }.collect{
-                brandProduct.emit(BrandProductApiStatus.Success(it))
+                brandProduct.value = BrandProductApiStatus.Success(it)
             }
 
 

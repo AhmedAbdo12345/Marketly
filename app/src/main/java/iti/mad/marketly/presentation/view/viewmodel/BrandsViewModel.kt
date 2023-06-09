@@ -23,10 +23,10 @@ class BrandsViewModel: ViewModel() {
 
 
                 brandsRepo.getBrands().flowOn(Dispatchers.IO).catch {
-                    brands.emit(BrandApiStatus.Failed(it.localizedMessage))
+                    brands.value =BrandApiStatus.Failed(it.localizedMessage)
 
                 }.collect{
-                    brands.emit(BrandApiStatus.Success(it))
+                    brands.value=BrandApiStatus.Success(it)
                 }
 
 
