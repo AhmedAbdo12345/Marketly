@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.productDetails.Image
 import iti.mad.marketly.data.model.productDetails.ProductDetails
@@ -31,6 +33,7 @@ import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsView
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 import kotlin.math.abs
+import kotlin.properties.Delegates
 
 
 class ProductDetailsFragment : Fragment() {
@@ -42,6 +45,8 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var sliderImages: List<Image>
     private lateinit var reviewsAdapter: ReviewsAdapter
     private val args by navArgs<ProductDetailsFragmentArgs>()
+    private lateinit var productDetails: ProductDetails
+    private var isFavourite: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val bottomNavigationView =
@@ -54,6 +59,10 @@ class ProductDetailsFragment : Fragment() {
                     when (uiState) {
                         is ResponseState.OnSuccess -> {
                             renderDataOnScreen(uiState.response)
+                            productDetails = uiState.response
+                            viewModel.isFavourite(
+                                FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                            )
                         }
 
                         is ResponseState.OnLoading -> {
@@ -62,6 +71,52 @@ class ProductDetailsFragment : Fragment() {
 
                         is ResponseState.OnError -> {
                             //todo
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.addedSuccessfully.collect { uiState ->
+                    when (uiState) {
+                        is ResponseState.OnSuccess -> {
+                            Toast.makeText(requireContext(), uiState.response, Toast.LENGTH_LONG)
+                                .show()
+
+                        }
+
+                        is ResponseState.OnLoading -> {
+                            //todo
+                        }
+
+                        is ResponseState.OnError -> {
+                            //todo
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isFavourite.collect { uiState ->
+                    isFavourite = when (uiState) {
+                        is ResponseState.OnSuccess -> {
+                            if (uiState.response) {
+                                binding.imgViewFavoriteIcon.setImageResource(R.drawable.ic_favorite)
+                            } else {
+                                binding.imgViewFavoriteIcon.setImageResource(R.drawable.ic_fav)
+                            }
+                            uiState.response
+
+                        }
+
+                        is ResponseState.OnLoading -> {
+                            false
+                        }
+
+                        is ResponseState.OnError -> {
+                            false
                         }
                     }
                 }
@@ -81,6 +136,7 @@ class ProductDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getProductDetails(args.productID)
+
         reviewsAdapter = ReviewsAdapter(requireContext())
         val reviewsList = listOf(
             Reviewer(
@@ -119,6 +175,25 @@ class ProductDetailsFragment : Fragment() {
                     reviewsList.toTypedArray()
                 )
             findNavController().navigate(action)
+        }
+        binding.cvFavorite.setOnClickListener {
+            if (isFavourite) {
+                viewModel.deleteProductFromFavourite(
+                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                )
+                viewModel.isFavourite(
+                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                )
+            } else {
+                viewModel.addProductToFavourite(
+                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                )
+                viewModel.isFavourite(
+                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                )
+
+            }
+
         }
     }
 
