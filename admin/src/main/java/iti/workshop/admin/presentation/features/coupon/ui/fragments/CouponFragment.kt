@@ -23,8 +23,6 @@ class CouponFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(inflater,R.layout.coupon_fragment,container,false)
-
-
         binding.tabs.setupWithViewPager(binding.viewpager)
         val adapter = TabsPagerAdapter(requireActivity().supportFragmentManager)
         adapter.addFragment(DiscountCodeFragment(),"Discount Code")

@@ -11,6 +11,4 @@ class ProductsDiffCallback: DiffUtil.ItemCallback<Product>() {
         oldItem.id == newItem.id &&
         oldItem.title == newItem.title
 
-
-
 }
