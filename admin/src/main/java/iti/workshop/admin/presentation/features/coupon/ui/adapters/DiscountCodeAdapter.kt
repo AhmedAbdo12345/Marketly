@@ -17,7 +17,7 @@ class DiscountCodeAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder
-    = MyViewHolder(  LayoutInflater.from(parent.context).inflate(R.layout.coupon_discount_code_fragment, parent, false)  )
+    = MyViewHolder(  LayoutInflater.from(parent.context).inflate(R.layout.coupon_item_discount_code, parent, false)  )
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binder(getItem(position), clickListener)

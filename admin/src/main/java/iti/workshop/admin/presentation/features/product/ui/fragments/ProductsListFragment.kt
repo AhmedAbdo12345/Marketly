@@ -21,6 +21,7 @@ import iti.workshop.admin.presentation.features.product.ui.adapters.ItemOnCLickL
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdapter
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
+import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
 import iti.workshop.admin.presentation.utils.alert
 import kotlinx.coroutines.launch
@@ -167,6 +168,3 @@ class ProductsListFragment : Fragment() {
     }
 }
 
-enum class DataStates{
-    Data,Nothing,Error,Loading
-}

@@ -61,7 +61,7 @@ class HomeFragment : Fragment() {
     private fun navigationSelect() {
         binding.cardsHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_productsListFragment) }
         binding.inventoryHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_inventoryFragment) }
-        binding.couponHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_couponFragment) }
+        binding.couponHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_priceRuleFragment) }
     }
 
 }

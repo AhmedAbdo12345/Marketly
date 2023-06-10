@@ -8,12 +8,8 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="iti.workshop.admin.presentation.features.intro.SplashFragment"
-        android:label="SplashFragment" />
-    <fragment
-        android:id="@+id/couponFragment"
-        android:name="iti.workshop.admin.presentation.features.coupon.ui.fragments.CouponFragment"
-        android:label="fragment_coupon"
-        tools:layout="@layout/coupon_fragment" />
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash"/>
     <fragment
         android:id="@+id/inventoryFragment"
         android:name="iti.workshop.admin.presentation.features.inventory.ui.fragments.InventoryFragment"
@@ -23,7 +19,7 @@
         android:id="@+id/productsListFragment"
         android:name="iti.workshop.admin.presentation.features.product.ui.fragments.ProductsListFragment"
         android:label="fragment_products_list"
-        tools:layout="@layout/products_product_list_fragment" >
+        tools:layout="@layout/product_fragment_list_products" >
         <action
             android:id="@+id/action_productsListFragment_to_addAndEditProductFragment"
             app:destination="@id/addAndEditProductFragment" />
@@ -40,16 +36,17 @@
             android:id="@+id/action_homeFragment_to_productsListFragment"
             app:destination="@id/productsListFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_couponFragment"
-            app:destination="@id/couponFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_priceRuleFragment"
+            app:destination="@id/couponFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAndEditProductFragment"
         android:name="iti.workshop.admin.presentation.features.product.ui.fragments.AddAndEditProductFragment"
-        android:label="AddAndEditProductFragment" >
+        android:label="AddAndEditProductFragment"
+        tools:layout="@layout/product_fragment_edit_and_add">
         <argument
             android:name="product"
             app:argType="iti.workshop.admin.data.dto.Product"
@@ -59,13 +56,33 @@
     <fragment
         android:id="@+id/previewProductFragment"
         android:name="iti.workshop.admin.presentation.features.product.ui.fragments.PreviewProductFragment"
-        android:label="PreviewProductFragment" >
+        android:label="PreviewProductFragment"
+        tools:layout="@layout/product_fragment_preview_product">
         <action
             android:id="@+id/action_previewProductFragment_to_addAndEditProductFragment"
             app:destination="@id/addAndEditProductFragment" />
         <argument
             android:name="product"
             app:argType="iti.workshop.admin.data.dto.Product" />
+    </fragment>
+    <fragment
+        android:id="@+id/discountCodeFragment"
+        android:name="iti.workshop.admin.presentation.features.coupon.ui.fragments.DiscountCodeFragment"
+        android:label="DiscountCodeFragment"
+        tools:layout="@layout/coupon_discount_code_fragment">
+        <argument
+            android:name="priceRuleId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/couponFragment"
+        android:name="iti.workshop.admin.presentation.features.coupon.ui.fragments.PriceRuleFragment"
+        android:label="PriceRuleFragment"
+        tools:layout="@layout/coupon_fragment_price_rule">
+        <action
+            android:id="@+id/action_priceRuleFragment_to_discountCodeFragment"
+            app:destination="@id/discountCodeFragment" />
     </fragment>
 
 </navigation>

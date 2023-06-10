@@ -4,10 +4,10 @@ package iti.workshop.admin.data.dto
 // InventoryItems
 
 data class InventoryItemResponseAndRequest(
-    val inventory_item: iti.workshop.admin.data.dto.InventoryItem?
+    val inventory_item: InventoryItem?
 )
 data class InventoryItemsResponse(
-    val inventory_items: List<iti.workshop.admin.data.dto.InventoryItem?>?
+    val inventory_items: List<InventoryItem?>?
 )
 
 data class InventoryItem(
