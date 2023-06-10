@@ -2,7 +2,7 @@ package iti.workshop.admin.data.dto
 
 // --------- Discount Coupon -------- //
 data class DiscountCodeListResponse(
-    val discount_codes: List<DiscountCode> = emptyList()
+    var discount_codes: List<DiscountCode> = emptyList()
 )
 data class DiscountCodeRequestAndResponse(
     val discount_code: DiscountCode
@@ -18,7 +18,7 @@ data class DiscountCode(
 
 // --------- Price Rule ---------- //
 data class PriceRuleCodeListResponse(
-    val price_rules: List<PriceRule>  = listOf()
+    var price_rules: List<PriceRule>  = listOf()
 )
 
 data class PriceRuleRequestAndResponse(
