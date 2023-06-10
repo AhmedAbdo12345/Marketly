@@ -10,7 +10,7 @@
 
         <variable
             name="clickListener"
-            type="iti.workshop.admin.presentation.features.coupon.ui.adapters.ItemCouponOnCLickListener" />
+            type="iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleOnCLickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
