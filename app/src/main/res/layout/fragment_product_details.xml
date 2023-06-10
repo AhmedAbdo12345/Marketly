@@ -20,6 +20,22 @@
             android:layout_height="match_parent">
 
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="-60dp"
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productImage_ProductDetailsPage"
+                app:tabBackground="@drawable/tab_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp">
+
+
+            </com.google.android.material.tabs.TabLayout>
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/productImage_ProductDetailsPage"
                 android:layout_width="match_parent"
@@ -27,28 +43,11 @@
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
 
 
             </androidx.viewpager2.widget.ViewPager2>
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="-16dp"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/productImage_ProductDetailsPage"
-
-                app:layout_constraintEnd_toEndOf="@+id/productImage_ProductDetailsPage"
-                app:layout_constraintStart_toStartOf="@+id/productImage_ProductDetailsPage"
-                app:tabBackground="@drawable/tab_selector"
-                app:tabGravity="center"
-                app:tabIndicatorHeight="0dp"
-                tools:ignore="SpeakableTextPresentCheck">
-
-
-            </com.google.android.material.tabs.TabLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout6"
@@ -248,7 +247,7 @@
                 android:id="@+id/cardViewIsFavorite"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="-24dp"
+                android:layout_marginTop="-32dp"
                 android:layout_marginEnd="24dp"
                 android:background="@color/textAd"
                 android:elevation="32dp"

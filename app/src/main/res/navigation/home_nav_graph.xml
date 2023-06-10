@@ -34,10 +34,22 @@
         <argument
             android:name="product_ID"
             app:argType="long" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
         android:name="iti.mad.marketly.presentation.category.CategoryFragment"
         android:label="fragment_category"
         tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/reviewsFragment"
+        android:name="iti.mad.marketly.presentation.reviews.ReviewsFragment"
+        android:label="fragment_reviews"
+        tools:layout="@layout/fragment_reviews" >
+        <argument
+            android:name="reviewers"
+            app:argType="iti.mad.marketly.presentation.productdetails.Reviewer[]" />
+    </fragment>
 </navigation>

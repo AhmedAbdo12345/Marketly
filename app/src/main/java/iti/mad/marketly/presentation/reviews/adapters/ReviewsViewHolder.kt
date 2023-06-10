@@ -1,4 +1,4 @@
-package iti.mad.marketly.presentation.productdetails
+package iti.mad.marketly.presentation.reviews.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.databinding.ReviewRowBinding

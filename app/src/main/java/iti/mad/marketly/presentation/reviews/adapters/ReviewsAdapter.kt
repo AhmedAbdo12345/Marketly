@@ -1,4 +1,4 @@
-package iti.mad.marketly.presentation.productdetails
+package iti.mad.marketly.presentation.reviews.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.squareup.picasso.Picasso
 import iti.mad.marketly.databinding.ReviewRowBinding
+import iti.mad.marketly.data.model.Reviewer
 
 class ReviewsAdapter(var context: Context?) :
     ListAdapter<Reviewer, ReviewsViewHolder>(ReviewsDiffUtil()) {

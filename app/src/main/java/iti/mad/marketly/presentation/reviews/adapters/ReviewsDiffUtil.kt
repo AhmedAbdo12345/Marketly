@@ -1,6 +1,7 @@
-package iti.mad.marketly.presentation.productdetails
+package iti.mad.marketly.presentation.reviews.adapters
 
 import androidx.recyclerview.widget.DiffUtil
+import iti.mad.marketly.data.model.Reviewer
 
 
 class ReviewsDiffUtil: DiffUtil.ItemCallback<Reviewer>(){

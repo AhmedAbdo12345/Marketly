@@ -1,7 +1,5 @@
 package iti.mad.marketly.presentation.productdetails.view
 
-import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,19 +11,22 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import iti.mad.marketly.R
 import iti.mad.marketly.data.model.productDetails.Image
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
-import iti.mad.marketly.presentation.productdetails.Reviewer
-import iti.mad.marketly.presentation.productdetails.ReviewsAdapter
+import iti.mad.marketly.data.model.Reviewer
+import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
@@ -43,6 +44,9 @@ class ProductDetailsFragment : Fragment() {
     private val args by navArgs<ProductDetailsFragmentArgs>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val bottomNavigationView =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavView)
+        bottomNavigationView?.visibility = View.GONE
         sliderHandler = Handler(Looper.getMainLooper())
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -55,6 +59,7 @@ class ProductDetailsFragment : Fragment() {
                         is ResponseState.OnLoading -> {
                             //todo
                         }
+
                         is ResponseState.OnError -> {
                             //todo
                         }
@@ -74,32 +79,46 @@ class ProductDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.getProductDetails(args.productID)
         reviewsAdapter = ReviewsAdapter(requireContext())
         val reviewsList = listOf(
             Reviewer(
-                "Emad Nashaat",
+                "Mahmoud Sayed",
                 2.5,
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa69_HGc_i3MXKCPZzCfAjBZC4bXJsn0rS0Ufe6H-ctZz5FbIVaPkd1jCPTpKwPruIT3Q&usqp=CAU",
+                "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
                 "the material wasn't good"
             ),
             Reviewer(
-                "Asmaa Galal",
+                "Ahmed Abdo",
                 3.0,
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5WYwjOWQCZ3g-4zrImh6lIDS7q50T4sE7S-_OeljDtY3M6pqAYqFNpKzi-t33hglOahk&usqp=CAU",
+                "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
                 "good product but the packaging was bad"
             ),
             Reviewer(
-                "Hoda Ahmed",
+                "Mohamed Arfa",
+                3.25,
+                "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
+                "the material wasn't good"
+            ),
+            Reviewer(
+                "Hussien Ahmed",
                 4.0,
                 "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
                 "Very good quality like the description"
             ),
         )
-        reviewsAdapter.submitList(reviewsList)
+        reviewsAdapter.submitList(reviewsList.take(3))
         binding.reviewsRecycler.apply {
             adapter = reviewsAdapter
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        }
+        binding.btnReviewsMore.setOnClickListener {
+            val action =
+                ProductDetailsFragmentDirections.actionProductDetailsFragmentToReviewsFragment(
+                    reviewsList.toTypedArray()
+                )
+            findNavController().navigate(action)
         }
     }
 
@@ -121,45 +140,42 @@ class ProductDetailsFragment : Fragment() {
         sliderHandler.postDelayed(sliderRunnable, 3000)
     }
 
-    private fun handleUIViewPager(images: List<Image>) {
-        sliderImages = images
-        binding.productImageProductDetailsPage.adapter = ImagesAdapter(images)
-        binding.productImageProductDetailsPage.clipToPadding = false
-        binding.productImageProductDetailsPage.clipChildren = false
-        binding.productImageProductDetailsPage.offscreenPageLimit = 3
-        binding.productImageProductDetailsPage.getChildAt(0).overScrollMode =
-            RecyclerView.OVER_SCROLL_NEVER
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer(40))
-        compositePageTransformer.addTransformer { page, position ->
-            val r = 1 - abs(position)
-            page.scaleY = 0.85f + r * 0.15f
-        }
-
-        binding.productImageProductDetailsPage.setPageTransformer(compositePageTransformer)
-        binding.productImageProductDetailsPage.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                sliderHandler.removeCallbacks(sliderRunnable)
-                sliderHandler.postDelayed(sliderRunnable, 3000)
-            }
-        })
-
-        TabLayoutMediator(
-            binding.tabLayout, binding.productImageProductDetailsPage
-        ) { tab: TabLayout.Tab?, position: Int -> }.attach()
-    }
 
     private fun renderDataOnScreen(it: ProductDetails) {
         if (it.product?.images != null) {
-            handleUIViewPager(it.product.images)
+            sliderImages = it.product.images
+            binding.productImageProductDetailsPage.adapter = ImagesAdapter(it.product.images)
+            binding.productImageProductDetailsPage.clipToPadding = false
+            binding.productImageProductDetailsPage.clipChildren = false
+            binding.productImageProductDetailsPage.offscreenPageLimit = 3
+            binding.productImageProductDetailsPage.getChildAt(0).overScrollMode =
+                RecyclerView.OVER_SCROLL_NEVER
+            val compositePageTransformer = CompositePageTransformer()
+            compositePageTransformer.addTransformer(MarginPageTransformer(40))
+            compositePageTransformer.addTransformer { page, position ->
+                val r = 1 - abs(position)
+                page.scaleY = 0.85f + r * 0.15f
+            }
+
+            binding.productImageProductDetailsPage.setPageTransformer(compositePageTransformer)
+            binding.productImageProductDetailsPage.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    sliderHandler.removeCallbacks(sliderRunnable)
+                    sliderHandler.postDelayed(sliderRunnable, 3000)
+                }
+            })
+
+            TabLayoutMediator(
+                binding.tabLayout, binding.productImageProductDetailsPage
+            ) { tab: TabLayout.Tab?, position: Int -> }.attach()
             val words = it.product.title?.lowercase()?.split(" ")
             var productName = ""
             words?.forEach { word ->
                 productName += word.replaceFirstChar { it.uppercase() } + " "
             }
-            binding.productNameProductDetailsPage.text = it.product.title?.trim()
+            binding.productNameProductDetailsPage.text = productName.trim()
             binding.productPriceProductDetailsPage.text = it.product.variants?.get(0)?.price ?: ""
             binding.productDesProductDetailsPage.text = it.product.body_html
 
