@@ -13,7 +13,7 @@
         android:id="@+id/couponFragment"
         android:name="iti.workshop.admin.presentation.features.coupon.ui.fragments.CouponFragment"
         android:label="fragment_coupon"
-        tools:layout="@layout/fragment_coupon" />
+        tools:layout="@layout/coupon_fragment" />
     <fragment
         android:id="@+id/inventoryFragment"
         android:name="iti.workshop.admin.presentation.features.inventory.ui.fragments.InventoryFragment"
