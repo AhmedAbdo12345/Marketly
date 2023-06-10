@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="iti.mad.marketly.presentation.view.HomeFragment"
+        android:name="iti.mad.marketly.presentation.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,11 +16,16 @@
     </fragment>
     <fragment
         android:id="@+id/brandProductFragment"
-        android:name="iti.mad.marketly.presentation.view.BrandProductFragment"
+        android:name="iti.mad.marketly.presentation.brandProduct.BrandProductFragment"
         android:label="fragment_brand_product"
         tools:layout="@layout/fragment_brand_product" >
         <argument
             android:name="smartCollection"
             app:argType="iti.mad.marketly.data.model.brands.SmartCollection" />
     </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="iti.mad.marketly.presentation.category.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
 </navigation>

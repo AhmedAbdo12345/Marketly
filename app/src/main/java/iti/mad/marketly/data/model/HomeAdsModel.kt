@@ -1,3 +1,5 @@
 package iti.mad.marketly.data.model
 
-data class HomeAdsModel (val img : Int)
+import iti.mad.marketly.data.model.discount.DiscountCode
+
+data class HomeAdsModel (val img:String,val discountCode: String)
