@@ -49,7 +49,7 @@ class PriceRuleFragment : Fragment() {
 
     private fun addPriceRuleAction() {
         binding.floatingActionButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Add Item", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_couponFragment_to_addPriceRuleDialog)
         }
     }
 
@@ -102,25 +102,25 @@ class PriceRuleFragment : Fragment() {
         when(dataStates){
             DataStates.Data -> {
                 binding.shimmerResults.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
+                binding.recyclerViewHolder.visibility = View.VISIBLE
                 binding.nothingDataResponse.visibility = View.GONE
                 binding.errorDataResponse.visibility = View.GONE
             }
             DataStates.Nothing -> {
                 binding.shimmerResults.visibility = View.GONE
-                binding.recyclerView.visibility = View.GONE
+                binding.recyclerViewHolder.visibility = View.GONE
                 binding.nothingDataResponse.visibility = View.VISIBLE
                 binding.errorDataResponse.visibility = View.GONE
             }
             DataStates.Error -> {
                 binding.shimmerResults.visibility = View.GONE
-                binding.recyclerView.visibility = View.GONE
+                binding.recyclerViewHolder.visibility = View.GONE
                 binding.nothingDataResponse.visibility = View.GONE
                 binding.errorDataResponse.visibility = View.VISIBLE
             }
             DataStates.Loading ->{
                 binding.shimmerResults.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
+                binding.recyclerViewHolder.visibility = View.GONE
                 binding.nothingDataResponse.visibility = View.GONE
                 binding.errorDataResponse.visibility = View.GONE
             }

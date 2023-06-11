@@ -3,13 +3,13 @@ package iti.workshop.admin.data.dto
 import java.io.Serializable
 
 data class SuccessProductResponse(
-    val products: List<iti.workshop.admin.data.dto.Product>?=null
+    val products: List<Product>?=null
 )
 data class UpdateProduct(
-    val product: iti.workshop.admin.data.dto.Product
+    val product: Product
 )
 data class PostProduct(
-    val product: iti.workshop.admin.data.dto.Product
+    val product: Product
 )
 
 data class Product(
@@ -20,7 +20,7 @@ data class Product(
 
     var admin_graphql_api_id: String?=null,
     var handle: String?=null,
-    var image: iti.workshop.admin.data.dto.AddImage?=null,
+    var image: AddImage?=null,
 
     var product_type: String?=null,
     var published_scope: String?=null,
@@ -32,11 +32,11 @@ data class Product(
     var created_at: String?=null,
     var updated_at: String?=null,
 
-    var images: List<iti.workshop.admin.data.dto.Image>?=null,
-    var variants: List<iti.workshop.admin.data.dto.Variant>?=null,
-    var options: List<iti.workshop.admin.data.dto.Option>?=null,
+    var images: List<Image>?=null,
+    var variants: List<Variant>?=null,
+    var options: List<Option>?=null,
 
-    var metafields: List<iti.workshop.admin.data.dto.Metafield> = listOf(iti.workshop.admin.data.dto.Metafield()),
+    var metafields: List<Metafield> = listOf(Metafield()),
 
     ): Serializable
 

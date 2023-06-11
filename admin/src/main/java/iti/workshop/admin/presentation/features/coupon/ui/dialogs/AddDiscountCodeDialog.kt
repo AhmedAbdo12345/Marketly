@@ -1,0 +1,31 @@
+package iti.workshop.admin.presentation.features.coupon.ui.dialogs
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import iti.workshop.admin.R
+import iti.workshop.admin.databinding.CouponAddDiscountCodeDialogBinding
+
+class AddDiscountCodeDialog : DialogFragment() {
+
+    lateinit var binding: CouponAddDiscountCodeDialogBinding
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.coupon_add_discount_code_dialog,
+            container,
+            false
+        )
+
+        return binding.root
+    }
+}
