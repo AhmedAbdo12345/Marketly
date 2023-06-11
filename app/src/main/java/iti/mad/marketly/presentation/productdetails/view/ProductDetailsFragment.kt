@@ -114,11 +114,11 @@ class ProductDetailsFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         }
         binding.btnReviewsMore.setOnClickListener {
-            val action =
+        /*    val action =
                 ProductDetailsFragmentDirections.actionProductDetailsFragmentToReviewsFragment(
                     reviewsList.toTypedArray()
                 )
-            findNavController().navigate(action)
+            findNavController().navigate(action)*/
         }
     }
 
