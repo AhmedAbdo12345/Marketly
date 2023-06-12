@@ -1,5 +1,7 @@
 package iti.mad.marketly.data.model.product
 
+import java.io.Serializable
+
 data class Product(
     val admin_graphql_api_id: String,
     val body_html: String,

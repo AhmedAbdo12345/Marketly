@@ -6,7 +6,7 @@
     <data>
         <variable
             name="productModel"
-            type="iti.mad.marketly.data.model.brandproduct.Product" />
+            type="iti.mad.marketly.data.model.product.Product" />
         <variable
             name="action"
             type="iti.mad.marketly.presentation.brandProduct.BrandProductAdapter.ListItemClickListener" />

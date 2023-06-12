@@ -9,6 +9,8 @@ import iti.mad.marketly.data.repository.category.CategoryRepoImpl
 import iti.mad.marketly.data.repository.categoryProduct.CategoryProductRepo
 import iti.mad.marketly.data.repository.categoryProduct.CategoryProductRepoImpl
 import iti.mad.marketly.data.repository.authRepository.IAuthRepository
+import iti.mad.marketly.data.repository.productRepository.ProductRepo
+import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepository
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepositoryImpl
 import iti.mad.marketly.data.source.remote.RemoteDataSource
@@ -21,6 +23,7 @@ object AppDependencies {
     lateinit var categoryRepo: CategoryRepo
     lateinit var categoryProductRepo: CategoryProductRepo
     lateinit var brandsRepo: BrandsRepo
+    lateinit var productRepo: ProductRepo
     fun initialization() {
         val api = RetrofitInstance.api
         val remote = RemoteDataSource(api)
@@ -29,5 +32,6 @@ object AppDependencies {
         categoryRepo = CategoryRepoImpl(api)
         categoryProductRepo = CategoryProductRepoImpl(api)
         brandsRepo = BrandsRepoImpl(api)
+        productRepo= ProductRepoImpl(api)
     }
 }

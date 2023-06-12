@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.data.model.category.CustomCollection
-import iti.mad.marketly.data.model.categoryProduct.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.FragmentCategoryBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
@@ -91,7 +91,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 val categoryObj = tab.tag as CustomCollection
 
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModelCategoryProduct.getAllCategoryProduct(categoryObj.id)
+                    viewModelCategoryProduct.getAllCategoryProduct((categoryObj.id).toString())
                     viewModelCategoryProduct._categoryProduct.collect {
                         when (it) {
                             is ResponseState.OnSuccess -> {

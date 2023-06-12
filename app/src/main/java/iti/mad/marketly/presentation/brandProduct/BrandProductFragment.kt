@@ -15,8 +15,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.utils.ResponseState
-import iti.mad.marketly.data.model.brandproduct.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.repository.brandproduct.BrandProductRepoImp
+import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
 import kotlinx.coroutines.launch
@@ -50,8 +51,8 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
 
         var api = RetrofitInstance.api
-        var repo = BrandProductRepoImp(api, (smartCollection.id).toString())
-        brandProductViewModel.getAllBrandProduct(repo)
+        var repo = ProductRepoImpl(api)
+        brandProductViewModel.getAllBrandProduct(repo, (smartCollection.id).toString())
         viewLifecycleOwner.lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 brandProductViewModel._brandProduct.collect{
@@ -93,6 +94,8 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
             )
         findNavController().navigate(action)
     }
+
+
 
 
 }

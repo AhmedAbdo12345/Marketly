@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import iti.mad.marketly.data.model.categoryProduct.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.RvOrderBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductDiffUtils
 

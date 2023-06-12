@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import iti.mad.marketly.data.model.brandproduct.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.RvBrandProductBinding
 
 class BrandProductAdapter (var mClickListener: ListItemClickListener) : ListAdapter<Product, BrandProductAdapter.BrandProductViewHolder>(
@@ -34,6 +34,7 @@ class BrandProductAdapter (var mClickListener: ListItemClickListener) : ListAdap
 
         holder.binding.tvBrandProductName.text= getItem(position).vendor
         holder.binding.tvProductName.text=getItem(position).title
+        holder.binding.tvProductPrice.text= getItem(position).variants[0].price
 
         holder.binding.productModel = getItem(position)
         holder.binding.action= mClickListener

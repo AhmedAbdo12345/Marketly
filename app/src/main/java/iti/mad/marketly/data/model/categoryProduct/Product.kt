@@ -1,6 +1,6 @@
 package iti.mad.marketly.data.model.categoryProduct
 
-data class Product(
+/*data class Product(
     val admin_graphql_api_id: String,
     val body_html: String,
     val created_at: String,
@@ -18,4 +18,4 @@ data class Product(
     val title: String,
     val updated_at: String,
     val vendor: String
-)
+)*/
