@@ -24,10 +24,10 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
-import iti.mad.marketly.data.model.productDetails.Image
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
 import iti.mad.marketly.data.model.Reviewer
+import iti.mad.marketly.data.model.brandproduct.Image
 import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 import iti.mad.marketly.utils.ResponseState
@@ -218,8 +218,8 @@ class ProductDetailsFragment : Fragment() {
 
     private fun renderDataOnScreen(it: ProductDetails) {
         if (it.product?.images != null) {
-            sliderImages = it.product.images
-            binding.productImageProductDetailsPage.adapter = ImagesAdapter(it.product.images)
+            sliderImages = it.product.images!!
+            binding.productImageProductDetailsPage.adapter = ImagesAdapter(it.product.images!!)
             binding.productImageProductDetailsPage.clipToPadding = false
             binding.productImageProductDetailsPage.clipChildren = false
             binding.productImageProductDetailsPage.offscreenPageLimit = 3

@@ -1,9 +1,9 @@
 package iti.mad.marketly.data.model.productDetails
 
 data class Option(
-    val id: Long?,
-    val name: String?,
-    val position: Int?,
-    val product_id: Long?,
-    val values: List<String?>?
+    val id: Long?=null,
+    val name: String?=null,
+    val position: Int?=null,
+    val product_id: Long?=null,
+    val values: List<String?>?=null
 )

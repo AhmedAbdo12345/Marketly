@@ -1,5 +1,6 @@
 package iti.mad.marketly.data.source.remote
 
+import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -12,7 +13,6 @@ import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.utils.Constants.FAVOURITE
 import iti.mad.marketly.utils.Constants.USERS
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
@@ -49,9 +49,15 @@ class RemoteDataSource(
         val q = Firebase.firestore.collection(USERS).document(userID).collection(FAVOURITE).get()
             .await()
         val products = mutableListOf<Product>()
+        Log.i("ppp",q.documents.get(0).data?.entries.toString())
         for (product in q.documents) {
+            Log.i("ppp", product.toObject<Product>()?.body_html!!)
+           Log.i("ppp",product.id)
             products.add(product.toObject<Product>()!!)
+
         }
+        print(products)
+
         emit(FavouriteResponse(products))
     }
 

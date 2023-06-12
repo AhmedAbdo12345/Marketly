@@ -1,21 +1,45 @@
 package iti.mad.marketly.data.model.brandproduct
 
 data class Product(
-    val admin_graphql_api_id: String,
-    val body_html: String,
-    val created_at: String,
-    val handle: String,
-    val id: Long,
-    val image: Image,
-    val images: List<Image>,
-    val options: List<Option>,
-    val product_type: String,
-    val published_at: String,
-    val published_scope: String,
-    val status: String,
-    val tags: String,
-    val template_suffix: Any,
-    val title: String,
-    val updated_at: String,
-    val vendor: String
+    var admin_graphql_api_id: String,
+    var body_html: String,
+    var created_at: String,
+    var handle: String,
+    var id: Long,
+    var image: Image,
+    var images: List<Image>,
+    var options: List<Option>,
+    var product_type: String,
+    var published_at: String,
+    var published_scope: String,
+    var status: String,
+    var tags: String,
+    var template_suffix: Any,
+    var title: String,
+    var updated_at: String,
+    var vendor: String,
+    var isFavourite: Boolean? = false
+
 )
+
+fun Product.toProductDetails(): iti.mad.marketly.data.model.productDetails.Product {
+    return iti.mad.marketly.data.model.productDetails.Product(
+        this.admin_graphql_api_id,
+        this.body_html,
+        this.created_at,
+        this.handle,
+        this.id,
+        this.image,
+        this.images,
+        this.options,
+        this.product_type,
+        this.published_at,
+        this.published_scope,
+        this.status,
+        this.tags,
+        this.template_suffix,
+        this.title,
+        this.updated_at,
+        null,this.vendor
+    )
+}

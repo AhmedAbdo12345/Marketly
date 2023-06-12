@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
@@ -17,6 +18,7 @@ import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.categoryProduct.Product
 import iti.mad.marketly.databinding.FragmentCategoryBinding
+import iti.mad.marketly.presentation.brandProduct.BrandProductFragmentDirections
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
 import kotlinx.coroutines.launch
@@ -31,15 +33,13 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
         viewModel =
             ViewModelProvider(this, CategoryViewModel.Factory).get(CategoryViewModel::class.java)
         viewModelCategoryProduct = ViewModelProvider(
-            this,
-            CategoryProductViewModel.Factory
+            this, CategoryProductViewModel.Factory
         ).get(CategoryProductViewModel::class.java)
 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCategoryBinding.inflate(layoutInflater, container, false)
@@ -59,7 +59,9 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
 
 
     override fun onClickCategoryProduct(product: Product) {
-        TODO("Not yet implemented")
+        val action =
+            CategoryFragmentDirections.actionCategoryFragmentToProductDetailsFragment(product.id)
+        findNavController().navigate(action)
     }
 
     fun getCategory() {
@@ -85,6 +87,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
             }
         }
     }
+
     fun getProductListForEachTab() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
