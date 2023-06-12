@@ -11,10 +11,9 @@ class ImplCouponRepository(private val _api:CouponAPICalls):ICouponRepository {
     = _api.discountCodeCallApi.getDiscounts(price_rule_id)
 
     override suspend fun addDiscount(
-        price_rule_id: Long,
         data: DiscountCodeRequestAndResponse
     ): Response<DiscountCodeRequestAndResponse>
-    = _api.discountCodeCallApi.addDiscount(price_rule_id,data)
+    = _api.discountCodeCallApi.addDiscount(data.discount_code.price_rule_id,data)
 
     override suspend fun updateDiscount(
         price_rule_id: Long,
@@ -32,10 +31,9 @@ class ImplCouponRepository(private val _api:CouponAPICalls):ICouponRepository {
      = _api.priceRuleCallApi.getPriceRules()
 
     override suspend fun addPriceRule(
-        price_rule_id: Long,
-        data: DiscountCodeRequestAndResponse
-    ): Response<DiscountCodeRequestAndResponse>
-     = _api.priceRuleCallApi.addPriceRule(price_rule_id,data)
+        data: PriceRuleRequestAndResponse
+    ): Response<PriceRuleRequestAndResponse>
+     = _api.priceRuleCallApi.addPriceRule(data)
 
     override suspend fun updatePriceRule(
         price_rule_id: Long,

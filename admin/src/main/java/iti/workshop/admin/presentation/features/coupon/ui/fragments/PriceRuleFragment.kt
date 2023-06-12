@@ -17,10 +17,13 @@ import iti.workshop.admin.databinding.CouponFragmentPriceRuleBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleAdapter
 import iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleOnCLickListener
+import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddDiscountCodeDialog
+import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddPriceRuleDialog
 import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.alert
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -49,13 +52,15 @@ class PriceRuleFragment : Fragment() {
 
     private fun addPriceRuleAction() {
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_couponFragment_to_addPriceRuleDialog)
+            val dialogFragment = AddPriceRuleDialog(viewModel)
+            dialogFragment.show(requireActivity().supportFragmentManager, "AddPriceRuleDialog")
         }
     }
 
     private fun deleteItem(priceRule: PriceRule) {
-
-
+        requireContext().alert("Delete Action","Do you want delete ${priceRule.title} ? \n Are you sure?",{
+            viewModel.deletePriceRule(priceRule) },{}
+        )
     }
 
     private fun selectItem(priceRule: PriceRule) {
@@ -65,6 +70,19 @@ class PriceRuleFragment : Fragment() {
     }
 
     private fun updateUISate() {
+        lifecycleScope.launch {
+            viewModel.priceRuleActionResponse.collect{ state ->
+                state.first?.let {
+                    Message.snakeMessage(
+                        requireContext(),
+                        binding.root,
+                        state.second,
+                        it
+                    )?.show()
+                }
+            }
+        }
+
         lifecycleScope.launch {
             viewModel.priceRuleResponse.collect{state->
                 when(state){

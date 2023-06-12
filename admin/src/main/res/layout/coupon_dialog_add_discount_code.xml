@@ -5,7 +5,7 @@
 
     <data>
 
-    </data>
+     </data>
 
 
     <androidx.cardview.widget.CardView
@@ -25,7 +25,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_price_rule"
+                android:src="@drawable/ic_dicount_code"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintEnd_toStartOf="@+id/textView5"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -38,10 +38,10 @@
                 android:id="@+id/textView5"
                 style="@style/main_title"
                 app:layout_constraintHorizontal_weight="1"
-                android:layout_width="0dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Add Price Rule"
+                android:text="Add Discount Code"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -56,9 +56,9 @@
                 android:layout_height="wrap_content"
 
                 android:layout_margin="10dp"
-                android:hint="Value"
+                android:hint="Count"
                 app:counterEnabled="true"
-                app:counterMaxLength="5"
+                app:counterMaxLength="2"
                 app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -68,7 +68,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/value_input"
-
                     android:layout_width="match_parent"
 
                     android:layout_height="match_parent"
@@ -83,7 +82,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="Title"
+                android:hint="Code"
                 app:counterEnabled="true"
                 app:counterMaxLength="50"
                 app:errorEnabled="true"
@@ -96,7 +95,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title_input"
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_baseline_add_24"
@@ -104,51 +102,19 @@
                     app:endIconMode="clear_text" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/dateFromInput"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="Date From"
-                android:drawableStart="@drawable/ic_date"
-                app:layout_constraintEnd_toStartOf="@+id/dateToInput"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_weight="5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/dateToInput"
-                android:layout_width="150dp"
-
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="Date To"
-                android:drawableStart="@drawable/ic_date"
-
-                app:layout_constraintBottom_toBottomOf="@+id/dateFromInput"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_weight="5"
-                app:layout_constraintStart_toEndOf="@+id/dateFromInput"
-                app:layout_constraintTop_toTopOf="@+id/dateFromInput"
-            />
-
             <Button
-                android:gravity="center"
-                android:layout_marginTop="30dp"
                 android:id="@+id/addAction"
-                android:layout_width="0dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="79dp"
                 android:background="@drawable/btn_bg"
-                android:text="Save Price Rule"
+                android:text="Save Discount Code"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateFromInput" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                app:layout_constraintVertical_bias="0.23000002" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

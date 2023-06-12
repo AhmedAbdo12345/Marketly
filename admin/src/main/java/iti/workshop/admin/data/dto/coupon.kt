@@ -9,9 +9,9 @@ data class DiscountCodeRequestAndResponse(
 )
 data class DiscountCode(
     val id: Long = -1,
-    val code: String,
-    val price_rule_id: Long?=null,
-    val usage_count: Int?=null,
+    var code: String,
+    val price_rule_id: Long=-1,
+    var usage_count: Int?=null,
     val updated_at: String?=null,
     val created_at: String?=null
     )

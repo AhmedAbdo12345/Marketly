@@ -5,10 +5,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import iti.workshop.admin.data.dto.DiscountCode
 import iti.workshop.admin.data.dto.DiscountCodeListResponse
+import iti.workshop.admin.data.dto.DiscountCodeRequestAndResponse
 import iti.workshop.admin.data.dto.PriceRule
 import iti.workshop.admin.data.dto.PriceRuleCodeListResponse
+import iti.workshop.admin.data.dto.PriceRuleRequestAndResponse
 import iti.workshop.admin.data.repository.ICouponRepository
-import iti.workshop.admin.presentation.features.product.models.ProductUIModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.handleDate
 import kotlinx.coroutines.async
@@ -30,6 +31,17 @@ class CouponViewModel @Inject constructor(
 
     private val _priceRuleResponse = MutableStateFlow<DataListResponseState<PriceRuleCodeListResponse>>(DataListResponseState.OnLoading())
     val priceRuleResponse:StateFlow<DataListResponseState<PriceRuleCodeListResponse>> get() = _priceRuleResponse
+
+
+    private val _priceRuleActionResponse = MutableStateFlow<Pair<Boolean?,String?>>(Pair(null,null))
+    val priceRuleActionResponse:StateFlow<Pair<Boolean?,String?>> get() = _priceRuleActionResponse
+
+
+    private val _discountCodeActionResponse = MutableStateFlow<Pair<Boolean?,String?>>(Pair(null,null))
+    val discountCodeActionResponse:StateFlow<Pair<Boolean?,String?>> get() = _discountCodeActionResponse
+
+
+
 
 
     fun retrievePriceRules(){
@@ -74,4 +86,62 @@ class CouponViewModel @Inject constructor(
             }
         }
     }
+
+    fun savePriceRule(model: PriceRule) {
+        viewModelScope.launch {
+            val response = async { _repo.addPriceRule(PriceRuleRequestAndResponse(price_rule = model)) }
+            if (response.await().isSuccessful){
+                _priceRuleActionResponse.value = Pair(true,"price rule added successfully")
+                retrievePriceRules()
+            }else{
+                _priceRuleActionResponse.value = Pair(false,response.await().errorBody()?.string())
+            }
+        }
+    }
+
+
+
+    fun saveDiscountCode(model: DiscountCode) {
+
+        viewModelScope.launch {
+            val response = async { _repo.addDiscount(DiscountCodeRequestAndResponse(discount_code = model)) }
+            if (response.await().isSuccessful){
+                _discountCodeActionResponse.value = Pair(true,"price rule added successfully")
+                retrieveDiscountRules(model.price_rule_id)
+            }else{
+                _discountCodeActionResponse.value = Pair(false,response.await().errorBody()?.string())
+
+            }
+        }
+    }
+
+    fun deleteDiscountCode(model: DiscountCode) {
+        viewModelScope.launch {
+            val response = async { _repo.deleteDiscount(model.id) }
+            if (response.await().isSuccessful){
+                _discountCodeActionResponse.value = Pair(true,"discount code deleted successfully")
+                retrieveDiscountRules(model.price_rule_id)
+            }else{
+                _discountCodeActionResponse.value = Pair(false,response.await().errorBody()?.string())
+            }
+        }
+    }
+
+
+    fun deletePriceRule(model: PriceRule) {
+        viewModelScope.launch {
+            val response = async { _repo.deletePriceRule(model.id) }
+            if (response.await().isSuccessful){
+                _discountCodeActionResponse.value = Pair(true,"price rule deleted successfully")
+                retrievePriceRules()
+            }else{
+                _discountCodeActionResponse.value = Pair(false,response.await().errorBody()?.string())
+            }
+        }
+    }
+
+
+
+
+
 }

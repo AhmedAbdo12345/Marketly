@@ -18,18 +18,22 @@ import iti.workshop.admin.databinding.CouponDiscountCodeFragmentBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.coupon.ui.adapters.DiscountCodeAdapter
 import iti.workshop.admin.presentation.features.coupon.ui.adapters.DiscountCodeOnCLickListener
+import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddDiscountCodeDialog
 import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.alert
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DiscountCodeFragment : Fragment() {
 
-    val viewModel:CouponViewModel by viewModels()
+    val viewModel: CouponViewModel by viewModels()
     lateinit var binding: CouponDiscountCodeFragmentBinding
-    lateinit var adapter:DiscountCodeAdapter
+    lateinit var adapter: DiscountCodeAdapter
+    private var priceRuleId = -1L
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,41 +42,74 @@ class DiscountCodeFragment : Fragment() {
     ): View {
 
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.coupon_discount_code_fragment, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.coupon_discount_code_fragment,
+                container,
+                false
+            )
         binding.lifecycleOwner = this
-        adapter = DiscountCodeAdapter(DiscountCodeOnCLickListener(::selectItem,::deleteItem))
+        adapter = DiscountCodeAdapter(DiscountCodeOnCLickListener(::selectItem, ::deleteItem))
         binding.mAdapter = adapter
 
-        updateDiscountList()
-        updateUISate()
+
         addPriceRuleAction()
         return binding.root
     }
 
-    private fun deleteItem(discountCode: DiscountCode) {
+    override fun onResume() {
+        super.onResume()
+        updateDiscountList()
+        updateUISate()
     }
+    private fun deleteItem(discountCode: DiscountCode) {
+        requireContext().alert("Delete Action","Do you want delete ${discountCode.code} ? \n Are you sure?",{
+            viewModel.deleteDiscountCode(discountCode)
+        },{
+
+        })
+    }
+
     private fun selectItem(discountCode: DiscountCode) {
     }
+
     private fun updateDiscountList() {
         val bundle = arguments
         if (bundle != null) {
-            val priceRuleId = bundle.getLong(ConstantsKeys.PRICE_RULE_ID_KEY)
-            if (priceRuleId == -1L){
+            priceRuleId = bundle.getLong(ConstantsKeys.PRICE_RULE_ID_KEY)
+            if (priceRuleId == -1L) {
                 dataViewStates(DataStates.Nothing)
-            }else{
+            } else {
                 viewModel.retrieveDiscountRules(priceRuleId)
             }
         }
     }
+
     private fun addPriceRuleAction() {
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_discountCodeFragment_to_addDiscountCodeDialog)
+            val dialogFragment = AddDiscountCodeDialog(viewModel, priceRuleId)
+            dialogFragment.show(requireActivity().supportFragmentManager, "AddDiscountCodeDialog")
         }
     }
+
     private fun updateUISate() {
         lifecycleScope.launch {
-            viewModel.discountCodeResponse.collect{state->
-                when(state){
+            viewModel.discountCodeActionResponse.collect{ state ->
+                state.first?.let {
+
+                    Message.snakeMessage(
+                        requireContext(),
+                        binding.root,
+                        state.second,
+                        it
+                    )?.show()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.discountCodeResponse.collect { state ->
+                when (state) {
                     is DataListResponseState.OnError -> {
                         dataViewStates(DataStates.Error)
                         state.message.let { message ->
@@ -84,12 +121,15 @@ class DiscountCodeFragment : Fragment() {
                             )?.show()
                         }
                     }
+
                     is DataListResponseState.OnLoading -> {
                         dataViewStates(DataStates.Loading)
                     }
+
                     is DataListResponseState.OnNothingData -> {
                         dataViewStates(DataStates.Nothing)
                     }
+
                     is DataListResponseState.OnSuccess -> {
                         dataViewStates(DataStates.Data)
                         adapter.submitList(state.data.discount_codes)
@@ -100,27 +140,31 @@ class DiscountCodeFragment : Fragment() {
         }
 
     }
+
     private fun dataViewStates(dataStates: DataStates) {
-        when(dataStates){
+        when (dataStates) {
             DataStates.Data -> {
                 binding.shimmerResults.visibility = View.GONE
                 binding.recyclerViewHolder.visibility = View.VISIBLE
                 binding.nothingDataResponse.visibility = View.GONE
                 binding.errorDataResponse.visibility = View.GONE
             }
+
             DataStates.Nothing -> {
                 binding.shimmerResults.visibility = View.GONE
                 binding.recyclerViewHolder.visibility = View.GONE
                 binding.nothingDataResponse.visibility = View.VISIBLE
                 binding.errorDataResponse.visibility = View.GONE
             }
+
             DataStates.Error -> {
                 binding.shimmerResults.visibility = View.GONE
                 binding.recyclerViewHolder.visibility = View.GONE
                 binding.nothingDataResponse.visibility = View.GONE
                 binding.errorDataResponse.visibility = View.VISIBLE
             }
-            DataStates.Loading ->{
+
+            DataStates.Loading -> {
                 binding.shimmerResults.visibility = View.VISIBLE
                 binding.recyclerViewHolder.visibility = View.GONE
                 binding.nothingDataResponse.visibility = View.GONE

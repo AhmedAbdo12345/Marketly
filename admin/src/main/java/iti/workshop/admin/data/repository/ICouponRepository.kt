@@ -13,7 +13,6 @@ interface ICouponRepository {
     ): Response<DiscountCodeListResponse>
 
     suspend fun addDiscount(
-        price_rule_id: Long,
         data: DiscountCodeRequestAndResponse
     ): Response<DiscountCodeRequestAndResponse>
 
@@ -33,9 +32,8 @@ interface ICouponRepository {
     suspend fun getPriceRules(): Response<PriceRuleCodeListResponse>
 
     suspend fun addPriceRule(
-        price_rule_id: Long,
-        data: DiscountCodeRequestAndResponse
-    ): Response<DiscountCodeRequestAndResponse>
+        data: PriceRuleRequestAndResponse
+    ): Response<PriceRuleRequestAndResponse>
 
     suspend fun updatePriceRule(
         price_rule_id: Long,

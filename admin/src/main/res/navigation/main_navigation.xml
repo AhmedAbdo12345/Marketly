@@ -82,9 +82,6 @@
             android:name="priceRuleId"
             app:argType="long"
             android:defaultValue="-1L" />
-        <action
-            android:id="@+id/action_discountCodeFragment_to_addDiscountCodeDialog"
-            app:destination="@id/addDiscountCodeDialog" />
     </fragment>
     <fragment
         android:id="@+id/couponFragment"
@@ -94,19 +91,6 @@
         <action
             android:id="@+id/action_priceRuleFragment_to_discountCodeFragment"
             app:destination="@id/discountCodeFragment" />
-        <action
-            android:id="@+id/action_couponFragment_to_addPriceRuleDialog"
-            app:destination="@id/addPriceRuleDialog" />
     </fragment>
-    <dialog
-        tools:layout="@layout/coupon_add_discount_code_dialog"
-        android:id="@+id/addDiscountCodeDialog"
-        android:name="iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddDiscountCodeDialog"
-        android:label="AddDiscountCodeDialog" />
-    <dialog
-        tools:layout="@layout/coupon_dialog_add_price_rule"
-        android:id="@+id/addPriceRuleDialog"
-        android:name="iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddPriceRuleDialog"
-        android:label="AddPriceRuleDialog" />
 
 </navigation>
