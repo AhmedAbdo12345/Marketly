@@ -46,12 +46,11 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         super.onViewCreated(view, savedInstanceState)
 
         var smartCollection =
-            BrandProductFragmentArgs.fromBundle(requireArguments()).smartCollection
-
+            BrandProductFragmentArgs.fromBundle(requireArguments()).brandID
 
         var api = RetrofitInstance.api
         var repo = ProductRepoImpl(api)
-        brandProductViewModel.getAllBrandProduct(repo, (smartCollection.id).toString())
+        brandProductViewModel.getAllBrandProduct(repo, smartCollection.toString())
         viewLifecycleOwner.lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 brandProductViewModel._brandProduct.collect{
