@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.data.model.product.ProductResponse
-import iti.mad.marketly.data.repository.brandproduct.BrandProductRepo
 import iti.mad.marketly.data.repository.productRepository.ProductRepo
 
 import kotlinx.coroutines.Dispatchers

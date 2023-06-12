@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.repository.brandproduct.BrandProductRepoImp
 import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
