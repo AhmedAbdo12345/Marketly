@@ -34,6 +34,7 @@ class CategoryProductAdapter (var mClickListener: ListItemClickListener) : ListA
             Picasso.get().load(getItem(position).image?.src).into(binding.imgvCategoryProduct)
         }
         holder.binding.tvCategoryProductName.text= getItem(position).title
+        holder.binding.tvCategoryProductPrice.text = getItem(position).variants[0].price
         holder.binding.categoryProductModel = getItem(position)
         holder.binding.action= mClickListener
         Log.d("zxcv", "onBindViewHolder: "+getItem(position).title)
