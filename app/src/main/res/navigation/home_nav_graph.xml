@@ -50,6 +50,6 @@
         tools:layout="@layout/fragment_reviews" >
         <argument
             android:name="reviewers"
-            app:argType="iti.mad.marketly.presentation.productdetails.Reviewer[]" />
+            app:argType="iti.mad.marketly.data.model.Reviewer[]" />
     </fragment>
 </navigation>

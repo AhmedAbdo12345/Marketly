@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.R
 import iti.mad.marketly.databinding.FragmentReviewsBinding
-import iti.mad.marketly.presentation.ReviewsFragmentArgs
 import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
 
 class ReviewsFragment : Fragment() {
@@ -43,7 +42,7 @@ class ReviewsFragment : Fragment() {
             adapter = reviewsAdapter
             layoutManager = linearManager
         }
-        reviewsAdapter.submitList(args.reviewers.toList())
+       reviewsAdapter.submitList(args.reviewers.toList())
     }
 
 
