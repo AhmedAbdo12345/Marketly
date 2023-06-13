@@ -14,7 +14,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -23,8 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:padding="10dp"
         android:background="@color/background"
         android:onClick="@{()-> clickListener.onClick(dataModel)}">
 
@@ -83,18 +82,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <!--            <RatingBar-->
-            <!--                android:id="@+id/productRating_singleProduct"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="30dp"-->
-            <!--                android:numStars="5"-->
-            <!--                tools:rating="4"-->
-            <!--                android:rating="@{dataModel.rating}"-->
-            <!--                android:scaleX=".4"-->
-            <!--                android:scaleY=".4"-->
-            <!--                style="@style/Widget.AppCompat.RatingBar.Indicator"-->
-            <!--                android:transformPivotX="0dp"-->
-            <!--                android:transformPivotY="15dp" />-->
+                        <RatingBar
+                            android:id="@+id/productRating_singleProduct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:numStars="5"
+                            tools:rating="4"
+                            android:rating="@{dataModel.rating}"
+                            android:scaleX=".4"
+                            android:scaleY=".4"
+
+                            style="@style/Widget.AppCompat.RatingBar.Indicator"
+                            android:transformPivotX="0dp"
+                            android:transformPivotY="15dp" />
 
             <TextView
                 android:id="@+id/productBrandName_singleProduct"
@@ -118,38 +118,49 @@
                 android:textSize="15sp"
                 tools:text="Product Name" />
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/productPrice_singleProduct"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginBottom="10dp"-->
-            <!--                android:fontFamily="@font/metropolis_light"-->
-            <!--                android:maxLines="1"-->
-            <!--                android:text="@{String.valueOf(dataModel.price)}"-->
-            <!--                tools:text="Product Price"-->
-            <!--                android:textColor="@color/primary"-->
-            <!--                android:textSize="13sp" />-->
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/discount_singleProduct"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            android:background="@drawable/discount_bg"
-            android:visibility="gone">
+                        <TextView
+                            android:id="@+id/productPrice_singleProduct"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/metropolis_light"
+                            android:maxLines="1"
+                            android:text="@{String.valueOf(dataModel.variants[0].price)}"
+                            tools:text="Product Price"
+                            android:textColor="@color/primary"
+                            android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/discountTv_singleProduct"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/metropolis_semibold"
-                android:gravity="center"
-                android:text="-10%"
-                android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_light"
+                android:text="@{dataModel.body_html}"
+                android:textColor="@color/textAd"
+                android:textSize="13sp"
+                android:ellipsize="end"
+                android:lines="2"
+                android:layout_marginBottom="10dp"
+                tools:text="Description" />
+
         </LinearLayout>
+
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/discount_singleProduct"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:background="@drawable/discount_bg"-->
+<!--            android:visibility="gone">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/discountTv_singleProduct"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:fontFamily="@font/metropolis_semibold"-->
+<!--                android:gravity="center"-->
+<!--                android:text="-10%"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="11sp" />-->
+<!--        </LinearLayout>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

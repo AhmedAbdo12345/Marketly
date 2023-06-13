@@ -13,6 +13,7 @@ import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.databinding.ProductFragmentPreviewProductBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
+import iti.workshop.admin.presentation.comon.ProductAction
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 
 
@@ -47,9 +48,10 @@ class PreviewProductFragment : Fragment() {
     }
 
     private fun navigateToEditProduct() {
-        binding.addToCartProductDetailsPage.setOnClickListener {
+        binding.saveActionBtn.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable(ConstantsKeys.PRODUCT_KEY, product)
+            bundle.putSerializable(ConstantsKeys.PRODUCT_ACTION_KEY, ProductAction.Edit)
             findNavController().navigate(R.id.action_previewProductFragment_to_addAndEditProductFragment,bundle)
 
         }

@@ -54,13 +54,13 @@ class ProductsListFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.actionResponse.collect { state ->
-                state?.let {
-                    if (it)
-                        Toast.makeText(requireContext(), "Data has been deleted", Toast.LENGTH_SHORT)
-                            .show()
-                    else
-                        Toast.makeText(requireContext(), "Error Happend", Toast.LENGTH_SHORT)
-                            .show()
+                state.first?.let {
+                    Message.snakeMessage(
+                        requireContext(),
+                        binding.root,
+                        state.second,
+                        it
+                    )?.show()
                 }
 
             }

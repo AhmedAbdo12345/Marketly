@@ -1,6 +1,7 @@
 package iti.workshop.admin.data.dto
 
 import java.io.Serializable
+import java.util.Random
 
 data class SuccessProductResponse(
     val products: List<Product>?=null
@@ -33,10 +34,12 @@ data class Product(
     var updated_at: String?=null,
 
     var images: List<Image>?=null,
-    var variants: List<Variant>?=null,
+    var variants: List<Variant>?= listOf(Variant(price = Random().nextInt(100).toString())),
     var options: List<Option>?=null,
 
     var metafields: List<Metafield> = listOf(Metafield()),
+    var rating:Float = Random().nextInt(5).toFloat()
+
 
     ): Serializable
 
