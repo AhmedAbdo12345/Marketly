@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.DiscountCode
-import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.databinding.CouponDiscountCodeFragmentBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.coupon.ui.adapters.DiscountCodeAdapter

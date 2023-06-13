@@ -1,8 +1,6 @@
 package iti.workshop.admin.presentation.features.product.ui.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +9,13 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
-import iti.workshop.admin.data.dto.Product
-import iti.workshop.admin.databinding.ProductFragmentListProductsBinding
+import iti.workshop.admin.data.dto.Image
+import iti.workshop.admin.databinding.ProductFragmentListImagesBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
-import iti.workshop.admin.presentation.comon.ProductAction
-import iti.workshop.admin.presentation.features.product.ui.adapters.ItemOnCLickListener
-import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdapter
+import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter
+import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesOnCLickListener
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
@@ -29,45 +25,30 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class ProductsListFragment : Fragment() {
+class ProductsImagesListFragment : Fragment() {
 
+    var productId:Long = -1
     private val viewModel: ProductViewModel by viewModels()
-    lateinit var binding:ProductFragmentListProductsBinding
-    lateinit var adapter: ProductsAdapter
+    lateinit var binding:ProductFragmentListImagesBinding
+    lateinit var adapter: ProductImagesAdapter
 
-    private fun searchByProductTitle(){
-        binding.searchView.addTextChangedListener(object :TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(searchQuery: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.queryProductByTitle(searchQuery)
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
-    }
     private fun updateUISate() {
-
         lifecycleScope.launch {
             viewModel.actionResponse.collect { state ->
-                state?.let {
-                    if (it)
-                        Toast.makeText(requireContext(), "Data has been deleted", Toast.LENGTH_SHORT)
-                            .show()
-                    else
-                        Toast.makeText(requireContext(), "Error Happend", Toast.LENGTH_SHORT)
-                            .show()
+                state.first?.let {
+                        Message.snakeMessage(
+                            requireContext(),
+                            binding.root,
+                            state.second,
+                            it
+                        )?.show()
                 }
 
             }
         }
 
         lifecycleScope.launch {
-            viewModel.productListResponses.collect{ state->
+            viewModel.productImageListResponses.collect{ state->
                 when(state){
                     is DataListResponseState.OnError -> {
                         dataViewStates(DataStates.Error)
@@ -88,7 +69,7 @@ class ProductsListFragment : Fragment() {
                     }
                     is DataListResponseState.OnSuccess -> {
                         dataViewStates(DataStates.Data)
-                        adapter.submitList(state.data.products)
+                        adapter.submitList(state.data)
 
                     }
                 }
@@ -105,39 +86,39 @@ class ProductsListFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.product_fragment_list_products,container,false)
 
         binding.lifecycleOwner = this
-        adapter = ProductsAdapter(ItemOnCLickListener(::selectProduct,::deleteProduct))
+        adapter = ProductImagesAdapter(ProductImagesOnCLickListener(::selectImage,::deleteImage))
 
         binding.mAdapter = adapter
-        viewModel.getCountOfProducts()
         updateUISate()
-        searchByProductTitle()
-        navigateToAddNewProduct()
-
+        addImageNewOne()
+        updateImage()
         return binding.root
     }
 
-    private fun navigateToAddNewProduct() {
+    private fun updateImage() {
+        val bundle = arguments
+        if (bundle != null) {
+            productId = bundle.getLong(ConstantsKeys.PRODUCT_KEY)
+            viewModel.retrieveImagesProductFromServer(productId)
+        }
+    }
+    private fun addImageNewOne() {
         binding.floatingActionButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putSerializable(ConstantsKeys.PRODUCT_ACTION_KEY,ProductAction.Add)
-            findNavController().navigate(R.id.action_productsListFragment_to_addAndEditProductFragment,bundle)
+            Toast.makeText(requireContext(), "Add New One", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun deleteProduct(product: Product) {
-        requireContext().alert("Delete Action","Do you want delete ${product.title} ? \n Are you sure?",{
-            viewModel.deleteProduct(product)
+    private fun deleteImage(model: Image) {
+        requireContext().alert("Delete Action","Do you want delete ${model.alt} ? \n Are you sure?",{
+            viewModel.deleteImageProductFromServer(model.product_id?:-1,model.id?:-1)
         },{
 
         })
     }
 
-    private fun selectProduct(product: Product) {
-        val bundle = Bundle()
-        bundle.putSerializable(ConstantsKeys.PRODUCT_KEY, product)
-        bundle.putSerializable(ConstantsKeys.PRODUCT_ACTION_KEY, ProductAction.Edit)
-        findNavController().navigate(R.id.action_productsListFragment_to_previewProductFragment,bundle)
-    }
+    private fun selectImage(model: Image) {
+        Toast.makeText(requireContext(), "Select Image", Toast.LENGTH_SHORT).show()
+     }
 
 
 

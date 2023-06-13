@@ -3,18 +3,18 @@ package iti.workshop.admin.data.dto
 
 
 data class VariantListResponse(
-    val variants: List<iti.workshop.admin.data.dto.Variant?>?
+    val variants: List<Variant>?
 )
 
 data class VariantSingleResponseAndRequest(
-    val variant: iti.workshop.admin.data.dto.Variant?
+    val variant: Variant?
 )
 data class Variant(
     // IDs
-    val id: Long?=null,
-    val image_id: Long?=null,
+    val id: Long? = null,
+    val image_id: Long? = null,
     val inventory_item_id: Long?=null,
-    val product_id: Long?=null,
+    val product_id: Long? = null,
 
     // Options
     val option1: String?=null,

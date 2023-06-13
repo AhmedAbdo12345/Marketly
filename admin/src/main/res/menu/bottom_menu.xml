@@ -15,6 +15,7 @@
         android:icon="@drawable/ic_bag"/>
 
     <item
+        android:visible="true"
         android:id="@+id/inventoryFragment"
         android:title="@string/inventory_navigation_title"
         android:icon="@drawable/ic_bag"/>

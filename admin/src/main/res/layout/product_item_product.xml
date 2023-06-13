@@ -42,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/productImage_singleProduct"
+                android:id="@+id/image_product"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

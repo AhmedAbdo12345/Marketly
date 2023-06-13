@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,7 +16,6 @@ import iti.workshop.admin.databinding.CouponFragmentPriceRuleBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleAdapter
 import iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleOnCLickListener
-import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddDiscountCodeDialog
 import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddPriceRuleDialog
 import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState

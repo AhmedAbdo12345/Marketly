@@ -56,10 +56,26 @@
         android:label="AddAndEditProductFragment"
         tools:layout="@layout/product_fragment_edit_and_add">
         <argument
-            android:name="product"
+            android:name="PRODUCT_ACTION_KEY"
+            app:argType="iti.workshop.admin.presentation.comon.ProductAction"
+            android:defaultValue="Add" />
+        <argument
+            android:name="PRODUCT_KEY"
             app:argType="iti.workshop.admin.data.dto.Product"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_addAndEditProductFragment_to_productsVariantsListFragment"
+            app:destination="@id/productsVariantsListFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_addAndEditProductFragment_to_productsImagesListFragment"
+            app:destination="@id/productsImagesListFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/previewProductFragment"
@@ -91,6 +107,27 @@
         <action
             android:id="@+id/action_priceRuleFragment_to_discountCodeFragment"
             app:destination="@id/discountCodeFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/product_fragment_list_images"
+
+        android:id="@+id/productsImagesListFragment"
+        android:name="iti.workshop.admin.presentation.features.product.ui.fragments.ProductsImagesListFragment"
+        android:label="ProductsImagesListFragment" >
+        <argument
+            android:name="PRODUCT_KEY"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/product_fragment_list_variants"
+        android:id="@+id/productsVariantsListFragment"
+        android:name="iti.workshop.admin.presentation.features.product.ui.fragments.ProductsVariantsListFragment"
+        android:label="ProductsVariantsListFragment" >
+        <argument
+            android:name="PRODUCT_KEY"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 
 </navigation>

@@ -4,16 +4,16 @@ package iti.workshop.admin.data.dto
 
 // Product Images
 data class ImagesListResponse(
-    val images: List<iti.workshop.admin.data.dto.Image?>?
+    val images: List<Image>?
 )
 
 data class ImagesSingleResponse(
-    val image: iti.workshop.admin.data.dto.Image?
+    val image: Image?
 )
 
 data class Image(
-    val id: Long?=null,
-    val product_id: Long?=null,
+    val id: Long? = null,
+    val product_id: Long? = null ,
 
     val admin_graphql_api_id: String?=null,
     val alt: String?=null,
