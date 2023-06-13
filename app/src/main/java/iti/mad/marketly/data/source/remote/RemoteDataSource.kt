@@ -6,12 +6,16 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
+import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.remote.retrofit.ApiService
+import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.data.model.productDetails.ProductDetails
+import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.utils.Constants.FAVOURITE
 import iti.mad.marketly.utils.Constants.USERS
+import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -26,6 +30,10 @@ class RemoteDataSource(
 
     override suspend fun loginWithEmail(email: String): Flow<CustomerResponse> = flow {
         emit(api.loginWithEmail(email))
+    }
+
+    override suspend fun getExchangeRate(): Flow<CurrencyResponse> = flow {
+        emit(api.getExchangeRate(Constants.API_CUR_KEY))
     }
 
     override suspend fun getProductDetails(id: Long): Flow<ProductDetails> = flow {
@@ -49,10 +57,10 @@ class RemoteDataSource(
         val q = Firebase.firestore.collection(USERS).document(userID).collection(FAVOURITE).get()
             .await()
         val products = mutableListOf<Product>()
-        Log.i("ppp",q.documents.get(0).data?.entries.toString())
+        Log.i("ppp", q.documents.get(0).data?.entries.toString())
         for (product in q.documents) {
             Log.i("ppp", product.toObject<Product>()?.body_html!!)
-           Log.i("ppp",product.id)
+            Log.i("ppp", product.id)
             products.add(product.toObject<Product>()!!)
 
         }
@@ -78,4 +86,33 @@ class RemoteDataSource(
         emit(Unit)
     }
 
-}
+    override suspend fun getAllAddresses(): Flow<List<Address>> = flow {
+        val db = Firebase.firestore.collection("settings").document(SettingsManager.documentID)
+            .collection("Addresses").get().await()
+
+        val addressResponse: MutableList<Address> = mutableListOf()
+        for (items in db.documents) {
+            addressResponse.add(
+                Address(
+                    items.get("addressID") as String,
+                    items.get("country") as String,
+                    items.get("city") as String,
+                    items.get("street") as String
+                )
+            )
+        }
+        emit(addressResponse)
+    }
+
+    override suspend fun getAllCartProducts(): Flow<List<Product>> = flow {
+        val db = Firebase.firestore.collection("cart").document(SettingsManager.documentID)
+            .collection("CartProduct").get().await()
+
+        val cartResponse : MutableList<Product> = mutableListOf()
+        for(items in db.documents){
+            cartResponse.add(items.toObject(Product::class.java)!!)
+        }
+        emit(cartResponse)
+    }
+    }
+
