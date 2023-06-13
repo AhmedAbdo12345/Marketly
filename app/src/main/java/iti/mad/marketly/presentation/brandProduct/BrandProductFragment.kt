@@ -6,63 +6,73 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.utils.ResponseState
-import iti.mad.marketly.data.model.brandproduct.Product
-import iti.mad.marketly.data.repository.brandproduct.BrandProductRepoImp
+import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.toProductDetails
+import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
 import kotlinx.coroutines.launch
 
 
 class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListener {
-    lateinit var brandProductViewModel: BrandProductViewModel
+    val brandProductViewModel: BrandProductViewModel by viewModels<BrandProductViewModel> {
+        BrandProductViewModel.Factory
+    }
     lateinit var binding: FragmentBrandProductBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        brandProductViewModel = ViewModelProvider(this).get(BrandProductViewModel::class.java)
 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_brand_product, container, false)
         binding = FragmentBrandProductBinding.inflate(layoutInflater, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         var smartCollection =
-            BrandProductFragmentArgs.fromBundle(requireArguments()).smartCollection
-
-
-        var api = RetrofitInstance.api
-        var repo = BrandProductRepoImp(api, (smartCollection.id).toString())
-        brandProductViewModel.getAllBrandProduct(repo)
-        viewLifecycleOwner.lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                brandProductViewModel._brandProduct.collect{
-                    when(it){
-                        is  ResponseState.OnLoading ->{
+            BrandProductFragmentArgs.fromBundle(requireArguments()).brandID
+        brandProductViewModel.getAllBrandProduct(
+            smartCollection.toString(), FirebaseAuth.getInstance().currentUser?.uid.toString()
+        )
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                brandProductViewModel._brandProduct.collect { uiState ->
+                    when (uiState) {
+                        is ResponseState.OnLoading -> {
 
                         }
 
                         is ResponseState.OnSuccess -> {
-                            var brandAdapter = BrandProductAdapter(this@BrandProductFragment)
-                            brandAdapter.submitList(it.response.products)
+                            var brandAdapter = BrandProductAdapter(this@BrandProductFragment) {
+                                if (it.isFavourite == true) {
+                                    brandProductViewModel.deleteProductFromFavourite(
+                                        FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                        it.toProductDetails()
+                                    )
+
+                                } else {
+                                    brandProductViewModel.addProductToFavourite(
+                                        FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                        it.toProductDetails()
+                                    )
+                                }
+                            }
+                            brandAdapter.submitList(uiState.response)
                             binding.brandProductRecycleView.apply {
                                 adapter = brandAdapter
                                 setHasFixedSize(true)
@@ -80,18 +90,19 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                         else -> {}
                     }
                 }
-
             }
-
         }
+
     }
 
     override fun onClickProduct(product: Product) {
         val action =
-            BrandProductFragmentDirections.actionBrandProductFragmentToProductDetailsFragment(
-                product.id
-            )
-        findNavController().navigate(action)
+            product.id?.let {
+                BrandProductFragmentDirections.actionBrandProductFragmentToProductDetailsFragment(
+                    it
+                )
+            }
+        findNavController().navigate(action!!)
     }
 
 

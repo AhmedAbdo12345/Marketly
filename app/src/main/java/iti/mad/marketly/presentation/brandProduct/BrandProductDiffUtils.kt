@@ -1,7 +1,7 @@
 package iti.mad.marketly.presentation.brandProduct
 
 import androidx.recyclerview.widget.DiffUtil
-import iti.mad.marketly.data.model.brandproduct.Product
+import iti.mad.marketly.data.model.product.Product
 
 class BrandProductDiffUtils: DiffUtil.ItemCallback<Product>()  {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {

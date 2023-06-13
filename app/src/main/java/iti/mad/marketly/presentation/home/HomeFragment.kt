@@ -66,33 +66,10 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         var api = RetrofitInstance.api
         adsRepo = AdsRepoImplementation(api)
 
-        //getBrands()
-        viewLifecycleOwner.lifecycleScope.launch {
-            brandsViewModel.getAllBrands()
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                brandsViewModel._brands.collect {
-                    when (it) {
-                        is ResponseState.OnLoading -> {}
-                        is ResponseState.OnSuccess -> {
-                            var brandAdapter = BrandsAdapter(this@HomeFragment)
-                            brandAdapter.submitList(it.response.smart_collections)
-                            binding.brandsRecView.apply {
-                                adapter = brandAdapter
-                                setHasFixedSize(true)
-                                layoutManager = GridLayoutManager(context, 2).apply {
-                                    orientation = RecyclerView.VERTICAL
-                                }
-                            }
-                        }
+        getBrands()
 
-                        is ResponseState.OnSuccess -> {}
-                        else -> {}
-                    }
-                }
-            }
-        }
         adsViewModel.getPricingRule(adsRepo)
-        lifecycleScope.launch(Dispatchers.Main) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adsViewModel._pricingRule.collect {
                     when (it) {
@@ -123,14 +100,14 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             Log.d("zxcv", "onClickBrand: 8888" + smartCollection.title)
 
             var action: HomeFragmentDirections.ActionHomeFragmentToBrandProductFragment =
-                HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
+                HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection.id!!)
             findNavController().navigate(action)
 
         }
     }
 
     fun getBrands() {
-      /*  viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             brandsViewModel.getAllBrands()
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 brandsViewModel._brands.collect {
@@ -153,7 +130,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                     }
                 }
             }
-        }*/
+        }
     }
 
     fun launchDiscount(priceRule: Long) {

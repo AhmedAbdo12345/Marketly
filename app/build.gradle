@@ -19,6 +19,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        useLibrary  'org.apache.http.legacy'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -98,12 +99,12 @@ dependencies {
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     //  Firebase
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
-    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.firebase:firebase-database:20.2.2'
-    implementation 'com.google.firebase:firebase-firestore:24.6.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
     //for SharedPreference
     implementation 'androidx.preference:preference:1.2.0'
     // Unit Testing

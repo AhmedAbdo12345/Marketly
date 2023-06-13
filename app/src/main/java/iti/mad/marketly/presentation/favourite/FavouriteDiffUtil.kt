@@ -1,14 +1,16 @@
-package iti.mad.marketly.presentation.order
+package iti.mad.marketly.presentation.favourite
 
 import androidx.recyclerview.widget.DiffUtil
 import iti.mad.marketly.data.model.product.Product
 
-class OrderDiffUtils  : DiffUtil.ItemCallback<Product>()  {
+
+class FavouriteDiffUtil: DiffUtil.ItemCallback<Product>(){
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.id==newItem.id
     }
 
+
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem == newItem
+        return oldItem==newItem
     }
 }

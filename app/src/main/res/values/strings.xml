@@ -32,4 +32,6 @@
     <string name="error">error</string>
     <string name="more">More</string>
     <string name="reviews">Reviews</string>
+    <string name="empty_wishlist">no items founded</string>
+    <string name="favourite">favourite</string>
 </resources>

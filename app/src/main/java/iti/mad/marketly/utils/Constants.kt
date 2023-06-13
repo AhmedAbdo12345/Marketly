@@ -12,4 +12,7 @@ const val API_ACCESS_TOKEN = "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"
     //SharedPref Keys
     const val CURRENCY="curr"
     const val DEFAULTADDRESS="defAddress"
+    const val USERS = "Users"
+    const val FAVOURITE = "Favourite"
+
 }
