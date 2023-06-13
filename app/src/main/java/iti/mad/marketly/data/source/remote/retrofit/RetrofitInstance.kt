@@ -1,10 +1,11 @@
 package iti.mad.marketly.data.source.remote.retrofit
 
-import iti.mad.marketly.data.Constants
+import iti.mad.marketly.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 object RetrofitInstance {
 
@@ -22,15 +23,25 @@ object RetrofitInstance {
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .client(httpClient)
-            .client(cashAndLoggerManager())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    val api: CallApi by lazy {
-        retrofit.create(CallApi::class.java)
+    val api: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
     }
+    val currncyApi: ApiService by lazy {
+        currencyRetrofit.create(ApiService::class.java)
+    }
+private val currencyRetrofit:Retrofit by lazy {
+    val httpCurrency = OkHttpClient.Builder().build()
+    Retrofit.Builder()
+        .baseUrl(Constants.BASE_URL_CUR)
+        .client(httpCurrency)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
+}
 
     private fun cashAndLoggerManager(): OkHttpClient {
         // Logging Retrofit

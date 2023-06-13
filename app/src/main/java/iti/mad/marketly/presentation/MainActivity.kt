@@ -4,6 +4,7 @@ import iti.mad.marketly.R
 
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -22,9 +23,20 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView = findViewById(R.id.bottomNavView)
 
+
         // Set up the Navigation Controller
         navController = findNavController(R.id.navHostFragment)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if(destination.id == R.id.productDetailsFragment) {
+
+                bottomNavigationView.visibility = View.GONE
+            } else {
+
+                bottomNavigationView.visibility = View.VISIBLE
+            }
+        }
         /*
+
                 another way to get Nav Controller
 
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
@@ -33,11 +45,16 @@ class MainActivity : AppCompatActivity() {
         // Set up the Bottom Navigation View with the Navigation Controller
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment,R.id.cartFragment,R.id.categoryFragment,R.id.favouriteFragment,R.id.profileFragment)
+            setOf(
+                R.id.homeFragment,
+                R.id.cartFragment,
+                R.id.categoryFragment,
+                R.id.favouriteFragment,
+                R.id.myProfile2
+            )
         )
         // setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
-
 
 
     }
