@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.model.product.toProductDetails
 import iti.mad.marketly.databinding.FragmentCategoryBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
@@ -25,7 +24,7 @@ import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 
 class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListener {
-    lateinit var viewModel: CategoryViewModel
+    private lateinit var viewModel: CategoryViewModel
     lateinit var viewModelCategoryProduct: CategoryProductViewModel
     lateinit var binding: FragmentCategoryBinding
     lateinit var tabLayout: TabLayout
@@ -99,20 +98,20 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                         categoryObj.id.toString(),
                         FirebaseAuth.getInstance().currentUser?.uid.toString()
                     )
-                    viewModelCategoryProduct._categoryProduct.collect {
+                    viewModelCategoryProduct._categoryProduct.collect { it ->
                         when (it) {
                             is ResponseState.OnSuccess -> {
-                                var adapterProduct = CategoryProductAdapter(this@CategoryFragment){
+                                var adapterProduct = CategoryProductAdapter(this@CategoryFragment) {
                                     if (it.isFavourite == true) {
                                         viewModelCategoryProduct.deleteProductFromFavourite(
                                             FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                            it.toProductDetails()
+                                            it
                                         )
 
                                     } else {
                                         viewModelCategoryProduct.addProductToFavourite(
                                             FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                            it.toProductDetails()
+                                            it
                                         )
                                     }
                                 }
