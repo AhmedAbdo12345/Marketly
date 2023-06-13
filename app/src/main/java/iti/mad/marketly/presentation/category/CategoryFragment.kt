@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import iti.mad.marketly.data.model.brandproduct.Product
-import iti.mad.marketly.data.model.brandproduct.toProductDetails
+
 import iti.mad.marketly.data.model.category.CustomCollection
+import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.toProductDetails
 import iti.mad.marketly.databinding.FragmentCategoryBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
@@ -60,7 +61,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
 
     override fun onClickCategoryProduct(product: Product) {
         val action =
-            CategoryFragmentDirections.actionCategoryFragmentToProductDetailsFragment(product.id)
+            CategoryFragmentDirections.actionCategoryFragmentToProductDetailsFragment(product.id!!)
         findNavController().navigate(action)
     }
 
@@ -95,7 +96,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModelCategoryProduct.getAllCategoryProduct(
-                        categoryObj.id,
+                        categoryObj.id.toString(),
                         FirebaseAuth.getInstance().currentUser?.uid.toString()
                     )
                     viewModelCategoryProduct._categoryProduct.collect {

@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import iti.mad.marketly.R
-import iti.mad.marketly.data.model.brandproduct.Image
+import iti.mad.marketly.data.model.product.Image
 
 class ImagesAdapter(private val images: List<Image>) : RecyclerView.Adapter<ImageViewHolder>() {
 

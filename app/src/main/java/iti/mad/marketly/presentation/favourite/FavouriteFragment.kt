@@ -21,7 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
-import iti.mad.marketly.data.model.productDetails.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.FragmentFavouriteBinding
 import iti.mad.marketly.presentation.MainActivity
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
@@ -43,10 +43,10 @@ class FavouriteFragment : Fragment() {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                favoriteViewModel.allFavourites.collect { uiState ->
-                    when (uiState) {
+                favoriteViewModel.allFavourites.collect {
+                    when (it) {
                         is ResponseState.OnSuccess -> {
-                            showFavorites(uiState.response)
+                            showFavorites(it.response)
                         }
 
                         is ResponseState.OnLoading -> {

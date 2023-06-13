@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment,
                 R.id.cartFragment,
                 R.id.categoryFragment,
-                R.id.favouriteFragment2,
+                R.id.favouriteFragment,
                 R.id.profileFragment
             )
         )

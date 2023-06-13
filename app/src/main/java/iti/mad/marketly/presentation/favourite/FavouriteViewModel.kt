@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import iti.mad.marketly.AppDependencies
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
-import iti.mad.marketly.data.model.productDetails.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.repository.favourite_repo.IFavouriteRepo
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers

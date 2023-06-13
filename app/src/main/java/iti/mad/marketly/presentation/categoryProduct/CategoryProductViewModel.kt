@@ -6,8 +6,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import iti.mad.marketly.AppDependencies
-import iti.mad.marketly.data.model.brandproduct.Product
-import iti.mad.marketly.data.repository.categoryProduct.CategoryProductRepo
+import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.ProductResponse
+import iti.mad.marketly.data.repository.productRepository.ProductRepo
+
 import iti.mad.marketly.data.repository.favourite_repo.IFavouriteRepo
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +20,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
+
 class CategoryProductViewModel(
-    val categoryProductRepo: CategoryProductRepo, private val favouriteRep: IFavouriteRepo
+    val categoryProductRepo: ProductRepo, private val favouriteRep: IFavouriteRepo
 ) : ViewModel() {
     private val categoryProduct: MutableStateFlow<ResponseState<List<Product>>> = MutableStateFlow(
         ResponseState.OnLoading()
@@ -32,9 +35,10 @@ class CategoryProductViewModel(
         MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
     val deletedSuccessfully: StateFlow<ResponseState<String>> = _deletedSuccessfully
 
-    fun getAllCategoryProduct(collectionID: Long, userID: String) {
+    fun getAllCategoryProduct(collectionID: String, userID: String) {
         viewModelScope.launch {
-            categoryProductRepo.getCategoryProduct(collectionID)
+
+            categoryProductRepo.getProducts(collectionID)
                 .combine(favouriteRep.getAllFavouriteIDS(userID)) { r1, r2 ->
                     r1.products.map { product ->
                         if (r2.contains(product.id.toString())) {
@@ -53,7 +57,7 @@ class CategoryProductViewModel(
     }
 
     fun addProductToFavourite(
-        userID: String, product: iti.mad.marketly.data.model.productDetails.Product
+        userID: String, product: Product
     ) {
         viewModelScope.launch {
             favouriteRep.addProductToFavourite(userID, product).flowOn(Dispatchers.IO).catch {
@@ -67,7 +71,7 @@ class CategoryProductViewModel(
     }
 
     fun deleteProductFromFavourite(
-        userID: String, product: iti.mad.marketly.data.model.productDetails.Product
+        userID: String, product: Product
     ) {
         viewModelScope.launch {
             favouriteRep.deleteFromFavourite(userID, product).flowOn(Dispatchers.IO).catch {
@@ -80,13 +84,13 @@ class CategoryProductViewModel(
         }
     }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                CategoryProductViewModel(
-                    AppDependencies.categoryProductRepo, AppDependencies.favouriteRep
-                )
+        companion object {
+            val Factory: ViewModelProvider.Factory = viewModelFactory {
+                initializer {
+                    CategoryProductViewModel(
+                        AppDependencies.productRepo, AppDependencies.favouriteRep
+                    )
+                }
             }
         }
-    }
 }

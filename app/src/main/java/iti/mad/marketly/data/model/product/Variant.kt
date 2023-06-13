@@ -1,4 +1,4 @@
-package iti.mad.marketly.data.model.productDetails
+package iti.mad.marketly.data.model.product
 
 data class Variant(
     val admin_graphql_api_id: String? = null,

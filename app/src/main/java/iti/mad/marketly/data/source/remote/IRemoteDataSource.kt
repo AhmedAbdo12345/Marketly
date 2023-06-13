@@ -4,7 +4,7 @@ import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
-import iti.mad.marketly.data.model.productDetails.Product
+import iti.mad.marketly.data.model.product.Product
 import kotlinx.coroutines.flow.Flow
 
 interface IRemoteDataSource {

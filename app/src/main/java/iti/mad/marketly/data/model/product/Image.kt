@@ -1,4 +1,4 @@
-package iti.mad.marketly.data.model.brandproduct
+package iti.mad.marketly.data.model.product
 
 data class Image(
     var admin_graphql_api_id: String?="",

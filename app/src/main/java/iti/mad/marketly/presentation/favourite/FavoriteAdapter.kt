@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.squareup.picasso.Picasso
-import iti.mad.marketly.data.model.productDetails.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.RvBrandProductBinding
 
 class FavoriteAdapter(var context: Context?) :

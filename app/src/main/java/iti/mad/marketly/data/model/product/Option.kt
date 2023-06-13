@@ -1,4 +1,4 @@
-package iti.mad.marketly.data.model.brandproduct
+package iti.mad.marketly.data.model.product
 
 data class Option(
     val id: Long?=null,

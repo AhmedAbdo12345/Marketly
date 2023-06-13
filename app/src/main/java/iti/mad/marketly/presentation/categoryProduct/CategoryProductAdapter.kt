@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.R
-import iti.mad.marketly.data.model.brandproduct.Product
 import iti.mad.marketly.databinding.RvCategoryProductBinding
 
 
@@ -38,7 +38,8 @@ class CategoryProductAdapter(var mClickListener: ListItemClickListener, var onCl
         if (getItem(position).image.src != null) {
             Picasso.get().load(getItem(position).image.src).into(binding.imgvCategoryProduct)
         }
-        holder.binding.tvCategoryProductName.text = getItem(position).title
+        holder.binding.tvCategoryProductName.text= getItem(position).title
+        holder.binding.tvCategoryProductPrice.text = getItem(position).variants[0].price
         holder.binding.categoryProductModel = getItem(position)
         holder.binding.action = mClickListener
         holder.binding.imgVProductAddToFav.setOnClickListener {

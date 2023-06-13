@@ -1,7 +1,7 @@
 package iti.mad.marketly.data.repository.favourite_repo
 
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
-import iti.mad.marketly.data.model.productDetails.Product
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.remote.IRemoteDataSource
 import kotlinx.coroutines.flow.Flow
 

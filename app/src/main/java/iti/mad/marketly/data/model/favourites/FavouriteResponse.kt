@@ -1,6 +1,6 @@
 package iti.mad.marketly.data.model.favourites
 
-import iti.mad.marketly.data.model.productDetails.Product
+import iti.mad.marketly.data.model.product.Product
 
 
 data class FavouriteResponse(

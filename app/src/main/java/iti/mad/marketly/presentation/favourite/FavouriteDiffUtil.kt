@@ -1,7 +1,7 @@
 package iti.mad.marketly.presentation.favourite
 
 import androidx.recyclerview.widget.DiffUtil
-import iti.mad.marketly.data.model.productDetails.Product
+import iti.mad.marketly.data.model.product.Product
 
 
 class FavouriteDiffUtil: DiffUtil.ItemCallback<Product>(){

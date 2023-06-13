@@ -2,10 +2,10 @@ package iti.mad.marketly.presentation.brandProduct
 
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,10 +14,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import iti.mad.marketly.data.model.brandproduct.Product
-import iti.mad.marketly.data.model.brandproduct.toProductDetails
-import iti.mad.marketly.databinding.FragmentBrandProductBinding
 import iti.mad.marketly.utils.ResponseState
+import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.toProductDetails
+import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
+import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
+import iti.mad.marketly.databinding.FragmentBrandProductBinding
 import kotlinx.coroutines.launch
 
 
@@ -43,9 +45,9 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var smartCollection =
-            BrandProductFragmentArgs.fromBundle(requireArguments()).smartCollection
+            BrandProductFragmentArgs.fromBundle(requireArguments()).brandID
         brandProductViewModel.getAllBrandProduct(
-            smartCollection.id.toString(), FirebaseAuth.getInstance().currentUser?.uid.toString()
+            smartCollection.toString(), FirebaseAuth.getInstance().currentUser?.uid.toString()
         )
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -95,10 +97,12 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     override fun onClickProduct(product: Product) {
         val action =
-            BrandProductFragmentDirections.actionBrandProductFragmentToProductDetailsFragment(
-                product.id
-            )
-        findNavController().navigate(action)
+            product.id?.let {
+                BrandProductFragmentDirections.actionBrandProductFragmentToProductDetailsFragment(
+                    it
+                )
+            }
+        findNavController().navigate(action!!)
     }
 
 

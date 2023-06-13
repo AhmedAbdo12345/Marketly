@@ -27,7 +27,7 @@ import iti.mad.marketly.R
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
 import iti.mad.marketly.data.model.Reviewer
-import iti.mad.marketly.data.model.brandproduct.Image
+import iti.mad.marketly.data.model.product.Image
 import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 import iti.mad.marketly.utils.ResponseState
