@@ -2,10 +2,10 @@ package iti.mad.marketly.presentation.brandProduct
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,12 +14,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.model.product.toProductDetails
-import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
-import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
+import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 
 
@@ -62,13 +59,13 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                                 if (it.isFavourite == true) {
                                     brandProductViewModel.deleteProductFromFavourite(
                                         FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                        it.toProductDetails()
+                                        it
                                     )
 
                                 } else {
                                     brandProductViewModel.addProductToFavourite(
                                         FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                        it.toProductDetails()
+                                        it
                                     )
                                 }
                             }

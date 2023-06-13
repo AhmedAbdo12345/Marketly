@@ -35,8 +35,8 @@ class CategoryProductAdapter(var mClickListener: ListItemClickListener, var onCl
     }
 
     override fun onBindViewHolder(holder: CategoryProductViewHolder, position: Int) {
-        if (getItem(position).image.src != null) {
-            Picasso.get().load(getItem(position).image.src).into(binding.imgvCategoryProduct)
+        if (getItem(position).image?.src != null) {
+            Picasso.get().load(getItem(position).image?.src).into(binding.imgvCategoryProduct)
         }
         holder.binding.tvCategoryItemName.text= getItem(position).vendor
         holder.binding.tvCategoryProductName.text = getItem(position).title

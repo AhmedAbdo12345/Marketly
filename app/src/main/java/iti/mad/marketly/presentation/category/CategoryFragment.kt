@@ -24,7 +24,6 @@ import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListener {
     lateinit var viewModel: CategoryViewModel
@@ -58,7 +57,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
 
         getCategory()
 
-     getProductListForEachTab()
+        getProductListForEachTab()
 
     }
 
@@ -112,13 +111,13 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                                     if (it.isFavourite == true) {
                                         viewModelCategoryProduct.deleteProductFromFavourite(
                                             FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                            it.toProductDetails()
+                                            it
                                         )
 
                                     } else {
                                         viewModelCategoryProduct.addProductToFavourite(
                                             FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                            it.toProductDetails()
+                                            it
                                         )
                                     }
                                 }
