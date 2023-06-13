@@ -38,7 +38,8 @@ class CategoryProductAdapter(var mClickListener: ListItemClickListener, var onCl
         if (getItem(position).image.src != null) {
             Picasso.get().load(getItem(position).image.src).into(binding.imgvCategoryProduct)
         }
-        holder.binding.tvCategoryProductName.text= getItem(position).title
+        holder.binding.tvCategoryItemName.text= getItem(position).vendor
+        holder.binding.tvCategoryProductName.text = getItem(position).title
         holder.binding.tvCategoryProductPrice.text = getItem(position).variants[0].price
         holder.binding.categoryProductModel = getItem(position)
         holder.binding.action = mClickListener
