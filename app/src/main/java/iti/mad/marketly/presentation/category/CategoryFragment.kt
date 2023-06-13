@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -24,11 +25,13 @@ import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 
 class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListener {
-    private lateinit var viewModel: CategoryViewModel
+    lateinit var viewModel: CategoryViewModel
     lateinit var viewModelCategoryProduct: CategoryProductViewModel
     lateinit var binding: FragmentCategoryBinding
     lateinit var tabLayout: TabLayout
-    override fun onCreate(savedInstanceState: Bundle?) {
+    lateinit var  adapterProduct :CategoryProductAdapter
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel =
             ViewModelProvider(this, CategoryViewModel.Factory).get(CategoryViewModel::class.java)
@@ -89,6 +92,8 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
     }
 
     fun getProductListForEachTab() {
+        var productList :  MutableList<Product> ?= null
+
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val categoryObj = tab.tag as CustomCollection
@@ -98,10 +103,10 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                         categoryObj.id.toString(),
                         FirebaseAuth.getInstance().currentUser?.uid.toString()
                     )
-                    viewModelCategoryProduct._categoryProduct.collect { it ->
+                    viewModelCategoryProduct._categoryProduct.collect {
                         when (it) {
                             is ResponseState.OnSuccess -> {
-                                var adapterProduct = CategoryProductAdapter(this@CategoryFragment) {
+                                 adapterProduct = CategoryProductAdapter(this@CategoryFragment){
                                     if (it.isFavourite == true) {
                                         viewModelCategoryProduct.deleteProductFromFavourite(
                                             FirebaseAuth.getInstance().currentUser?.uid.toString(),
@@ -115,7 +120,9 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                                         )
                                     }
                                 }
-                                adapterProduct.submitList(it.response)
+                                productList = it.response.toMutableList()
+                                filterByClothes(productList!!)
+                                adapterProduct.submitList(productList)
                                 binding.categoryProductRecView.apply {
                                     adapter = adapterProduct
                                     setHasFixedSize(true)
@@ -136,5 +143,33 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
 
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
+    }
+    fun filterByClothes(productList: MutableList<Product>){
+        binding.fabCap.setOnClickListener {
+            Toast.makeText(requireContext(), "CAP", Toast.LENGTH_SHORT).show()
+             var filterList =productList.filter { it.product_type.equals("ACCESSORIES") }
+            adapterProduct.submitList(filterList)
+
+        }
+
+        binding.fabTShirt.setOnClickListener {
+            var filterList =productList.filter { it.product_type.equals("T-SHIRTS") }
+            adapterProduct.submitList(filterList)
+
+        }
+
+        binding.fabJeans.setOnClickListener {
+            var  filterList =productList.filter { it.product_type.equals("SHOES") }
+            adapterProduct.submitList(filterList)
+
+        }
+
+        binding.categoryProductRecView.apply {
+            adapter = adapterProduct
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(context, 2).apply {
+                orientation = RecyclerView.VERTICAL
+            }
+        }
     }
 }

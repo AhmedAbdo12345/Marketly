@@ -84,7 +84,7 @@
                 android:transformPivotY="15dp" />
 
             <TextView
-                android:id="@+id/tv_categoryProduct_name"
+                android:id="@+id/tv_category_item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/metropolis_light"
