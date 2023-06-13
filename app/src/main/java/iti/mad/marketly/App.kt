@@ -14,9 +14,9 @@ class App:Application() {
         StrictMode.setVmPolicy(
             VmPolicy.Builder()
                 .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
-                .penaltyLog()
-                .penaltyDeath()
+               // .detectLeakedClosableObjects()
+             //   .penaltyLog()
+               // .penaltyDeath()
                 .build()
         )
 

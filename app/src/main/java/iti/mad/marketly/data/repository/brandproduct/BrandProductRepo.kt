@@ -4,5 +4,5 @@ import iti.mad.marketly.data.model.brandproduct.BrandProductResponse
 import kotlinx.coroutines.flow.Flow
 
 interface BrandProductRepo {
-    suspend fun getBrandProduct(): Flow<BrandProductResponse>
+    suspend fun getBrandProduct(brandID:String): Flow<BrandProductResponse>
 }

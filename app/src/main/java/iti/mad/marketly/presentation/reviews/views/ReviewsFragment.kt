@@ -1,4 +1,4 @@
-package iti.mad.marketly.presentation.reviews
+package iti.mad.marketly.presentation.reviews.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

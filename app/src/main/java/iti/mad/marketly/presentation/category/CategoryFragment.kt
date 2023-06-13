@@ -1,24 +1,26 @@
 package iti.mad.marketly.presentation.category
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
-import iti.mad.marketly.utils.ResponseState
+import com.google.firebase.auth.FirebaseAuth
+import iti.mad.marketly.data.model.brandproduct.Product
+import iti.mad.marketly.data.model.brandproduct.toProductDetails
 import iti.mad.marketly.data.model.category.CustomCollection
-import iti.mad.marketly.data.model.categoryProduct.Product
 import iti.mad.marketly.databinding.FragmentCategoryBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
+import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 
 class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListener {
@@ -31,15 +33,13 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
         viewModel =
             ViewModelProvider(this, CategoryViewModel.Factory).get(CategoryViewModel::class.java)
         viewModelCategoryProduct = ViewModelProvider(
-            this,
-            CategoryProductViewModel.Factory
+            this, CategoryProductViewModel.Factory
         ).get(CategoryProductViewModel::class.java)
 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCategoryBinding.inflate(layoutInflater, container, false)
@@ -59,7 +59,9 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
 
 
     override fun onClickCategoryProduct(product: Product) {
-        TODO("Not yet implemented")
+        val action =
+            CategoryFragmentDirections.actionCategoryFragmentToProductDetailsFragment(product.id)
+        findNavController().navigate(action)
     }
 
     fun getCategory() {
@@ -85,18 +87,35 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
             }
         }
     }
+
     fun getProductListForEachTab() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val categoryObj = tab.tag as CustomCollection
 
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModelCategoryProduct.getAllCategoryProduct(categoryObj.id)
+                    viewModelCategoryProduct.getAllCategoryProduct(
+                        categoryObj.id,
+                        FirebaseAuth.getInstance().currentUser?.uid.toString()
+                    )
                     viewModelCategoryProduct._categoryProduct.collect {
                         when (it) {
                             is ResponseState.OnSuccess -> {
-                                var adapterProduct = CategoryProductAdapter(this@CategoryFragment)
-                                adapterProduct.submitList(it.response.products)
+                                var adapterProduct = CategoryProductAdapter(this@CategoryFragment){
+                                    if (it.isFavourite == true) {
+                                        viewModelCategoryProduct.deleteProductFromFavourite(
+                                            FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                            it.toProductDetails()
+                                        )
+
+                                    } else {
+                                        viewModelCategoryProduct.addProductToFavourite(
+                                            FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                            it.toProductDetails()
+                                        )
+                                    }
+                                }
+                                adapterProduct.submitList(it.response)
                                 binding.categoryProductRecView.apply {
                                     adapter = adapterProduct
                                     setHasFixedSize(true)

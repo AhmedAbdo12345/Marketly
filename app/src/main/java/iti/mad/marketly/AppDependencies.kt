@@ -9,10 +9,15 @@ import iti.mad.marketly.data.repository.category.CategoryRepoImpl
 import iti.mad.marketly.data.repository.categoryProduct.CategoryProductRepo
 import iti.mad.marketly.data.repository.categoryProduct.CategoryProductRepoImpl
 import iti.mad.marketly.data.repository.authRepository.IAuthRepository
+import iti.mad.marketly.data.repository.brandproduct.BrandProductRepo
+import iti.mad.marketly.data.repository.brandproduct.BrandProductRepoImp
+import iti.mad.marketly.data.repository.favourite_repo.FavouriteRep
+import iti.mad.marketly.data.repository.favourite_repo.IFavouriteRepo
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepository
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepositoryImpl
 import iti.mad.marketly.data.source.remote.RemoteDataSource
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
+import iti.mad.marketly.presentation.brandProduct.BrandProductViewModel
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 
 object AppDependencies {
@@ -21,6 +26,8 @@ object AppDependencies {
     lateinit var categoryRepo: CategoryRepo
     lateinit var categoryProductRepo: CategoryProductRepo
     lateinit var brandsRepo: BrandsRepo
+    lateinit var brandProductRepo:BrandProductRepo
+    lateinit var favouriteRep: IFavouriteRepo
     fun initialization() {
         val api = RetrofitInstance.api
         val remote = RemoteDataSource(api)
@@ -29,5 +36,7 @@ object AppDependencies {
         categoryRepo = CategoryRepoImpl(api)
         categoryProductRepo = CategoryProductRepoImpl(api)
         brandsRepo = BrandsRepoImpl(api)
+        favouriteRep= FavouriteRep(remote)
+        brandProductRepo=BrandProductRepoImp(api)
     }
 }

@@ -5,8 +5,8 @@ import iti.mad.marketly.data.source.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class BrandProductRepoImp(val apiService: ApiService, val brandID:String):BrandProductRepo {
-    override suspend fun getBrandProduct(): Flow<BrandProductResponse> =flow{
+class BrandProductRepoImp(private val apiService: ApiService):BrandProductRepo {
+    override suspend fun getBrandProduct(brandID:String): Flow<BrandProductResponse> =flow{
        emit(apiService.getBrandProductFromAPI(brandID))
     }
 }
