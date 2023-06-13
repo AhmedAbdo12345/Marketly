@@ -22,6 +22,7 @@ import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.databinding.FragmentLoginBinding
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import iti.mad.marketly.presentation.MainActivity
+import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.launch
 
 
@@ -108,6 +109,7 @@ class LoginFragment : Fragment() {
                 ).addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
                         getUserData(emailEditText.text.toString())
+                        SettingsManager.documentIDSetter(emailEditText.text.toString())
                     } else {
                         showErrorDialog()
                     }
