@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.model.product.toProductDetails
 import iti.mad.marketly.databinding.FragmentCategoryBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
