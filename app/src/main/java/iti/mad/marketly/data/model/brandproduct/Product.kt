@@ -40,6 +40,6 @@ fun Product.toProductDetails(): iti.mad.marketly.data.model.productDetails.Produ
         this.template_suffix,
         this.title,
         this.updated_at,
-        null,this.vendor
+        null, this.vendor
     )
 }

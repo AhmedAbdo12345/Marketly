@@ -8,7 +8,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import iti.mad.marketly.AppDependencies
 import iti.mad.marketly.data.model.productDetails.Product
 import iti.mad.marketly.data.model.productDetails.ProductDetails
-import iti.mad.marketly.data.repository.favourite_repo.FavouriteRep
 import iti.mad.marketly.data.repository.favourite_repo.IFavouriteRepo
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepository
 import iti.mad.marketly.utils.ResponseState
@@ -16,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
