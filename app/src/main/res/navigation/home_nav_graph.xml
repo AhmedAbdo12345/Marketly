@@ -62,7 +62,31 @@
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" />
     <fragment
-        android:id="@+id/myProfile"
+        android:id="@+id/myProfile2"
         android:name="iti.mad.marketly.presentation.settings.MyProfile"
-        android:label="MyProfile" />
+        android:label="MyProfile" >
+        <action
+            android:id="@+id/action_myProfile2_to_settings"
+            app:destination="@id/settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/address"
+        android:name="iti.mad.marketly.presentation.settings.Address"
+        android:label="Address" />
+    <fragment
+        android:id="@+id/addressListFragment"
+        android:name="iti.mad.marketly.presentation.settings.AddressListFragment"
+        android:label="AddressListFragment" >
+        <action
+            android:id="@+id/action_addressListFragment_to_address"
+            app:destination="@id/address" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="iti.mad.marketly.presentation.settings.Settings"
+        android:label="Settings" >
+        <action
+            android:id="@+id/action_settings_to_addressListFragment"
+            app:destination="@id/addressListFragment" />
+    </fragment>
 </navigation>

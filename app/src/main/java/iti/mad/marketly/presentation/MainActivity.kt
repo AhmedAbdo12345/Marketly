@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.cartFragment,
                 R.id.categoryFragment,
                 R.id.favouriteFragment,
-                R.id.myProfile
+                R.id.myProfile2
             )
         )
         // setupActionBarWithNavController(navController, appBarConfiguration)

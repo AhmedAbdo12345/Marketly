@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,7 @@ import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.data.repository.adsrepo.AdsRepoImplementation
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentHomeBinding
+import iti.mad.marketly.presentation.auth.login.LoginViewModel
 import iti.mad.marketly.utils.AdsManager
 
 import iti.mad.marketly.presentation.home.brands.BrandsAdapter
@@ -38,13 +40,15 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
     lateinit var brandsViewModel: BrandsViewModel
     lateinit var binding: FragmentHomeBinding
-    lateinit var adsViewModel: AdsViewModel
-    lateinit var adsRepo: AdsRepoImplementation
+    private val adsViewModel by viewModels<AdsViewModel> {
+        AdsViewModel.Factory
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         brandsViewModel =
             ViewModelProvider(this, BrandsViewModel.Factory).get(BrandsViewModel::class.java)
-        adsViewModel = ViewModelProvider(this).get(AdsViewModel::class.java)
+
 
     }
 
@@ -64,11 +68,9 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
 
         var api = RetrofitInstance.api
-        adsRepo = AdsRepoImplementation(api)
+
 
         getBrands()
-
-        adsViewModel.getPricingRule(adsRepo)
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adsViewModel._pricingRule.collect {
@@ -89,13 +91,11 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                 }
             }
         }
-    }
 
 
+
+}
     override fun onClickBrand(smartCollection: SmartCollection) {
-        /*val action: ActionHomeFragmentToBrandProductFragment = HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection)
-           Navigation.findNavController(requireView()).navigate(action)
-            Toast.makeText(activity, "", Toast.LENGTH_SHORT).show()*/
         if (smartCollection != null) {
             Log.d("zxcv", "onClickBrand: 8888" + smartCollection.title)
 
@@ -105,7 +105,6 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
         }
     }
-
     fun getBrands() {
         viewLifecycleOwner.lifecycleScope.launch {
             brandsViewModel.getAllBrands()
@@ -132,9 +131,8 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             }
         }
     }
-
     fun launchDiscount(priceRule: Long) {
-        adsViewModel.getDiscount(adsRepo, priceRule)
+        adsViewModel.getDiscount(priceRule)
         lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adsViewModel._discount.collect {
@@ -202,3 +200,14 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
