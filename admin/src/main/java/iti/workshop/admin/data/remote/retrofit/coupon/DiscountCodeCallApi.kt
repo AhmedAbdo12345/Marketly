@@ -26,7 +26,10 @@ interface DiscountCodeCallApi {
         @Body data: iti.workshop.admin.data.dto.DiscountCodeRequestAndResponse
     ): Response<iti.workshop.admin.data.dto.DiscountCodeRequestAndResponse>
 
-    @DELETE("discount_codes/{id}.json")
-    suspend fun deleteDiscount(@Path("id") id: Long): Response<Void>
+    @DELETE("price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json")
+    suspend fun deleteDiscount(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Path("discount_code_id") discount_code_id: Long,
+    ): Response<Void>
 
 }

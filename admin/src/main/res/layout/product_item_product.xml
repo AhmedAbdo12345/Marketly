@@ -30,10 +30,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
+            android:layout_margin="10dp"
             android:layout_width="180dp"
             android:layout_height="200dp"
             app:cardBackgroundColor="@color/backgroundAd"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="30dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +43,6 @@
 
             <ImageView
                 android:id="@+id/image_product"
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -73,6 +73,7 @@
 
 
         <LinearLayout
+
             android:id="@+id/linearLayout5"
             android:layout_width="180dp"
             android:layout_height="110dp"

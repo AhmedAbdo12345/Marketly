@@ -279,6 +279,7 @@
 
             <com.google.android.material.card.MaterialCardView
 
+
                 android:id="@+id/inventory_holder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/home_card_height"

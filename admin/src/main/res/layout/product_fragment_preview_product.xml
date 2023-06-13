@@ -79,7 +79,7 @@
                             android:fontFamily="@font/metropolis_semibold"
                             android:gravity="end"
                             tools:text="250"
-                            android:text="25"
+                            android:text="@{String.valueOf(dataModel.variants[0].price)}"
                             android:textColor="@color/mainText"
                             android:textSize="25sp" />
                     </LinearLayout>

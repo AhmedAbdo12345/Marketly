@@ -21,8 +21,8 @@ class ImplCouponRepository(private val _api:CouponAPICalls):ICouponRepository {
         data: DiscountCodeRequestAndResponse
     ): Response<DiscountCodeRequestAndResponse>
      = _api.discountCodeCallApi.updateDiscount(price_rule_id, discount_code_id, data)
-    override suspend fun deleteDiscount(id: Long): Response<Void>
-     = _api.priceRuleCallApi.deletePriceRule(id)
+    override suspend fun deleteDiscount(price_rule_id: Long,discount_code_id: Long): Response<Void>
+     = _api.discountCodeCallApi.deleteDiscount(price_rule_id,discount_code_id)
 
     override suspend fun getCountPriceRule(): Response<Count>
      = _api.priceRuleCallApi.getCountPriceRule()

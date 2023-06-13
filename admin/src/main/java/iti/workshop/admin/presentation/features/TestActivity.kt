@@ -25,44 +25,11 @@ class TestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test)
         imageView = findViewById(R.id.my_avatar_imageview)
 
-        if(checkAndRequestPermissions(this)){
-        }
-        chooseImage(this)
+
     }
 
     // Handled permission Result
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            REQUEST_ID_MULTIPLE_PERMISSIONS -> if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.CAMERA
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Toast.makeText(
-                    applicationContext,
-                    "FlagUp Requires Access to Camara.", Toast.LENGTH_SHORT
-                )
-                    .show()
-            } else if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Toast.makeText(
-                    applicationContext,
-                    "FlagUp Requires Access to Your Storage.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                chooseImage(this)
-            }
-        }
-    }
+
 
     // function to let's the user to choose image from camera or gallery
     private fun chooseImage(context: Context) {
@@ -119,36 +86,5 @@ class TestActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        const val REQUEST_ID_MULTIPLE_PERMISSIONS = 101
 
-        // function to check permission
-        fun checkAndRequestPermissions(context: Activity?): Boolean {
-            val WExtstorePermission = ContextCompat.checkSelfPermission(
-                context!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            val cameraPermission = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            )
-            val listPermissionsNeeded: MutableList<String> = ArrayList()
-            if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(Manifest.permission.CAMERA)
-            }
-            if (WExtstorePermission != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded
-                    .add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-            if (!listPermissionsNeeded.isEmpty()) {
-                ActivityCompat.requestPermissions(
-                    context, listPermissionsNeeded
-                        .toTypedArray(),
-                    REQUEST_ID_MULTIPLE_PERMISSIONS
-                )
-                return false
-            }
-            return true
-        }
-    }
 }

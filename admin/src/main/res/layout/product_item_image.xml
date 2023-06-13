@@ -40,6 +40,8 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+
+                app:thumbnail="@{model.src}"
                 android:id="@+id/image_product"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

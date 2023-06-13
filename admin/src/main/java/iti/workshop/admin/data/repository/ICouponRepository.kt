@@ -22,7 +22,7 @@ interface ICouponRepository {
         data: DiscountCodeRequestAndResponse
     ): Response<DiscountCodeRequestAndResponse>
 
-    suspend fun deleteDiscount(id: Long): Response<Void>
+    suspend fun deleteDiscount(price_rule_id: Long,discount_code_id: Long): Response<Void>
 
 
 

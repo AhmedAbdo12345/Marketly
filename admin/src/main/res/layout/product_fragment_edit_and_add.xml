@@ -32,6 +32,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout2"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="Value"
+                    app:layout_constraintBottom_toBottomOf="@+id/titleProduct"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="4"
+                    app:layout_constraintStart_toEndOf="@+id/titleProduct"
+                    app:layout_constraintTop_toTopOf="@+id/titleProduct">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/value_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:drawableStart="@drawable/ic_dolar"
+                        android:inputType="numberDecimal"
+                        app:endIconMode="clear_text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <ImageView
                     android:id="@+id/productImage"
                     android:layout_width="match_parent"
@@ -63,13 +85,12 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/titleProduct"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:hint="@string/title"
                     app:layout_constraintBottom_toTopOf="@+id/description"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_weight="6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/productImage">
 
@@ -77,6 +98,7 @@
                         android:id="@+id/titleProductInput"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+
                         android:fontFamily="@font/metropolis_regular"
                         android:inputType="textPersonName"
                         android:maxLines="1"
@@ -105,6 +127,7 @@
                         android:fontFamily="@font/metropolis_regular"
                         android:inputType="text"
                         android:maxLines="5"
+                        android:drawableStart="@drawable/ic_variants"
                         android:text="@={dataModel.body_html}"
                         android:textColor="@color/mainText"
                         android:textSize="15sp" />
@@ -148,11 +171,11 @@
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/action_group"
-                    android:visibility="gone"
-                    tools:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="addProductImages,addProductVariants" />
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="addProductImages,addProductVariants"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -28,7 +28,7 @@ data class PriceRule(
     val id: Long = -1,
     val allocation_method: String = "each",
     val customer_selection: String = "all",
-    val target_selection: String = "entitled",
+    val target_selection: String = "all", //"entitled",
     val target_type: String = "shipping_line",
     val usage_limit: Int = 10,
     val once_per_customer: Boolean = true,
@@ -44,5 +44,10 @@ data class PriceRule(
     // Timestamp
     val created_at: String?=null,
     val updated_at: String?=null,
-
+//    val prerequisite_to_entitlement_quantity_ratio:PrerequisiteToEntitlementQuantityRatio = PrerequisiteToEntitlementQuantityRatio()
     )
+
+data class PrerequisiteToEntitlementQuantityRatio(
+    val prerequisite_quantity:Int = 2,
+    val entitled_quantity:Int = 1
+)

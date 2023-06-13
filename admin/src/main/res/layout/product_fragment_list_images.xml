@@ -13,6 +13,8 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:visibility="gone"
+
             android:id="@+id/floatingActionButton"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -127,6 +129,7 @@
         </LinearLayout>
 
         <Button
+            android:visibility="gone"
             android:layout_marginBottom="10dp"
 
             android:id="@+id/saveAction"

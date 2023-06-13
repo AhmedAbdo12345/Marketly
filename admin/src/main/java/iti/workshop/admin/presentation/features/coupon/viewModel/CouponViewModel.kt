@@ -117,7 +117,7 @@ class CouponViewModel @Inject constructor(
 
     fun deleteDiscountCode(model: DiscountCode) {
         viewModelScope.launch {
-            val response = async { _repo.deleteDiscount(model.id) }
+            val response = async { _repo.deleteDiscount(model.price_rule_id,model.id) }
             if (response.await().isSuccessful){
                 _discountCodeActionResponse.value = Pair(true,"discount code deleted successfully")
                 retrieveDiscountRules(model.price_rule_id)

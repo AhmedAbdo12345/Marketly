@@ -22,6 +22,7 @@
         app:cardElevation="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -44,7 +45,7 @@
                 android:layout_marginTop="28dp"
                 android:text="@{model.title}"
                 android:textColor="@color/title_color"
-                android:textSize="23sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/textView4"
                 app:layout_constraintHorizontal_bias="0.023"

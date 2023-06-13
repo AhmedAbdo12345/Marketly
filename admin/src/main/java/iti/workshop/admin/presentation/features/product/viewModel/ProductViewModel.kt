@@ -15,6 +15,7 @@ import iti.workshop.admin.data.repository.IProductRepository
 import iti.workshop.admin.presentation.comon.ProductAction
 import iti.workshop.admin.presentation.features.product.models.ProductUIModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
+import iti.workshop.admin.presentation.utils.handleDate
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
@@ -76,13 +77,19 @@ class ProductViewModel @Inject constructor(
 
             if (response.await().isSuccessful)
                 response.await().body()?.let {
+                    _actionResponse.value = Pair(true, "Product Added Successfully")
+
                     _addOrEditResponses.value = DataListResponseState.OnSuccess(it)
                 }
-            else
+            else {
+
+                _actionResponse.value = Pair(false, response.await().errorBody()?.string())
+
                 _addOrEditResponses.value =
                     DataListResponseState.OnError(
-                        response.await().errorBody()?.string() ?: "Error Happened during fetch data")
-        }
+                        response.await().errorBody()?.string() ?: "Error Happened during fetch data"
+                    )
+            } }
     }
 
     fun getCountOfProducts() {
@@ -165,7 +172,10 @@ class ProductViewModel @Inject constructor(
             val response = async { _repo.getProductVariants(product_id) }
 
             if (response.await().isSuccessful) {
-                val data = response.await().body()?.variants
+                val data = response.await().body()?.variants?.map { item-> item.copy(
+                    created_at = handleDate(item.created_at),
+                    updated_at = handleDate(item.updated_at)
+                ) }
                 if (data?.isNotEmpty() == true) {
                     _productVariantsListResponses.value = DataListResponseState.OnSuccess(data)
                 } else {
