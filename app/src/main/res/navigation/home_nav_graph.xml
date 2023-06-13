@@ -61,4 +61,8 @@
         android:name="iti.mad.marketly.presentation.favourite.FavouriteFragment"
         android:label="fragment_favourite"
         tools:layout="@layout/fragment_favourite" />
+    <fragment
+        android:id="@+id/myProfile"
+        android:name="iti.mad.marketly.presentation.settings.MyProfile"
+        android:label="MyProfile" />
 </navigation>

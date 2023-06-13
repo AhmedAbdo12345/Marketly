@@ -74,7 +74,9 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 viewModel._category.collect {
                     when (it) {
                         is ResponseState.OnSuccess -> {
+                            tabLayout.removeAllTabs()
                             for (x in 0 until it.response.custom_collections.size) {
+
                                 val collectionObj = it.response.custom_collections[x]
                                 val myTab = tabLayout.newTab()
                                     .setText(it.response.custom_collections[x].title)
@@ -146,19 +148,21 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
     }
     fun filterByClothes(productList: MutableList<Product>){
         binding.fabCap.setOnClickListener {
-            Toast.makeText(requireContext(), "CAP", Toast.LENGTH_SHORT).show()
-             var filterList =productList.filter { it.product_type.equals("ACCESSORIES") }
+            adapterProduct.submitList(null)
+            var filterList =productList.filter { it.product_type.equals("ACCESSORIES") }
             adapterProduct.submitList(filterList)
 
         }
 
         binding.fabTShirt.setOnClickListener {
+            adapterProduct.submitList(null)
             var filterList =productList.filter { it.product_type.equals("T-SHIRTS") }
             adapterProduct.submitList(filterList)
 
         }
 
         binding.fabJeans.setOnClickListener {
+            adapterProduct.submitList(null)
             var  filterList =productList.filter { it.product_type.equals("SHOES") }
             adapterProduct.submitList(filterList)
 
