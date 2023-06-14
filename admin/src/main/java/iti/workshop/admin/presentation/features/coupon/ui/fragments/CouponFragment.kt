@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.databinding.CouponFragmentBinding
-import iti.workshop.admin.presentation.features.coupon.ui.adapters.TabsPagerAdapter
+import iti.workshop.admin.presentation.features.coupon.adapters.TabsPagerAdapter
 import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 
 @AndroidEntryPoint

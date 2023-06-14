@@ -5,14 +5,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import iti.workshop.admin.data.dto.Count
 import iti.workshop.admin.data.dto.Image
-import iti.workshop.admin.data.dto.ImagesListResponse
 import iti.workshop.admin.data.dto.PostProduct
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.data.dto.UpdateProduct
 import iti.workshop.admin.data.dto.Variant
-import iti.workshop.admin.data.dto.VariantListResponse
 import iti.workshop.admin.data.repository.IProductRepository
-import iti.workshop.admin.presentation.comon.ProductAction
+import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.models.ProductUIModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.handleDate
@@ -68,11 +66,11 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    fun addOrEditProduct(productAction: ProductAction,product: Product) {
+    fun addOrEditProduct(action: Action, product: Product) {
         viewModelScope.launch {
-           val response:Deferred<Response<Product>> = when(productAction){
-                ProductAction.Add -> async { _repo.addProduct(PostProduct(product)) }
-                ProductAction.Edit -> async { _repo.updateProduct(product.id, UpdateProduct(product)) }
+           val response:Deferred<Response<Product>> = when(action){
+                Action.Add -> async { _repo.addProduct(PostProduct(product)) }
+                Action.Edit -> async { _repo.updateProduct(product.id, UpdateProduct(product)) }
             }
 
             if (response.await().isSuccessful)

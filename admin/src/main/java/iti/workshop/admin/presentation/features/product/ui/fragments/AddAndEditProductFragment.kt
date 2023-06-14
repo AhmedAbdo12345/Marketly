@@ -20,24 +20,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
-import iti.workshop.admin.data.dto.PriceRule
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.data.dto.Variant
 import iti.workshop.admin.databinding.ProductFragmentEditAndAddBinding
-import iti.workshop.admin.presentation.MainActivity.Companion.checkAndRequestPermissions
 import iti.workshop.admin.presentation.comon.ConstantsKeys
-import iti.workshop.admin.presentation.comon.ProductAction
+import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.Message
 import kotlinx.coroutines.launch
-import java.util.Random
 
 
 @AndroidEntryPoint
 class AddAndEditProductFragment : Fragment() {
 
-    var actionType:ProductAction = ProductAction.Add
+    var actionType:Action = Action.Add
     var product: Product = Product()
 
     private val viewModel: ProductViewModel by viewModels()
@@ -76,14 +73,14 @@ class AddAndEditProductFragment : Fragment() {
 
     private fun saveData() {
         val model:Product =  when(actionType){
-            ProductAction.Add -> {
+            Action.Add -> {
                 Product(
                     title = binding.titleProductInput.text.toString(),
                     body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
                     variants = listOf(Variant(price = binding.valueInput.text.toString()))
                 )
             }
-            ProductAction.Edit -> {
+            Action.Edit -> {
                     product.copy(
                         title = binding.titleProductInput.text.toString(),
                         body_html = "<p>${binding.descriptionInput.text.toString()}</p>"
@@ -113,7 +110,7 @@ class AddAndEditProductFragment : Fragment() {
     }
 
     private fun productActionNavigate() {
-        if (actionType == ProductAction.Edit) {
+        if (actionType == Action.Edit) {
             val bundle = Bundle()
             bundle.putLong(ConstantsKeys.PRODUCT_KEY, product.id)
 
@@ -243,8 +240,8 @@ class AddAndEditProductFragment : Fragment() {
     private fun updateProduct() {
         val bundle = arguments
         if (bundle != null) {
-            actionType = bundle.getSerializable(ConstantsKeys.PRODUCT_ACTION_KEY) as ProductAction
-            if (actionType == ProductAction.Edit){
+            actionType = bundle.getSerializable(ConstantsKeys.ACTION_KEY) as Action
+            if (actionType == Action.Edit){
                 binding.addProductImage.visibility = View.GONE
                 binding.actionGroup.visibility = View.VISIBLE
                 product = bundle.getSerializable(ConstantsKeys.PRODUCT_KEY) as Product

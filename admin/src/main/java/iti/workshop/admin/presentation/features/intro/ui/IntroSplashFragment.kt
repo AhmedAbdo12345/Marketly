@@ -1,4 +1,4 @@
-package iti.workshop.admin.presentation.features.intro
+package iti.workshop.admin.presentation.features.intro.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,14 +13,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class SplashFragment : Fragment() {
+class IntroSplashFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        return inflater.inflate(R.layout.intro_splash_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

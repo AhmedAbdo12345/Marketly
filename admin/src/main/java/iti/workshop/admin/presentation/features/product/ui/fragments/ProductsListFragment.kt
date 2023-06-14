@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +16,7 @@ import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.databinding.ProductFragmentListProductsBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
-import iti.workshop.admin.presentation.comon.ProductAction
+import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.ui.adapters.ItemOnCLickListener
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductsAdapter
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
@@ -119,7 +118,7 @@ class ProductsListFragment : Fragment() {
     private fun navigateToAddNewProduct() {
         binding.floatingActionButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putSerializable(ConstantsKeys.PRODUCT_ACTION_KEY,ProductAction.Add)
+            bundle.putSerializable(ConstantsKeys.ACTION_KEY,Action.Add)
             findNavController().navigate(R.id.action_productsListFragment_to_addAndEditProductFragment,bundle)
         }
     }
@@ -135,7 +134,7 @@ class ProductsListFragment : Fragment() {
     private fun selectProduct(product: Product) {
         val bundle = Bundle()
         bundle.putSerializable(ConstantsKeys.PRODUCT_KEY, product)
-        bundle.putSerializable(ConstantsKeys.PRODUCT_ACTION_KEY, ProductAction.Edit)
+        bundle.putSerializable(ConstantsKeys.ACTION_KEY, Action.Edit)
         findNavController().navigate(R.id.action_productsListFragment_to_previewProductFragment,bundle)
     }
 

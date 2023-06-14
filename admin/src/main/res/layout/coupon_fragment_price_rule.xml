@@ -6,7 +6,7 @@
     <data>
         <variable
             name="mAdapter"
-            type="iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleAdapter" />
+            type="iti.workshop.admin.presentation.features.coupon.adapters.PriceRuleAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

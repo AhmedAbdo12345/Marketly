@@ -1,4 +1,4 @@
-package iti.workshop.admin.presentation.features.coupon.ui.adapters
+package iti.workshop.admin.presentation.features.coupon.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

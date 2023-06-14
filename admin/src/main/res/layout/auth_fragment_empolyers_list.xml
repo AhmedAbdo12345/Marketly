@@ -4,19 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="mAdapter"
-            type="iti.workshop.admin.presentation.features.coupon.adapters.DiscountCodeAdapter" />
+            type="iti.workshop.admin.presentation.features.auth.adapters.AuthEmployersAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <LinearLayout
-            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -53,6 +50,7 @@
             </LinearLayout>
 
 
+
             <LinearLayout
                 android:layout_marginTop="20dp"
                 android:gravity="center"
@@ -67,34 +65,33 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:textSize="28sp"
+                        android:textSize="30sp"
                         android:layout_margin="10dp"
                         android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Discount Code"/>
+                        android:text="Employers"/>
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/ic_coupon"/>
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_user"/>
 
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:adapter="@{mAdapter}"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/coupon_item_discount_code">
+                    tools:listitem="@layout/auth_employers_item">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
-
 
         </LinearLayout>
 

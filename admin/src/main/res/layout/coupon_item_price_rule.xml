@@ -11,7 +11,7 @@
 
         <variable
             name="clickListener"
-            type="iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleOnCLickListener" />
+            type="iti.workshop.admin.presentation.features.coupon.adapters.PriceRuleOnCLickListener" />
     </data>
 
     <androidx.cardview.widget.CardView

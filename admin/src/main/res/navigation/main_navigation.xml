@@ -7,13 +7,20 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="iti.workshop.admin.presentation.features.intro.SplashFragment"
+        android:name="iti.workshop.admin.presentation.features.intro.ui.IntroSplashFragment"
         android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash">
+        tools:layout="@layout/intro_splash_fragment">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/splashFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_authLoginFragment"
+            app:destination="@id/authLoginFragment"
+            app:popUpTo="@id/splashFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_introOnBoardingFragment"
+            app:destination="@id/introOnBoardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/inventoryFragment"
@@ -49,6 +56,9 @@
             android:id="@+id/action_homeFragment_to_priceRuleFragment"
             app:destination="@id/couponFragment"
             app:enterAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_authEmployersListFragment"
+            app:destination="@id/authEmployersListFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAndEditProductFragment"
@@ -56,9 +66,8 @@
         android:label="AddAndEditProductFragment"
         tools:layout="@layout/product_fragment_edit_and_add">
         <argument
-            android:name="PRODUCT_ACTION_KEY"
-            app:argType="iti.workshop.admin.presentation.comon.ProductAction"
-            android:defaultValue="Add" />
+            android:name="ACTION_KEY"
+            app:argType="iti.workshop.admin.presentation.comon.ProductAction" />
         <argument
             android:name="PRODUCT_KEY"
             app:argType="iti.workshop.admin.data.dto.Product"
@@ -128,6 +137,66 @@
             android:name="PRODUCT_KEY"
             app:argType="long"
             android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/auth_fragment_empolyers_list"
+        android:id="@+id/authEmployersListFragment"
+        android:name="iti.workshop.admin.presentation.features.auth.ui.AuthEmployersListFragment"
+        android:label="AuthEmployersListFragment" >
+        <action
+            android:id="@+id/action_authEmployersListFragment_to_authProfileAddEditFragment"
+            app:destination="@id/authProfileAddEditFragment" />
+        <action
+            android:id="@+id/action_authEmployersListFragment_to_authProfilePreviewFragment"
+            app:destination="@id/authProfilePreviewFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/auth_fragment_login"
+        android:id="@+id/authLoginFragment"
+        android:name="iti.workshop.admin.presentation.features.auth.ui.AuthLoginFragment"
+        android:label="AuthLoginFragment" >
+        <action
+
+            android:id="@+id/action_authLoginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/auth_fragment_profile_add_edit"
+        android:id="@+id/authProfileAddEditFragment"
+        android:name="iti.workshop.admin.presentation.features.auth.ui.AuthProfileAddEditFragment"
+        android:label="AuthProfileAddEditFragment" >
+        <argument
+            android:name="USER_KEY"
+            app:argType="iti.workshop.admin.presentation.features.auth.model.User"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="ACTION_KEY"
+            app:argType="iti.workshop.admin.presentation.comon.Action"
+            android:defaultValue="Add" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/auth_fragment_profile_preview"
+        android:id="@+id/authProfilePreviewFragment"
+        android:name="iti.workshop.admin.presentation.features.auth.ui.AuthProfilePreviewFragment"
+        android:label="AuthProfilePreviewFragment" >
+        <action
+            android:id="@+id/action_authProfilePreviewFragment_to_authProfileAddEditFragment"
+            app:destination="@id/authProfileAddEditFragment" />
+        <argument
+            android:name="USER_KEY"
+            app:argType="iti.workshop.admin.presentation.features.auth.model.User"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/intro_onboarding_fragment"
+        android:id="@+id/introOnBoardingFragment"
+        android:name="iti.workshop.admin.presentation.features.intro.ui.IntroOnBoardingFragment"
+        android:label="IntroOnBoardingFragment" >
+        <action
+            android:id="@+id/action_introOnBoardingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
 </navigation>

@@ -14,8 +14,8 @@ import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.PriceRule
 import iti.workshop.admin.databinding.CouponFragmentPriceRuleBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
-import iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleAdapter
-import iti.workshop.admin.presentation.features.coupon.ui.adapters.PriceRuleOnCLickListener
+import iti.workshop.admin.presentation.features.coupon.adapters.PriceRuleAdapter
+import iti.workshop.admin.presentation.features.coupon.adapters.PriceRuleOnCLickListener
 import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddPriceRuleDialog
 import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 class PriceRuleFragment : Fragment() {
 
     val viewModel:CouponViewModel by viewModels()
-    lateinit var adapter:PriceRuleAdapter
+    lateinit var adapter: PriceRuleAdapter
     lateinit var binding:CouponFragmentPriceRuleBinding
     override fun onCreateView(
         inflater: LayoutInflater,
