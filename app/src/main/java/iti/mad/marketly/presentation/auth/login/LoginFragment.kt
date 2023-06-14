@@ -212,7 +212,7 @@ class LoginFragment : Fragment() {
             .setPositiveButton(R.string.ok) { _, _ -> }.setIcon(R.drawable.ic_baseline_clear_24)
             .show()
     }
-    fun getSavedSettings(){
+    private fun getSavedSettings(){
         SettingsManager.documentIDSetter(emailEditText.text.toString())
         SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
         SettingsManager.addressSetter(SharedPreferenceManager.getDefaultAddress(requireContext())!!)

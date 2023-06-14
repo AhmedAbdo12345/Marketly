@@ -71,7 +71,7 @@ class RegisterFragment : Fragment() {
                         }
 
                         is ResponseState.OnLoading -> {
-                            //todo
+
                             if (uiState.loading) {
                                 binding.progressBar.visibility = View.VISIBLE
                             }

@@ -19,7 +19,7 @@ const val API_ACCESS_TOKEN = "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"
     const val CURRENCY="curr"
     const val DEFAULTADDRESS="defAddress"
     const val EXCHANGERATE = "Rate"
-    const val USER_NAME = "NAME"
+
     //Settings
     const val Address_DELEMETER = "_"
     const val USERS = "Users"
