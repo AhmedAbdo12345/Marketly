@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,7 @@ class LoginFragment : Fragment() {
                             SharedPreferenceManager.saveCurrency(
                                 uiState.response.customers?.get(0)?.currency ?: "", requireContext()
                             )
+                            Log.i("IDD",uiState.response.customers?.get(0)?.id.toString())
                             SharedPreferenceManager.saveUserData(
                                 requireContext(),
                                 uiState.response.customers?.get(0)?.id.toString() ?: "",
@@ -188,7 +190,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun getUserData(email: String) {
-        loginViewModel.loginWithEmail(email)
+        val e= "email:$email"
+        loginViewModel.loginWithEmail(e)
 
     }
 

@@ -46,28 +46,21 @@ class RegisterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 registerViewModel.customerRespoonse.collect { uiState ->
                     when (uiState) {
                         is ResponseState.OnSuccess -> {
                             SharedPreferenceManager.saveUserName(nameEditText.text.toString(),requireContext())
-                            val action =
-                                RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-
-                            findNavController().navigate(action)
                             binding.progressBar.visibility = View.GONE
                             AlertManager.functionalDialog(
                                 "Register Successfully",
                                 requireContext(),
                                 "please check your E-mail for verification"
                             ) {
-                                val action =
-                                    RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                                val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                                 findNavController().navigate(action)
                             }.show()
-
                         }
 
                         is ResponseState.OnLoading -> {
@@ -82,7 +75,7 @@ class RegisterFragment : Fragment() {
                             binding.progressBar.visibility = View.GONE
 
                             AlertManager.nonFunctionalDialog(
-                                "error",
+                                "errrrrrrrrrrrrrrror",
                                 requireContext(),
                                 uiState.message,
 
@@ -223,7 +216,6 @@ class RegisterFragment : Fragment() {
                         customer.first_name = nameEditText.text.toString()
                         val customerBody = CustomerBody(customer)
                         registerViewModel.registerUser(customerBody)
-
                     } else {
                         AlertManager.nonFunctionalDialog(
                             "error",

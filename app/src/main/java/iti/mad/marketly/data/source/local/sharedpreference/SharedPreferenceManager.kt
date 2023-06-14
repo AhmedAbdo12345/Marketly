@@ -79,4 +79,9 @@ object SharedPreferenceManager {
         checkPreferences(context)
         return shared.getBoolean(Constants.IS_LOGIN, false)
     }
+
+    fun getUserID(context: Context) :String?{
+        checkPreferences(context)
+        return shared.getString(Constants.USER_ID,"")
+    }
 }

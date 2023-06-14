@@ -22,8 +22,8 @@ import retrofit2.http.Path
 interface ApiService {
     @POST("customers.json")
     suspend fun registerUser(@Body customerBody: CustomerBody): CustomerBody
-    @GET("customers.json")
-    suspend fun loginWithEmail(@Query(value = "email:") email:String): CustomerResponse
+    @GET("customers/search.json")
+    suspend fun loginWithEmail(@Query(value = "query")email:String): CustomerResponse
   //---------------------------------------------------------
     @GET("smart_collections.json")
     suspend fun getBrandsFromAPI() : BrandsResponse

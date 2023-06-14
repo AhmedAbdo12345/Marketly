@@ -57,7 +57,6 @@ class RemoteDataSource(
         val q = Firebase.firestore.collection(USERS).document(userID).collection(FAVOURITE).get()
             .await()
         val products = mutableListOf<Product>()
-        Log.i("ppp", q.documents.get(0).data?.entries.toString())
         for (product in q.documents) {
             Log.i("ppp", product.toObject<Product>()?.body_html!!)
             Log.i("ppp", product.id)
