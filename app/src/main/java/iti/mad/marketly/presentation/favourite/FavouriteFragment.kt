@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentFavouriteBinding
 import iti.mad.marketly.presentation.MainActivity
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
@@ -73,7 +74,7 @@ class FavouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.navController = findNavController()
-        favoriteViewModel.getAllFavourite(FirebaseAuth.getInstance().currentUser?.uid.toString())
+        favoriteViewModel.getAllFavourite(SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "")
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.appBarHome.toolbar)
         binding.appBarHome.toolbar.title = getString(R.string.favourite)
         binding.appBarHome.backArrow.setOnClickListener {

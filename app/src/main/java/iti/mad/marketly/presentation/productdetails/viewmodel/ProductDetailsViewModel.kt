@@ -25,19 +25,19 @@ class ProductDetailsViewModel(
 ) : ViewModel() {
 
     private val _productDetails =
-        MutableStateFlow<ResponseState<ProductDetails>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<ProductDetails>>(ResponseState.OnLoading(false))
     val productDetails: StateFlow<ResponseState<ProductDetails>> = _productDetails
     private val _addedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val addedSuccessfully: StateFlow<ResponseState<String>> = _addedSuccessfully
     private val _deletedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val deletedSuccessfully: StateFlow<ResponseState<String>> = _deletedSuccessfully
     private val _isFavourite =
-        MutableStateFlow<ResponseState<Boolean>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<Boolean>>(ResponseState.OnLoading(false))
     val isFavourite: StateFlow<ResponseState<Boolean>> = _isFavourite
     fun getProductDetails(id: Long) {
-        _productDetails.value = ResponseState.OnLoading()
+        _productDetails.value = ResponseState.OnLoading(true)
         viewModelScope.launch {
             productDetailsRepository.getProductDetails(id).flowOn(Dispatchers.IO).catch { e ->
                 _productDetails.value = ResponseState.OnError(e.localizedMessage ?: "eerrror")

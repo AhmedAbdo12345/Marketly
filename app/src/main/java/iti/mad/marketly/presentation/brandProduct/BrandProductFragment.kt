@@ -21,6 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.RangeSlider
 import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
@@ -62,7 +63,8 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         var smartCollection =
             BrandProductFragmentArgs.fromBundle(requireArguments()).brandID
         brandProductViewModel.getAllBrandProduct(
-            smartCollection.toString(), FirebaseAuth.getInstance().currentUser?.uid.toString()
+            smartCollection.toString(),
+            SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
         )
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -76,13 +78,13 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                              brandAdapter = BrandProductAdapter(this@BrandProductFragment) {
                                 if (it.isFavourite == true) {
                                     brandProductViewModel.deleteProductFromFavourite(
-                                        FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
                                         it
                                     )
 
                                 } else {
                                     brandProductViewModel.addProductToFavourite(
-                                        FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
                                         it
                                     )
                                 }

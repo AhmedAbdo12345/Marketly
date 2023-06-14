@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class BrandsViewModel(var brandsRepo: BrandsRepo): ViewModel() {
    private var brands : MutableStateFlow<ResponseState<BrandsResponse>> = MutableStateFlow(
-       ResponseState.OnLoading())
+       ResponseState.OnLoading(false))
     val _brands: StateFlow<ResponseState<BrandsResponse>> = brands
 
     fun getAllBrands( ){

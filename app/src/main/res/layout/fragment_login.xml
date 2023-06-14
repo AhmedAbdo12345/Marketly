@@ -67,12 +67,12 @@
             android:id="@+id/emailErrorTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/metropolis_regular"
-            android:text="@string/email_error"
             android:textColor="@color/primary"
             android:textSize="12sp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@+id/emailEt"
             app:layout_constraintStart_toStartOf="@+id/emailEt"
             app:layout_constraintTop_toBottomOf="@+id/emailEt" />
@@ -81,7 +81,7 @@
             android:id="@+id/PasswordET"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/edit_text_bg"
             android:drawableEnd="@null"
             android:fontFamily="@font/metropolis_regular"
@@ -100,12 +100,12 @@
             android:id="@+id/passwordErrorTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/metropolis_regular"
-            android:text="@string/password_error"
             android:textColor="@color/primary"
             android:textSize="12sp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@+id/PasswordET"
             app:layout_constraintStart_toStartOf="@+id/PasswordET"
             app:layout_constraintTop_toBottomOf="@+id/PasswordET" />
@@ -114,7 +114,7 @@
             android:id="@+id/forgotPasswordTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/metropolis_regular"
             android:gravity="end"
             android:text="@string/forgot_password"
@@ -137,6 +137,17 @@
             app:layout_constraintEnd_toEndOf="@+id/forgotPasswordTv"
             app:layout_constraintStart_toStartOf="@+id/forgotPasswordTv"
             app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTv" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

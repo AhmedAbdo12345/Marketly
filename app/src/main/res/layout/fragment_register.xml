@@ -65,11 +65,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/loginTV" />
 
+            <TextView
+                android:id="@+id/text_view_name_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#FF0000"
+                app:layout_constraintEnd_toEndOf="@+id/nameEt"
+                app:layout_constraintStart_toStartOf="@+id/nameEt"
+                app:layout_constraintTop_toBottomOf="@+id/nameEt" />
+
+
             <EditText
                 android:id="@+id/emailEt"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/edit_text_bg"
                 android:drawableEnd="@null"
                 android:fontFamily="@font/metropolis_regular"
@@ -85,24 +97,22 @@
                 app:layout_constraintTop_toBottomOf="@id/nameEt" />
 
             <TextView
-                android:id="@+id/emailErrorTV"
-                android:layout_width="0dp"
+                android:id="@+id/text_view_email_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/metropolis_regular"
-                android:text="@string/email_error"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="@+id/emailEt"
                 app:layout_constraintStart_toStartOf="@+id/emailEt"
                 app:layout_constraintTop_toBottomOf="@+id/emailEt" />
+
 
             <EditText
                 android:id="@+id/PasswordET"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/edit_text_bg"
                 android:drawableEnd="@null"
                 android:fontFamily="@font/metropolis_regular"
@@ -118,24 +128,22 @@
                 app:layout_constraintTop_toBottomOf="@id/emailEt" />
 
             <TextView
-                android:id="@+id/passwordErrorTV"
-                android:layout_width="0dp"
+                android:id="@+id/text_view_password_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/metropolis_regular"
-                android:text="@string/password_error"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="@+id/PasswordET"
                 app:layout_constraintStart_toStartOf="@+id/PasswordET"
                 app:layout_constraintTop_toBottomOf="@+id/PasswordET" />
+
 
             <EditText
                 android:id="@+id/confirmPasswordET"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/edit_text_bg"
                 android:drawableEnd="@null"
                 android:fontFamily="@font/metropolis_regular"
@@ -146,37 +154,35 @@
                 android:paddingEnd="16dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/passwordErrorTV"
-                app:layout_constraintStart_toStartOf="@+id/passwordErrorTV"
-                app:layout_constraintTop_toBottomOf="@id/passwordErrorTV" />
+                app:layout_constraintEnd_toEndOf="@+id/PasswordET"
+                app:layout_constraintStart_toStartOf="@+id/PasswordET"
+                app:layout_constraintTop_toBottomOf="@+id/PasswordET" />
 
             <TextView
-                android:id="@+id/confirmPasswordErrorTV"
-                android:layout_width="0dp"
+                android:id="@+id/text_view_confirm_password_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/metropolis_regular"
-                android:text="@string/password_error"
-                android:textColor="@color/primary"
-                android:textSize="12sp"
-                android:visibility="invisible"
+                android:textColor="#FF0000"
                 app:layout_constraintEnd_toEndOf="@+id/confirmPasswordET"
                 app:layout_constraintStart_toStartOf="@+id/confirmPasswordET"
                 app:layout_constraintTop_toBottomOf="@+id/confirmPasswordET" />
+
 
             <TextView
                 android:id="@+id/alreadyHaveAccTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/metropolis_regular"
                 android:gravity="end"
                 android:text="@string/already_have_account"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/confirmPasswordET"
-                app:layout_constraintStart_toStartOf="@+id/confirmPasswordET"
-                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordErrorTV" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordET" />
 
             <Button
                 android:id="@+id/signUpBtn"
@@ -193,6 +199,17 @@
                 app:layout_constraintEnd_toEndOf="@+id/alreadyHaveAccTV"
                 app:layout_constraintStart_toStartOf="@+id/alreadyHaveAccTV"
                 app:layout_constraintTop_toBottomOf="@+id/alreadyHaveAccTV" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

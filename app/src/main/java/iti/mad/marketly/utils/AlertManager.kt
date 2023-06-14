@@ -1,7 +1,6 @@
 package iti.mad.marketly.utils
 
 import android.content.Context
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 
 object AlertManager {

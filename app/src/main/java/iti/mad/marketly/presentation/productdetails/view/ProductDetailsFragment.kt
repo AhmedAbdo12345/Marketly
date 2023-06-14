@@ -28,6 +28,7 @@ import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
 import iti.mad.marketly.data.model.Reviewer
 import iti.mad.marketly.data.model.product.Image
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 import iti.mad.marketly.utils.ResponseState
@@ -61,7 +62,7 @@ class ProductDetailsFragment : Fragment() {
                             renderDataOnScreen(uiState.response)
                             productDetails = uiState.response
                             viewModel.isFavourite(
-                                FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                                SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "", productDetails.product!!
                             )
                         }
 
@@ -179,17 +180,17 @@ class ProductDetailsFragment : Fragment() {
         binding.cvFavorite.setOnClickListener {
             if (isFavourite) {
                 viewModel.deleteProductFromFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "", productDetails.product!!
                 )
                 viewModel.isFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "", productDetails.product!!
                 )
             } else {
                 viewModel.addProductToFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "", productDetails.product!!
                 )
                 viewModel.isFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "", productDetails.product!!
                 )
 
             }

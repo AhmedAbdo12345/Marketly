@@ -6,9 +6,10 @@ import androidx.preference.PreferenceManager
 import iti.mad.marketly.utils.Constants
 
 object SharedPreferenceManager {
-  private lateinit var shared:SharedPreferences
-    fun initPreferences(context:Context){
-        shared=PreferenceManager.getDefaultSharedPreferences(context)
+  private lateinit var shared: SharedPreferences
+
+    fun initPreferences(context: Context) {
+        shared = PreferenceManager.getDefaultSharedPreferences(context)
     }
     fun checkPreferences(context: Context){
         if (!this::shared.isInitialized){
@@ -46,5 +47,36 @@ object SharedPreferenceManager {
     fun getUserName(context: Context):String?{
         checkPreferences(context)
         return shared.getString(Constants.USER_NAME,"")
+    }
+
+    fun saveUserData(context: Context, userId: String, email: String, userName: String) {
+        checkPreferences(context)
+        shared.edit().putBoolean(Constants.IS_LOGIN, true).apply()
+        shared.edit().putString(Constants.USER_EMAIL, email).apply()
+        shared.edit().putString(Constants.USER_ID, userId).apply()
+
+        shared.edit().putString(Constants.USER_NAME, userName).apply()
+    }
+
+    fun saveFirebaseUID(firebaseUID: String) {
+        shared.edit().putString(Constants.FIREBASE_USER_ID, firebaseUID).apply()
+    }
+
+    fun retreiveUserData(context: Context) {
+        checkPreferences(context)
+        shared.getBoolean(Constants.IS_LOGIN, false)
+        shared.getString(Constants.USER_EMAIL, "")
+        shared.getString(Constants.USER_ID, "")
+        shared.getString(Constants.USER_NAME, "")
+    }
+
+    fun getFirebaseUID(context: Context): String? {
+        checkPreferences(context)
+        return shared.getString(Constants.FIREBASE_USER_ID, "")
+    }
+
+    fun isUserLogin(context: Context): Boolean {
+        checkPreferences(context)
+        return shared.getBoolean(Constants.IS_LOGIN, false)
     }
 }

@@ -1,7 +1,5 @@
 package iti.mad.marketly.presentation
 
-import iti.mad.marketly.R
-
 
 import android.os.Bundle
 import android.view.View
@@ -11,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import iti.mad.marketly.R
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,31 +18,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
         bottomNavigationView = findViewById(R.id.bottomNavView)
-
-
         // Set up the Navigation Controller
         navController = findNavController(R.id.navHostFragment)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.productDetailsFragment) {
-
+            if (destination.id == R.id.productDetailsFragment) {
                 bottomNavigationView.visibility = View.GONE
             } else {
-
                 bottomNavigationView.visibility = View.VISIBLE
             }
-        }
-        /*
-
+        }/*
                 another way to get Nav Controller
 
                 val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
                 navController = navHostFragment.navController
                 */
         // Set up the Bottom Navigation View with the Navigation Controller
-
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
@@ -55,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         )
         // setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
-
 
     }
 
