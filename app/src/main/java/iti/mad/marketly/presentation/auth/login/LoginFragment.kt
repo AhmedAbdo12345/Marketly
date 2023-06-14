@@ -24,6 +24,7 @@ import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManag
 import iti.mad.marketly.databinding.FragmentLoginBinding
 import iti.mad.marketly.presentation.MainActivity
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
+import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.launch
@@ -161,10 +162,21 @@ class LoginFragment : Fragment() {
                     emailEditText.text.toString(), passwordEditText.text.toString()
                 ).addOnCompleteListener(requireActivity()) { task ->
                     if (task.isSuccessful) {
-                        getUserData(emailEditText.text.toString())
-                        SettingsManager.documentIDSetter(emailEditText.text.toString())
-                        SharedPreferenceManager.saveFirebaseUID(FirebaseAuth.getInstance().currentUser?.uid
-                            ?: "")
+                        if (task.result.user?.isEmailVerified == true) {
+                            getUserData(emailEditText.text.toString())
+                            SettingsManager.documentIDSetter(emailEditText.text.toString())
+                            SharedPreferenceManager.saveFirebaseUID(
+                                FirebaseAuth.getInstance().currentUser?.uid
+                                    ?: ""
+                            )
+                        } else {
+                            AlertManager.nonFunctionalDialog(
+                                "email verification",
+                                requireContext(),
+                                "please Verify your Email before login"
+                            )
+                        }
+
 
                     } else {
                         showErrorDialog()
@@ -212,11 +224,16 @@ class LoginFragment : Fragment() {
             .setPositiveButton(R.string.ok) { _, _ -> }.setIcon(R.drawable.ic_baseline_clear_24)
             .show()
     }
-    private fun getSavedSettings(){
+
+    private fun getSavedSettings() {
         SettingsManager.documentIDSetter(emailEditText.text.toString())
         SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
         SettingsManager.addressSetter(SharedPreferenceManager.getDefaultAddress(requireContext())!!)
         SettingsManager.curSetter(SharedPreferenceManager.getSavedCurrency(requireContext())!!)
-        SettingsManager.exchangeRateSetter(SharedPreferenceManager.getDefaultExchangeRate(requireContext())!!)
+        SettingsManager.exchangeRateSetter(
+            SharedPreferenceManager.getDefaultExchangeRate(
+                requireContext()
+            )!!
+        )
     }
 }
