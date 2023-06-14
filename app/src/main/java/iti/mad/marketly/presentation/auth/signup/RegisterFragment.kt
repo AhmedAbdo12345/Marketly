@@ -1,6 +1,7 @@
 package iti.mad.marketly.presentation.auth.signup
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import iti.mad.marketly.R
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.data.model.customer.Customer
 import iti.mad.marketly.data.model.customer.CustomerBody
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentRegisterBinding
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import kotlinx.coroutines.launch
@@ -49,8 +51,10 @@ class RegisterFragment : Fragment() {
                 registerViewModel.customerRespoonse.collect { uiState ->
                     when (uiState) {
                         is ResponseState.OnSuccess -> {
+                            SharedPreferenceManager.saveUserName(nameEditText.text.toString(),requireContext())
                             val action =
                                 RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+
                             findNavController().navigate(action)
                         }
 

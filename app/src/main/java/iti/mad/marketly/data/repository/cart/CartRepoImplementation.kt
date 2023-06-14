@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 class CartRepoImplementation(val remote: IRemoteDataSource):CartRepoInterface {
     override fun saveCartProduct(product: Product) {
         val db = Firebase.firestore
-        db.collection("cart").document(SettingsManager.documentID)
+        db.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").document(product.id.toString()).set(product).addOnSuccessListener {
                 Log.i("FireBassSuccess", "saveProduct: Data Saved")
             }.addOnFailureListener {

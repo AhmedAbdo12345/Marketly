@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
@@ -19,10 +20,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import iti.mad.marketly.R
 import iti.mad.marketly.data.repository.settings.SettingsRepoImplementation
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.databinding.FragmentHomeBinding
 import iti.mad.marketly.databinding.FragmentSettingsBinding
 import iti.mad.marketly.presentation.home.brands.BrandsViewModel
+import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
@@ -45,18 +48,40 @@ class Settings : Fragment() {
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.nameEtSettingsPage.isEnabled=false
+        val name=binding.nameEtSettingsPage.text.toString()
+        binding.nameEtSettingsPage.setText(SettingsManager.getUserName())
         binding.AddressPage.setOnClickListener(View.OnClickListener {
             var action= SettingsDirections.actionSettingsToAddressListFragment()
             findNavController().navigate(action)
         })
-        binding.saveSettingSettingsBtn.setOnClickListener(View.OnClickListener {
-            val selectedOption: Int = binding.money.checkedRadioButtonId
-            if(selectedOption==R.id.EGP){
-                SettingsManager.curSetter("EGP")
+        binding.EditName.setOnClickListener(View.OnClickListener {
+            binding.nameEtSettingsPage.setText("")
+            binding.nameEtSettingsPage.isEnabled=true
+        })
+        binding.darkModeSwitch.setOnCheckedChangeListener { compoundButton, b ->
+            if (compoundButton.isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }else{
-                SettingsManager.curSetter("USD")
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
-            getExchangeRate()
+        }
+        binding.saveSettingSettingsBtn.setOnClickListener(View.OnClickListener {
+            val function={
+                SharedPreferenceManager.saveUserName(binding.nameEtSettingsPage.text.toString(),requireContext())
+                val selectedOption: Int = binding.money.checkedRadioButtonId
+                if(selectedOption==R.id.EGP){
+                    SettingsManager.curSetter("EGP")
+                    SettingsManager.curSetter("EGP")
+                }else{
+                    SettingsManager.curSetter("USD")
+                    SettingsManager.curSetter("USD")
+                }
+                getExchangeRate()
+
+            }
+            AlertManager.functionalDialog("Save Your Settings",requireContext(),"Do you want to save your settings ?",function)
+                .show()
         })
 
     }
@@ -83,7 +108,6 @@ class Settings : Fragment() {
                         is ResponseState.OnSuccess->{
                             rate=it.response.conversion_rates.EGP
                             SettingsManager.exchangeRateSetter(rate)
-                            Toast.makeText(requireContext(),"${rate}",Toast.LENGTH_LONG).show()
                         }
                         is ResponseState.OnError->{
                             Log.i(TAG, "onViewCreated:${it.message} ")

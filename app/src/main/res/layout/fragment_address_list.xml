@@ -14,12 +14,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryProductRecView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="424dp"
+            android:layout_height="540dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:itemCount="5"
             tools:listitem="@layout/rv_addresses_list" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="355dp"
-            android:layout_marginTop="488dp"
+            android:layout_marginTop="576dp"
             android:clickable="true"
             android:contentDescription="TODO"
             android:src="@drawable/ic_baseline_add_24"
