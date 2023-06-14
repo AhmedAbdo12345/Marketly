@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCategoryBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
@@ -101,21 +102,20 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModelCategoryProduct.getAllCategoryProduct(
                         categoryObj.id.toString(),
-                        FirebaseAuth.getInstance().currentUser?.uid.toString()
-                    )
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""                    )
                     viewModelCategoryProduct._categoryProduct.collect {
                         when (it) {
                             is ResponseState.OnSuccess -> {
                                  adapterProduct = CategoryProductAdapter(this@CategoryFragment){
                                     if (it.isFavourite == true) {
                                         viewModelCategoryProduct.deleteProductFromFavourite(
-                                            FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                            SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
                                             it
                                         )
 
                                     } else {
                                         viewModelCategoryProduct.addProductToFavourite(
-                                            FirebaseAuth.getInstance().currentUser?.uid.toString(),
+                                            SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
                                             it
                                         )
                                     }

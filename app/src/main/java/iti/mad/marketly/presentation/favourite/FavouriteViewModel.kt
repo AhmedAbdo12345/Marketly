@@ -23,15 +23,15 @@ class FavouriteViewModel(
 ) : ViewModel() {
 
     private val _addedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val addedSuccessfully: StateFlow<ResponseState<String>> = _addedSuccessfully
     private val _deletedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val deletedSuccessfully: StateFlow<ResponseState<String>> = _deletedSuccessfully
-    private val _isFavourite = MutableStateFlow<ResponseState<Boolean>>(ResponseState.OnLoading())
+    private val _isFavourite = MutableStateFlow<ResponseState<Boolean>>(ResponseState.OnLoading(false))
     val isFavourite: StateFlow<ResponseState<Boolean>> = _isFavourite
     private val _allFavourites =
-        MutableStateFlow<ResponseState<List<Product>>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<List<Product>>>(ResponseState.OnLoading(false))
     val allFavourites: StateFlow<ResponseState<List<Product>>> = _allFavourites
 
 

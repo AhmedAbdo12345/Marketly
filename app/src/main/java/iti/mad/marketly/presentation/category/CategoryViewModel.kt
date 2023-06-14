@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel(val categoryRepo: CategoryRepo): ViewModel() {
     private val category: MutableStateFlow<ResponseState<CategoryResponse>> = MutableStateFlow(
-        ResponseState.OnLoading())
+        ResponseState.OnLoading(false))
     val _category : StateFlow<ResponseState<CategoryResponse>> = category
 
     fun getAllCategory(){

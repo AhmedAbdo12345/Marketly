@@ -26,17 +26,18 @@ class BrandProductViewModel(
     private val favouriteRep: IFavouriteRepo
 ) : ViewModel() {
     private var brandProduct: MutableStateFlow<ResponseState<List<Product>>> =
-        MutableStateFlow(ResponseState.OnLoading())
+        MutableStateFlow(ResponseState.OnLoading(false))
     val _brandProduct: StateFlow<ResponseState<List<Product>>> = brandProduct
     private val _addedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val addedSuccessfully: StateFlow<ResponseState<String>> = _addedSuccessfully
     private val _deletedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val deletedSuccessfully: StateFlow<ResponseState<String>> = _deletedSuccessfully
 
 
     fun getAllBrandProduct(brandID: String, userID: String) {
+        brandProduct.value=ResponseState.OnLoading(true)
         viewModelScope.launch {
             brandsRepo.getProducts(brandID)
                 .combine(favouriteRep.getAllFavouriteIDS(userID)) { r1, r2 ->

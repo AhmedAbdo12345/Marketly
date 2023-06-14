@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class CartViewModel(private val cartRepoInterface: CartRepoInterface): ViewModel() {
 
-    private var cartResponse : MutableStateFlow<ResponseState<List<Product>>> = MutableStateFlow(ResponseState.OnLoading())
+    private var cartResponse : MutableStateFlow<ResponseState<List<Product>>> = MutableStateFlow(ResponseState.OnLoading(false))
     val _cartResponse: StateFlow<ResponseState<List<Product>>> = cartResponse
 
     fun saveCart(product: Product){

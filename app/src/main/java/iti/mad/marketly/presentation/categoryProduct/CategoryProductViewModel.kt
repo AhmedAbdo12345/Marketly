@@ -25,14 +25,14 @@ class CategoryProductViewModel(
     val categoryProductRepo: ProductRepo, private val favouriteRep: IFavouriteRepo
 ) : ViewModel() {
     private val categoryProduct: MutableStateFlow<ResponseState<List<Product>>> = MutableStateFlow(
-        ResponseState.OnLoading()
+        ResponseState.OnLoading(false)
     )
     val _categoryProduct: StateFlow<ResponseState<List<Product>>> = categoryProduct
     private val _addedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val addedSuccessfully: StateFlow<ResponseState<String>> = _addedSuccessfully
     private val _deletedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val deletedSuccessfully: StateFlow<ResponseState<String>> = _deletedSuccessfully
 
     fun getAllCategoryProduct(collectionID: String, userID: String) {
