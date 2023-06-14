@@ -18,6 +18,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.databinding.FragmentLoginBinding
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
@@ -51,6 +52,7 @@ class LoginFragment : Fragment() {
 
                     when (uiState) {
                         is ResponseState.OnSuccess -> {
+                            getSavedSettings()
                             val intent = Intent(requireContext(), MainActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
@@ -157,5 +159,12 @@ class LoginFragment : Fragment() {
             .setPositiveButton(R.string.ok) { _, _ -> }
             .setIcon(R.drawable.ic_baseline_clear_24)
             .show()
+    }
+    fun getSavedSettings(){
+        SettingsManager.documentIDSetter(emailEditText.text.toString())
+        SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
+        SettingsManager.addressSetter(SharedPreferenceManager.getDefaultAddress(requireContext())!!)
+        SettingsManager.curSetter(SharedPreferenceManager.getSavedCurrency(requireContext())!!)
+        SettingsManager.exchangeRateSetter(SharedPreferenceManager.getDefaultExchangeRate(requireContext())!!)
     }
 }

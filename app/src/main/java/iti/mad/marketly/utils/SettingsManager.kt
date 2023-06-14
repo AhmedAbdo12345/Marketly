@@ -3,21 +3,41 @@ package iti.mad.marketly.utils
 import iti.mad.marketly.data.model.settings.Address
 
 object SettingsManager {
-   lateinit var currency:String
-   lateinit var address:String//default
-   var documentID:String = "Sonic@gmail.com"
-   var addresses:MutableList<Address> = mutableListOf()
-   var gotData=false
-   var exchangeRate:Double=0.0
-
+  private var currency:String= ""
+  private var address:String = ""
+  private var documentID:String = "Sonic@gmail.com"
+  private var addresses:MutableList<Address> = mutableListOf()
+  private var exchangeRate:Double=0.0
+  private var userName = ""
     fun curSetter(cur:String){
-       currency=cur
+        if(cur==null){
+            currency = ""
+        }else{
+            currency=cur
+        }
+
+    }
+    fun userNameSetter(username:String){
+        if(username == null){
+            userName = ""
+        }else {
+            userName=username
+        }
+
     }
     fun addressSetter(addr:String){
-       address=addr
+       if(addr == null){
+           address = ""
+       }else{
+           address=addr
+       }
     }
    fun exchangeRateSetter(rate:Double){
-      exchangeRate=rate
+      if(rate == null){
+         exchangeRate=0.0
+      }else{
+          exchangeRate=rate
+      }
    }
    fun fromUStoEGP(price:Double):Double{
        return price*exchangeRate
@@ -37,8 +57,10 @@ object SettingsManager {
           addresses.add(address)
       }
    }
-    fun gotAddressesSuccesfully(){
-        gotData=true
-    }
+fun getAddress():String = address
+    fun getDocumentID():String = documentID
+    fun getUserName():String = userName
+    fun getCurrncy():String = currency
+    fun getExchangeRate():Double = exchangeRate
 
 }

@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.databinding.FragmentAddressBinding
 import iti.mad.marketly.databinding.FragmentSettingsBinding
+import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.utils.SettingsManager
 
 
-class Address : Fragment() {
+class Address : Fragment(){
 lateinit var binding: FragmentAddressBinding
     private val settingsViewModel by viewModels<SettingsViewModel> {
         SettingsViewModel.Factory
@@ -36,6 +38,8 @@ lateinit var binding: FragmentAddressBinding
             )
 
             settingsViewModel.setAddresses(address)
+            AlertManager.nonFunctionalDialog("Address Saved",requireContext(),"The Address has been saved successfully")
+            findNavController().navigateUp()
         })
     }
 
@@ -48,6 +52,8 @@ lateinit var binding: FragmentAddressBinding
         binding.lifecycleOwner=viewLifecycleOwner
         return binding.root
     }
+
+
 
 
 }

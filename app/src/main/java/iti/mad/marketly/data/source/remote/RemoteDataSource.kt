@@ -87,7 +87,7 @@ class RemoteDataSource(
     }
 
     override suspend fun getAllAddresses(): Flow<List<Address>> = flow {
-        val db = Firebase.firestore.collection("settings").document(SettingsManager.documentID)
+        val db = Firebase.firestore.collection("settings").document(SettingsManager.getDocumentID())
             .collection("Addresses").get().await()
 
         val addressResponse: MutableList<Address> = mutableListOf()
@@ -105,7 +105,7 @@ class RemoteDataSource(
     }
 
     override suspend fun getAllCartProducts(): Flow<List<Product>> = flow {
-        val db = Firebase.firestore.collection("cart").document(SettingsManager.documentID)
+        val db = Firebase.firestore.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").get().await()
 
         val cartResponse : MutableList<Product> = mutableListOf()

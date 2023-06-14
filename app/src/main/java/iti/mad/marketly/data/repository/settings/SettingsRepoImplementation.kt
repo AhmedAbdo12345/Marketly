@@ -20,17 +20,25 @@ class SettingsRepoImplementation(val remote: IRemoteDataSource):SettingsRepoInte
 
 
         SettingsManager.fillAddress(address)
-        val addressList = SettingsManager.addresses
-        val documentData: AddressData = AddressData(addressList)
 
-        db.collection("settings").document(SettingsManager.documentID)
+
+        db.collection("settings").document(SettingsManager.getDocumentID())
             .collection("Addresses").document(address.AddressID).set(address).addOnSuccessListener {
                 Log.i("FireBassSuccess", "saveAddress: Data Saved")
             }.addOnFailureListener {
-                Log.i("FireBassFailure", "saveAddress:${it.message}")
+                Log.i("FireBassFailure", "saveAddress:${it.localizedMessage}")
             }
     }
 
     override suspend fun getAllAddresses(): Flow<List<Address>> = remote.getAllAddresses()
+    override fun deleteAddress(addressID: String) {
+        val db = Firebase.firestore
+        db.collection("settings").document(SettingsManager.getDocumentID())
+            .collection("Addresses").document(addressID).delete().addOnSuccessListener {
+                Log.i("DeleteAddress", "deleteAddress: DELETED")
+            }.addOnFailureListener {
+                Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
+            }
+    }
 
 }
