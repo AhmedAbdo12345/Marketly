@@ -7,6 +7,27 @@
         android:background="@color/white"
     tools:context=".onboarding.OnboardingScreenActivity">
 
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/OnBoardingPageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/dots_Slider"/>
+
+    <LinearLayout
+        android:id="@+id/dots_Slider"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_Get_Start"/>
     <Button
         android:id="@+id/btn_Get_Start"
         android:layout_width="0dp"
@@ -15,34 +36,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/button_bck"
-        android:text="GET_STARTED"
+        android:text="GET STARTED"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/OnBoardingPageView"
-            android:layout_width="match_parent"
-            android:layout_height="550dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/dots_Slider"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:layoutDirection="ltr"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/btn_Get_Start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OnBoardingPageView" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

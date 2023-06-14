@@ -65,10 +65,10 @@ class OnboardingScreenActivity : AppCompatActivity() {
             dots[i] = TextView(this)
             dots[i]!!.setText(Html.fromHtml("&#8226;"))
             dots[i]?.setTextSize(50f)
-            dots[i]?.setTextColor(getResources().getColor(R.color.backgroundAd))
+            dots[i]?.setTextColor(getResources().getColor(R.color.grey))
             linearLayout.addView(dots[i])
         }
-        dots[position]?.setTextColor(getResources().getColor(R.color.backgroundAd))
+        dots[position]?.setTextColor(getResources().getColor(R.color.primary))
     }
 
     private fun updateScreen() {
