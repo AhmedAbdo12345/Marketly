@@ -37,6 +37,7 @@ object AppDependencies {
         val remote = RemoteDataSource(api)
         val currencyRetrofit= RetrofitInstance.currncyApi
         val remoteCurrency= RemoteDataSource(currencyRetrofit)
+
         settingsRepo = SettingsRepoImplementation(remoteCurrency)
         authRepository = AuthRepositoryImpl(remote)
         productDetailsRepository = ProductDetailsRepositoryImpl(remote)

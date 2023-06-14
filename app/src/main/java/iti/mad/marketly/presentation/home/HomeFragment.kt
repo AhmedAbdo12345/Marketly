@@ -71,6 +71,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
 
         getBrands()
+        adsViewModel.getPricingRule()
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adsViewModel._pricingRule.collect {

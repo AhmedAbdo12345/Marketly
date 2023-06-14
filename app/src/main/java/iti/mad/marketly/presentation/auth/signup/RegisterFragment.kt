@@ -1,5 +1,7 @@
 package iti.mad.marketly.presentation.auth.signup
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.customer.Customer
 import iti.mad.marketly.data.model.customer.CustomerBody
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentRegisterBinding
 import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import iti.mad.marketly.utils.AlertManager
@@ -49,6 +52,11 @@ class RegisterFragment : Fragment() {
                 registerViewModel.customerRespoonse.collect { uiState ->
                     when (uiState) {
                         is ResponseState.OnSuccess -> {
+                            SharedPreferenceManager.saveUserName(nameEditText.text.toString(),requireContext())
+                            val action =
+                                RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+
+                            findNavController().navigate(action)
                             binding.progressBar.visibility = View.GONE
                             AlertManager.functionalDialog(
                                 "Register Successfully",

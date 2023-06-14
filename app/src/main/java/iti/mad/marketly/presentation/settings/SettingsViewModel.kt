@@ -48,6 +48,12 @@ class SettingsViewModel(private val repo: SettingsRepoInterface) : ViewModel() {
             }
         }
     }
+    fun saveAddress(addresses: iti.mad.marketly.data.model.settings.Address){
+        repo.saveAddress(addresses)
+    }
+    fun deleteAddress(addresses: iti.mad.marketly.data.model.settings.Address){
+        repo.deleteAddress(addresses.AddressID)
+    }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

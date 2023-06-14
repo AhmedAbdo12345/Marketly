@@ -6,46 +6,47 @@ import androidx.preference.PreferenceManager
 import iti.mad.marketly.utils.Constants
 
 object SharedPreferenceManager {
-    lateinit var shared: SharedPreferences
+  private lateinit var shared: SharedPreferences
 
     fun initPreferences(context: Context) {
         shared = PreferenceManager.getDefaultSharedPreferences(context)
     }
-
-    fun checkPreferences(context: Context) {
-        if (!::shared.isInitialized) {
+    fun checkPreferences(context: Context){
+        if (!this::shared.isInitialized){
             initPreferences(context)
         }
     }
-
-    fun saveCurrency(cur: String, context: Context) {
+    fun saveCurrency(cur:String,context: Context){
         checkPreferences(context)
-        shared.edit().putString(Constants.CURRENCY, cur).apply()
+        shared.edit().putString(Constants.CURRENCY,cur).apply()
     }
-
-    fun getSavedCurrency(context: Context): String? {
+    fun getSavedCurrency(context: Context):String?{
         checkPreferences(context)
-        return shared.getString(Constants.CURRENCY, "")
+        return shared.getString(Constants.CURRENCY,"")
     }
-
-    fun saveDefaultAddress(address: String, context: Context) {
+    fun saveDefaultAddress(address:String,context: Context){
         checkPreferences(context)
-        shared.edit().putString(Constants.DEFAULTADDRESS, address).apply()
+        shared.edit().putString(Constants.DEFAULTADDRESS,address).apply()
     }
-
-    fun getDefaultAddress(context: Context): String? {
+    fun getDefaultAddress(context: Context):String?{
         checkPreferences(context)
-        return shared.getString(Constants.DEFAULTADDRESS, "")
+        return shared.getString(Constants.DEFAULTADDRESS,"")
     }
-
-    fun saveDefaultExchangeRate(exchangeRate: Double, context: Context) {
+    fun saveDefaultExchangeRate(exchangeRate:Double,context: Context){
         checkPreferences(context)
-        shared.edit().putFloat(Constants.EXCHANGERATE, exchangeRate.toFloat()).apply()
+        shared.edit().putFloat(Constants.EXCHANGERATE,exchangeRate.toFloat()).apply()
     }
-
-    fun getDefaultExchangeRate(context: Context): Double? {
+    fun getDefaultExchangeRate(context: Context):Double?{
         checkPreferences(context)
         return shared.getFloat(Constants.EXCHANGERATE, 0.0F).toDouble()
+    }
+    fun saveUserName(userName:String,context: Context){
+        checkPreferences(context)
+        shared.edit().putString(Constants.USER_NAME,userName).apply()
+    }
+    fun getUserName(context: Context):String?{
+        checkPreferences(context)
+        return shared.getString(Constants.USER_NAME,"")
     }
 
     fun saveUserData(context: Context, userId: String, email: String, userName: String) {

@@ -64,6 +64,7 @@ class LoginFragment : Fragment() {
                                 uiState.response.customers?.get(0)?.first_name ?: ""
                             )
                             binding.progressBar2.visibility = View.GONE
+                            getSavedSettings()
                             val intent = Intent(requireContext(), MainActivity::class.java)
                             startActivity(intent)
                             requireActivity().finish()
@@ -210,5 +211,12 @@ class LoginFragment : Fragment() {
             .setMessage(getString(R.string.email_or_password_error))
             .setPositiveButton(R.string.ok) { _, _ -> }.setIcon(R.drawable.ic_baseline_clear_24)
             .show()
+    }
+    fun getSavedSettings(){
+        SettingsManager.documentIDSetter(emailEditText.text.toString())
+        SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
+        SettingsManager.addressSetter(SharedPreferenceManager.getDefaultAddress(requireContext())!!)
+        SettingsManager.curSetter(SharedPreferenceManager.getSavedCurrency(requireContext())!!)
+        SettingsManager.exchangeRateSetter(SharedPreferenceManager.getDefaultExchangeRate(requireContext())!!)
     }
 }
