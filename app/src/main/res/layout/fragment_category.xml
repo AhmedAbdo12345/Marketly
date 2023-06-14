@@ -25,14 +25,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryProductRecView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             tools:listitem="@layout/rv_category_product"
             tools:itemCount="5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            app:layout_constraintBottom_toBottomOf="@id/faMenu"/>
 
         <com.getbase.floatingactionbutton.FloatingActionsMenu
             android:id="@+id/faMenu"
@@ -62,7 +63,7 @@
                 android:scaleType="fitCenter"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_jeans"
+                android:id="@+id/fab_shoes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/shoes"

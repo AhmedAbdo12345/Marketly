@@ -74,7 +74,9 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 viewModel._category.collect {
                     when (it) {
                         is ResponseState.OnSuccess -> {
+                            tabLayout.removeAllTabs()
                             for (x in 0 until it.response.custom_collections.size) {
+
                                 val collectionObj = it.response.custom_collections[x]
                                 val myTab = tabLayout.newTab()
                                     .setText(it.response.custom_collections[x].title)
@@ -121,14 +123,14 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                                     }
                                 }
                                 productList = it.response.toMutableList()
-                                filterByClothes(productList!!)
-                                adapterProduct.submitList(productList)
-                                binding.categoryProductRecView.apply {
-                                    adapter = adapterProduct
-                                    setHasFixedSize(true)
-                                    layoutManager = GridLayoutManager(context, 2).apply {
-                                        orientation = RecyclerView.VERTICAL
-                                    }
+
+
+
+                                productList?.let {
+                                    displayItemsInRecycleView(it)
+                                    filterByAccessories(it)
+                                    filterByTShirt(it)
+                                    filterByShoes(it)
                                 }
                             }
 
@@ -144,26 +146,31 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
     }
-    fun filterByClothes(productList: MutableList<Product>){
+    fun filterByAccessories(productList: MutableList<Product>){
         binding.fabCap.setOnClickListener {
-            Toast.makeText(requireContext(), "CAP", Toast.LENGTH_SHORT).show()
-             var filterList =productList.filter { it.product_type.equals("ACCESSORIES") }
-            adapterProduct.submitList(filterList)
-
+            adapterProduct.submitList(null)
+            var filterList =productList.filter { it.product_type.equals("ACCESSORIES") }
+            displayItemsInRecycleView(filterList)
         }
-
+    }
+    fun filterByTShirt(productList: MutableList<Product>){
         binding.fabTShirt.setOnClickListener {
+            adapterProduct.submitList(null)
             var filterList =productList.filter { it.product_type.equals("T-SHIRTS") }
-            adapterProduct.submitList(filterList)
+            displayItemsInRecycleView(filterList)
 
         }
-
-        binding.fabJeans.setOnClickListener {
-            var  filterList =productList.filter { it.product_type.equals("SHOES") }
-            adapterProduct.submitList(filterList)
-
+    }
+    fun filterByShoes(productList: MutableList<Product>){
+            binding.fabShoes.setOnClickListener {
+                adapterProduct.submitList(null)
+                var  filterList =productList.filter { it.product_type.equals("SHOES") }
+                displayItemsInRecycleView(filterList)
+            }
         }
 
+    fun displayItemsInRecycleView(list: List<Product>){
+        adapterProduct.submitList(list)
         binding.categoryProductRecView.apply {
             adapter = adapterProduct
             setHasFixedSize(true)
