@@ -18,8 +18,12 @@
 
         <activity
             android:name=".onboarding.DeciderActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".presentation.auth.AuthActivity"
@@ -28,12 +32,8 @@
         </activity>
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".onboarding.OnboardingScreenActivity"
