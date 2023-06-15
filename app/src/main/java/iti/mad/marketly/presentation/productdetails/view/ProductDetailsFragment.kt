@@ -49,9 +49,10 @@ class ProductDetailsFragment : Fragment() {
     private var isFavourite: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bottomNavigationView =
+     /*   val bottomNavigationView =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavView)
-        bottomNavigationView?.visibility = View.GONE
+        bottomNavigationView?.visibility = View.GONE*/
+
         sliderHandler = Handler(Looper.getMainLooper())
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
