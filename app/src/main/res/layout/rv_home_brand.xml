@@ -49,6 +49,7 @@
                     android:paddingStart="10dp"
                     android:fontFamily="@font/metropolis_light"
                     android:maxLines="1"
+                    android:gravity="center"
                     android:text="Brand Name"
                     android:textStyle="bold"
                     android:textColor="@color/black"
