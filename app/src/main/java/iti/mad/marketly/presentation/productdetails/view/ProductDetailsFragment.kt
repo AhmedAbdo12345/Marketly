@@ -217,9 +217,10 @@ class ProductDetailsFragment : Fragment() {
         binding.addToCartProductDetailsPage.setOnClickListener(View.OnClickListener {
             val cartProduct = productDetails.product
             val cartModel = CartModel(cartProduct?.id!!, cartProduct.image?.src!!
-            ,cartProduct.variants?.get(0)?.inventory_quantity!!,cartProduct.variants?.get(0)?.price?.toDouble()!!,cartProduct?.title!!)
+            ,cartProduct.variants?.get(0)?.inventory_quantity?.toLong()!!,cartProduct.variants?.get(0)?.price?.toDouble()!!,cartProduct?.title!!)
             cartViewModel.saveCart(cartModel)
             CartManager.addItemToCartList(cartModel)
+            AlertManager.nonFunctionalDialog("Saved",requireContext(),"Product sent to cart")
         })
 
     }

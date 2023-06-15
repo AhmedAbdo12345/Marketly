@@ -30,7 +30,7 @@ class CartViewModel(private val cartRepoInterface: CartRepoInterface): ViewModel
     fun getAllCart(){
         viewModelScope.launch {
             cartRepoInterface.getAllCartProducts().flowOn(Dispatchers.IO).catch {
-                cartResponse.emit(ResponseState.OnError(it.localizedMessage))
+                cartResponse.emit(ResponseState.OnError(it.message!!))
             }.collect{
                 cartResponse.emit(ResponseState.OnSuccess(it))
             }

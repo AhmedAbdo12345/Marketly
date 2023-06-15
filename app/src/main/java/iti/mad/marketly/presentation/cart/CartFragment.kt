@@ -70,7 +70,7 @@ lateinit var adapters:CartAdapter
 
                             }
                             is ResponseState.OnError->{
-                                Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
+                                Log.i(ContentValues.TAG, "onViewCreated:${it.message} this is an errrror")
                             }
                             else ->{}
                         }

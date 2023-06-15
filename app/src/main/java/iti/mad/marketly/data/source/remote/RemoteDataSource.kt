@@ -114,10 +114,12 @@ class RemoteDataSource(
             cartResponse.add(CartModel(
                 items.get("id") as Long,
                 items.get("imageURL") as String,
-                items.get("quantity") as Int,
-                items.get("price") as Double
+                items.get("quantity") as Long,
+                items.get("price") as Double,
+                items.get("title") as String
             ))
         }
+
         emit(cartResponse)
     }
 
