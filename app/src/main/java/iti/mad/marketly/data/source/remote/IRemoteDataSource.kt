@@ -33,6 +33,5 @@ interface IRemoteDataSource {
     //-------------------------------------------------------
      fun saveProductInOrder(orderModel: OrderModel)
     suspend fun getAllOrders(): Flow<List<OrderModel>>
-    suspend fun getProductsOfOrder(): Flow<List<CartModel>>
     //-------------------------------------------------------
 }

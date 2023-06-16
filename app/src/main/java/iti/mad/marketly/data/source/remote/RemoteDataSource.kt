@@ -209,9 +209,7 @@ class RemoteDataSource(
 
     }
 
-    override suspend fun getProductsOfOrder(): Flow<List<CartModel>> {
-        TODO("Not yet implemented")
-    }
+
     //--------------------------------------------------------------------------------
 }
 

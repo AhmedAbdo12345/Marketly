@@ -28,7 +28,7 @@ class MyProfile : Fragment() {
         })
 
 
-        binding.tvOrders.setOnClickListener {
+        binding.layoutOrders.setOnClickListener {
             var action = MyProfileDirections.actionMyProfile2ToOrderFragment()
             findNavController().navigate(action)
 

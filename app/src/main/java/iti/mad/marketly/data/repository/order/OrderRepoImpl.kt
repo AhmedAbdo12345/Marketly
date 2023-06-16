@@ -10,5 +10,4 @@ class OrderRepoImpl(val remote: IRemoteDataSource) : OrderRepo {
 
     override suspend fun getAllOrders(): Flow<List<OrderModel>> = remote.getAllOrders()
 
-    override suspend fun getProductsOfOrder(): Flow<List<CartModel>> = remote.getProductsOfOrder()
 }

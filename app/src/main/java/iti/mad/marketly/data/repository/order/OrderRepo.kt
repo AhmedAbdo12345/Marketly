@@ -6,6 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface OrderRepo {
     suspend fun getAllOrders(): Flow<List<OrderModel>>
-    suspend fun getProductsOfOrder(): Flow<List<CartModel>>
 
 }
