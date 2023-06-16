@@ -60,7 +60,11 @@
         android:id="@+id/favouriteFragment"
         android:name="iti.mad.marketly.presentation.favourite.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myProfile2"
         android:name="iti.mad.marketly.presentation.settings.MyProfile"
