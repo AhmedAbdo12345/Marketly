@@ -7,10 +7,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import iti.mad.marketly.AppDependencies
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.model.product.ProductResponse
-import iti.mad.marketly.data.repository.productRepository.ProductRepo
-
 import iti.mad.marketly.data.repository.favourite_repo.IFavouriteRepo
+import iti.mad.marketly.data.repository.productRepository.ProductRepo
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,10 +22,10 @@ import kotlinx.coroutines.launch
 class CategoryProductViewModel(
     val categoryProductRepo: ProductRepo, private val favouriteRep: IFavouriteRepo
 ) : ViewModel() {
-    private val categoryProduct: MutableStateFlow<ResponseState<List<Product>>> = MutableStateFlow(
+    private val _categoryProduct: MutableStateFlow<ResponseState<List<Product>>> = MutableStateFlow(
         ResponseState.OnLoading(false)
     )
-    val _categoryProduct: StateFlow<ResponseState<List<Product>>> = categoryProduct
+    val categoryProduct: StateFlow<ResponseState<List<Product>>> = _categoryProduct
     private val _addedSuccessfully =
         MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val addedSuccessfully: StateFlow<ResponseState<String>> = _addedSuccessfully
@@ -47,10 +45,10 @@ class CategoryProductViewModel(
                         product
                     }
                 }.flowOn(Dispatchers.IO).catch {
-                    categoryProduct.emit(ResponseState.OnError(it.localizedMessage))
+                    _categoryProduct.emit(ResponseState.OnError(it.localizedMessage))
 
                 }.collect {
-                    categoryProduct.emit(ResponseState.OnSuccess(it))
+                    _categoryProduct.emit(ResponseState.OnSuccess(it))
                 }
         }
 
@@ -84,13 +82,13 @@ class CategoryProductViewModel(
         }
     }
 
-        companion object {
-            val Factory: ViewModelProvider.Factory = viewModelFactory {
-                initializer {
-                    CategoryProductViewModel(
-                        AppDependencies.productRepo, AppDependencies.favouriteRep
-                    )
-                }
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                CategoryProductViewModel(
+                    AppDependencies.productRepo, AppDependencies.favouriteRep
+                )
             }
         }
+    }
 }

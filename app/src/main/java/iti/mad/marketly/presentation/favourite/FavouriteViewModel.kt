@@ -73,9 +73,9 @@ class FavouriteViewModel(
      fun getAllFavourite(userID: String) {
          viewModelScope.launch{
                 favouriteRep.getAllFavourite(userID).flowOn(Dispatchers.IO)
-                    /*.catch {
+                    .catch {
                     _allFavourites.value = ResponseState.OnError(it.localizedMessage ?: "")
-                }*/.collect{
+                }.collect{
                     _allFavourites.value = ResponseState.OnSuccess(it.products)
                 }
          }

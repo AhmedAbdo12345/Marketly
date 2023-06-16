@@ -44,10 +44,14 @@ class BrandProductAdapter(
         holder.binding.productModel = getItem(position)
         holder.binding.action = mClickListener
         holder.binding.imgVProductAddToFav.setOnClickListener {
+            
             onClickFavourite(getItem(position))
+
         }
-        if (getItem(position).isFavourite == true) holder.binding.imgVProductAddToFav.setImageResource(
-            R.drawable.ic_favorite
-        )
+        if (getItem(position).isFavourite == true) {
+            holder.binding.imgVProductAddToFav.setImageResource(R.drawable.ic_favorite)
+        }else{
+            holder.binding.imgVProductAddToFav.setImageResource(R.drawable.ic_fav)
+        }
     }
 }

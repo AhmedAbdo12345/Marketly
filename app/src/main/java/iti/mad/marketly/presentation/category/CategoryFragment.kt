@@ -69,7 +69,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getAllCategory()
-                viewModel._category.collect {
+                viewModel.category.collect {
                     when (it) {
                         is ResponseState.OnSuccess -> {
                             tabLayout.removeAllTabs()
@@ -103,7 +103,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                         categoryObj.id.toString(),
                         SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
                     )
-                    viewModelCategoryProduct._categoryProduct.collect {
+                    viewModelCategoryProduct.categoryProduct.collect {
                         when (it) {
                             is ResponseState.OnSuccess -> {
                                 adapterProduct = CategoryProductAdapter(this@CategoryFragment) {
@@ -113,12 +113,18 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                                                 ?: "", it
                                         )
 
+
                                     } else {
                                         viewModelCategoryProduct.addProductToFavourite(
                                             SharedPreferenceManager.getFirebaseUID(requireContext())
                                                 ?: "", it
                                         )
                                     }
+                                    viewModelCategoryProduct.getAllCategoryProduct(
+                                        categoryObj.id.toString(),
+                                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
+                                    )
+
                                 }
                                 productList = it.response.toMutableList()
 

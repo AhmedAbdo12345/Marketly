@@ -5,9 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.core.view.marginBottom
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,9 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.RangeSlider
-import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
@@ -32,9 +28,9 @@ import java.util.Currency
 class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListener {
 
 
-    lateinit var productList:MutableList<Product>
+    lateinit var productList: MutableList<Product>
 
-    lateinit var brandAdapter : BrandProductAdapter
+    lateinit var brandAdapter: BrandProductAdapter
 
     val brandProductViewModel: BrandProductViewModel by viewModels<BrandProductViewModel> {
         BrandProductViewModel.Factory
@@ -75,18 +71,32 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                         }
 
                         is ResponseState.OnSuccess -> {
-                             brandAdapter = BrandProductAdapter(this@BrandProductFragment) {
+                            brandAdapter = BrandProductAdapter(this@BrandProductFragment) {
                                 if (it.isFavourite == true) {
                                     brandProductViewModel.deleteProductFromFavourite(
-                                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                                        SharedPreferenceManager.getFirebaseUID(requireContext())
+                                            ?: "",
                                         it
                                     )
+                                    brandProductViewModel.getAllBrandProduct(
+                                        smartCollection.toString(),
+                                        SharedPreferenceManager.getFirebaseUID(requireContext())
+                                            ?: ""
+                                    )
+
 
                                 } else {
                                     brandProductViewModel.addProductToFavourite(
-                                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                                        SharedPreferenceManager.getFirebaseUID(requireContext())
+                                            ?: "",
                                         it
                                     )
+                                    brandProductViewModel.getAllBrandProduct(
+                                        smartCollection.toString(),
+                                        SharedPreferenceManager.getFirebaseUID(requireContext())
+                                            ?: ""
+                                    )
+
                                 }
                             }
                             productList = uiState.response.toMutableList()
@@ -124,7 +134,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
     }
 
 
-    fun filterProducts(){
+    fun filterProducts() {
         var startValue = 0
         var endValue = 0
         binding.rangSlider.setLabelFormatter { value: Float ->
@@ -143,10 +153,10 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                 // Responds to when slider's value is changed
                 startValue = rangeSlider.values[0].toInt()
                 endValue = rangeSlider.values[1].toInt()
-                filterByPrice(productList,startValue,endValue )
+                filterByPrice(productList, startValue, endValue)
                 binding.tvStartRange.text = "${rangeSlider.values[0].toInt()}"
                 binding.tvEndRange.text = "${rangeSlider.values[1].toInt()}"
-           //Toast.makeText(requireContext(), " ${rangeSlider.values[0]} ${rangeSlider.values[1]}", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), " ${rangeSlider.values[0]} ${rangeSlider.values[1]}", Toast.LENGTH_SHORT).show()
 
             }
         })
@@ -158,22 +168,24 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     }
 
-    fun displaySliderFilter(){
+    fun displaySliderFilter() {
         binding.layoutFilter.setOnClickListener {
 
-            if (binding.framLayoutRangSlider.isVisible == true){
-                  binding.framLayoutRangSlider.visibility =View.GONE
-              } else{
-                  binding.framLayoutRangSlider.visibility =View.VISIBLE
+            if (binding.framLayoutRangSlider.isVisible == true) {
+                binding.framLayoutRangSlider.visibility = View.GONE
+            } else {
+                binding.framLayoutRangSlider.visibility = View.VISIBLE
                 binding.brandProductRecycleView.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                     bottomMargin = 120
-                }              }
-           }
+                }
+            }
+        }
     }
-    fun filterByPrice(productList: MutableList<Product>,  min :Int,max:Int){
+
+    fun filterByPrice(productList: MutableList<Product>, min: Int, max: Int) {
         productList.let {
             brandAdapter.submitList(null)
-            var  filterList =it.filter {
+            var filterList = it.filter {
                 val doubleValue = (it.variants?.get(0)?.price)?.toDouble()
                 val intValue = doubleValue?.toInt()
                 (intValue in min..max)

@@ -17,17 +17,17 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(val categoryRepo: CategoryRepo): ViewModel() {
-    private val category: MutableStateFlow<ResponseState<CategoryResponse>> = MutableStateFlow(
+    private val _category: MutableStateFlow<ResponseState<CategoryResponse>> = MutableStateFlow(
         ResponseState.OnLoading(false))
-    val _category : StateFlow<ResponseState<CategoryResponse>> = category
+    val category : StateFlow<ResponseState<CategoryResponse>> = _category
 
     fun getAllCategory(){
         viewModelScope.launch {
             categoryRepo.getCategory().flowOn(Dispatchers.IO).catch {
-                category.emit(ResponseState.OnError(it.localizedMessage))
+                _category.emit(ResponseState.OnError(it.localizedMessage))
 
             }.collect{
-                category.emit(ResponseState.OnSuccess(it))
+               _category.emit(ResponseState.OnSuccess(it))
 
             }
         }
