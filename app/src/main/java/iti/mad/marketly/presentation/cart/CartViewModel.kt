@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import iti.mad.marketly.AppDependencies
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.repository.cart.CartRepoInterface
 import iti.mad.marketly.presentation.home.ads.AdsViewModel
@@ -47,5 +48,11 @@ class CartViewModel(private val cartRepoInterface: CartRepoInterface): ViewModel
             }
         }
     }
+
+    //-------------------------------------
+    fun saveProuctsInOrder(orderModel: OrderModel){
+        cartRepoInterface.saveProductInOrder(orderModel)
+    }
+    //-------------------------------------
 }
 

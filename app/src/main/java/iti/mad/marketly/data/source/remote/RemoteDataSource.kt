@@ -1,6 +1,7 @@
 package iti.mad.marketly.data.source.remote
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -9,6 +10,7 @@ import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
+import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.remote.retrofit.ApiService
 import iti.mad.marketly.utils.Constants
@@ -166,5 +168,50 @@ class RemoteDataSource(
                 Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
             }
     }
+//-------------------------------------------------------------------------------
+    override  fun saveProductInOrder(orderModel: OrderModel) {
+    val db = Firebase.firestore
+
+    FirebaseAuth.getInstance().currentUser?.let {
+        var collectionReference =  db.collection("orders").document(it.email.toString()).collection("orderList")
+
+            collectionReference.document(orderModel.orderID)
+                .set(orderModel).addOnSuccessListener {
+                    Log.i("zxcvb", "saveProduct: Data Saved")
+                }.addOnFailureListener {
+                    Log.i("zxcvb", "saveProduct:${it.localizedMessage}")
+                }
+
+    }
+      }
+
+    override suspend fun getAllOrders(): Flow<List<OrderModel>> = flow {
+        FirebaseAuth.getInstance().currentUser?.let {
+            val db =
+                Firebase.firestore.collection("orders").document(it.email.toString()).collection("orderList").get().await()
+
+            val orderResponse: MutableList<OrderModel> = mutableListOf()
+            for(items in db.documents){
+                val data = items.toObject<OrderModel>()
+               /* if (data != null) {
+                    orderResponse.add(OrderModel(
+                        data.get("orderID") as String,
+                        data.get("itemList") as List<CartModel>,
+                        data.get("itemCount") as Int,
+                        data.get("date") as String))
+                }*/
+                orderResponse.add(data!!)
+                Log.d("zxcv", "getAllOrders: "+data)
+            }
+
+            emit(orderResponse)
+        }
+
+    }
+
+    override suspend fun getProductsOfOrder(): Flow<List<CartModel>> {
+        TODO("Not yet implemented")
+    }
+    //--------------------------------------------------------------------------------
 }
 
