@@ -5,6 +5,7 @@ import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
+import iti.mad.marketly.data.model.order.OrderModel
 
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.data.model.settings.CurrencyResponse
@@ -29,4 +30,9 @@ interface IRemoteDataSource {
     fun saveAddress(address: Address)
     fun saveCartProduct(cartModel: CartModel)
     fun deleteCartItem(cartID:String)
+    //-------------------------------------------------------
+     fun saveProductInOrder(orderModel: OrderModel)
+    suspend fun getAllOrders(): Flow<List<OrderModel>>
+    suspend fun getProductsOfOrder(): Flow<List<CartModel>>
+    //-------------------------------------------------------
 }
