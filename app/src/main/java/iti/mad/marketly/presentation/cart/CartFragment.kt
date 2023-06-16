@@ -89,7 +89,8 @@ lateinit var adapters:CartAdapter
                     totalPrice += items.price
                 }
                 val orderID = System.currentTimeMillis().toString()
-                val order = OrderModel(orderID,currentItems,itemCount,DateFormatter.getCurrentDate())
+                val order = OrderModel(orderID,currentItems,itemCount,DateFormatter.getCurrentDate(),totalPrice)
+                cartViewModel.saveProuctsInOrder(order)
             })
         }
 
