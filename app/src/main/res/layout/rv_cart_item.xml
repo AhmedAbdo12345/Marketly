@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:id="@+id/minusLayout"
+
                             android:orientation="horizontal"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
@@ -82,7 +82,7 @@
                             android:elevation="5dp">
 
                             <ImageView
-
+                                android:id="@+id/minusLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/ic_baseline_remove_24"

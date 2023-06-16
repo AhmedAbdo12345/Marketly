@@ -1,5 +1,6 @@
 package iti.mad.marketly.data.source.remote
 
+import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
@@ -23,5 +24,9 @@ interface IRemoteDataSource {
     suspend fun getAllFavouriteIDS(userID: String):Flow<List<String>>
     suspend fun deleteFromFavourite(userID: String,product: Product):Flow<Unit>
     suspend fun getAllAddresses():Flow<List<Address>>
-    suspend fun getAllCartProducts():Flow<List<Product>>
+    suspend fun getAllCartProducts():Flow<List<CartModel>>
+    fun deleteAddress(addressID:String)
+    fun saveAddress(address: Address)
+    fun saveCartProduct(cartModel: CartModel)
+    fun deleteCartItem(cartID:String)
 }

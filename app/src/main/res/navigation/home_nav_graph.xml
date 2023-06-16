@@ -93,4 +93,8 @@
             android:id="@+id/action_settings_to_addressListFragment"
             app:destination="@id/addressListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment2"
+        android:name="iti.mad.marketly.presentation.cart.CartFragment"
+        android:label="CartFragment" />
 </navigation>

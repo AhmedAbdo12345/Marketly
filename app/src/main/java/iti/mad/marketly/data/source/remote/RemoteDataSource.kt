@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.settings.CurrencyResponse
@@ -57,6 +58,7 @@ class RemoteDataSource(
         val q = Firebase.firestore.collection(USERS).document(userID).collection(FAVOURITE).get()
             .await()
         val products = mutableListOf<Product>()
+        Log.i("ppp", q.documents.get(0).data?.entries.toString())
         for (product in q.documents) {
             Log.i("ppp", product.toObject<Product>()?.body_html!!)
             Log.i("ppp", product.id)
@@ -103,15 +105,66 @@ class RemoteDataSource(
         emit(addressResponse)
     }
 
-    override suspend fun getAllCartProducts(): Flow<List<Product>> = flow {
+    override suspend fun getAllCartProducts(): Flow<List<CartModel>> = flow {
         val db = Firebase.firestore.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").get().await()
 
-        val cartResponse : MutableList<Product> = mutableListOf()
+        val cartResponse : MutableList<CartModel> = mutableListOf()
         for(items in db.documents){
-            cartResponse.add(items.toObject(Product::class.java)!!)
+            cartResponse.add(CartModel(
+                items.get("id") as Long,
+                items.get("imageURL") as String,
+                items.get("quantity") as Long,
+                items.get("price") as Double,
+                items.get("title") as String
+            ))
         }
+
         emit(cartResponse)
     }
+
+    override fun deleteAddress(addressID: String) {
+        val db = Firebase.firestore
+        db.collection("settings").document(SettingsManager.getDocumentID())
+            .collection("Addresses").document(addressID).delete().addOnSuccessListener {
+                Log.i("DeleteAddress", "deleteAddress: DELETED")
+            }.addOnFailureListener {
+                Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
+            }
     }
+
+    override fun saveAddress(address: Address) {
+        val db = Firebase.firestore
+
+
+        SettingsManager.fillAddress(address)
+
+
+        db.collection("settings").document(SettingsManager.getDocumentID())
+            .collection("Addresses").document(address.AddressID).set(address).addOnSuccessListener {
+                Log.i("FireBassSuccess", "saveAddress: Data Saved")
+            }.addOnFailureListener {
+                Log.i("FireBassFailure", "saveAddress:${it.localizedMessage}")
+            }    }
+
+    override fun saveCartProduct(cartModel: CartModel) {
+        val db = Firebase.firestore
+        db.collection("cart").document(SettingsManager.getDocumentID())
+            .collection("CartProduct").document(cartModel.id.toString()).set(cartModel).addOnSuccessListener {
+                Log.i("FireBassSuccess", "saveProduct: Data Saved")
+            }.addOnFailureListener {
+                Log.i("FireBassFailure", "saveProduct:${it.message}")
+            }
+    }
+
+    override fun deleteCartItem(cartID: String) {
+        val db = Firebase.firestore
+        db.collection("cart").document(SettingsManager.getDocumentID())
+            .collection("CartProduct").document(cartID).delete().addOnSuccessListener {
+                Log.i("DeleteCart", "deleteCart: DELETED")
+            }.addOnFailureListener {
+                Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
+            }
+    }
+}
 
