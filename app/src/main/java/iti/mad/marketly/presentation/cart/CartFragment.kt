@@ -2,6 +2,7 @@ package iti.mad.marketly.presentation.cart
 
 import android.content.ContentValues
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.databinding.FragmentCartBinding
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
 import iti.mad.marketly.utils.AlertManager
+import iti.mad.marketly.utils.DateFormatter
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -78,6 +81,16 @@ lateinit var adapters:CartAdapter
                     }
                 }
             }
+            binding.checkoutBtn.setOnClickListener(View.OnClickListener {
+                val itemCount = adapters.itemCount
+                val currentItems = adapters.currentList
+                var totalPrice = 0.0
+                for(items in currentItems){
+                    totalPrice += items.price
+                }
+                val orderID = System.currentTimeMillis().toString()
+                val order = OrderModel(orderID,currentItems,itemCount,DateFormatter.getCurrentDate())
+            })
         }
 
     override fun onDelete(cartModel: CartModel) {

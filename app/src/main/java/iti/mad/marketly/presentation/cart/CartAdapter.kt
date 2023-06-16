@@ -36,6 +36,7 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
                 quant++
                 holder.binding.quantityTvCart.text = quant.toString()
                 holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
+                currentItem.price = currentItem.price * quant
             }
         })
         holder.binding.minusLayout.setOnClickListener(View.OnClickListener {
@@ -43,6 +44,7 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
                 quant--
                 holder.binding.quantityTvCart.text = quant.toString()
                 holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
+                currentItem.price = currentItem.price * quant
             }
         })
         holder.binding.cartMore.setOnClickListener(View.OnClickListener {
