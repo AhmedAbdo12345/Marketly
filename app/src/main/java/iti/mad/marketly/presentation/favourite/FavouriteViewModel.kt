@@ -65,7 +65,7 @@ class FavouriteViewModel(
                 _isFavourite.value = ResponseState.OnError(it.localizedMessage ?: "")
                 print(it.printStackTrace())
             }.collect {
-                print("essss")
+
                 _isFavourite.value = ResponseState.OnSuccess(it)
             }
         }

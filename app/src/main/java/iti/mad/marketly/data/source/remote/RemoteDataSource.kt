@@ -155,7 +155,8 @@ class RemoteDataSource(
     override fun saveCartProduct(cartModel: CartModel) {
         val db = Firebase.firestore
         db.collection("cart").document(SettingsManager.getDocumentID())
-            .collection("CartProduct").document(cartModel.id.toString()).set(cartModel).addOnSuccessListener {
+            .collection("CartProduct").document(cartModel.id.toString()).set(cartModel)
+            .addOnSuccessListener {
                 Log.i("FireBassSuccess", "saveProduct: Data Saved")
             }.addOnFailureListener {
                 Log.i("FireBassFailure", "saveProduct:${it.message}")
@@ -171,9 +172,10 @@ class RemoteDataSource(
                 Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
             }
     }
-//-------------------------------------------------------------------------------
-    override  fun saveProductInOrder(orderModel: OrderModel) {
-    val db = Firebase.firestore
+
+    //-------------------------------------------------------------------------------
+    override fun saveProductInOrder(orderModel: OrderModel) {
+        val db = Firebase.firestore
 
     FirebaseAuth.getInstance().currentUser?.let {
         var collectionReference =  db.collection("orders").document(it.email.toString()).collection("orderList")
