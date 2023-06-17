@@ -11,7 +11,16 @@
     <string name="empty_favourite">Empty Favourite</string>
     <string name="add_to_bag">Add To Bag</string>
     <string name="card_number_star">**** **** **** </string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="email_error">email must contain @</string>
+    <string name="password">Password</string>
+    <string name="password_error">Password must equal 8 chars</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_up">Sign Up</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_by_name">Search Product By Name</string>
     <string name="home_navigation_title">Home</string>
@@ -24,4 +33,13 @@
     <string name="count">Count</string>
     <string name="employers_navigation_title">Employers</string>
     <string name="profile_navigation_title">Profile</string>
+
+    <string name="invalid_email">Not a valid email address. Should be your@email.com</string>
+    <string name="required">This field is required</string>
+    <string name="password_length_error">Password length must be more than 8 char</string>
+    <string name="confirm_password_error">Password must be identical</string>
+    <!--Alert Dialog-->
+    <string name="ok">OK</string>
+    <string name="email_or_password_error">email or password error</string>
+    <string name="error">error</string>
 </resources>

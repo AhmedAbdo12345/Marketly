@@ -7,7 +7,15 @@ object Constants {
     const val BASE_URL = "https://${iti.workshop.admin.data.Constants.SHOPIFY_ACCOUNT}.myshopify.com/admin/api/${iti.workshop.admin.data.Constants.API_VERSION}/"
     const val API_KEY = "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"
 
-    // Network and Room cash
-    const val MAX_AGE = 7
-    const val  MAX_AGE_MILLI = iti.workshop.admin.data.Constants.MAX_AGE * 24 * 60 * 60 * 1000
+    //SharedPref Keys
+    const val CURRENCY="curr"
+    const val DEFAULTADDRESS="defAddress"
+    const val EXCHANGERATE = "Rate"
+
+    const val FIREBASE_USER_ID: String="FIREBASE_USER_ID"
+    const val USER_ID: String = "USER_ID"
+    const val USER_EMAIL: String = "USER_EMAIL"
+    const val USER_NAME: String = "USER_NAME"
+    const val IS_LOGIN: String = "isLogin"
+
 }

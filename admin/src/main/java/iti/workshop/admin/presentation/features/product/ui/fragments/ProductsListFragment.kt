@@ -42,7 +42,6 @@ class ProductsListFragment : Fragment() {
 
             override fun onTextChanged(searchQuery: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 viewModel.queryProductByTitle(searchQuery)
-
             }
 
             override fun afterTextChanged(p0: Editable?) {

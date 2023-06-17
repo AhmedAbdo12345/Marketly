@@ -2,6 +2,9 @@ package iti.workshop.admin.presentation
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +16,8 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 
@@ -27,17 +32,29 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController( bottomNavigationView,navController);
 
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
-            if (
-                navDestination.id == R.id.splashFragment
-            ) {
-                bottomNavigationView.visibility = View.GONE
-            } else {
-                bottomNavigationView.visibility = View.VISIBLE
+            when(navDestination.id){
+                R.id.splashFragment,
+                R.id.introOnBoardingFragment,
+                R.id.authLoginFragment -> {
+                    bottomNavigationView.visibility = View.GONE
+                }
+                else -> {
+                    bottomNavigationView.visibility = View.VISIBLE
+                }
             }
+
         }
+
+
+
     }
 
+
+
+
+
     companion object {
+
         const val REQUEST_ID_MULTIPLE_PERMISSIONS = 101
 
         // function to check permission

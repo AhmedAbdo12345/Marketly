@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
+import iti.workshop.admin.data.shared.SharedManager
 import iti.workshop.admin.databinding.HomeFragmentBinding
 import iti.workshop.admin.databinding.ProductFragmentPreviewProductBinding
 import iti.workshop.admin.presentation.features.home.model.HomeModel
 import iti.workshop.admin.presentation.features.home.viewModel.HomeViewModel
 import iti.workshop.admin.presentation.utils.DataResponseState
+import iti.workshop.admin.presentation.utils.alert
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -25,6 +27,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModels()
 
+    private var sharedManager:SharedManager?=null
     lateinit var binding: HomeFragmentBinding
 
     override fun onCreateView(
@@ -34,9 +37,17 @@ class HomeFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.home_fragment,container,false)
         binding.lifecycleOwner = viewLifecycleOwner
+        sharedManager =  SharedManager.getInstance(requireContext())
 
         navigationSelect();updateUI()
 
+        binding.userModel = sharedManager?.getUser()
+        binding.logoutBtn.setOnClickListener {
+            requireContext().alert("Logging out","Do you want logout? \n Are you sure?",{
+                     if (sharedManager?.clearUser() == true) requireActivity().finish()
+            },{}
+            )
+        }
         return binding.root
     }
 

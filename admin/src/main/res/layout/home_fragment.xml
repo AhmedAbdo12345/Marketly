@@ -5,6 +5,9 @@
 
     <data>
         <variable
+            name="userModel"
+            type="iti.workshop.admin.presentation.features.auth.model.User" />
+        <variable
             name="model"
             type="iti.workshop.admin.presentation.features.home.model.HomeModel" />
     </data>
@@ -17,6 +20,16 @@
             android:layout_height="match_parent"
             tools:context=".presentation.features.home.ui.fragments.HomeFragment">
 
+            <ImageView
+                android:layout_margin="15dp"
+                android:id="@+id/logoutBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/hover_effect"
+                android:src="@drawable/ic_logout"
+                app:layout_constraintBottom_toTopOf="@+id/textView3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"

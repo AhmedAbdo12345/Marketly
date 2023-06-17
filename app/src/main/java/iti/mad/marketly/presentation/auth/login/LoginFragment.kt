@@ -192,7 +192,6 @@ class LoginFragment : Fragment() {
     private fun getUserData(email: String) {
         val e= "email:$email"
         loginViewModel.loginWithEmail(e)
-
     }
 
     private fun isUserValid(): Boolean {
