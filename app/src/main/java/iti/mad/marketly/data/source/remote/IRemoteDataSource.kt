@@ -1,6 +1,8 @@
 package iti.mad.marketly.data.source.remote
 
+import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
@@ -10,6 +12,7 @@ import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.ProductResponse
 import kotlinx.coroutines.flow.Flow
 
 interface IRemoteDataSource {
@@ -33,5 +36,11 @@ interface IRemoteDataSource {
     //-------------------------------------------------------
      fun saveProductInOrder(orderModel: OrderModel)
     suspend fun getAllOrders(): Flow<List<OrderModel>>
-    //-------------------------------------------------------
+    //---------------Brands----------------------------------------
+    suspend fun getBrands(): Flow<BrandsResponse>
+    //------------------Products----------------------------------------------
+    suspend fun getProducts(id: String) : Flow<ProductResponse>
+   //--------------------Category------------------------------------------------
+   suspend fun getCategory(): Flow<CategoryResponse>
+
 }

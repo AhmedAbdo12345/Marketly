@@ -5,17 +5,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
+import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.model.productDetails.ProductDetails
-import iti.mad.marketly.data.model.settings.Address
-import iti.mad.marketly.data.model.settings.CurrencyResponse
+import iti.mad.marketly.data.model.product.ProductResponse
 import iti.mad.marketly.data.source.remote.retrofit.ApiService
 import iti.mad.marketly.utils.Constants
+import iti.mad.marketly.data.model.productDetails.ProductDetails
+import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.utils.Constants.FAVOURITE
 import iti.mad.marketly.utils.Constants.USERS
 import iti.mad.marketly.utils.SettingsManager
@@ -60,6 +63,7 @@ class RemoteDataSource(
         val q = Firebase.firestore.collection(USERS).document(userID).collection(FAVOURITE).get()
             .await()
         val products = mutableListOf<Product>()
+        Log.i("ppp", q.documents.get(0).data?.entries.toString())
         for (product in q.documents) {
             Log.i("ppp", product.toObject<Product>()?.body_html!!)
             Log.i("ppp", product.id)
@@ -110,17 +114,15 @@ class RemoteDataSource(
         val db = Firebase.firestore.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").get().await()
 
-        val cartResponse: MutableList<CartModel> = mutableListOf()
-        for (items in db.documents) {
-            cartResponse.add(
-                CartModel(
-                    items.get("id") as Long,
-                    items.get("imageURL") as String,
-                    items.get("quantity") as Long,
-                    items.get("price") as Double,
-                    items.get("title") as String
-                )
-            )
+        val cartResponse : MutableList<CartModel> = mutableListOf()
+        for(items in db.documents){
+            cartResponse.add(CartModel(
+                items.get("id") as Long,
+                items.get("imageURL") as String,
+                items.get("quantity") as Long,
+                items.get("price") as Double,
+                items.get("title") as String
+            ))
         }
 
         emit(cartResponse)
@@ -148,8 +150,7 @@ class RemoteDataSource(
                 Log.i("FireBassSuccess", "saveAddress: Data Saved")
             }.addOnFailureListener {
                 Log.i("FireBassFailure", "saveAddress:${it.localizedMessage}")
-            }
-    }
+            }    }
 
     override fun saveCartProduct(cartModel: CartModel) {
         val db = Firebase.firestore
@@ -176,9 +177,8 @@ class RemoteDataSource(
     override fun saveProductInOrder(orderModel: OrderModel) {
         val db = Firebase.firestore
 
-        FirebaseAuth.getInstance().currentUser?.let {
-            var collectionReference =
-                db.collection("orders").document(it.email.toString()).collection("orderList")
+    FirebaseAuth.getInstance().currentUser?.let {
+        var collectionReference =  db.collection("orders").document(it.email.toString()).collection("orderList")
 
             collectionReference.document(orderModel.orderID)
                 .set(orderModel).addOnSuccessListener {
@@ -187,32 +187,45 @@ class RemoteDataSource(
                     Log.i("zxcvb", "saveProduct:${it.localizedMessage}")
                 }
 
-        }
     }
+      }
 
     override suspend fun getAllOrders(): Flow<List<OrderModel>> = flow {
         FirebaseAuth.getInstance().currentUser?.let {
             val db =
-                Firebase.firestore.collection("orders").document(it.email.toString())
-                    .collection("orderList").get().await()
+                Firebase.firestore.collection("orders").document(it.email.toString()).collection("orderList").get().await()
 
             val orderResponse: MutableList<OrderModel> = mutableListOf()
-            for (items in db.documents) {
+            for(items in db.documents){
                 val data = items.toObject<OrderModel>()
-                /* if (data != null) {
-                     orderResponse.add(OrderModel(
-                         data.get("orderID") as String,
-                         data.get("itemList") as List<CartModel>,
-                         data.get("itemCount") as Int,
-                         data.get("date") as String))
-                 }*/
+               /* if (data != null) {
+                    orderResponse.add(OrderModel(
+                        data.get("orderID") as String,
+                        data.get("itemList") as List<CartModel>,
+                        data.get("itemCount") as Int,
+                        data.get("date") as String))
+                }*/
                 orderResponse.add(data!!)
-                Log.d("zxcv", "getAllOrders: " + data)
+                Log.d("zxcv", "getAllOrders: "+data)
             }
 
             emit(orderResponse)
         }
 
     }
+
+    override suspend fun getBrands(): Flow<BrandsResponse> = flow{
+        emit(api.getBrandsFromAPI())
+    }
+
+    override suspend fun getProducts(id: String): Flow<ProductResponse> = flow{
+        emit(api.getProductFromApi(id))
+    }
+
+    override suspend fun getCategory(): Flow<CategoryResponse> = flow{
+        emit(api.getCategoryFromAPI())
+    }
+
+    //--------------------------------------------------------------------------------
 }
 
