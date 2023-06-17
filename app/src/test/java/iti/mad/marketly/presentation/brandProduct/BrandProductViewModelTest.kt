@@ -1,22 +1,31 @@
-package iti.mad.marketly.data.repository.productRepository
+package iti.mad.marketly.presentation.brandProduct
 
-import android.util.Log
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.repository.favourite_repo.FakeFavRepo
+import iti.mad.marketly.data.repository.order.FakeOrderRepo
+import iti.mad.marketly.data.repository.productRepository.FakeProductRepo
 import iti.mad.marketly.data.source.remote.FakeRemoteDataSource
+import iti.mad.marketly.presentation.order.OrderViewmodel
+import iti.mad.marketly.utils.ResponseState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers
-import org.hamcrest.core.IsNot
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.hamcrest.core.IsNull
+import org.junit.After
 import org.junit.Assert.*
-
 import org.junit.Before
+import org.junit.Rule
+
 import org.junit.Test
-import kotlin.math.log
 
 @ExperimentalCoroutinesApi
-class ProductRepoImplTest {
+class BrandProductViewModelTest {
 
     private var productResponse = mutableMapOf(
         "1" to mutableListOf(
@@ -25,13 +34,6 @@ class ProductRepoImplTest {
                 title = "MEN'S SHOES SMITH",
                 body_html = "classic style. These kids' shoes preserve the iconic look of the original, made in leather with punched 3-Stripes, heel and tongue logos and lightweight step-in cushioning.",
                 vendor = "SMITH",
-                isFavourite = true
-
-            ), Product(
-                id = 8392651580,
-                title = "ADIDAS | KID'S STAN SMITH",
-                body_html = "The Stan Smith owned the tennis court in the '70s. Today it runs the streets with the same clean, classic style. These kids' shoes preserve the iconic look of the original, made in leather with punched 3-Stripes, heel and tongue logos and lightweight step-in cushioning.",
-                vendor = "ADIDAS",
                 isFavourite = true
 
             ), Product(
@@ -55,13 +57,6 @@ class ProductRepoImplTest {
                 title = "MEN'S SHOES SMITH",
                 body_html = "classic style. These kids' shoes preserve the iconic look of the original, made in leather with punched 3-Stripes, heel and tongue logos and lightweight step-in cushioning.",
                 vendor = "SMITH",
-                isFavourite = true
-
-            ), Product(
-                id = 4151515515,
-                title = "ADIDAS | AL AHLY T-shirt",
-                body_html = "The t shirt of mohamed abu treika",
-                vendor = "NIKE",
                 isFavourite = true
             ), Product(
                 id = 4552445215,
@@ -91,25 +86,41 @@ class ProductRepoImplTest {
         )
     )
 
+
+    lateinit var viewmodel: BrandProductViewModel
+    lateinit var productRepo: FakeProductRepo
     lateinit var remoteDataSource: FakeRemoteDataSource
-    lateinit var productRepo: ProductRepo
+    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+
+    @get:Rule
+    private var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @Before
     fun setUp() {
         remoteDataSource = FakeRemoteDataSource(productRespnse = productResponse)
-        productRepo = ProductRepoImpl(remoteDataSource)
+        productRepo = FakeProductRepo(remoteDataSource)
+       var favRepo = FakeFavRepo()
+        viewmodel = BrandProductViewModel(productRepo,favRepo)
+        Dispatchers.setMain(testDispatcher)
+
+
     }
 
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
+    }
+
+
     @Test
-    fun getProducts_checkProductIDforForFirstProductInCollectionThree() = runBlocking {
-        // Given
-
-        // When
-       var result = productRepo.getProducts("3")
+    fun getAllBrandProduct_checkResponseIsNotBull() = runBlocking {
+       // Given
+       // When
+        viewmodel.getAllBrandProduct("1", "123")
+        var actual  = viewmodel.brandProduct.value
         // Then
-        result.collect{
-            assertThat(it.products[0].id, CoreMatchers.`is`(8391229473078))
-
-        }
+         assertThat(actual,IsNull.notNullValue())
 
     }
 }

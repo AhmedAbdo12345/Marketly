@@ -49,7 +49,7 @@ class OrderRepoImplTest {
     }
 
     @Test
-    fun getAllOrders_NoInput_checkOrderIDNumberForFirstOrder() = runBlocking {
+    fun getAllOrders_checkOrderIDNumberForFirstOrder() = runBlocking {
 
         // Given
         // When

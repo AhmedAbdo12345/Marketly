@@ -21,9 +21,11 @@ import kotlinx.coroutines.launch
 class BrandProductViewModel(
     private val brandsRepo: ProductRepo, private val favouriteRep: IFavouriteRepo
 ) : ViewModel() {
-    private var brandProduct: MutableStateFlow<ResponseState<List<Product>>> =
+
+    private var _brandProduct: MutableStateFlow<ResponseState<List<Product>>> =
         MutableStateFlow(ResponseState.OnLoading(false))
-    val _brandProduct: StateFlow<ResponseState<List<Product>>> = brandProduct
+
+    val brandProduct: StateFlow<ResponseState<List<Product>>> = _brandProduct
     private val _addedSuccessfully =
         MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val addedSuccessfully: StateFlow<ResponseState<String>> = _addedSuccessfully
@@ -33,7 +35,7 @@ class BrandProductViewModel(
 
 
     fun getAllBrandProduct(brandID: String, userID: String) {
-        brandProduct.value = ResponseState.OnLoading(true)
+        _brandProduct.value = ResponseState.OnLoading(true)
         viewModelScope.launch {
             brandsRepo.getProducts(brandID)
                 .combine(favouriteRep.getAllFavouriteIDS(userID)) { r1, r2 ->
@@ -44,9 +46,9 @@ class BrandProductViewModel(
                         product
                     }
                 }.flowOn(Dispatchers.IO).catch {
-                    brandProduct.value = ResponseState.OnError(it.localizedMessage ?: "")
+                    _brandProduct.value = ResponseState.OnError(it.localizedMessage ?: "")
                 }.collect {
-                    brandProduct.value = ResponseState.OnSuccess(it)
+                    _brandProduct.value = ResponseState.OnSuccess(it)
                 }
         }
     }

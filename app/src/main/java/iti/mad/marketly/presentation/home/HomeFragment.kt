@@ -101,7 +101,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         viewLifecycleOwner.lifecycleScope.launch {
             brandsViewModel.getAllBrands()
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                brandsViewModel._brands.collect {
+                brandsViewModel.brands.collect {
                     when (it) {
                         is ResponseState.OnLoading -> {}
                         is ResponseState.OnSuccess -> {
