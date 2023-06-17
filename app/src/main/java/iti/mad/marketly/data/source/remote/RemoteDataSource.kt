@@ -5,13 +5,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.ProductResponse
 import iti.mad.marketly.data.source.remote.retrofit.ApiService
 import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.data.model.productDetails.ProductDetails
@@ -209,6 +212,17 @@ class RemoteDataSource(
 
     }
 
+    override suspend fun getBrands(): Flow<BrandsResponse> = flow{
+        emit(api.getBrandsFromAPI())
+    }
+
+    override suspend fun getProducts(id: String): Flow<ProductResponse> = flow{
+        emit(api.getProductFromApi(id))
+    }
+
+    override suspend fun getCategory(): Flow<CategoryResponse> = flow{
+        emit(api.getCategoryFromAPI())
+    }
 
     //--------------------------------------------------------------------------------
 }
