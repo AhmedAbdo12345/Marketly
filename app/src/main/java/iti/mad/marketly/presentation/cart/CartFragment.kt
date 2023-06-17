@@ -115,20 +115,30 @@ class CartFragment : Fragment(), CartFragmentInterface {
                 totalPrice += items.price
             }
             val methodADS = {
-                val percentage = (totalPrice * 10)/100
+                val percentage = (totalPrice * 0.10)
                 totalPrice = totalPrice - percentage
+                val orderID = System.currentTimeMillis().toString()
+                val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
+                cartViewModel.saveProuctsInOrder(order)
+                configuration =
+                    PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                        .clientId(Constants.CLIENT_ID)
+                getPayment(totalPrice.toString(), "USD")
             }
             if(!AdsManager.clipBoardCode.equals("")){
                 AlertManager.functionalDialog("Use Code",requireContext(),"Do you like to use the code saved in your clipboard?",methodADS)
                     .show()
+
+            }else{
+                val orderID = System.currentTimeMillis().toString()
+                val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
+                cartViewModel.saveProuctsInOrder(order)
+                configuration =
+                    PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+                        .clientId(Constants.CLIENT_ID)
+                getPayment(totalPrice.toString(), "USD")
             }
-            val orderID = System.currentTimeMillis().toString()
-            val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
-            cartViewModel.saveProuctsInOrder(order)
-            configuration =
-                PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-                    .clientId(Constants.CLIENT_ID)
-            getPayment(totalPrice.toString(), "USD")
+
         })
     }
 
