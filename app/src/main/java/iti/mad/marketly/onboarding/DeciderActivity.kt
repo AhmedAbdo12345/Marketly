@@ -24,7 +24,7 @@ class DeciderActivity : AppCompatActivity() {
         val seen: Boolean = Shared.getBoolean("seen", false)
         // Log.d("seen",String.valueOf(seen));
         if (seen) {
-            val currentUser: FirebaseUser = FirebaseAuth.getInstance().getCurrentUser()!!
+            val currentUser: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
             if (currentUser != null && currentUser.isEmailVerified()) {
                 //user signed in
                 startActivity(Intent(this, MainActivity::class.java))

@@ -55,6 +55,7 @@ class OnboardingScreenActivity : AppCompatActivity() {
             GetStarted!!.setOnClickListener {
                 updateScreen()
                 startActivity(intent)
+                this.finish()
             }
         }
 
