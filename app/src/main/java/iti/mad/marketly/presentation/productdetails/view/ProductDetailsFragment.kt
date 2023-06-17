@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import iti.mad.marketly.R
@@ -49,9 +48,9 @@ class ProductDetailsFragment : Fragment() {
     private var isFavourite: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-     /*   val bottomNavigationView =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavView)
-        bottomNavigationView?.visibility = View.GONE*/
+        /*   val bottomNavigationView =
+               requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavView)
+           bottomNavigationView?.visibility = View.GONE*/
 
         sliderHandler = Handler(Looper.getMainLooper())
         lifecycleScope.launch {

@@ -6,13 +6,13 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
-import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.source.remote.retrofit.ApiService
-import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.settings.Address
+import iti.mad.marketly.data.model.settings.CurrencyResponse
+import iti.mad.marketly.data.source.remote.retrofit.ApiService
+import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.utils.Constants.FAVOURITE
 import iti.mad.marketly.utils.Constants.USERS
 import iti.mad.marketly.utils.SettingsManager
@@ -107,11 +107,11 @@ class RemoteDataSource(
         val db = Firebase.firestore.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").get().await()
 
-        val cartResponse : MutableList<Product> = mutableListOf()
-        for(items in db.documents){
+        val cartResponse: MutableList<Product> = mutableListOf()
+        for (items in db.documents) {
             cartResponse.add(items.toObject(Product::class.java)!!)
         }
         emit(cartResponse)
     }
-    }
+}
 
