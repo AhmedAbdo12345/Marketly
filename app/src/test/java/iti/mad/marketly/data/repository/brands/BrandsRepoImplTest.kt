@@ -43,7 +43,7 @@ class BrandsRepoImplTest {
 
 
     @Test
-    fun getBrands_noInput_checkResponseInNotNull() = runBlocking {
+    fun getBrands_checkResponseInNotNull() = runBlocking {
         // Given
         // When
        var result = brandsRepo.getBrands()

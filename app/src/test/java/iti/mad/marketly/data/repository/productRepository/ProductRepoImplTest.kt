@@ -100,7 +100,7 @@ class ProductRepoImplTest {
     }
 
     @Test
-    fun getProducts_NoInput_checkProductIDforForFirstProductInCollectionThree() = runBlocking {
+    fun getProducts_checkProductIDforForFirstProductInCollectionThree() = runBlocking {
         // Given
 
         // When
