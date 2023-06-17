@@ -85,7 +85,7 @@ class ProductsImagesListFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.product_fragment_list_images,container,false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         adapter = ProductImagesAdapter(ProductImagesOnCLickListener(::selectImage,::deleteImage))
 
         binding.mAdapter = adapter

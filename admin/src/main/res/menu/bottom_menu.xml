@@ -26,16 +26,8 @@
         android:title="@string/employers_navigation_title"
         android:icon="@drawable/ic_users"/>
 
-    <item
-        android:id="@+id/auth_fragment_profile_preview"
-        android:title="@string/employers_navigation_title"
-        android:icon="@drawable/ic_navigation_profile"/>
-
-
-
-
-
-
-
-
+<!--    <item-->
+<!--        android:id="@+id/authProfilePreviewFragment"-->
+<!--        android:title="@string/profile_navigation_title"-->
+<!--        android:icon="@drawable/ic_navigation_profile"/>-->
 </menu>

@@ -31,7 +31,7 @@ class PreviewProductFragment : Fragment() {
     ): View {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.product_fragment_preview_product,container,false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
 
         updateProduct()

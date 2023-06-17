@@ -23,4 +23,5 @@
     <string name="description">Description</string>
     <string name="count">Count</string>
     <string name="employers_navigation_title">Employers</string>
+    <string name="profile_navigation_title">Profile</string>
 </resources>

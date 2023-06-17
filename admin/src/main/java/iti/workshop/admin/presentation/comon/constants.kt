@@ -6,8 +6,4 @@ object ConstantsKeys {
     const val PRICE_RULE_ID_KEY = "PRICE_RULE_ID_KEY"
     const val ACTION_KEY = "ACTION_KEY"
 }
-enum class Action{
-    Add,
-    Edit
-}
-
+enum class Action{ Add, Edit }

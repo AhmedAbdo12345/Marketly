@@ -85,7 +85,7 @@ class ProductsVariantsListFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.product_fragment_list_variants,container,false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         adapter = ProductVariantsAdapter(ProductVariantsOnCLickListener(::selectVariant,::deleteVariant))
 
         binding.mAdapter = adapter

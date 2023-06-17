@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_homeFragment_to_authEmployersListFragment"
             app:destination="@id/authEmployersListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_authProfilePreviewFragment"
+            app:destination="@id/authProfilePreviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAndEditProductFragment"
@@ -67,7 +70,7 @@
         tools:layout="@layout/product_fragment_edit_and_add">
         <argument
             android:name="ACTION_KEY"
-            app:argType="iti.workshop.admin.presentation.comon.ProductAction" />
+            app:argType="iti.workshop.admin.presentation.comon.Action" />
         <argument
             android:name="PRODUCT_KEY"
             app:argType="iti.workshop.admin.data.dto.Product"

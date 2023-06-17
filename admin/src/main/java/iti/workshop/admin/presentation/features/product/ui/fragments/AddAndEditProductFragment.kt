@@ -52,7 +52,7 @@ class AddAndEditProductFragment : Fragment() {
             container,
             false
         )
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
 
         updateProduct()

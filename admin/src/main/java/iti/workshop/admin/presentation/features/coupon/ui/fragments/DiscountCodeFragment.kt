@@ -45,7 +45,7 @@ class DiscountCodeFragment : Fragment() {
                 container,
                 false
             )
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         adapter = DiscountCodeAdapter(DiscountCodeOnCLickListener(::selectItem, ::deleteItem))
         binding.mAdapter = adapter
 

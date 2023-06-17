@@ -17,7 +17,7 @@ class AuthEmployersAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder
-    = MyViewHolder(  LayoutInflater.from(parent.context).inflate(R.layout.coupon_item_price_rule, parent, false)  )
+    = MyViewHolder(  LayoutInflater.from(parent.context).inflate(R.layout.auth_employers_item, parent, false)  )
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binder(getItem(position), clickListener)
@@ -27,8 +27,8 @@ class AuthEmployersAdapter(
 
         private val binder = AuthEmployersItemBinding.bind(itemView)
         fun binder(data:User,itemOnCLickListener: AuthEmployersOnCLickListener){
-//                binder.model = data
-//                binder.clickListener = itemOnCLickListener
+                binder.model = data
+                binder.clickListener = itemOnCLickListener
                 binder.executePendingBindings()
         }
     }

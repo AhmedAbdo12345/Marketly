@@ -103,7 +103,7 @@ class ProductsListFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.product_fragment_list_products,container,false)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         adapter = ProductsAdapter(ItemOnCLickListener(::selectProduct,::deleteProduct))
 
         binding.mAdapter = adapter

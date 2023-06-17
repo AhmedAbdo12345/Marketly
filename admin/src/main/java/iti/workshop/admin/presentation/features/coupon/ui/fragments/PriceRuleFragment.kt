@@ -38,7 +38,7 @@ class PriceRuleFragment : Fragment() {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.coupon_fragment_price_rule, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         adapter = PriceRuleAdapter(PriceRuleOnCLickListener(::selectItem,::deleteItem))
         binding.mAdapter = adapter
 

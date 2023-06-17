@@ -37,7 +37,7 @@ class AuthEmployersListFragment : Fragment() {
 
         binding =
             DataBindingUtil.inflate(inflater, R.layout.auth_fragment_empolyers_list, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         adapter = AuthEmployersAdapter(AuthEmployersOnCLickListener(::selectItem,::deleteItem))
         binding.mAdapter = adapter
 
@@ -48,10 +48,14 @@ class AuthEmployersListFragment : Fragment() {
     }
 
     private fun addUserAction() {
-        val bundle = Bundle()
-        bundle.putSerializable(ConstantsKeys.ACTION_KEY,Action.Add)
-        findNavController().navigate(R.id.action_authEmployersListFragment_to_authProfileAddEditFragment,bundle)
-    }
+
+        binding.floatingActionButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable(ConstantsKeys.ACTION_KEY,Action.Add)
+            findNavController().navigate(R.id.action_authEmployersListFragment_to_authProfileAddEditFragment,bundle)
+
+        }
+     }
 
     private fun deleteItem(model: User) {
 
