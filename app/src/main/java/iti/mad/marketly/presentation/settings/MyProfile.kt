@@ -27,6 +27,13 @@ class MyProfile : Fragment() {
         findNavController().navigate(action)
         })
 
+
+        binding.layoutOrders.setOnClickListener {
+            var action = MyProfileDirections.actionMyProfile2ToOrderFragment()
+            findNavController().navigate(action)
+
+        }
+
     }
 
     override fun onCreateView(

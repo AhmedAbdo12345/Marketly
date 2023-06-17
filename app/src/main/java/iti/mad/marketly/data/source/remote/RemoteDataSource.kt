@@ -1,13 +1,19 @@
 package iti.mad.marketly.data.source.remote
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
+import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
+import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.source.remote.retrofit.ApiService
+import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.data.model.settings.CurrencyResponse
@@ -103,15 +109,22 @@ class RemoteDataSource(
         emit(addressResponse)
     }
 
-    override suspend fun getAllCartProducts(): Flow<List<Product>> = flow {
+    override suspend fun getAllCartProducts(): Flow<List<CartModel>> = flow {
         val db = Firebase.firestore.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").get().await()
 
-        val cartResponse: MutableList<Product> = mutableListOf()
-        for (items in db.documents) {
-            cartResponse.add(items.toObject(Product::class.java)!!)
+        val cartResponse : MutableList<CartModel> = mutableListOf()
+        for(items in db.documents){
+            cartResponse.add(CartModel(
+                items.get("id") as Long,
+                items.get("imageURL") as String,
+                items.get("quantity") as Long,
+                items.get("price") as Double,
+                items.get("title") as String
+            ))
         }
+
         emit(cartResponse)
     }
-}
+    }
 

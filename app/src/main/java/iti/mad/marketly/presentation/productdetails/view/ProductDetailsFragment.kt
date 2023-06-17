@@ -23,13 +23,16 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.Reviewer
+import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.product.Image
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
+import iti.mad.marketly.presentation.cart.CartViewModel
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
 import iti.mad.marketly.utils.AlertManager
+import iti.mad.marketly.utils.CartManager
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -38,6 +41,9 @@ import kotlin.math.abs
 class ProductDetailsFragment : Fragment() {
     private val viewModel by viewModels<ProductDetailsViewModel> {
         ProductDetailsViewModel.Factory
+    }
+    private val cartViewModel by viewModels<CartViewModel> {
+        CartViewModel.Factory
     }
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var sliderHandler: Handler
@@ -207,6 +213,15 @@ class ProductDetailsFragment : Fragment() {
             }
 
         }
+        binding.addToCartProductDetailsPage.setOnClickListener(View.OnClickListener {
+            val cartProduct = productDetails.product
+            val cartModel = CartModel(cartProduct?.id!!, cartProduct.image?.src!!
+            ,cartProduct.variants?.get(0)?.inventory_quantity?.toLong()!!,cartProduct.variants?.get(0)?.price?.toDouble()!!,cartProduct?.title!!)
+            cartViewModel.saveCart(cartModel)
+            CartManager.addItemToCartList(cartModel)
+            AlertManager.nonFunctionalDialog("Saved",requireContext(),"Product sent to cart")
+        })
+
     }
 
     private var sliderRunnable = Runnable {
