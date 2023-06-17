@@ -104,6 +104,41 @@ class FavouriteRepTest {
 
     @Test
     fun deleteFromFavourite() {
-        //TODO
+        val product = Product(
+            id = 8391229473080,
+            title = "ADIDAS | KID'S STAN SMITH",
+            body_html = "The Stan Smith owned the tennis court in the '70s. Today it runs the streets with the same clean, classic style. These kids' shoes preserve the iconic look of the original, made in leather with punched 3-Stripes, heel and tongue logos and lightweight step-in cushioning.",
+            vendor = "ADIDAS",
+            isFavourite = true
+
+        )
+        val expected = listOf(
+            Product(
+                id = 8391229473078,
+                title = "MEN'S SHOES SMITH",
+                body_html = "classic style. These kids' shoes preserve the iconic look of the original, made in leather with punched 3-Stripes, heel and tongue logos and lightweight step-in cushioning.",
+                vendor = "SMITH",
+                isFavourite = true
+
+            ), Product(
+                id = 8391229473081,
+                title = "ADIDAS | AL AHLY T-shirt",
+                body_html = "The t shirt of mohamed abu treika",
+                vendor = "NIKE",
+                isFavourite = true
+            ), Product(
+                id = 8391229473079,
+                title = "11 salah liverpool",
+                body_html = "Mohamed salah teshirt",
+                vendor = "LiverPOol",
+                isFavourite = true
+
+            )
+        )
+        runTest {
+            repository.deleteFromFavourite("1", product)
+            val actual = repository.getAllFavourite("1").first().products
+            Assert.assertEquals(expected, actual)
+        }
     }
 }

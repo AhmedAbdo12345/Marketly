@@ -1,9 +1,11 @@
 package iti.mad.marketly.data.source.remote
 
+import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.customer.Customer
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
+import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.settings.Address
@@ -227,7 +229,33 @@ class FakeRemoteDataSource : IRemoteDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllCartProducts(): Flow<List<Product>> {
+    override suspend fun getAllCartProducts(): Flow<List<CartModel>> {
         TODO("Not yet implemented")
     }
+
+    override fun deleteAddress(addressID: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveAddress(address: Address) {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveCartProduct(cartModel: CartModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteCartItem(cartID: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveProductInOrder(orderModel: OrderModel) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAllOrders(): Flow<List<OrderModel>> {
+        TODO("Not yet implemented")
+    }
+
+
 }
