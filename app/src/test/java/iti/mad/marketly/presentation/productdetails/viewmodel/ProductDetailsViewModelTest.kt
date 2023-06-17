@@ -3,7 +3,7 @@ package iti.mad.marketly.presentation.productdetails.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.model.productDetails.ProductDetails
-import iti.mad.marketly.data.repository.productdetailsRepo.FakeFavRepo
+import iti.mad.marketly.data.repository.favourite_repo.FakeFavRepo
 import iti.mad.marketly.data.repository.productdetailsRepo.FakeProductDetailsRepo
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers

@@ -66,6 +66,18 @@ class FavouriteRepTest {
 
     @Test
     fun isFavourite() {
+        val product = Product(
+            id = 98798,
+            title = "MEN'S SHOEwefeS SMITH",
+            body_html = "classic ewfstyle. These kids' shoes preserve the iconic look of the original, made in leather with punched 3-Stripes, heel and tongue logos and lightweight step-in cushioning.",
+            vendor = "SMIfewTH",
+            isFavourite = true
+
+        )
+        runTest {
+            val actual = repository.isFavourite(product, "3").first()
+            Assert.assertEquals(false, actual)
+        }
     }
 
     @Test
@@ -136,7 +148,7 @@ class FavouriteRepTest {
             )
         )
         runTest {
-            repository.deleteFromFavourite("1", product)
+            repository.deleteFromFavourite("1", product).first()
             val actual = repository.getAllFavourite("1").first().products
             Assert.assertEquals(expected, actual)
         }
