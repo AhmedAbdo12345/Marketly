@@ -46,7 +46,7 @@ android {
 
 dependencies {
 //paypal
-   // implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
     //
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
