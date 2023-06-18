@@ -55,11 +55,15 @@ var addresses:MutableList<iti.mad.marketly.data.model.settings.Address> = mutabl
                 settingsViewModel._addressResponse.collect{
                     when(it){
                         is ResponseState.OnLoading->{
+                            binding.addressProgressbar.visibility = View.VISIBLE
+                            binding.addressProductRecView.visibility = View.GONE
                         }
                         is ResponseState.OnSuccess->{
+                            binding.addressProgressbar.visibility = View.GONE
+                            binding.addressProductRecView.visibility = View.VISIBLE
                             addresses= it.response.toMutableList()
                             adapters.submitList(it.response)
-                            binding.categoryProductRecView.apply {
+                            binding.addressProductRecView.apply {
                                 adapter = adapters
                                 layoutManager= LinearLayoutManager(context).apply {
                                     orientation= RecyclerView.VERTICAL
@@ -68,6 +72,8 @@ var addresses:MutableList<iti.mad.marketly.data.model.settings.Address> = mutabl
 
                         }
                         is ResponseState.OnError->{
+                            binding.addressProgressbar.visibility = View.GONE
+                            binding.addressProductRecView.visibility = View.GONE
                             Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
                         }
                         else ->{}

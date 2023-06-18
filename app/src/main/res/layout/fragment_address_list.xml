@@ -12,10 +12,21 @@
         android:layout_height="match_parent"
         tools:context=".presentation.category.CategoryFragment">
 
+        <ProgressBar
+            android:id="@+id/address_progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/floatingActionButton" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categoryProductRecView"
-            android:layout_width="424dp"
-            android:layout_height="540dp"
+            android:id="@+id/addressProductRecView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,14 +36,15 @@
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="355dp"
-            android:layout_marginTop="576dp"
+            android:layout_gravity="bottom|right|end"
+            android:layout_marginBottom="45dp"
             android:clickable="true"
             android:contentDescription="TODO"
             android:src="@drawable/ic_baseline_add_24"
+            app:fab_labelsPosition="left"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/categoryProductRecView"
-            app:layout_constraintTop_toTopOf="@+id/categoryProductRecView" />
+            app:layout_constraintHorizontal_bias="0.905"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
