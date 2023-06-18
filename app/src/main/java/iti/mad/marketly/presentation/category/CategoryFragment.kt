@@ -75,7 +75,10 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                             tabLayout.removeAllTabs()
                             for (x in 0 until it.response.custom_collections.size) {
 
-                                val collectionObj = it.response.custom_collections[x]
+                                var collectionObj = it.response.custom_collections[x]
+                                if (x == 0){
+                                    collectionObj.title = "HOME"
+                                }
                                 val myTab = tabLayout.newTab()
                                     .setText(it.response.custom_collections[x].title)
                                     .setTag(collectionObj)
@@ -105,7 +108,13 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                     )
                     viewModelCategoryProduct.categoryProduct.collect {
                         when (it) {
+                            is ResponseState.OnLoading ->{
+                                binding.categoryProductRecView.visibility = View.GONE
+                                binding.categoryProgressbar.visibility = View.VISIBLE
+                            }
                             is ResponseState.OnSuccess -> {
+                                binding.categoryProductRecView.visibility = View.VISIBLE
+                                binding.categoryProgressbar.visibility = View.GONE
                                 adapterProduct = CategoryProductAdapter(this@CategoryFragment) {
                                     if (it.isFavourite == true) {
                                         viewModelCategoryProduct.deleteProductFromFavourite(
@@ -138,7 +147,10 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                                 }
                             }
 
-                            is ResponseState.OnError -> {}
+                            is ResponseState.OnError -> {
+                                binding.categoryProductRecView.visibility = View.GONE
+                                binding.categoryProgressbar.visibility = View.GONE
+                            }
                             else -> {}
                         }
                     }

@@ -43,7 +43,7 @@ class CategoryProductAdapter(
         }
         holder.binding.tvCategoryItemName.text = getItem(position).vendor
         holder.binding.tvCategoryProductName.text = getItem(position).title
-        holder.binding.tvCategoryProductPrice.text = getItem(position).variants?.get(0)!!.price
+        holder.binding.tvCategoryProductPrice.text = getItem(position).variants?.get(0)!!.price+" $"
         holder.binding.categoryProductModel = getItem(position)
         holder.binding.action = mClickListener
         holder.binding.imgVProductAddToFav.setOnClickListener {

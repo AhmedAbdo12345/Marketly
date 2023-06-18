@@ -67,10 +67,13 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                 brandProductViewModel.brandProduct.collect { uiState ->
                     when (uiState) {
                         is ResponseState.OnLoading -> {
-
+                            binding.brandProductRecycleView.visibility = View.GONE
+                            binding.brandProductProgressbar.visibility = View.VISIBLE
                         }
 
                         is ResponseState.OnSuccess -> {
+                            binding.brandProductRecycleView.visibility = View.VISIBLE
+                            binding.brandProductProgressbar.visibility = View.GONE
                             brandAdapter = BrandProductAdapter(this@BrandProductFragment) {
                                 if (it.isFavourite == true) {
                                     brandProductViewModel.deleteProductFromFavourite(
@@ -111,6 +114,8 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                         }
 
                         is ResponseState.OnError -> {
+                            binding.brandProductRecycleView.visibility = View.GONE
+                            binding.brandProductProgressbar.visibility = View.GONE
                             Log.d("zxcv", "onViewCreated: 88888888888888")
 
                         }

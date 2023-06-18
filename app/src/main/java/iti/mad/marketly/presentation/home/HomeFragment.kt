@@ -66,8 +66,13 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adsViewModel._pricingRule.collect {
                     when (it) {
-                        is PricingRuleState.Loading -> {}
+                        is PricingRuleState.Loading -> {
+                            binding.brandsRecView.visibility = View.GONE
+                            binding.homeProgressbar.visibility = View.VISIBLE
+                        }
                         is PricingRuleState.Success -> {
+                            binding.brandsRecView.visibility = View.VISIBLE
+                            binding.homeProgressbar.visibility = View.GONE
                             //Toast.makeText(requireContext(),"${it.pricingRules.price_rules.get(0).id}",Toast.LENGTH_LONG).show()
                             AdsManager.setValue(it.pricingRules.price_rules[0].value)
                             launchDiscount(it.pricingRules.price_rules[0].id)
@@ -75,6 +80,9 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         }
 
                         is PricingRuleState.Failed -> {
+                            binding.brandsRecView.visibility = View.GONE
+                            binding.homeProgressbar.visibility = View.GONE
+
                             Log.d("PRICINGERROR", "onViewCreated: $it")
                         }
 

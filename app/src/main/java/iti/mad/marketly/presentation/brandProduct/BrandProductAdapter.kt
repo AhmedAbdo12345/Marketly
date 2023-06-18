@@ -40,7 +40,7 @@ class BrandProductAdapter(
 
         holder.binding.tvBrandProductName.text = getItem(position).vendor
         holder.binding.tvProductName.text = getItem(position).title
-        holder.binding.tvProductPrice.text= getItem(position).variants!![0]!!.price
+        holder.binding.tvProductPrice.text= getItem(position).variants!![0]!!.price+" $"
         holder.binding.productModel = getItem(position)
         holder.binding.action = mClickListener
         holder.binding.imgVProductAddToFav.setOnClickListener {
