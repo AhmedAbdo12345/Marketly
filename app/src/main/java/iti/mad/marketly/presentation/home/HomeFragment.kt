@@ -239,6 +239,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
       // inflater.inflate(R.menu.search, menu)
         super.onCreateOptionsMenu(menu, inflater)
 
+        BadgeNotification(menu,inflater)
     }
 
     fun displayToolBar(){
@@ -248,7 +249,38 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         activity.setSupportActionBar(toolbar)
         activity.supportActionBar?.setTitle("Home")
     }
+    fun BadgeNotification(menu: Menu,inflater: MenuInflater) {
+        //-------- get number of Proudect from database and display in badge notification for cart icon-----------------
+        inflater.inflate(R.menu.cart, menu)
 
+        val menuItem = menu.findItem(R.id.cartIcon)
+        cartViewModel.getAllCart()
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                cartViewModel._cartResponse.collect {
+                    when (it) {
+                        is ResponseState.OnLoading -> {}
+                        is ResponseState.OnSuccess -> {
+                            cartItems = it.response.toMutableList()
+                            if (cartItems.size == 0) {
+                                menuItem.actionView = null
+                            } else {
+                                menuItem.setActionView(R.layout.badge_notification)
+                                val view = menuItem.actionView
+                                var badgeCounter = view!!.findViewById<TextView>(R.id.tv_badge_counter)
+                                badgeCounter.setText(cartItems.size.toString())
+                                view!!.setOnClickListener { onOptionsItemSelected(menuItem) }
+                            }
+                        }
+                        is ResponseState.OnError -> {}
+                        else -> {}
+                    }
+
+                }
+            }
+
+        }
+    }
 
 }
 
