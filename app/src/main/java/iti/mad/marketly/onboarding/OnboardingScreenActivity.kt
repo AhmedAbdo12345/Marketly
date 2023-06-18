@@ -1,8 +1,6 @@
 package iti.mad.marketly.onboarding
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Html
 import android.widget.Button
@@ -12,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import iti.mad.marketly.R
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.presentation.MainActivity
 
 
@@ -72,10 +71,6 @@ class OnboardingScreenActivity : AppCompatActivity() {
     }
 
     private fun updateScreen() {
-        val Shared: SharedPreferences =
-            getSharedPreferences(DeciderActivity.MYPREFERENCES, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = Shared.edit()
-        editor.putBoolean("seen", true)
-        editor.commit()
+        SharedPreferenceManager.saveOnBoardingSeen(true, this)
     }
 }
