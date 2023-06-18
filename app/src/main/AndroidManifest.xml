@@ -25,11 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+      <!--  <activity
             android:name=".presentation.auth.AuthActivity"
             android:exported="false">
 
-        </activity>
+        </activity>-->
         <activity
             android:name=".presentation.MainActivity"
             android:exported="false">

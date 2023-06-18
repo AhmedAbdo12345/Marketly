@@ -5,10 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import iti.mad.marketly.presentation.MainActivity
-import iti.mad.marketly.presentation.auth.AuthActivity
 
 class DeciderActivity : AppCompatActivity() {
 
@@ -24,14 +21,8 @@ class DeciderActivity : AppCompatActivity() {
         val seen: Boolean = Shared.getBoolean("seen", false)
         // Log.d("seen",String.valueOf(seen));
         if (seen) {
-            val currentUser: FirebaseUser? = FirebaseAuth.getInstance().getCurrentUser()
-            if (currentUser != null && currentUser.isEmailVerified()) {
-                //user signed in
-                startActivity(Intent(this, MainActivity::class.java))
-                this.finish()
-            } else {
-                startActivity(Intent(this, AuthActivity::class.java))
-            }
+            startActivity(Intent(this, MainActivity::class.java))
+            this.finish()
         } else {
             startActivity(Intent(this, OnboardingScreenActivity::class.java))
         }

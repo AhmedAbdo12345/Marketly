@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="iti.mad.marketly.presentation.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_brandProductFragment"
             app:destination="@id/brandProductFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/brandProductFragment"
         android:name="iti.mad.marketly.presentation.brandProduct.BrandProductFragment"
         android:label="fragment_brand_product"
-        tools:layout="@layout/fragment_brand_product" >
+        tools:layout="@layout/fragment_brand_product">
         <argument
             android:name="brandID"
             app:argType="long" />
@@ -33,7 +33,7 @@
         android:id="@+id/productDetailsFragment"
         android:name="iti.mad.marketly.presentation.productdetails.view.ProductDetailsFragment"
         android:label="fragment_product_details"
-        tools:layout="@layout/fragment_product_details" >
+        tools:layout="@layout/fragment_product_details">
         <argument
             android:name="product_ID"
             app:argType="long" />
@@ -45,7 +45,7 @@
         android:id="@+id/categoryFragment"
         android:name="iti.mad.marketly.presentation.category.CategoryFragment"
         android:label="fragment_category"
-        tools:layout="@layout/fragment_category" >
+        tools:layout="@layout/fragment_category">
         <action
             android:id="@+id/action_categoryFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
@@ -54,7 +54,7 @@
         android:id="@+id/reviewsFragment"
         android:name="iti.mad.marketly.presentation.reviews.views.ReviewsFragment"
         android:label="fragment_reviews"
-        tools:layout="@layout/fragment_reviews" >
+        tools:layout="@layout/fragment_reviews">
         <argument
             android:name="reviewers"
             app:argType="iti.mad.marketly.data.model.Reviewer[]" />
@@ -63,22 +63,12 @@
         android:id="@+id/favouriteFragment"
         android:name="iti.mad.marketly.presentation.favourite.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" >
+        tools:layout="@layout/fragment_favourite">
         <action
             android:id="@+id/action_favouriteFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/myProfile2"
-        android:name="iti.mad.marketly.presentation.settings.MyProfile"
-        android:label="MyProfile" >
-        <action
-            android:id="@+id/action_myProfile2_to_settings"
-            app:destination="@id/settings" />
-        <action
-            android:id="@+id/action_myProfile2_to_orderFragment"
-            app:destination="@id/orderFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/address"
         android:name="iti.mad.marketly.presentation.settings.Address"
@@ -86,7 +76,7 @@
     <fragment
         android:id="@+id/addressListFragment"
         android:name="iti.mad.marketly.presentation.settings.AddressListFragment"
-        android:label="AddressListFragment" >
+        android:label="AddressListFragment">
         <action
             android:id="@+id/action_addressListFragment_to_address"
             app:destination="@id/address" />
@@ -94,7 +84,7 @@
     <fragment
         android:id="@+id/settings"
         android:name="iti.mad.marketly.presentation.settings.Settings"
-        android:label="Settings" >
+        android:label="Settings">
         <action
             android:id="@+id/action_settings_to_addressListFragment"
             app:destination="@id/addressListFragment" />
@@ -106,7 +96,7 @@
     <fragment
         android:id="@+id/orderFragment"
         android:name="iti.mad.marketly.presentation.order.OrderFragment"
-        android:label="OrderFragment" >
+        android:label="OrderFragment">
         <action
             android:id="@+id/action_orderFragment_to_orderDetailsFragment"
             app:destination="@id/orderDetailsFragment" />
@@ -115,7 +105,7 @@
         android:id="@+id/orderDetailsFragment"
         android:name="iti.mad.marketly.presentation.orderDetails.OrderDetailsFragment"
         android:label="fragment_order_details"
-        tools:layout="@layout/fragment_order_details" >
+        tools:layout="@layout/fragment_order_details">
         <argument
             android:name="orderModel"
             app:argType="iti.mad.marketly.data.model.order.OrderModel" />
@@ -124,19 +114,62 @@
         android:id="@+id/searchFragment"
         android:name="iti.mad.marketly.presentation.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <argument
             android:name="come_from"
-            app:argType="string"
-            android:defaultValue="HOME" />
+            android:defaultValue="HOME"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="iti.mad.marketly.presentation.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="iti.mad.marketly.presentation.auth.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
+            app:destination="@id/forgetPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="iti.mad.marketly.presentation.auth.signup.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="iti.mad.marketly.presentation.auth.ForgetPasswordFragment"
+        android:label="fragment_forget_password"
+        tools:layout="@layout/fragment_forget_password" />
+    <fragment
+        android:id="@+id/myProfile"
+        android:name="iti.mad.marketly.presentation.settings.MyProfile"
+        android:label="MyProfile" >
+        <action
+            android:id="@+id/action_myProfile_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_myProfile_to_orderFragment"
+            app:destination="@id/orderFragment" />
+        <action
+            android:id="@+id/action_myProfile_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_myProfile_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
 </navigation>
