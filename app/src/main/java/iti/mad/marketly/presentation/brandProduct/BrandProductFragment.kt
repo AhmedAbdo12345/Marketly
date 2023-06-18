@@ -3,8 +3,13 @@ package iti.mad.marketly.presentation.brandProduct
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
@@ -16,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.slider.RangeSlider
+import iti.mad.marketly.R
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
@@ -48,6 +54,10 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_brand_product, container, false)
         binding = FragmentBrandProductBinding.inflate(layoutInflater, container, false)
+
+        displayToolBar()
+        setHasOptionsMenu(true);
+
         return binding.root
     }
 
@@ -205,5 +215,41 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
             }
         }
 
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.search_Icon -> {
+                // Handle the item click here
+                return true
+            }
+
+            else -> return super.onOptionsItemSelected(item)
+        }
+
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search, menu)
+        val item = menu.findItem(R.id.search_Icon)
+        val searchView = item.actionView as SearchView?
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+               // onlineSearch(newText)
+                return false
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+    fun displayToolBar(){
+        var toolbar = binding.toolbarBrandProduct
+
+        var activity : AppCompatActivity = getActivity() as AppCompatActivity
+        activity.setSupportActionBar(toolbar)
+        activity.supportActionBar?.setTitle("Products")
     }
 }
