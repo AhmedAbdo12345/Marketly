@@ -82,6 +82,11 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                 }
             }
         }
+        binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
+            val action =HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+            findNavController().navigate(action)
+            Log.d("mmmms","navigate")
+        }
 
 
     }

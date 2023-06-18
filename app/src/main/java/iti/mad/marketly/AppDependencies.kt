@@ -19,6 +19,8 @@ import iti.mad.marketly.data.repository.order.OrderRepo
 import iti.mad.marketly.data.repository.order.OrderRepoImpl
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepository
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepositoryImpl
+import iti.mad.marketly.data.repository.search.SearchRepo
+import iti.mad.marketly.data.repository.search.SearchRepoImpl
 import iti.mad.marketly.data.source.remote.RemoteDataSource
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.presentation.brandProduct.BrandProductViewModel
@@ -34,8 +36,8 @@ object AppDependencies {
     lateinit var favouriteRep: IFavouriteRepo
     lateinit var productRepo: ProductRepo
     lateinit var cartRepoImplementation: CartRepoImplementation
-
     lateinit var orderRepo: OrderRepo
+    lateinit var searchRepo: SearchRepo
     fun initialization() {
         val api = RetrofitInstance.api
         val remote = RemoteDataSource(api)
@@ -51,8 +53,8 @@ object AppDependencies {
         favouriteRep= FavouriteRep(remote)
         productRepo= ProductRepoImpl(api)
         cartRepoImplementation= CartRepoImplementation(remote)
-
         orderRepo = OrderRepoImpl(remote)
+        searchRepo=SearchRepoImpl(remote)
     }
 
 }

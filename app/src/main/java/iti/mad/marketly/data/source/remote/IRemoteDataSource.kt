@@ -10,7 +10,9 @@ import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.ProductResponse
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface IRemoteDataSource {
 
@@ -34,4 +36,5 @@ interface IRemoteDataSource {
      fun saveProductInOrder(orderModel: OrderModel)
     suspend fun getAllOrders(): Flow<List<OrderModel>>
     //-------------------------------------------------------
+    suspend fun getAllProducts(): Flow<ProductResponse>
 }

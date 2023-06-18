@@ -11,6 +11,7 @@ import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.ProductResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.data.model.settings.CurrencyResponse
@@ -213,6 +214,10 @@ class RemoteDataSource(
             emit(orderResponse)
         }
 
+    }
+
+    override suspend fun getAllProducts(): Flow<ProductResponse> = flow {
+        emit(api.getAllProducts())
     }
 }
 

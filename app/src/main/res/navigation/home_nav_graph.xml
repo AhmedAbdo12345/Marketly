@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_brandProductFragment"
             app:destination="@id/brandProductFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/brandProductFragment"
@@ -116,5 +119,15 @@
         <argument
             android:name="orderModel"
             app:argType="iti.mad.marketly.data.model.order.OrderModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="iti.mad.marketly.presentation.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <argument
+            android:name="come_from"
+            app:argType="string"
+            android:defaultValue="HOME" />
     </fragment>
 </navigation>
