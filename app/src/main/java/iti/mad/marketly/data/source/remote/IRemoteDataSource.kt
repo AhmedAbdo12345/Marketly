@@ -1,6 +1,8 @@
 package iti.mad.marketly.data.source.remote
 
+import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
@@ -37,4 +39,11 @@ interface IRemoteDataSource {
     suspend fun getAllOrders(): Flow<List<OrderModel>>
     //-------------------------------------------------------
     suspend fun getAllProducts(): Flow<ProductResponse>
+    //---------------Brands----------------------------------------
+    suspend fun getBrands(): Flow<BrandsResponse>
+    //------------------Products----------------------------------------------
+    suspend fun getProducts(id: String) : Flow<ProductResponse>
+   //--------------------Category------------------------------------------------
+   suspend fun getCategory(): Flow<CategoryResponse>
+
 }

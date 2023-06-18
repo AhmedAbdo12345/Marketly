@@ -24,5 +24,7 @@ const val API_ACCESS_TOKEN = "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"
     const val Address_DELEMETER = "_"
     const val USERS = "Users"
     const val FAVOURITE = "Favourite"
-
+    //paypal
+    const val CLIENT_ID = "AbUz53zCql5tAjeLordTr2Xa3lb4wVJ4EjdU0jhcpQIFo7qpL3RTq6mqsg_SVnT_V0doFJac0MudWpV7"
+    const val PAYPAL_REQUEST_CODE = 123
 }

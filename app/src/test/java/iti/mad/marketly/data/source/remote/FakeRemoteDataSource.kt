@@ -1,19 +1,31 @@
 package iti.mad.marketly.data.source.remote
 
+import iti.mad.marketly.data.model.brands.BrandsResponse
+import iti.mad.marketly.data.model.brands.Rule
+import iti.mad.marketly.data.model.brands.SmartCollection
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.category.CategoryResponse
+import iti.mad.marketly.data.model.category.CustomCollection
+import iti.mad.marketly.data.model.category.Image
 import iti.mad.marketly.data.model.customer.Customer
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.model.product.ProductResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeRemoteDataSource : IRemoteDataSource {
+class FakeRemoteDataSource(
+    val smartList: List<SmartCollection> = mutableListOf(),
+    val customList: List<CustomCollection> = mutableListOf(),
+    val orderList: List<OrderModel> = mutableListOf(),
+    val  productRespnse: MutableMap<String, MutableList<Product>> = mutableMapOf()
+) : IRemoteDataSource {
     val products = listOf<Product>(
         Product(
             id = 8391229473078,
@@ -250,11 +262,32 @@ class FakeRemoteDataSource : IRemoteDataSource {
     }
 
     override fun saveProductInOrder(orderModel: OrderModel) {
-        TODO("Not yet implemented")
+        val orderList = mutableListOf<OrderModel>()
+        orderList.add(orderModel)
+
     }
 
-    override suspend fun getAllOrders(): Flow<List<OrderModel>> {
-        TODO("Not yet implemented")
+    override suspend fun getAllOrders(): Flow<List<OrderModel>> = flow {
+      // var orderModelList = listOf<OrderModel>(OrderModel())
+        emit(orderList)
+    }
+
+
+    override suspend fun getBrands(): Flow<BrandsResponse> = flow {
+
+        var brandResponse = BrandsResponse(smartList)
+
+        emit(brandResponse)
+    }
+
+    override suspend fun getProducts(id: String): Flow<ProductResponse> = flow {
+            emit(ProductResponse(productRespnse[id]!!))
+    }
+
+    override suspend fun getCategory(): Flow<CategoryResponse> = flow {
+
+        var categoryResponse = CategoryResponse(customList)
+        emit(categoryResponse)
     }
 
 
