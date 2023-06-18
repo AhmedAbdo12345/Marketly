@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/cartIcon"
+        android:icon="@drawable/cart"
+        android:orderInCategory="200"
+        android:title="your cart"
+        app:showAsAction="ifRoom"
+        android:actionLayout="@layout/badge_notification"/>
+</menu>

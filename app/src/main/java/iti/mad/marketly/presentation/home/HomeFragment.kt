@@ -3,9 +3,16 @@ package iti.mad.marketly.presentation.home
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,9 +25,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
+import iti.mad.marketly.R
 import iti.mad.marketly.data.model.brands.SmartCollection
+import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentHomeBinding
+import iti.mad.marketly.presentation.cart.CartViewModel
 import iti.mad.marketly.presentation.home.ads.AdsViewModel
 import iti.mad.marketly.presentation.home.brands.BrandsAdapter
 import iti.mad.marketly.presentation.home.brands.BrandsViewModel
@@ -33,6 +43,10 @@ import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
+    var cartItems: MutableList<CartModel> = mutableListOf()
+
+    lateinit var cartViewModel : CartViewModel
+
 
     private lateinit var brandsViewModel: BrandsViewModel
     lateinit var binding: FragmentHomeBinding
@@ -45,7 +59,8 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         brandsViewModel =
             ViewModelProvider(this, BrandsViewModel.Factory).get(BrandsViewModel::class.java)
 
-
+        cartViewModel =
+            ViewModelProvider(this, CartViewModel.Factory).get(CartViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -55,6 +70,11 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         // return inflater.inflate(R.layout.fragment_home, container, false)
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        displayToolBar()
+        setHasOptionsMenu(true);
+
+
         return binding.root
     }
 
@@ -90,11 +110,11 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                 }
             }
         }
-        binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
+    /*    binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
             val action =HomeFragmentDirections.actionHomeFragmentToSearchFragment()
             findNavController().navigate(action)
             Log.d("mmmms","navigate")
-        }
+        }*/
 
 
     }
@@ -197,6 +217,39 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             }
         }
     }
+
+
+   override fun onOptionsItemSelected(item: MenuItem): Boolean {
+       when (item.itemId) {
+           R.id.cartIcon -> {
+               // Handle the item click here
+               findNavController().navigate(R.id.cartFragment2)
+               return true
+           }
+
+           else -> return super.onOptionsItemSelected(item)
+       }
+       /*   if (item.getItemId()== R.id.profile){
+            startActivity(new Intent(getApplicationContext() , ProfileActivity.class));
+
+        }*/
+
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+      // inflater.inflate(R.menu.search, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
+    fun displayToolBar(){
+        var toolbar = binding.toolbarHome
+
+        var activity : AppCompatActivity = getActivity() as AppCompatActivity
+        activity.setSupportActionBar(toolbar)
+        activity.supportActionBar?.setTitle("Home")
+    }
+
+
 }
 
 
