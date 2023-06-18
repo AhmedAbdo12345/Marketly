@@ -92,7 +92,7 @@ var addresses:MutableList<iti.mad.marketly.data.model.settings.Address> = mutabl
             settingsViewModel.deleteAddress(address)
             addresses.remove(address)
             adapters.submitList(addresses)
-            Toast.makeText(requireContext(),"DELETED",Toast.LENGTH_LONG).show()
+
         }
 
         AlertManager.functionalDialog("Deleting Address",requireContext(),"Are you sure you want to delete this?",

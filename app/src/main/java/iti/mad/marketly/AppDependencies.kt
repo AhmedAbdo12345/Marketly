@@ -49,7 +49,7 @@ object AppDependencies {
         productDetailsRepository = ProductDetailsRepositoryImpl(remote)
         categoryRepo = CategoryRepoImpl(remote)
         brandsRepo = BrandsRepoImpl(remote)
-        adsRepoImplementation=AdsRepoImplementation(api)
+        adsRepoImplementation=AdsRepoImplementation(remote)
         favouriteRep= FavouriteRep(remote)
         productRepo= ProductRepoImpl(remote)
         cartRepoImplementation= CartRepoImplementation(remote)

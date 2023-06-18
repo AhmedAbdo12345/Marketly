@@ -10,9 +10,11 @@ import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
+import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
+import iti.mad.marketly.data.model.pricingrules.PricingRules
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.model.product.ProductResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
@@ -228,6 +230,23 @@ class RemoteDataSource(
 
     override suspend fun getCategory(): Flow<CategoryResponse> = flow{
         emit(api.getCategoryFromAPI())
+    }
+
+    override suspend fun getDiscount(pricingRule: Long): Flow<DiscountResponce> = flow {
+        emit(api.getDiscount(pricingRule))
+    }
+
+    override suspend fun getPricingRules(): Flow<PricingRules> = flow {
+        emit(api.getPricingRule())
+    }
+
+    override fun clearCart() {
+        val db = Firebase.firestore
+        db.collection("cart").document(SettingsManager.getDocumentID()).delete().addOnSuccessListener {
+            Log.i("DeleteCart", "deleteCart: DELETED")
+        }.addOnFailureListener {
+            Log.i("DeleteCart", "deleteCart: Faild")
+        }
     }
 
     //--------------------------------------------------------------------------------

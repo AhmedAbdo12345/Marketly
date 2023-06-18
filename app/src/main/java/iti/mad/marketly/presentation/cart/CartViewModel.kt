@@ -40,6 +40,9 @@ class CartViewModel(private val cartRepoInterface: CartRepoInterface): ViewModel
     fun deleteCartItem(cartID: String){
         cartRepoInterface.deleteCartItem(cartID)
     }
+    fun clearCart(){
+        cartRepoInterface.clearCart()
+    }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

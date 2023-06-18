@@ -142,16 +142,11 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                 adsViewModel._discount.collect {
                     when (it) {
                         is AdsStats.Loading -> {
-                            Toast.makeText(requireContext(), "LOOOOOAAADO", Toast.LENGTH_LONG)
-                                .show()
+
                         }
 
                         is AdsStats.Success -> {
-                            Toast.makeText(
-                                requireContext(),
-                                "${it.discountResponce.discount_codes.size}",
-                                Toast.LENGTH_LONG
-                            ).show()
+
                             AdsManager.addDiscountList(it.discountResponce.discount_codes)
                             val imgList = ArrayList<SlideModel>()
                             imgList.add(

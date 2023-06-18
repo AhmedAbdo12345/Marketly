@@ -13,5 +13,5 @@ interface CartRepoInterface {
     fun saveCartProduct(cartModel: CartModel)
     suspend fun getAllCartProducts(): Flow<List<CartModel>>
     fun deleteCartItem(cartID:String)
-
+    fun clearCart()
 }
