@@ -28,7 +28,7 @@ class SplashFragment : Fragment() {
         // TODO val share = SharedManager.getInstance(requireContext())
         lifecycleScope.launch(Dispatchers.Main) {
             delay(3000)
-           // TODO findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
 
         }
     }

@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Reset the selected item in the BottomNavigationView when the destination changes
             bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
-            if (destination.id == R.id.productDetailsFragment) {
+            if (destination.id == R.id.productDetailsFragment || destination.id == R.id.splashFragment) {
                 bottomAppBar.visibility = View.GONE
                 floatButton.visibility = View.GONE
                 layoutSpace.visibility =  View.GONE
