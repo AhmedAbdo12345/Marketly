@@ -9,28 +9,28 @@ object OnBoardingScreenModelResponse {
             val obj = ArrayList<OnBoardingScreenModel>()
             obj.add(
                 OnBoardingScreenModel(
-                    R.drawable.onboarding1, "AAAAAAA",
+                    R.drawable.onboarding4, "Discover Trends",
                     """
-                 Shopify App
-                Online Store
+                Now we one here to provide variety
+                    of the best fashion
                 """.trimIndent()
                 )
             )
             obj.add(
                 OnBoardingScreenModel(
-                    R.drawable.onboarding2, "BBB",
+                    R.drawable.onboarding5, "Lattest Outfit",
                     """
-                Shopify App
-                Online Store
+                Express your self through the art of 
+                     the fashionism
                 """.trimIndent()
                 )
             )
             obj.add(
                 OnBoardingScreenModel(
-                    R.drawable.onboarding3, "CCC",
+                    R.drawable.onboarding6, "Your Own Style",
                     """
-                Shopify App
-                Online Store
+                Smart & Fashionable
+                Collection makes you Cool
                 """.trimIndent()
                 )
             )
