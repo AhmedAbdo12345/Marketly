@@ -39,7 +39,7 @@ lateinit var binding: FragmentOrderDetailsBinding
         var order = OrderDetailsFragmentArgs.fromBundle(requireArguments()).orderModel
         binding.tvOrderDetailsId.text= order.orderID
         binding.tvOrderDetailsQuantity.text = order.itemCount.toString()
-        binding.tvOrderDetailsTotalPrice.text= "${order.orderTotalPrice}"
+        binding.tvOrderDetailsTotalPrice.text= "${order.orderTotalPrice} $"
         binding.tvOrderDetailsDate.text = order.date
 
 

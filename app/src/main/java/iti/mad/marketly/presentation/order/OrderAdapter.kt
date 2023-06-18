@@ -36,7 +36,7 @@ class OrderAdapter (var mClickListener: ListItemClickListener) : ListAdapter<Ord
         binding.action = mClickListener
 binding.tvOrderId.text = getItem(position).orderID
         binding.tvOrderDate.text = getItem(position).date
-        binding.tvOrderTotalPrice.text = "${getItem(position).orderTotalPrice}"
+        binding.tvOrderTotalPrice.text = "${getItem(position).orderTotalPrice} $"
         binding.tvOrderQuantity.text = getItem(position).itemCount.toString()
 
     }
