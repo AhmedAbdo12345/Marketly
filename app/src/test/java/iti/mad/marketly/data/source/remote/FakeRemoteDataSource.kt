@@ -272,6 +272,10 @@ class FakeRemoteDataSource(
         emit(orderList)
     }
 
+    override suspend fun getAllProducts(): Flow<ProductResponse> {
+        TODO("Not yet implemented")
+    }
+
 
     override suspend fun getBrands(): Flow<BrandsResponse> = flow {
 
