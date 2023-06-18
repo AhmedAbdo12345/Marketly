@@ -6,8 +6,10 @@ import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
+import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
+import iti.mad.marketly.data.model.pricingrules.PricingRules
 
 import iti.mad.marketly.data.model.settings.Address
 import iti.mad.marketly.data.model.settings.CurrencyResponse
@@ -45,5 +47,7 @@ interface IRemoteDataSource {
     suspend fun getProducts(id: String) : Flow<ProductResponse>
    //--------------------Category------------------------------------------------
    suspend fun getCategory(): Flow<CategoryResponse>
-
+    suspend fun getDiscount(pricingRule:Long): Flow<DiscountResponce>
+    suspend fun getPricingRules():Flow<PricingRules>
+    fun clearCart()
 }

@@ -52,6 +52,9 @@ class CartFragment : Fragment(), CartFragmentInterface {
         if (paymentConfermation != null) {
             val paymentDetails = paymentConfermation.toJSONObject().toString()
             val jObject: JSONObject = JSONObject(paymentDetails)
+            cartViewModel.clearCart()
+            cartItems.clear()
+            adapters.submitList(cartItems)
         }
     }
     lateinit var adapters: CartAdapter
@@ -120,6 +123,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
                 val orderID = System.currentTimeMillis().toString()
                 val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
                 cartViewModel.saveProuctsInOrder(order)
+
                 configuration =
                     PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                         .clientId(Constants.CLIENT_ID)
@@ -133,6 +137,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
                 val orderID = System.currentTimeMillis().toString()
                 val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
                 cartViewModel.saveProuctsInOrder(order)
+
                 configuration =
                     PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                         .clientId(Constants.CLIENT_ID)
@@ -147,7 +152,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
             cartViewModel.deleteCartItem(cartModel.id.toString())
             cartItems.remove(cartModel)
             adapters.submitList(cartItems)
-            Toast.makeText(requireContext(), "DELETED", Toast.LENGTH_LONG).show()
+
         }
 
         AlertManager.functionalDialog(

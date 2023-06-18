@@ -25,4 +25,8 @@ class CartRepoImplementation(val remote: IRemoteDataSource):CartRepoInterface {
         remote.deleteCartItem(cartID)
     }
 
+    override fun clearCart() {
+        remote.clearCart()
+    }
+
 }

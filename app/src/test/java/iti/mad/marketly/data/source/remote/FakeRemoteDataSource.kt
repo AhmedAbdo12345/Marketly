@@ -10,12 +10,17 @@ import iti.mad.marketly.data.model.category.Image
 import iti.mad.marketly.data.model.customer.Customer
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
+import iti.mad.marketly.data.model.discount.DiscountCode
+import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
+import iti.mad.marketly.data.model.pricingrules.PriceRule
+import iti.mad.marketly.data.model.pricingrules.PricingRules
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.model.product.ProductResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.settings.Address
+import iti.mad.marketly.data.model.settings.ConversionRates
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -153,11 +158,22 @@ class FakeRemoteDataSource(
             )
         )
     )
-
-
-    override suspend fun getExchangeRate(): Flow<CurrencyResponse> {
-        TODO("Not yet implemented")
+private val addressList = mutableListOf<Address>(
+    Address("1","Egypt","Suez","EL salam2"),
+Address("2","Egypt","EL Sharqia","EL Zaqazeq")
+)
+private val cartList = mutableListOf<CartModel>(
+    CartModel(1,"",50,90.0,"item1")
+, CartModel(2,"",40,100.0,"item2"), CartModel(3,"",90,120.0,"item3")
+)
+val currencyResponse = CurrencyResponse("EGP", ConversionRates(30.5,1),"",""
+,"",0,"",0,"")
+    override suspend fun getExchangeRate(): Flow<CurrencyResponse> = flow {
+        emit(currencyResponse)
     }
+private val discountResponce = DiscountResponce(mutableListOf(DiscountCode("test1","",1,
+1,"",2)
+))
 
     override suspend fun registerUser(customerBody: CustomerBody): Flow<CustomerBody> = flow {
         customers.add(customerBody)
@@ -237,28 +253,40 @@ class FakeRemoteDataSource(
         emit(Unit)
     }
 
-    override suspend fun getAllAddresses(): Flow<List<Address>> {
-        TODO("Not yet implemented")
+    override suspend fun getAllAddresses(): Flow<List<Address>> = flow {
+        emit(addressList)
     }
 
-    override suspend fun getAllCartProducts(): Flow<List<CartModel>> {
-        TODO("Not yet implemented")
+    override suspend fun getAllCartProducts(): Flow<List<CartModel>> = flow {
+        emit(cartList)
     }
 
     override fun deleteAddress(addressID: String) {
-        TODO("Not yet implemented")
+        var addressD = Address()
+        for(address in addressList){
+            if(address.AddressID.equals(addressID)){
+                addressD = address
+            }
+        }
+        addressList.remove(addressD)
     }
 
     override fun saveAddress(address: Address) {
-        TODO("Not yet implemented")
+        addressList.add(address)
     }
 
     override fun saveCartProduct(cartModel: CartModel) {
-        TODO("Not yet implemented")
+        cartList.add(cartModel)
     }
 
     override fun deleteCartItem(cartID: String) {
-        TODO("Not yet implemented")
+        var cartItemD = CartModel()
+        for(cartItem in cartList){
+            if(cartItem.id == cartID.toLong()){
+                cartItemD = cartItem
+            }
+        }
+        cartList.remove(cartItemD)
     }
 
     override fun saveProductInOrder(orderModel: OrderModel) {
@@ -292,6 +320,19 @@ class FakeRemoteDataSource(
 
         var categoryResponse = CategoryResponse(customList)
         emit(categoryResponse)
+    }
+
+    override suspend fun getDiscount(pricingRule: Long): Flow<DiscountResponce> = flow {
+        discountResponce.discount_codes.get(0).price_rule_id = pricingRule
+        emit(discountResponce)
+    }
+
+    override suspend fun getPricingRules(): Flow<PricingRules> {
+        TODO("Not yet implemented")
+    }
+
+    override fun clearCart() {
+        cartList.clear()
     }
 
 
