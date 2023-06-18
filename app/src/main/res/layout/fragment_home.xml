@@ -19,14 +19,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_home"
+                android:background="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+           <!-- <include
                 android:id="@+id/app_bar_home"
                 layout="@layout/app_bar_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
 
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/image_slider"
