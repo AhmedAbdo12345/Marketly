@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/cartIcon"
-        android:icon="@drawable/cart"
+        android:icon="@drawable/cart_black_border"
         android:orderInCategory="200"
         android:title="your cart"
         app:showAsAction="ifRoom"

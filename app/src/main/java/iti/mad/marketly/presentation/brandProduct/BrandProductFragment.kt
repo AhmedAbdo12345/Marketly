@@ -23,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.slider.RangeSlider
+import com.google.android.material.slider.Slider
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
@@ -32,6 +33,7 @@ import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Currency
+import kotlin.math.roundToInt
 
 
 class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListener {
@@ -214,7 +216,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
             format.currency = Currency.getInstance("USD")
             format.format(value.toDouble())
         }
-        binding.rangSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
+        /*binding.rangSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
                 // Responds to when slider's touch event is being started
             }
@@ -235,6 +237,24 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         binding.rangSlider.addOnChangeListener { _, _, _ ->
             // Responds to when slider's value is changed
 
+        }*/
+        binding.rangSlider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                // Responds to when slider's touch event is being started
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                // Responds to when slider's touch event is being stopped
+                startValue = 0
+                endValue = slider.value.toInt()
+                filterByPrice(productList, startValue, endValue)
+             //   binding.tvStartRange.text = "${startValue}"
+                binding.tvEndRange.text = "${endValue}$"
+            }
+        })
+
+        binding.rangSlider.addOnChangeListener { slider, value, fromUser ->
+            // Responds to when slider's value is changed
         }
 
     }

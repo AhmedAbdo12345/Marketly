@@ -15,14 +15,132 @@
         tools:context=".presentation.brandProduct.BrandProductFragment">
 
 
-       <!-- <include
-            android:id="@+id/app_bar_home"
-            layout="@layout/app_bar_home"
+        <!-- <include
+             android:id="@+id/app_bar_home"
+             layout="@layout/app_bar_home"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent" />-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_brand_product"
+            android:background="@color/white"
+            android:elevation="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <LinearLayout
+            android:id="@+id/layout_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_brand_product"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/filter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/metropolis_semibold"
+                android:text="Filter"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/brandProduct_progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_filter"
+            app:layout_constraintBottom_toTopOf="@id/framLayout_RangSlider" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/brandProductRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/framLayout_RangSlider"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            tools:listitem="@layout/rv_brand_product" />
+
+        <LinearLayout
+            android:id="@+id/framLayout_RangSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_sheet_background"
+            android:elevation="5dp"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:weightSum="4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_filter">
+
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/rangSlider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:stepSize="25.0"
+                android:layout_weight="3"
+                android:valueFrom="0.0"
+                android:valueTo="1000.0" />
+
+
+            <TextView
+                android:id="@+id/tv_endRange"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="70"
+                android:textSize="25sp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:orientation="vertical"
+        tools:context=".presentation.brandProduct.BrandProductFragment">
+
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_brand_product"
             android:background="@color/green"
@@ -87,7 +205,6 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="bottom"
-            android:visibility="gone"
             android:background="@drawable/bottom_sheet_background"
             android:elevation="50dp"
             android:orientation="vertical"
@@ -96,7 +213,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.slider.RangeSlider
+            <com.google.android.material.slider.Slider
                 android:id="@+id/rangSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,8 +223,7 @@
                 android:layout_marginEnd="10dp"
                 android:stepSize="25.0"
                 android:valueFrom="0.0"
-                android:valueTo="1000.0"
-                app:values="@array/initial_slider_values" />
+                android:valueTo="1000.0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,4 +261,4 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</layout>-->
