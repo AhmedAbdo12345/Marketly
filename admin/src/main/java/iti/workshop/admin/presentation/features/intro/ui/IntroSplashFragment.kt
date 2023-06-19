@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import iti.workshop.admin.R
-import iti.workshop.admin.data.shared.SharedManager
+import iti.workshop.admin.data.local.shared.SharedManager
 import iti.workshop.admin.databinding.IntroSplashFragmentBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

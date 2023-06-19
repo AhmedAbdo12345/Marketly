@@ -116,7 +116,7 @@ class ProductViewModel @Inject constructor(
 
                 val count = responseCount.await().body()
                 products = responseProductList.await().body()?.products as MutableList<Product>
-
+                _repo.insertAllTable(products)
                 if (count?.count == 0) {
                     _productListResponses.value = DataListResponseState.OnNothingData()
 

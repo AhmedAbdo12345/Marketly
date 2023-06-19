@@ -14,7 +14,6 @@ import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Variant
 import iti.workshop.admin.databinding.ProductFragmentListVariantsBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
-import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddDiscountCodeDialog
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsOnCLickListener
 import iti.workshop.admin.presentation.features.product.ui.dialogs.AddVariantDialog
@@ -22,7 +21,7 @@ import iti.workshop.admin.presentation.features.product.viewModel.ProductViewMod
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
-import iti.workshop.admin.presentation.utils.alert
+import iti.workshop.admin.presentation.utils.alertDialog
 import kotlinx.coroutines.launch
 
 
@@ -112,7 +111,7 @@ class ProductsVariantsListFragment : Fragment() {
     }
 
     private fun deleteVariant(model: Variant) {
-        requireContext().alert("Delete Action","Do you want delete ${model.title} ? \n Are you sure?",{
+        requireContext().alertDialog("Delete Action","Do you want delete ${model.title} ? \n Are you sure?",{
             viewModel.deleteVariantProductFromServer(model.product_id?:-1,model.id?:-1)
         },{
 

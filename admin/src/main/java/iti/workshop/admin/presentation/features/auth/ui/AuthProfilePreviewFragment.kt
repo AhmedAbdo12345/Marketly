@@ -29,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.Constants
 import iti.workshop.admin.data.remote.firestore.FireStoreManager
-import iti.workshop.admin.data.shared.SharedManager
+import iti.workshop.admin.data.local.shared.SharedManager
 import iti.workshop.admin.databinding.AuthFragmentProfilePreviewBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.auth.model.User

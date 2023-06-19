@@ -1,4 +1,4 @@
-package iti.workshop.admin.data.shared
+package iti.workshop.admin.data.local.shared
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -48,7 +48,7 @@ class SharedManager private constructor(context: Context) {
         @Volatile
         private lateinit var instance: SharedManager
         fun getInstance(context: Context): SharedManager {
-            if (!::instance.isInitialized) instance = SharedManager(context)
+            if (!Companion::instance.isInitialized) instance = SharedManager(context)
             return instance
         }
     }

@@ -14,26 +14,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-data class CouponAPICalls(
-    // Coupon
-    val discountCodeCallApi: DiscountCodeCallApi = RetrofitInstance.discountCodeCallApi,
-    val priceRuleCallApi: PriceRuleCallApi = RetrofitInstance.priceRuleCallApi,
-)
-
-data class InventoryAPICalls(
-    // Inventory
-    val inventoryItemCallApi: InventoryItemCallApi = RetrofitInstance.inventoryItemCallApi,
-    val inventoryLevelCallApi: InventoryLevelCallApi = RetrofitInstance.inventoryLevelCallApi,
-    val inventoryLocationCallApi: InventoryLocationCallApi = RetrofitInstance.inventoryLocationCallApi,
-)
-
-data class ProductAPICalls(
-    // Product
-    val productCallApi: ProductCallApi = RetrofitInstance.productCallApi,
-    val productImageCallApi: ProductImageCallApi = RetrofitInstance.productImageCallApi,
-    val productVariantCallApi: ProductVariantCallApi = RetrofitInstance.productVariantCallApi
-)
-
 
 object RetrofitInstance {
 

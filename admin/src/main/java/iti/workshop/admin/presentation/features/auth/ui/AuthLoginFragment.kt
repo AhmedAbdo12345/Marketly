@@ -18,7 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import iti.workshop.admin.R
-import iti.workshop.admin.data.shared.SharedManager
+import iti.workshop.admin.data.local.shared.SharedManager
 import iti.workshop.admin.databinding.AuthFragmentLoginBinding
 import iti.workshop.admin.presentation.features.auth.model.User
 import iti.workshop.admin.presentation.utils.loadingDialog
@@ -26,7 +26,7 @@ import iti.workshop.admin.presentation.utils.loadingDialog
 private const val TAG = "AuthLoginFragment"
 class AuthLoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var sharedManager:SharedManager
+    private lateinit var sharedManager: SharedManager
 
     lateinit var binding: AuthFragmentLoginBinding
     override fun onCreateView(

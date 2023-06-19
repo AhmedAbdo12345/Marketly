@@ -12,14 +12,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import iti.workshop.admin.R
-import iti.workshop.admin.data.shared.SharedManager
+import iti.workshop.admin.data.local.shared.SharedManager
 import iti.workshop.admin.databinding.IntroOnboardingFragmentBinding
 import iti.workshop.admin.presentation.features.intro.adapter.OnBoardingScreenAdapter
 import iti.workshop.admin.presentation.features.intro.model.OnBoardingScreenModel
 import iti.workshop.admin.presentation.features.intro.model.OnBoardingScreenModelResponse
 
 class IntroOnBoardingFragment : Fragment() {
-    private var sharedManager:SharedManager? = null
+    private var sharedManager: SharedManager? = null
 
     lateinit var onBoardingModels: List<OnBoardingScreenModel>
     private lateinit var pagerAdapter: PagerAdapter

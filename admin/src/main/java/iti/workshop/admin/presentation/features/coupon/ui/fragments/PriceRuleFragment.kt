@@ -21,7 +21,7 @@ import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
-import iti.workshop.admin.presentation.utils.alert
+import iti.workshop.admin.presentation.utils.alertDialog
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -56,7 +56,7 @@ class PriceRuleFragment : Fragment() {
     }
 
     private fun deleteItem(priceRule: PriceRule) {
-        requireContext().alert("Delete Action","Do you want delete ${priceRule.title} ? \n Are you sure?",{
+        requireContext().alertDialog("Delete Action","Do you want delete ${priceRule.title} ? \n Are you sure?",{
             viewModel.deletePriceRule(priceRule) },{}
         )
     }

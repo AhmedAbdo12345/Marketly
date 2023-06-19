@@ -1,12 +1,14 @@
-package iti.workshop.admin.data.room
+package iti.workshop.admin.data.local.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import iti.workshop.admin.data.dto.Product
 
-//@Database( entities = [Product::class], version = 3, exportSchema = false )
+@Database( entities = [Product::class], version = 1, exportSchema = false )
+@TypeConverters(ImageListConverters::class,ImageConverters::class,VariantListConverters::class)
 abstract class RoomDB : RoomDatabase() {
     abstract fun productDao(): ProductDao
     companion object {
