@@ -7,6 +7,7 @@ object Constants {
     const val BASE_URL = "https://${iti.workshop.admin.data.Constants.SHOPIFY_ACCOUNT}.myshopify.com/admin/api/${iti.workshop.admin.data.Constants.API_VERSION}/"
     const val API_KEY = "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"
 
+    const val STORAGE_PATH = "gs://ecommerce-shopify-bc848.appspot.com"
     //SharedPref Keys
     const val CURRENCY="curr"
     const val DEFAULTADDRESS="defAddress"

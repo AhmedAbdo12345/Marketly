@@ -9,6 +9,7 @@ import iti.workshop.admin.data.dto.PostProduct
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.data.dto.UpdateProduct
 import iti.workshop.admin.data.dto.Variant
+import iti.workshop.admin.data.dto.VariantSingleResponseAndRequest
 import iti.workshop.admin.data.repository.IProductRepository
 import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.models.ProductUIModel
@@ -47,18 +48,33 @@ class ProductViewModel @Inject constructor(
     val addOrEditResponses: StateFlow<DataListResponseState<Product>> get() = _addOrEditResponses
 
 
+    fun addVariant(product_id: Long,variant:Variant){
+        viewModelScope.launch {
+            val response = async { _repo.addProductVariant(product_id,
+                VariantSingleResponseAndRequest(variant = variant)
+            )}
+                if (response.await().isSuccessful) {
+                    retrieveVariantsProductFromServer(product_id)
+                    _actionResponse.value = Pair(true, "Product Variant Added Successfully")
+                } else {
+                    _actionResponse.value = Pair(false, response.await().errorBody()?.string())
+                }
+
+        }
+    }
     fun deleteProduct(product: Product) {
         viewModelScope.launch {
             val response = async { _repo.deleteProduct(product.id) }
             if (response.await().isSuccessful) {
 
-                products?.remove(product)
-                _productListResponses.value = DataListResponseState.OnSuccess(
-                    ProductUIModel(
-                        products = products,
-                        count = Count(count = products?.size ?: 0)
-                    )
-                )
+//                products?.remove(product)
+//                _productListResponses.value = DataListResponseState.OnSuccess(
+//                    ProductUIModel(
+//                        products = products,
+//                        count = Count(count = products?.size ?: 0)
+//                    )
+//                )
+                getCountOfProducts()
                 _actionResponse.value = Pair(true, "Product Deleted Successfully")
             } else {
                 _actionResponse.value = Pair(false, response.await().errorBody()?.string())

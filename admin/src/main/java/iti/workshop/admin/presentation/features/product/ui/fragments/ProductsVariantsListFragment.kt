@@ -14,8 +14,10 @@ import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Variant
 import iti.workshop.admin.databinding.ProductFragmentListVariantsBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
+import iti.workshop.admin.presentation.features.coupon.ui.dialogs.AddDiscountCodeDialog
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsOnCLickListener
+import iti.workshop.admin.presentation.features.product.ui.dialogs.AddVariantDialog
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
@@ -103,7 +105,9 @@ class ProductsVariantsListFragment : Fragment() {
     }
     private fun addImageNewOne() {
         binding.floatingActionButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Add New One", Toast.LENGTH_SHORT).show()
+            val dialogFragment = AddVariantDialog(viewModel, productId)
+            dialogFragment.show(requireActivity().supportFragmentManager, "AddVariantDialog")
+
         }
     }
 

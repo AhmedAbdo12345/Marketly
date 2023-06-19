@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private var sharedManager:SharedManager?=null
+    private lateinit var sharedManager:SharedManager
     lateinit var binding: HomeFragmentBinding
 
     override fun onCreateView(
@@ -41,13 +41,15 @@ class HomeFragment : Fragment() {
 
         navigationSelect();updateUI()
 
-        binding.userModel = sharedManager?.getUser()
+        binding.userModel = sharedManager.getUser()
         binding.logoutBtn.setOnClickListener {
             requireContext().alert("Logging out","Do you want logout? \n Are you sure?",{
                      if (sharedManager?.clearUser() == true) requireActivity().finish()
             },{}
             )
         }
+
+
         return binding.root
     }
 
@@ -70,6 +72,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigationSelect() {
+        binding.adminTitle.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_authProfilePreviewFragment) }
+        binding.adminImage.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_authProfilePreviewFragment) }
         binding.cardsHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_productsListFragment) }
         binding.inventoryHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_inventoryFragment) }
         binding.couponHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_priceRuleFragment) }

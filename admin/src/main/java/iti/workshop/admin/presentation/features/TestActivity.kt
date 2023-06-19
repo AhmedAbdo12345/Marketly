@@ -1,22 +1,15 @@
 package iti.workshop.admin.presentation.features
 
-import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import iti.workshop.admin.R
-import iti.workshop.admin.presentation.utils.Permissions
 
 class TestActivity : AppCompatActivity() {
     private var imageView: ImageView? = null
@@ -24,14 +17,9 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
         imageView = findViewById(R.id.my_avatar_imageview)
-
-
     }
 
     // Handled permission Result
-
-
-    // function to let's the user to choose image from camera or gallery
     private fun chooseImage(context: Context) {
         val optionsMenu = arrayOf<CharSequence>(
             "Take Photo",

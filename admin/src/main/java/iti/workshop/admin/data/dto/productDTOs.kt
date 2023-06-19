@@ -1,5 +1,8 @@
 package iti.workshop.admin.data.dto
 
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.Random
 
@@ -13,14 +16,18 @@ data class PostProduct(
     val product: Product
 )
 
+//@Entity(tableName = "product")
 data class Product(
+   // @PrimaryKey(autoGenerate = true)
     val id: Long=-1L,
+
 
     var title: String?=null,
     var body_html: String?=null,
 
     var admin_graphql_api_id: String?=null,
     var handle: String?=null,
+    @Ignore
     var image: AddImage?=null,
 
     var product_type: String?=null,
@@ -36,7 +43,6 @@ data class Product(
     var images: List<Image>?=null,
     var variants: List<Variant>?= listOf(Variant(price = Random().nextInt(100).toString())),
     var options: List<Option>?=null,
-
     var metafields: List<Metafield> = listOf(Metafield()),
     var rating:Float = Random().nextInt(5).toFloat()
 

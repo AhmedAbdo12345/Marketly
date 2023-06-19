@@ -1,16 +1,14 @@
 package iti.workshop.admin.data.repository
 
 import iti.workshop.admin.data.dto.*
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
 
 interface IProductRepository {
 
+    fun getAllProducts(): Flow<MutableList<Product>>
+
+    suspend fun insertAllTable(products: List<Product?>?)
     // region Product
     suspend fun getProduct(): Response<SuccessProductResponse>
 

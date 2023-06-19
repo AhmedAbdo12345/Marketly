@@ -2,9 +2,16 @@ package iti.workshop.admin.data.repository
 
 import iti.workshop.admin.data.dto.*
 import iti.workshop.admin.data.remote.retrofit.ProductAPICalls
+import iti.workshop.admin.data.room.ProductDao
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
-class ImplProductRepository(private val _api: ProductAPICalls) : IProductRepository {
+class ImplProductRepository(private val _api: ProductAPICalls/*,private val  _dao:ProductDao*/) : IProductRepository {
+    override fun getAllProducts(): Flow<MutableList<Product>>  = TODO()//_dao.getAllProducts()
+
+    override suspend fun insertAllTable(products: List<Product?>?) {
+        //_dao.insertAllTable(products)
+    }
 
     // region Product
     override suspend fun getProduct(): Response<SuccessProductResponse> =

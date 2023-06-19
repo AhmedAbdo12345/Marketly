@@ -21,11 +21,12 @@ import iti.workshop.admin.R
 import iti.workshop.admin.data.shared.SharedManager
 import iti.workshop.admin.databinding.AuthFragmentLoginBinding
 import iti.workshop.admin.presentation.features.auth.model.User
+import iti.workshop.admin.presentation.utils.loadingDialog
 
 private const val TAG = "AuthLoginFragment"
 class AuthLoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
-    private var sharedManager:SharedManager? = null
+    private lateinit var sharedManager:SharedManager
 
     lateinit var binding: AuthFragmentLoginBinding
     override fun onCreateView(
@@ -37,7 +38,7 @@ class AuthLoginFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.auth_fragment_login, container, false)
         sharedManager = SharedManager.getInstance(requireContext())
         auth = FirebaseAuth.getInstance()
-        val progressDialog: ProgressDialog = createProgressDialog()
+        val progressDialog: ProgressDialog = requireContext().loadingDialog("Checking Authentication","Please wait until checking if email and Password is Valid")
         binding.loginBtn.setOnClickListener {
 
             if (isUserValid()){
@@ -47,8 +48,9 @@ class AuthLoginFragment : Fragment() {
                         if (task.isSuccessful) {
                             Log.d(TAG, "createUserWithEmail:success")
                             val user = auth.currentUser
+                            val userName:String = if (user?.displayName!=null) user.displayName?: "Admin" else (user?.email?:"Unknown@mail.com").split("@")[0]
                             progressDialog.dismiss()
-                            sharedManager?.saveUser(User(user?.displayName,user?.email))
+                            sharedManager.saveUser(User(user?.uid,userName,user?.email))
                             findNavController().navigate(R.id.action_authLoginFragment_to_homeFragment)
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -66,11 +68,7 @@ class AuthLoginFragment : Fragment() {
         return binding.root
     }
 
-    private fun createProgressDialog(): ProgressDialog = ProgressDialog(requireContext()).apply {
-            setTitle("Checking Authentication")
-            setMessage("Please wait until checking if email and Password is Valid")
-            create()
-    }
+
 
     private fun isUserValid(): Boolean {
 

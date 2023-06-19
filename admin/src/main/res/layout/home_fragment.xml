@@ -27,21 +27,23 @@
                 android:layout_height="30dp"
                 android:background="@drawable/hover_effect"
                 android:src="@drawable/ic_logout"
-                app:layout_constraintBottom_toTopOf="@+id/textView3"
+                app:layout_constraintBottom_toTopOf="@+id/admin_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
             <TextView
-                android:id="@+id/textView3"
+                android:background="@drawable/hover_effect"
+                android:id="@+id/admin_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:fontFamily="@font/metropolis_bold"
-                android:text="Hello, Admin"
+                android:text='@{"Hello, "+userModel.name}'
+                tools:text="Hello, Admin"
                 android:textSize="22sp"
-                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/admin_image_holder"
                 app:layout_constraintHorizontal_bias="0.256"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView2" />
+                app:layout_constraintTop_toTopOf="@+id/admin_image_holder" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -50,27 +52,38 @@
                 android:layout_marginBottom="20dp"
                 android:text="Start manage your bussiness"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                app:layout_constraintEnd_toEndOf="@+id/textView3"
+                app:layout_constraintBottom_toBottomOf="@+id/admin_image_holder"
+                app:layout_constraintEnd_toEndOf="@+id/admin_title"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView3" />
+                app:layout_constraintStart_toStartOf="@+id/admin_title" />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="140dp"
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/admin_image_holder"
+                android:layout_width="100dp"
+                app:cardCornerRadius="50dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="40dp"
-                android:src="@drawable/ic_shop"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" >
+                <ImageView
+                    android:background="@drawable/hover_effect"
+                    android:id="@+id/admin_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_shop"
+                    app:thumbnail="@{userModel.image}"/>
+            </androidx.cardview.widget.CardView>
+
+
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="textView3,textView2,imageView2" />
+                app:constraint_referenced_ids="admin_title,textView2,admin_image_holder" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cards_holder"
@@ -86,7 +99,7 @@
                 app:cardCornerRadius="@dimen/home_card_corner"
                 app:rippleColor="@color/home_card_ripple"
                 app:cardBackgroundColor="#673AB7"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2">
+                app:layout_constraintTop_toBottomOf="@+id/admin_image_holder">
 
                 <LinearLayout
                     android:gravity="center"
