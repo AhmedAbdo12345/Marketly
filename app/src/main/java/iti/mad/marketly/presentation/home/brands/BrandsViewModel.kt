@@ -18,18 +18,18 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class BrandsViewModel(var brandsRepo: BrandsRepo): ViewModel() {
-   private var brands : MutableStateFlow<ResponseState<BrandsResponse>> = MutableStateFlow(
-       ResponseState.OnLoading())
-    val _brands: StateFlow<ResponseState<BrandsResponse>> = brands
+   private var _brands : MutableStateFlow<ResponseState<BrandsResponse>> = MutableStateFlow(
+       ResponseState.OnLoading(false))
+    val brands: StateFlow<ResponseState<BrandsResponse>> = _brands
 
     fun getAllBrands( ){
         viewModelScope.launch{
 
                 brandsRepo.getBrands().flowOn(Dispatchers.IO).catch {
-                    brands.emit(ResponseState.OnError(it.localizedMessage))
+                    _brands.emit(ResponseState.OnError(it.localizedMessage))
 
                 }.collect{
-                    brands.emit(ResponseState.OnSuccess(it))
+                    _brands.emit(ResponseState.OnSuccess(it))
                 }
 
 

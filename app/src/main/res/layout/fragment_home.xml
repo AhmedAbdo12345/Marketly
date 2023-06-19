@@ -7,7 +7,8 @@
 
     </data>
 
-    <ScrollView
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.home.HomeFragment">
@@ -17,17 +18,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_home"
+                android:background="@color/green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+           <!-- <include
+                android:id="@+id/app_bar_home"
+                layout="@layout/app_bar_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />-->
+
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/image_slider"
                 android:layout_width="match_parent"
                 android:layout_height="480dp"
+                android:layout_marginTop="4dp"
+                app:iss_auto_cycle="true"
+                app:iss_delay="1000"
+                app:iss_period="1000"
+                app:iss_text_align="CENTER"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:iss_auto_cycle="true"
-                app:iss_period="1000"
-                app:iss_delay="1000"
-                app:iss_text_align="CENTER"/>
+                app:layout_constraintTop_toTopOf="parent" />
             <!--            <androidx.recyclerview.widget.RecyclerView-->
 <!--                android:id="@+id/adsRecView"-->
 <!--                android:layout_width="match_parent"-->
@@ -53,7 +71,11 @@
                     android:fontFamily="@font/metropolis_semibold"
                     android:text="Brands"
                     android:textSize="25sp" />
-
+                <ProgressBar
+                    android:id="@+id/home_progressbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/brandsRecView"
                     android:layout_width="match_parent"
@@ -63,7 +85,8 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/rv_home_brand" />
 
+
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

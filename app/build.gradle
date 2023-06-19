@@ -19,6 +19,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        useLibrary  'org.apache.http.legacy'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,7 +45,9 @@ android {
 }
 
 dependencies {
-
+//paypal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
+    //
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
@@ -71,6 +74,12 @@ dependencies {
 
     // GLIDE
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     kapt 'com.github.bumptech.glide:compiler:4.14.2'
 
     // Shimmer
@@ -98,12 +107,14 @@ dependencies {
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     //  Firebase
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
-    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+
+    //implementation platform('com.google.firebase:firebase-bom:32.1.0')
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.firebase:firebase-database:20.2.2'
-    implementation 'com.google.firebase:firebase-firestore:24.6.1'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
     //for SharedPreference
     implementation 'androidx.preference:preference:1.2.0'
     // Unit Testing
@@ -131,6 +142,12 @@ dependencies {
     //---------------Picasso Library------------------------------
     implementation 'com.squareup.picasso:picasso:2.8'
     //---------------------------------------------
+    //image slider
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+
+    // Floating Action Button
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+
 }
 
 apollo {

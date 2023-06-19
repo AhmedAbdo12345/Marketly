@@ -30,4 +30,13 @@
     <string name="ok">ok</string>
     <string name="email_or_password_error">email or password error</string>
     <string name="error">error</string>
+    <string name="more">More</string>
+    <string name="reviews">Reviews</string>
+    <string name="empty_wishlist">no items founded</string>
+    <string name="favourite">favourite</string>
+
+    <array name="initial_slider_values">
+        <item>25.0</item>
+        <item>75.0</item>
+    </array>
 </resources>

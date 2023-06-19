@@ -10,6 +10,6 @@ data class CustomCollection(
     val published_scope: String,
     val sort_order: String,
     val template_suffix: Any,
-    val title: String,
+    var title: String,
     val updated_at: String
 )

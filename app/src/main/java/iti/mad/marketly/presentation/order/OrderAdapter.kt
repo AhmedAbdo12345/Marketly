@@ -7,18 +7,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import iti.mad.marketly.data.model.categoryProduct.Product
+import iti.mad.marketly.data.model.order.OrderModel
+import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.RvOrderBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductDiffUtils
 
-class OrderAdapter (var mClickListener: ListItemClickListener) : ListAdapter<Product, OrderAdapter.AdapterViewHolder>(
+class OrderAdapter (var mClickListener: ListItemClickListener) : ListAdapter<OrderModel, OrderAdapter.AdapterViewHolder>(
     OrderDiffUtils()
 ) {
 
     lateinit var binding: RvOrderBinding
 
     interface ListItemClickListener {
-        fun onClickCategoryProduct(product: Product)
+        fun onClickOrderDetailsButton(orderModel: OrderModel)
     }
     class AdapterViewHolder(var binding: RvOrderBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -31,6 +32,12 @@ class OrderAdapter (var mClickListener: ListItemClickListener) : ListAdapter<Pro
 
     override fun onBindViewHolder(holder: AdapterViewHolder, position: Int)  {
 
+        binding.orderModel = getItem(position)
+        binding.action = mClickListener
+binding.tvOrderId.text = getItem(position).orderID
+        binding.tvOrderDate.text = getItem(position).date
+        binding.tvOrderTotalPrice.text = "${getItem(position).orderTotalPrice} $"
+        binding.tvOrderQuantity.text = getItem(position).itemCount.toString()
 
     }
 }

@@ -18,4 +18,4 @@ data class SmartCollection(
     val template_suffix: Any?,
     val title: String?,
     val updated_at: String?
-): Serializable
+)

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="city">
+        <item>@string/Alexandria</item>
+        <item>@string/Aswan</item>
+        <item>@string/Asyut</item>
+        <item>@string/Beheira</item>
+        <item>@string/Beni_Suef</item>
+        <item>@string/Cairo</item>
+        <item>@string/Dakahlia</item>
+        <item>@string/Damietta</item>
+        <item>@string/Faiyum</item>
+        <item>@string/Gharbia</item>
+        <item>@string/Giza</item>
+        <item>@string/Ismailia</item>
+        <item>@string/Kafr_El_Sheikh</item>
+        <item>@string/Luxor</item>
+        <item>@string/Matruh</item>
+        <item>@string/Minya</item>
+        <item>@string/Monufia</item>
+        <item>@string/New_Valley</item>
+        <item>@string/North_Sinai</item>
+        <item>@string/Port_Said</item>
+        <item>@string/Qalyubia</item>
+        <item>@string/Qena</item>
+        <item>@string/Red_Sea</item>
+        <item>@string/Sharqia</item>
+        <item>@string/Sohag</item>
+        <item>@string/South_Sinai</item>
+        <item>@string/Suez</item>
+    </string-array>
+</resources>

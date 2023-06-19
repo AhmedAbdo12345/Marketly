@@ -68,10 +68,10 @@ class ForgetPasswordFragment : Fragment() {
         var isUserDataValid = false
         when {
 
-            emailEditText.text.isNullOrEmpty() -> emailEditText.error =
+            emailEditText.text.isNullOrEmpty() -> binding.emailErrorTV.text =
                 getString(R.string.required)
 
-            !isValidEmail(emailEditText.text.toString()) -> emailEditText.error =
+            !isValidEmail(emailEditText.text.toString()) -> binding.emailErrorTV.text =
                 getString(R.string.invalid_email)
 
             else -> isUserDataValid = true
