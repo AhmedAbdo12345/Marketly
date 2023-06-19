@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
+import iti.mad.marketly.R
 import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
@@ -23,6 +25,8 @@ import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 
 class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListener {
+    var productList: MutableList<Product>? = null
+
     lateinit var viewModel: CategoryViewModel
     lateinit var viewModelCategoryProduct: CategoryProductViewModel
     lateinit var binding: FragmentCategoryBinding
@@ -53,9 +57,25 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
         tabLayout = binding.tabLayout
 
         getCategory()
-
         getProductListForEachTab()
 
+        binding.faMenu.setOnClickListener {
+            if (binding.fabCap.isVisible == false) {
+                binding.fabCap.visibility = View.VISIBLE
+                binding.fabTShirt.visibility = View.VISIBLE
+                binding.fabShoes.visibility = View.VISIBLE
+                binding.faMenu.setImageResource(R.drawable.close_white)
+            }else{
+                binding.fabCap.visibility = View.GONE
+                binding.fabTShirt.visibility = View.GONE
+                binding.fabShoes.visibility = View.GONE
+                binding.faMenu.setImageResource(R.drawable.filter_alt_white)
+                productList?.let {
+                    displayItemsInRecycleView(it)
+                }
+            }
+
+        }
     }
 
 
@@ -95,7 +115,6 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
     }
 
     fun getProductListForEachTab() {
-        var productList: MutableList<Product>? = null
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
