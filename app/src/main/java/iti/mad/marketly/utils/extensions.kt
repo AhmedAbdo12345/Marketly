@@ -25,8 +25,6 @@ fun Context.hasNetwork(): Boolean {
     val activeNetwork = connectivityManager.activeNetworkInfo
     return activeNetwork != null && activeNetwork.isConnected
 }
-
-
 fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
     val query = MutableStateFlow("")
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {

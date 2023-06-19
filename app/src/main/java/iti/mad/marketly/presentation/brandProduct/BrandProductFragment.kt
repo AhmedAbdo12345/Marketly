@@ -60,7 +60,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         // return inflater.inflate(R.layout.fragment_brand_product, container, false)
         binding = FragmentBrandProductBinding.inflate(layoutInflater, container, false)
 
-        displayToolBar()
+       /* displayToolBar()*/
 
 
         return binding.root
@@ -68,7 +68,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val menuHost: MenuHost = requireActivity()
+     /*   val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -87,10 +87,10 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                         return false
                     }
                 })
-               /* searchView.setOnClickListener {
+               *//* searchView.setOnClickListener {
                     val action = BrandProductFragmentDirections.actionBrandProductFragmentToSearchFragment()
                     findNavController().navigate(action)
-                }*/
+                }*//*
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -105,7 +105,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                     else -> false
                 }
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)*/
         displaySliderFilter()
         filterProducts()
 
@@ -293,11 +293,11 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     }
 
-    private fun displayToolBar() {
+/*    private fun displayToolBar() {
         val toolbar = binding.toolbarBrandProduct
 
         val activity = activity as AppCompatActivity
         activity.setSupportActionBar(toolbar)
         activity.supportActionBar?.title = "Products"
-    }
+    }*/
 }
