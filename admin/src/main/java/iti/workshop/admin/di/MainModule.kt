@@ -13,6 +13,7 @@ import iti.workshop.admin.data.remote.remoteDataSource.CouponAPICalls
 import iti.workshop.admin.data.remote.remoteDataSource.InventoryAPICalls
 import iti.workshop.admin.data.remote.remoteDataSource.ProductAPICalls
 import iti.workshop.admin.data.repository.*
+import iti.workshop.admin.domain.product.ProductUseCases
 import javax.inject.Singleton
 
 @Module
@@ -31,6 +32,7 @@ object MainModule {
         return ImplCouponRepository(CouponAPICalls())
     }
 
+
     @Provides
     @Singleton
     fun provideInventoryRepository(): IInventoryRepository {
@@ -41,6 +43,11 @@ object MainModule {
     @Singleton
     fun provideProductRepository(productDao: ILocalDataSource):IProductRepository{
         return ImplProductRepository(ProductAPICalls(),productDao)
+    }
+    @Provides
+    @Singleton
+    fun provideProductUsecase(productRepo: IProductRepository): ProductUseCases {
+        return ProductUseCases(productRepo)
     }
 
     @Provides

@@ -2,24 +2,22 @@ package iti.workshop.admin.presentation
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
+import iti.workshop.admin.data.remote.InternetConnection
+import iti.workshop.admin.presentation.utils.Message
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,6 +25,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        navigationHandler()
+        checkInternetConnectivity()
+
+
+
+    }
+
+    private fun checkInternetConnectivity() {
+        val constraintLayout = findViewById<ConstraintLayout>(R.id.container)
+        InternetConnection(this).observeForever {
+            it.second?.let {status->
+                Message.snakeMessage(
+                    this,
+                    constraintLayout,
+                    it.first,
+                    status
+                )?.show()
+            }
+        }
+    }
+
+    private fun navigationHandler() {
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         val navController: NavController = Navigation.findNavController(this, R.id.mainNavHostFragment)
         NavigationUI.setupWithNavController( bottomNavigationView,navController);
@@ -44,13 +64,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-
-
-
     }
-
-
-
 
 
     companion object {

@@ -18,7 +18,7 @@ interface IProductRepository {
 
     suspend fun deleteProduct(id:Long): Response<Void>
 
-    suspend fun getCount(): Response<iti.workshop.admin.data.dto.Count>
+    suspend fun getCount(): Response<Count>
 
     // endregion Product
 

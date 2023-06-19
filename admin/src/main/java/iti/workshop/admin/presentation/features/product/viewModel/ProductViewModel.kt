@@ -11,6 +11,7 @@ import iti.workshop.admin.data.dto.UpdateProduct
 import iti.workshop.admin.data.dto.Variant
 import iti.workshop.admin.data.dto.VariantSingleResponseAndRequest
 import iti.workshop.admin.data.repository.IProductRepository
+import iti.workshop.admin.domain.product.ProductUseCases
 import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.models.ProductUIModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val _repo: IProductRepository
+    private val _useCases: ProductUseCases
 ) : ViewModel() {
 
     private val _productListResponses =
@@ -48,96 +49,21 @@ class ProductViewModel @Inject constructor(
     val addOrEditResponses: StateFlow<DataListResponseState<Product>> get() = _addOrEditResponses
 
 
-    fun addVariant(product_id: Long,variant:Variant){
-        viewModelScope.launch {
-            val response = async { _repo.addProductVariant(product_id,
-                VariantSingleResponseAndRequest(variant = variant)
-            )}
-                if (response.await().isSuccessful) {
-                    retrieveVariantsProductFromServer(product_id)
-                    _actionResponse.value = Pair(true, "Product Variant Added Successfully")
-                } else {
-                    _actionResponse.value = Pair(false, response.await().errorBody()?.string())
-                }
 
-        }
-    }
-    fun deleteProduct(product: Product) {
-        viewModelScope.launch {
-            val response = async { _repo.deleteProduct(product.id) }
-            if (response.await().isSuccessful) {
 
-//                products?.remove(product)
-//                _productListResponses.value = DataListResponseState.OnSuccess(
-//                    ProductUIModel(
-//                        products = products,
-//                        count = Count(count = products?.size ?: 0)
-//                    )
-//                )
-                getCountOfProducts()
-                _actionResponse.value = Pair(true, "Product Deleted Successfully")
-            } else {
-                _actionResponse.value = Pair(false, response.await().errorBody()?.string())
-            }
-        }
-    }
-
-    fun addOrEditProduct(action: Action, product: Product) {
-        viewModelScope.launch {
-           val response:Deferred<Response<Product>> = when(action){
-                Action.Add -> async { _repo.addProduct(PostProduct(product)) }
-                Action.Edit -> async { _repo.updateProduct(product.id, UpdateProduct(product)) }
-            }
-
-            if (response.await().isSuccessful)
-                response.await().body()?.let {
-                    _actionResponse.value = Pair(true, "Product Added Successfully")
-
-                    _addOrEditResponses.value = DataListResponseState.OnSuccess(it)
-                }
-            else {
-
-                _actionResponse.value = Pair(false, response.await().errorBody()?.string())
-
-                _addOrEditResponses.value =
-                    DataListResponseState.OnError(
-                        response.await().errorBody()?.string() ?: "Error Happened during fetch data"
-                    )
-            } }
-    }
 
     fun getCountOfProducts() {
         viewModelScope.launch {
 
-            val responseCount = async { _repo.getCount() }
-            val responseProductList = async { _repo.getProduct() }
-
-            if (responseCount.await().isSuccessful && responseProductList.await().isSuccessful) {
-
-                val count = responseCount.await().body()
-                products = responseProductList.await().body()?.products as MutableList<Product>
-                _repo.insertAllTable(products)
-                if (count?.count == 0) {
-                    _productListResponses.value = DataListResponseState.OnNothingData()
-
-                } else {
-                    ProductUIModel(
-                        count = count,
-                        products = products
-                    ).apply {
-                        _productListResponses.value = DataListResponseState.OnSuccess(this)
-                    }
+            val responseProductList = async { _useCases.getProduct() }
+            responseProductList.await().collect{
+                when(it){
+                    is DataListResponseState.OnSuccess -> products = it.data.products as MutableList<Product>
+                    else -> {}
                 }
-
+                _productListResponses.value = it
             }
-            if (!responseCount.await().isSuccessful)
-                _productListResponses.value =
-                    DataListResponseState.OnError(responseCount.await().errorBody().toString())
 
-            if (!responseProductList.await().isSuccessful)
-                _productListResponses.value = DataListResponseState.OnError(
-                    responseProductList.await().errorBody()?.string() ?: "Error Happened during fetch data"
-                )
         }
     }
 
@@ -162,9 +88,14 @@ class ProductViewModel @Inject constructor(
     }
 
 
+
+
+
+
+    // region Retrieve Rank
     fun retrieveImagesProductFromServer(product_id: Long) {
         viewModelScope.launch {
-            val response = async { _repo.getImageProducts(product_id) }
+            val response = async { _useCases.getImagesProduct(product_id) }
 
             if (response.await().isSuccessful) {
                 val data = response.await().body()?.images
@@ -180,10 +111,9 @@ class ProductViewModel @Inject constructor(
             }
         }
     }
-
     fun retrieveVariantsProductFromServer(product_id: Long) {
         viewModelScope.launch {
-            val response = async { _repo.getProductVariants(product_id) }
+            val response = async { _useCases.getVariantsProduct(product_id) }
 
             if (response.await().isSuccessful) {
                 val data = response.await().body()?.variants?.map { item-> item.copy(
@@ -202,11 +132,47 @@ class ProductViewModel @Inject constructor(
             }
         }
     }
+    // endregion Retrieve Rank
 
+    // region Add/Edit Rank
+    fun addOrEditProduct(action: Action, product: Product) {
+        viewModelScope.launch {
+            val response:Deferred<Response<Product>> = async { _useCases.addEditProduct(action,product) }
 
+            if (response.await().isSuccessful)
+                response.await().body()?.let {
+                    _actionResponse.value = Pair(true, "Product Added Successfully")
+
+                    _addOrEditResponses.value = DataListResponseState.OnSuccess(it)
+                }
+            else {
+
+                _actionResponse.value = Pair(false, response.await().errorBody()?.string())
+
+                _addOrEditResponses.value =
+                    DataListResponseState.OnError(
+                        response.await().errorBody()?.string() ?: "Error Happened during fetch data"
+                    )
+            } }
+    }
+    fun addVariant(product_id: Long,variant:Variant){
+        viewModelScope.launch {
+            val response = async { _useCases.addEditVariant(product_id,variant)}
+            if (response.await().isSuccessful) {
+                retrieveVariantsProductFromServer(product_id)
+                _actionResponse.value = Pair(true, "Product Variant Added Successfully")
+            } else {
+                _actionResponse.value = Pair(false, response.await().errorBody()?.string())
+            }
+
+        }
+    }
+    // endregion Add/Edit Rank
+
+    // region Delete Rank
     fun deleteImageProductFromServer(product_id: Long, image_id: Long) {
         viewModelScope.launch {
-            val response = async { _repo.deleteImageProduct(product_id, image_id) }
+            val response = async { _useCases.deleteImageProduct(product_id, image_id) }
             if (response.await().isSuccessful) {
                 // TODO
                 _actionResponse.value = Pair(true, "Image Deleted Successfully")
@@ -218,7 +184,7 @@ class ProductViewModel @Inject constructor(
 
     fun deleteVariantProductFromServer(product_id: Long, variant_id: Long) {
         viewModelScope.launch {
-            val response = async { _repo.deleteProductVariant(product_id, variant_id) }
+            val response = async { _useCases.deleteVariantProduct(product_id, variant_id) }
             if (response.await().isSuccessful) {
                 // TODO
                 _actionResponse.value = Pair(true, "Variant Deleted Successfully")
@@ -228,5 +194,26 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+    fun deleteProduct(product: Product) {
+        viewModelScope.launch {
+            val response = async { _useCases.deleteProduct(product) }
+            if (response.await().isSuccessful) {
+
+//                products?.remove(product)
+//                _productListResponses.value = DataListResponseState.OnSuccess(
+//                    ProductUIModel(
+//                        products = products,
+//                        count = Count(count = products?.size ?: 0)
+//                    )
+//                )
+                getCountOfProducts()
+                _actionResponse.value = Pair(true, "Product Deleted Successfully")
+            } else {
+                _actionResponse.value = Pair(false, response.await().errorBody()?.string())
+            }
+        }
+    }
+
+    // endregion Delete Rank
 
 }
