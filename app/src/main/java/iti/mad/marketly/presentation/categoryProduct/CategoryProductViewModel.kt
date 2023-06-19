@@ -54,6 +54,21 @@ class CategoryProductViewModel(
 
     }
 
+    fun getAllCategoryProduct(collectionID: String) {
+        viewModelScope.launch {
+
+            categoryProductRepo.getProducts(collectionID)
+
+                .flowOn(Dispatchers.IO).catch {
+                    _categoryProduct.emit(ResponseState.OnError(it.localizedMessage))
+
+                }.collect {
+                    _categoryProduct.emit(ResponseState.OnSuccess(it.products))
+                }
+        }
+
+    }
+
     fun addProductToFavourite(
         userID: String, product: Product
     ) {

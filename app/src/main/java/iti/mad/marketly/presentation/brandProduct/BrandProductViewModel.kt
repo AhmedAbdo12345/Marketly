@@ -53,6 +53,17 @@ class BrandProductViewModel(
         }
     }
 
+    fun getAllBrandProduct(brandID: String) {
+        _brandProduct.value = ResponseState.OnLoading(true)
+        viewModelScope.launch {
+            brandsRepo.getProducts(brandID).flowOn(Dispatchers.IO).catch {
+                _brandProduct.value = ResponseState.OnError(it.localizedMessage ?: "")
+            }.collect {
+                _brandProduct.value = ResponseState.OnSuccess(it.products)
+            }
+        }
+    }
+
 
     fun addProductToFavourite(
         userID: String, product: Product

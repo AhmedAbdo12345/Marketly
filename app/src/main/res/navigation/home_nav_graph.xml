@@ -17,8 +17,8 @@
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_cartFragment2"
-            app:destination="@id/cartFragment2" />
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/brandProductFragment"
@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_brandProductFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_brandProductFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -43,6 +46,9 @@
         <action
             android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -52,6 +58,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
@@ -92,10 +101,6 @@
             android:id="@+id/action_settings_to_addressListFragment"
             app:destination="@id/addressListFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/cartFragment2"
-        android:name="iti.mad.marketly.presentation.cart.CartFragment"
-        android:label="CartFragment" />
     <fragment
         android:id="@+id/orderFragment"
         android:name="iti.mad.marketly.presentation.order.OrderFragment"
@@ -177,4 +182,8 @@
             android:id="@+id/action_myProfile_to_registerFragment"
             app:destination="@id/registerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="iti.mad.marketly.presentation.cart.CartFragment"
+        android:label="CartFragment" />
 </navigation>

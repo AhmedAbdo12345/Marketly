@@ -16,10 +16,10 @@ class DeciderActivity : AppCompatActivity() {
     }
 
     private fun prepareProperties() {
-        val seen: Boolean = SharedPreferenceManager.getOnBoardingSeen(this)
+        val seen= SharedPreferenceManager.getOnBoardingSeen(this)
         if (seen) {
             startActivity(Intent(this, MainActivity::class.java))
-            this.finish()
+           // this.finish()
         } else {
             startActivity(Intent(this, OnboardingScreenActivity::class.java))
         }
