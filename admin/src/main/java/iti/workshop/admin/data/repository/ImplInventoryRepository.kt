@@ -1,10 +1,10 @@
 package iti.workshop.admin.data.repository
 
 import iti.workshop.admin.data.dto.*
-import iti.workshop.admin.data.remote.remoteDataSource.InventoryAPICalls
+import iti.workshop.admin.data.remote.retrofit.RetrofitInstance
 import retrofit2.Response
 
-class ImplInventoryRepository(private val _api: InventoryAPICalls):IInventoryRepository {
+class ImplInventoryRepository(private val _api: RetrofitInstance.InventoryAPICalls):IInventoryRepository {
     override suspend fun retrievesDetailedListForInventoryItemsByIDs(
         ids: List<Long>,
         limit: Int?

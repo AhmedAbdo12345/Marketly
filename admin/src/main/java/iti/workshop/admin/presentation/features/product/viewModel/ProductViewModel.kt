@@ -52,7 +52,7 @@ class ProductViewModel @Inject constructor(
 
 
 
-    fun getCountOfProducts() {
+    fun getCountOfProducts(isConnected:Boolean) {
         viewModelScope.launch {
 
             val responseProductList = async { _useCases.getProduct() }
@@ -194,7 +194,7 @@ class ProductViewModel @Inject constructor(
         }
     }
 
-    fun deleteProduct(product: Product) {
+    fun deleteProduct(product: Product,isConnected: Boolean) {
         viewModelScope.launch {
             val response = async { _useCases.deleteProduct(product) }
             if (response.await().isSuccessful) {
@@ -206,7 +206,7 @@ class ProductViewModel @Inject constructor(
 //                        count = Count(count = products?.size ?: 0)
 //                    )
 //                )
-                getCountOfProducts()
+                getCountOfProducts(isConnected)
                 _actionResponse.value = Pair(true, "Product Deleted Successfully")
             } else {
                 _actionResponse.value = Pair(false, response.await().errorBody()?.string())

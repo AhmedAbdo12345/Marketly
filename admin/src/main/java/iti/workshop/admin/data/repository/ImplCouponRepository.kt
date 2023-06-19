@@ -1,10 +1,10 @@
 package iti.workshop.admin.data.repository
 
 import iti.workshop.admin.data.dto.*
-import iti.workshop.admin.data.remote.remoteDataSource.CouponAPICalls
+import iti.workshop.admin.data.remote.retrofit.RetrofitInstance
 import retrofit2.Response
 
-class ImplCouponRepository(private val _api: CouponAPICalls):ICouponRepository {
+class ImplCouponRepository(private val _api: RetrofitInstance.CouponAPICalls):ICouponRepository {
     override suspend fun getCount(): Response<Count> =_api.discountCodeCallApi.getCount()
 
     override suspend fun getDiscounts(price_rule_id: Long): Response<DiscountCodeListResponse>

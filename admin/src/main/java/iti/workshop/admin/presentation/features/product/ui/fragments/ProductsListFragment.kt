@@ -24,6 +24,7 @@ import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
 import iti.workshop.admin.presentation.utils.alertDialog
+import iti.workshop.admin.presentation.utils.hasNetwork
 import kotlinx.coroutines.launch
 
 
@@ -106,7 +107,7 @@ class ProductsListFragment : Fragment() {
         adapter = ProductsAdapter(ItemOnCLickListener(::selectProduct,::deleteProduct))
 
         binding.mAdapter = adapter
-        viewModel.getCountOfProducts()
+        viewModel.getCountOfProducts(requireContext().hasNetwork())
         updateUISate()
         searchByProductTitle()
         navigateToAddNewProduct()
@@ -124,7 +125,7 @@ class ProductsListFragment : Fragment() {
 
     private fun deleteProduct(product: Product) {
         requireContext().alertDialog("Delete Action","Do you want delete ${product.title} ? \n Are you sure?",{
-            viewModel.deleteProduct(product)
+            viewModel.deleteProduct(product,requireContext().hasNetwork())
         },{
 
         })

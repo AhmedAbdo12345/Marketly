@@ -3,11 +3,12 @@ package iti.workshop.admin.data.repository
 import iti.workshop.admin.data.dto.*
 import iti.workshop.admin.data.local.ILocalDataSource
 import iti.workshop.admin.data.local.room.ProductDao
-import iti.workshop.admin.data.remote.remoteDataSource.ProductAPICalls
+import iti.workshop.admin.data.remote.retrofit.RetrofitInstance
 import kotlinx.coroutines.flow.Flow
+import okhttp3.ResponseBody
 import retrofit2.Response
 
-class ImplProductRepository(private val _api: ProductAPICalls,private val  _dao: ILocalDataSource) : IProductRepository {
+class ImplProductRepository(private val _api: RetrofitInstance.ProductAPICalls, private val  _dao: ILocalDataSource) : IProductRepository {
     override fun getAllProducts(): Flow<MutableList<Product>>  = _dao.getAllProducts()
 
     override suspend fun insertAllTable(products: List<Product?>?) {
@@ -27,8 +28,12 @@ class ImplProductRepository(private val _api: ProductAPICalls,private val  _dao:
     override suspend fun deleteProduct(id: Long): Response<Void> =
         _api.productCallApi.deleteProduct(id)
 
-    override suspend fun getCount(): Response<iti.workshop.admin.data.dto.Count> =
+    override suspend fun getCount(): Response<Count>
+     = try {
         _api.productCallApi.getCount()
+    }catch (ex: RetrofitInstance.NoConnectivityException){
+        Response.error(0, null)
+    }
 
 
     // endregion Product

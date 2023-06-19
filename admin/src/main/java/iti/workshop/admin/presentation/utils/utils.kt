@@ -3,6 +3,15 @@ package iti.workshop.admin.presentation.utils
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.net.ConnectivityManager
+
+
+fun Context.hasNetwork(): Boolean {
+    val connectivityManager =
+        this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork = connectivityManager.activeNetworkInfo
+    return activeNetwork != null && activeNetwork.isConnected
+}
 
 fun Context.loadingDialog(
     title: String = "Loading Action",

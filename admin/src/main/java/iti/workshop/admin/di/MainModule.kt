@@ -9,9 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import iti.workshop.admin.data.local.ILocalDataSource
 import iti.workshop.admin.data.local.LocalDataSource
 import iti.workshop.admin.data.local.room.RoomDB
-import iti.workshop.admin.data.remote.remoteDataSource.CouponAPICalls
-import iti.workshop.admin.data.remote.remoteDataSource.InventoryAPICalls
-import iti.workshop.admin.data.remote.remoteDataSource.ProductAPICalls
+import iti.workshop.admin.data.remote.retrofit.RetrofitInstance
 import iti.workshop.admin.data.repository.*
 import iti.workshop.admin.domain.product.ProductUseCases
 import javax.inject.Singleton
@@ -26,23 +24,30 @@ object MainModule {
         return LocalDataSource(RoomDB.invoke(appContext).productDao())
     }
 
-    @Provides
     @Singleton
-    fun provideCouponRepository(): ICouponRepository {
-        return ImplCouponRepository(CouponAPICalls())
+    @Provides
+    fun provideAppRetrofit(@ApplicationContext appContext: Context): RetrofitInstance {
+        return RetrofitInstance(appContext)
     }
 
 
     @Provides
     @Singleton
-    fun provideInventoryRepository(): IInventoryRepository {
-        return ImplInventoryRepository(InventoryAPICalls())
+    fun provideCouponRepository(retrofitInstance: RetrofitInstance): ICouponRepository {
+        return ImplCouponRepository(retrofitInstance.CouponAPICalls())
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideInventoryRepository(retrofitInstance: RetrofitInstance): IInventoryRepository {
+        return ImplInventoryRepository(retrofitInstance.InventoryAPICalls())
     }
 
     @Provides
     @Singleton
-    fun provideProductRepository(productDao: ILocalDataSource):IProductRepository{
-        return ImplProductRepository(ProductAPICalls(),productDao)
+    fun provideProductRepository(retrofitInstance: RetrofitInstance,productDao: ILocalDataSource):IProductRepository{
+        return ImplProductRepository(retrofitInstance.ProductAPICalls(),productDao)
     }
     @Provides
     @Singleton
