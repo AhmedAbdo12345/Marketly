@@ -88,12 +88,12 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                Log.d("cart","navigate")
+                Log.d("cart", "navigate")
                 return when (menuItem.itemId) {
                     R.id.cartIcon -> {
                         // Handle the item click here
-                        Log.d("cart","navigate")
-                        findNavController().navigate(R.id.cartFragment)
+                        /*Log.d("cart","navigate")
+                        findNavController().navigate(R.id.cartFragment)*/
                         true
                     }
 
@@ -132,8 +132,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                     }
                 }
             }
-        }
-        /*    binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
+        }/*    binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
                 val action =HomeFragmentDirections.actionHomeFragmentToSearchFragment()
                 findNavController().navigate(action)
                 Log.d("mmmms","navigate")

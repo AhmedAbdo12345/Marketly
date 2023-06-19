@@ -1,7 +1,5 @@
 package iti.mad.marketly.presentation.auth.signup
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,7 +22,7 @@ import iti.mad.marketly.data.model.customer.Customer
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentRegisterBinding
-import iti.mad.marketly.presentation.setCustomFocusChangeListener
+import iti.mad.marketly.utils.setCustomFocusChangeListener
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch

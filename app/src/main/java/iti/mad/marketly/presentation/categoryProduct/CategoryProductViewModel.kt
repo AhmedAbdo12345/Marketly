@@ -35,7 +35,6 @@ class CategoryProductViewModel(
 
     fun getAllCategoryProduct(collectionID: String, userID: String) {
         viewModelScope.launch {
-
             categoryProductRepo.getProducts(collectionID)
                 .combine(favouriteRep.getAllFavouriteIDS(userID)) { r1, r2 ->
                     r1.products.map { product ->

@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_brandProductFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_brandProductFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -79,6 +82,12 @@
         <action
             android:id="@+id/action_favouriteFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
 
     <fragment
@@ -127,6 +136,9 @@
             android:name="come_from"
             android:defaultValue="HOME"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"

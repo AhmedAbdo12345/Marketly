@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
 import iti.mad.marketly.databinding.FragmentForgetPasswordBinding
-import iti.mad.marketly.presentation.setCustomFocusChangeListener
+import iti.mad.marketly.utils.setCustomFocusChangeListener
 
 class ForgetPasswordFragment : Fragment() {
 

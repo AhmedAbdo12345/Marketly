@@ -68,6 +68,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         super.onViewCreated(view, savedInstanceState)
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
+
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.search, menu)
                 val searchItem = menu.findItem(R.id.search_Icon)
@@ -80,17 +81,22 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        // Handle search query text change
+
                         return false
                     }
                 })
+               /* searchView.setOnClickListener {
+                    val action = BrandProductFragmentDirections.actionBrandProductFragmentToSearchFragment()
+                    findNavController().navigate(action)
+                }*/
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Handle the menu selection
                 return when (menuItem.itemId) {
                     R.id.search_Icon -> {
-
+                        val action = BrandProductFragmentDirections.actionBrandProductFragmentToSearchFragment()
+                        findNavController().navigate(action)
                         true
                     }
 
@@ -149,7 +155,8 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                                         )
 
                                     }
-                                } else {
+                                }
+                                else {
                                     AlertManager.functionalDialog(
                                         "register",
                                         requireContext(),
