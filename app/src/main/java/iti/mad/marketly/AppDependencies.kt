@@ -11,6 +11,7 @@ import iti.mad.marketly.data.repository.settings.SettingsRepoImplementation
 
 import iti.mad.marketly.data.repository.authRepository.IAuthRepository
 import iti.mad.marketly.data.repository.cart.CartRepoImplementation
+import iti.mad.marketly.data.repository.draftorderrepo.DraftOrderRepoImplementation
 import iti.mad.marketly.data.repository.productRepository.ProductRepo
 import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
 import iti.mad.marketly.data.repository.favourite_repo.FavouriteRep
@@ -38,6 +39,7 @@ object AppDependencies {
     lateinit var cartRepoImplementation: CartRepoImplementation
     lateinit var orderRepo: OrderRepo
     lateinit var searchRepo: SearchRepo
+    lateinit var draftOrderRepo : DraftOrderRepoImplementation
     fun initialization() {
         val api = RetrofitInstance.api
         val remote = RemoteDataSource(api)
@@ -55,6 +57,7 @@ object AppDependencies {
         cartRepoImplementation= CartRepoImplementation(remote)
         orderRepo = OrderRepoImpl(remote)
         searchRepo=SearchRepoImpl(remote)
+        draftOrderRepo = DraftOrderRepoImplementation(remote)
     }
 
 }

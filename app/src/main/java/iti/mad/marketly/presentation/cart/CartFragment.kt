@@ -19,11 +19,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.paypal.android.sdk.payments.PayPalConfiguration
-import com.paypal.android.sdk.payments.PayPalPayment
-import com.paypal.android.sdk.payments.PayPalService
-import com.paypal.android.sdk.payments.PaymentActivity
-import com.paypal.android.sdk.payments.PaymentConfirmation
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.order.OrderModel
@@ -43,20 +38,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
         CartViewModel.Factory
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
 
-        val paymentConfermation: PaymentConfirmation? = it.data?.getParcelableExtra(
-            PaymentActivity.EXTRA_RESULT_CONFIRMATION,
-            PaymentConfirmation::class.java)
-        if (paymentConfermation != null) {
-            val paymentDetails = paymentConfermation.toJSONObject().toString()
-            val jObject: JSONObject = JSONObject(paymentDetails)
-            cartViewModel.clearCart()
-            cartItems.clear()
-            adapters.submitList(cartItems)
-        }
-    }
     lateinit var adapters: CartAdapter
     var cartItems: MutableList<CartModel> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +46,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
 
     }
 
-    lateinit var configuration: PayPalConfiguration
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,7 +57,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapters = CartAdapter(requireContext(), this)
@@ -122,12 +104,9 @@ class CartFragment : Fragment(), CartFragmentInterface {
                 totalPrice = totalPrice - percentage
                 val orderID = System.currentTimeMillis().toString()
                 val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
-                cartViewModel.saveProuctsInOrder(order)
 
-                configuration =
-                    PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-                        .clientId(Constants.CLIENT_ID)
-                getPayment(totalPrice.toString(), "USD")
+
+
             }
             if(!AdsManager.clipBoardCode.equals("")){
                 AlertManager.functionalDialog("Use Code",requireContext(),"Do you like to use the code saved in your clipboard?",methodADS)
@@ -138,10 +117,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
                 val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
                 cartViewModel.saveProuctsInOrder(order)
 
-                configuration =
-                    PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-                        .clientId(Constants.CLIENT_ID)
-                getPayment(totalPrice.toString(), "USD")
+
             }
 
         })
@@ -161,19 +137,5 @@ class CartFragment : Fragment(), CartFragmentInterface {
         ).show()
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun getPayment(amount: String, code: String) {
-        var payment = PayPalPayment(
-            BigDecimal(amount),
-            code,
-            "Code with Arvind",
-            PayPalPayment.PAYMENT_INTENT_SALE
-        )
-        val intent = Intent(requireActivity(), PaymentActivity::class.java)
-        if (this::configuration.isInitialized) {
-            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration)
-        }
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment)
-        launcher.launch(intent)
-    }
+
 }
