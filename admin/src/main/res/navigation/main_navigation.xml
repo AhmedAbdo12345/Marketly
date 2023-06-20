@@ -104,6 +104,9 @@
         <argument
             android:name="product"
             app:argType="iti.workshop.admin.data.dto.Product" />
+        <action
+            android:id="@+id/action_previewProductFragment_to_imagePreviewDialog"
+            app:destination="@id/imagePreviewDialog" />
     </fragment>
     <fragment
         android:id="@+id/discountCodeFragment"
@@ -134,6 +137,9 @@
             android:name="PRODUCT_KEY"
             app:argType="long"
             android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_productsImagesListFragment_to_imagePreviewDialog"
+            app:destination="@id/imagePreviewDialog" />
     </fragment>
     <fragment
         tools:layout="@layout/product_fragment_list_variants"
@@ -208,5 +214,16 @@
             android:id="@+id/action_introOnBoardingFragment_to_authLoginFragment"
             app:destination="@id/authLoginFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/imagePreviewDialog"
+        tools:layout="@layout/product_dialog_image_preview"
+        android:name="iti.workshop.admin.presentation.features.product.ui.dialogs.ImagePreviewDialog"
+        android:label="ImagePreviewDialog" >
+        <argument
+            android:name="IMAGE_KEY"
+            app:argType="iti.workshop.admin.data.dto.Image"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </dialog>
 
 </navigation>

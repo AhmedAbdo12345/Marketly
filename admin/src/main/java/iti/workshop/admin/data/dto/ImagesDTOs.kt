@@ -1,5 +1,6 @@
 package iti.workshop.admin.data.dto
 
+import java.io.Serializable
 
 
 // Product Images
@@ -30,7 +31,7 @@ data class Image(
     val metafields: List<Metafield?>? = listOf(Metafield()),
     val filename: String?=null,
     // val variant_ids: List<Int?>?,
-)
+):Serializable
 
 data class PostImage(
     val image: Image?

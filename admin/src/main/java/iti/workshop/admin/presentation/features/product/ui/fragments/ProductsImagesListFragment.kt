@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Image
@@ -16,6 +17,7 @@ import iti.workshop.admin.databinding.ProductFragmentListImagesBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesOnCLickListener
+import iti.workshop.admin.presentation.features.product.ui.dialogs.ImagePreviewDialog
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
@@ -117,7 +119,9 @@ class ProductsImagesListFragment : Fragment() {
     }
 
     private fun selectImage(model: Image) {
-        Toast.makeText(requireContext(), "Select Image", Toast.LENGTH_SHORT).show()
+        val bundle = Bundle()
+        bundle.putSerializable(ConstantsKeys.IMAGE_KEY,model)
+        findNavController().navigate(R.id.action_productsImagesListFragment_to_imagePreviewDialog,bundle)
      }
 
 

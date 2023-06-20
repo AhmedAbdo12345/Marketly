@@ -2,6 +2,7 @@ package iti.workshop.admin.presentation.features.product.ui.fragments
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -32,6 +33,8 @@ import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.loadingDialog
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
@@ -43,7 +46,7 @@ class AddAndEditProductFragment : Fragment() {
     var product: Product = Product()
     private var bitmap: Bitmap? = null
     var storageRef: FirebaseStorage? = null
-
+    lateinit var loadingDialog:ProgressDialog
     private val viewModel: ProductViewModel by viewModels()
     lateinit var binding: ProductFragmentEditAndAddBinding
 
@@ -60,6 +63,7 @@ class AddAndEditProductFragment : Fragment() {
             container,
             false
         )
+        loadingDialog =  requireContext().loadingDialog()
         binding.lifecycleOwner = viewLifecycleOwner
 
 
@@ -81,6 +85,9 @@ class AddAndEditProductFragment : Fragment() {
     }
 
     private fun saveData() {
+        if (::loadingDialog.isInitialized){
+            loadingDialog.show()
+        }
         val model:Product =  when(actionType){
             Action.Add -> {
                 Product(
@@ -229,6 +236,9 @@ class AddAndEditProductFragment : Fragment() {
     private fun updateUIStates() {
         lifecycleScope.launch {
             viewModel.actionResponse.collect{ state ->
+                if (loadingDialog.isShowing){
+                    loadingDialog.dismiss()
+                }
                 state.first?.let {
                     Message.snakeMessage(requireContext(), binding.root, state.second, it)?.show()
                     if (it){
@@ -236,6 +246,8 @@ class AddAndEditProductFragment : Fragment() {
                         binding.descriptionInput.setText("")
                         binding.valueInput.setText("")
                         binding.productImage.setImageDrawable(resources.getDrawable(R.drawable.bags))
+                        delay(500)
+                        findNavController().popBackStack()
                     }
                 }
             }

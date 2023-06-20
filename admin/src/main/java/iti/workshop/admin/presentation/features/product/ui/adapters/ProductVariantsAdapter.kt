@@ -13,6 +13,7 @@ import iti.workshop.admin.databinding.ProductItemVariantBinding
 
 class ProductVariantsAdapter(
     private val clickListener: ProductVariantsOnCLickListener,
+    private val disableDelete: Boolean = false
 ) : ListAdapter<Variant, ProductVariantsAdapter.MyViewHolder>(ProductVariantsDiffCallback()){
 
 
@@ -27,7 +28,12 @@ class ProductVariantsAdapter(
 
         private val binder = ProductItemVariantBinding.bind(itemView)
         fun binder(data:Variant,itemOnCLickListener: ProductVariantsOnCLickListener){
-                binder.model = data
+            if (disableDelete) {
+                binder.deleteItemBtn.visibility = View.GONE
+            } else {
+                binder.deleteItemBtn.visibility = View.VISIBLE
+            }
+            binder.model = data
                 binder.clickListener = itemOnCLickListener
                 binder.executePendingBindings()
         }

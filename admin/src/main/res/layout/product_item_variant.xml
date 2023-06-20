@@ -27,6 +27,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/deleteItemBtn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:onClick="@{()->clickListener.onDeleteItem(model)}"

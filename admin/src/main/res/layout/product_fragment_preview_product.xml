@@ -4,6 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="imagesAdapter"
+            type="iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter" />
+
+        <variable
+            name="variantAdapter"
+            type="iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsAdapter" />
+
         <variable
             name="dataModel"
             type="iti.workshop.admin.data.dto.Product" />
@@ -18,7 +27,7 @@
 
 
         <ScrollView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
             app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +143,150 @@
                         android:maxLines="5"
                         tools:text="@tools:sample/lorem"
                         android:textSize="13sp" />
+
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/sub_title"
+                            android:drawableTint="@color/primary"
+                            android:drawableStart="@drawable/ic_variants"
+                            android:layout_margin="3dp"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Variants of products"/>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:gravity="center"
+                        android:id="@+id/recycler_view_holder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/shimmer_results"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <include layout="@layout/product_shimmer_product_item" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/nothing_data_response"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <include layout="@layout/utils_no_data_view_lottie" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/error_data_response"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <include layout="@layout/utils_offline_network_view_lottie" />
+                        </LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+
+                            android:id="@+id/recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:adapter="@{variantAdapter}"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2"
+                            tools:listitem="@layout/product_item_variant">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/sub_title"
+                            android:drawableTint="@color/primary"
+                            android:drawableStart="@drawable/ic_images"
+                            android:textSize="18sp"
+                            android:layout_margin="3dp"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Images of products"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:id="@+id/recycler_view_holder_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/shimmer_results_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <include layout="@layout/product_shimmer_product_item" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/nothing_data_response_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <include layout="@layout/utils_no_data_view_lottie" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/error_data_response_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="gone">
+
+                            <include layout="@layout/utils_offline_network_view_lottie" />
+                        </LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+
+                            android:id="@+id/recycler_view_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:adapter="@{imagesAdapter}"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2"
+                            tools:listitem="@layout/product_item_image">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </LinearLayout>
+
                 </LinearLayout>
+
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
