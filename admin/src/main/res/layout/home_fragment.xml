@@ -15,41 +15,32 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".presentation.features.home.ui.fragments.HomeFragment">
 
+
             <ImageView
-                android:layout_margin="15dp"
                 android:id="@+id/logoutBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="15dp"
+                android:layout_marginStart="20dp"
                 android:background="@drawable/hover_effect"
                 android:src="@drawable/ic_logout"
                 app:layout_constraintBottom_toTopOf="@+id/admin_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:background="@drawable/hover_effect"
-                android:id="@+id/admin_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/metropolis_bold"
-                android:text='@{"Hello, "+userModel.name}'
-                tools:text="Hello, Admin"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toStartOf="@+id/admin_image_holder"
-                app:layout_constraintHorizontal_bias="0.256"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/admin_image_holder" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:tint="@color/primary" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="8dp"
                 android:text="Start manage your bussiness"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/admin_image_holder"
@@ -57,25 +48,40 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/admin_title" />
 
+            <TextView
+                android:id="@+id/admin_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="52dp"
+                android:background="@drawable/hover_effect"
+                android:fontFamily="@font/metropolis_bold"
+                android:text='@{"Hello, "+userModel.name}'
+                android:textSize="22sp"
+                app:layout_constraintEnd_toStartOf="@+id/admin_image_holder"
+
+                app:layout_constraintHorizontal_bias="0.259"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/admin_image_holder"
+                tools:text="Hello, Admin" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/admin_image_holder"
                 android:layout_width="100dp"
-                app:cardCornerRadius="50dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="40dp"
+                app:cardCornerRadius="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
+                app:layout_constraintTop_toTopOf="parent">
+
                 <ImageView
-                    android:background="@drawable/hover_effect"
                     android:id="@+id/admin_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/hover_effect"
                     android:src="@drawable/ic_shop"
-                    app:thumbnail="@{userModel.image}"/>
+                    app:thumbnail="@{userModel.image}" />
             </androidx.cardview.widget.CardView>
-
 
 
             <androidx.constraintlayout.widget.Barrier
@@ -89,23 +95,26 @@
                 android:id="@+id/cards_holder"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/home_card_height"
-                android:layout_margin="20dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="#673AB7"
+                app:cardCornerRadius="@dimen/home_card_corner"
+                app:cardElevation="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardElevation="15dp"
-                app:cardCornerRadius="@dimen/home_card_corner"
-                app:rippleColor="@color/home_card_ripple"
-                app:cardBackgroundColor="#673AB7"
-                app:layout_constraintTop_toBottomOf="@+id/admin_image_holder">
+                app:layout_constraintTop_toBottomOf="@+id/admin_image_holder"
+                app:rippleColor="@color/home_card_ripple">
 
                 <LinearLayout
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
 
@@ -122,10 +131,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:padding="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/tv_home_card_product_title"
@@ -158,8 +167,9 @@
                         app:layout_constraintVertical_bias="0.516" />
 
                     <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="100dp"                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
@@ -180,15 +190,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
                             android:text="@{model.productCount}"
-                            tools:text="22"
-
                             android:textColor="@color/white"
+
                             android:textSize="60sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.523" />
-
+                            app:layout_constraintVertical_bias="0.523"
+                            tools:text="22" />
 
 
                     </LinearLayout>
@@ -204,20 +213,20 @@
                 android:layout_margin="20dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardElevation="15dp"
-                app:cardCornerRadius="@dimen/home_card_corner"
-                app:rippleColor="@color/home_card_ripple"
                 app:cardBackgroundColor="#E91E63"
+                app:cardCornerRadius="@dimen/home_card_corner"
+                app:cardElevation="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cards_holder">
+                app:layout_constraintTop_toBottomOf="@+id/cards_holder"
+                app:rippleColor="@color/home_card_ripple">
 
                 <LinearLayout
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -238,6 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_home_card_coupon_title"
                             android:layout_width="wrap_content"
@@ -270,9 +280,11 @@
                         app:layout_constraintVertical_bias="0.516" />
 
                     <LinearLayout
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_width="100dp"                        android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -284,19 +296,20 @@
                             app:layout_constraintStart_toStartOf="@+id/tv_home_card_coupon_count"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.375" />
+
                         <TextView
-                        android:id="@+id/tv_home_card_coupon_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="@{model.couponsCount}"
-                        tools:text="30"
-                        android:textColor="@color/white"
-                        android:textSize="60sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.523" />
+                            android:id="@+id/tv_home_card_coupon_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:text="@{model.couponsCount}"
+                            android:textColor="@color/white"
+                            android:textSize="60sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.523"
+                            tools:text="30" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -312,14 +325,14 @@
                 android:layout_margin="20dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardElevation="15dp"
-                app:cardCornerRadius="@dimen/home_card_corner"
-                app:rippleColor="@color/home_card_ripple"
                 app:cardBackgroundColor="#FF9800"
+                app:cardCornerRadius="@dimen/home_card_corner"
+                app:cardElevation="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/coupon_holder">
+                app:layout_constraintTop_toBottomOf="@+id/coupon_holder"
+                app:rippleColor="@color/home_card_ripple">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -349,6 +362,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_home_card_inventory_title"
                             android:layout_width="wrap_content"
@@ -361,6 +375,7 @@
                             app:layout_constraintEnd_toStartOf="@+id/divider3"
                             app:layout_constraintTop_toTopOf="@+id/iv_home_card_inventory_image"
                             app:layout_constraintVertical_bias="0.136" />
+
                         <TextView
                             android:id="@+id/tv_home_card_inventory_subtitle"
                             android:layout_width="wrap_content"
@@ -386,11 +401,13 @@
                         app:layout_constraintEnd_toStartOf="@+id/tv_home_card_inventory_count"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.516" />
+
                     <LinearLayout
-                        android:gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -402,25 +419,33 @@
                             app:layout_constraintStart_toStartOf="@+id/tv_home_card_inventory_count"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.375" />
+
                         <TextView
                             android:id="@+id/tv_home_card_inventory_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="16dp"
-                            tools:text="0"
                             android:text="@{model.inventoryLocationCount}"
                             android:textColor="@color/white"
                             android:textSize="60sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.523" />
+                            app:layout_constraintVertical_bias="0.523"
+                            tools:text="0" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="top"
+                app:constraint_referenced_ids="textView2,admin_title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
