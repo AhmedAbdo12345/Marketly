@@ -23,15 +23,15 @@ class FavouriteViewModel(
 ) : ViewModel() {
 
     private val _addedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val addedSuccessfully: StateFlow<ResponseState<String>> = _addedSuccessfully
     private val _deletedSuccessfully =
-        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<String>>(ResponseState.OnLoading(false))
     val deletedSuccessfully: StateFlow<ResponseState<String>> = _deletedSuccessfully
-    private val _isFavourite = MutableStateFlow<ResponseState<Boolean>>(ResponseState.OnLoading())
+    private val _isFavourite = MutableStateFlow<ResponseState<Boolean>>(ResponseState.OnLoading(false))
     val isFavourite: StateFlow<ResponseState<Boolean>> = _isFavourite
     private val _allFavourites =
-        MutableStateFlow<ResponseState<List<Product>>>(ResponseState.OnLoading())
+        MutableStateFlow<ResponseState<List<Product>>>(ResponseState.OnLoading(false))
     val allFavourites: StateFlow<ResponseState<List<Product>>> = _allFavourites
 
 
@@ -65,7 +65,7 @@ class FavouriteViewModel(
                 _isFavourite.value = ResponseState.OnError(it.localizedMessage ?: "")
                 print(it.printStackTrace())
             }.collect {
-                print("essss")
+
                 _isFavourite.value = ResponseState.OnSuccess(it)
             }
         }
@@ -73,9 +73,9 @@ class FavouriteViewModel(
      fun getAllFavourite(userID: String) {
          viewModelScope.launch{
                 favouriteRep.getAllFavourite(userID).flowOn(Dispatchers.IO)
-                    /*.catch {
+                    .catch {
                     _allFavourites.value = ResponseState.OnError(it.localizedMessage ?: "")
-                }*/.collect{
+                }.collect{
                     _allFavourites.value = ResponseState.OnSuccess(it.products)
                 }
          }

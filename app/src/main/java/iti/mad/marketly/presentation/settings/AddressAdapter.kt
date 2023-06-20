@@ -2,11 +2,12 @@ package iti.mad.marketly.presentation.settings
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import iti.mad.marketly.databinding.RvAddressesListBinding
 
-class AddressAdapter(var context: Context?):
+class AddressAdapter(var context: Context?,val addressInterface:AddressFragmentInterface):
     ListAdapter<iti.mad.marketly.data.model.settings.Address, AddressViewHolder>(AddressDiffUtil()) {
     lateinit var binding:RvAddressesListBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {
@@ -20,6 +21,12 @@ class AddressAdapter(var context: Context?):
         val currentItem=getItem(position)
         holder.binding.addressCountryCity.text=currentItem.Country +"/"+currentItem.City
         holder.binding.addressStreet.text=currentItem.Street
+        holder.binding.saveAddress.setOnClickListener(View.OnClickListener {
+            addressInterface.onSetAsDefault(currentItem)
 
+        })
+        holder.binding.DeleteAddress.setOnClickListener(View.OnClickListener {
+            addressInterface.onDelete(currentItem)
+        })
     }
 }

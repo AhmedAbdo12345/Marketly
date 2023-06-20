@@ -11,13 +11,15 @@ object RetrofitInstance {
 
 
     private val retrofit: Retrofit by lazy {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
         val httpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
                     .addHeader("X-Shopify-Access-Token", Constants.API_ACCESS_TOKEN)
                     .build()
                 chain.proceed(request)
-            }
+            }.addInterceptor(interceptor)
             .build()
 
         Retrofit.Builder()

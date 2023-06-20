@@ -8,4 +8,5 @@ interface SettingsRepoInterface {
     suspend fun getExchangeRate(): Flow<CurrencyResponse>
     fun saveAddress(address: Address)
     suspend fun getAllAddresses():Flow<List<Address>>
+    fun deleteAddress(addressID:String)
 }

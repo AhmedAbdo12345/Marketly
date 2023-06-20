@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -14,10 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.auth.FirebaseAuth
-
+import iti.mad.marketly.R
 import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.product.Product
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCategoryBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
@@ -25,13 +25,15 @@ import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 
 class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListener {
+    var productList: MutableList<Product>? = null
+
     lateinit var viewModel: CategoryViewModel
     lateinit var viewModelCategoryProduct: CategoryProductViewModel
     lateinit var binding: FragmentCategoryBinding
     lateinit var tabLayout: TabLayout
-    lateinit var  adapterProduct :CategoryProductAdapter
+    lateinit var adapterProduct: CategoryProductAdapter
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel =
             ViewModelProvider(this, CategoryViewModel.Factory).get(CategoryViewModel::class.java)
@@ -55,9 +57,25 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
         tabLayout = binding.tabLayout
 
         getCategory()
-
         getProductListForEachTab()
 
+        binding.faMenu.setOnClickListener {
+            if (binding.fabCap.isVisible == false) {
+                binding.fabCap.visibility = View.VISIBLE
+                binding.fabTShirt.visibility = View.VISIBLE
+                binding.fabShoes.visibility = View.VISIBLE
+                binding.faMenu.setImageResource(R.drawable.close_white)
+            }else{
+                binding.fabCap.visibility = View.GONE
+                binding.fabTShirt.visibility = View.GONE
+                binding.fabShoes.visibility = View.GONE
+                binding.faMenu.setImageResource(R.drawable.filter_alt_white)
+                productList?.let {
+                    displayItemsInRecycleView(it)
+                }
+            }
+
+        }
     }
 
 
@@ -71,11 +89,16 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getAllCategory()
-                viewModel._category.collect {
+                viewModel.category.collect {
                     when (it) {
                         is ResponseState.OnSuccess -> {
+                            tabLayout.removeAllTabs()
                             for (x in 0 until it.response.custom_collections.size) {
-                                val collectionObj = it.response.custom_collections[x]
+
+                                var collectionObj = it.response.custom_collections[x]
+                                if (x == 0){
+                                    collectionObj.title = "HOME"
+                                }
                                 val myTab = tabLayout.newTab()
                                     .setText(it.response.custom_collections[x].title)
                                     .setTag(collectionObj)
@@ -92,7 +115,6 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
     }
 
     fun getProductListForEachTab() {
-        var productList :  MutableList<Product> ?= null
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -101,38 +123,53 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModelCategoryProduct.getAllCategoryProduct(
                         categoryObj.id.toString(),
-                        FirebaseAuth.getInstance().currentUser?.uid.toString()
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
                     )
-                    viewModelCategoryProduct._categoryProduct.collect {
+                    viewModelCategoryProduct.categoryProduct.collect {
                         when (it) {
+                            is ResponseState.OnLoading ->{
+                                binding.categoryProductRecView.visibility = View.GONE
+                                binding.categoryProgressbar.visibility = View.VISIBLE
+                            }
                             is ResponseState.OnSuccess -> {
-                                 adapterProduct = CategoryProductAdapter(this@CategoryFragment){
+                                binding.categoryProductRecView.visibility = View.VISIBLE
+                                binding.categoryProgressbar.visibility = View.GONE
+                                adapterProduct = CategoryProductAdapter(this@CategoryFragment) {
                                     if (it.isFavourite == true) {
                                         viewModelCategoryProduct.deleteProductFromFavourite(
-                                            FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                            it
+                                            SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                ?: "", it
                                         )
+
 
                                     } else {
                                         viewModelCategoryProduct.addProductToFavourite(
-                                            FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                                            it
+                                            SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                ?: "", it
                                         )
                                     }
+                                    viewModelCategoryProduct.getAllCategoryProduct(
+                                        categoryObj.id.toString(),
+                                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
+                                    )
+
                                 }
                                 productList = it.response.toMutableList()
-                                filterByClothes(productList!!)
-                                adapterProduct.submitList(productList)
-                                binding.categoryProductRecView.apply {
-                                    adapter = adapterProduct
-                                    setHasFixedSize(true)
-                                    layoutManager = GridLayoutManager(context, 2).apply {
-                                        orientation = RecyclerView.VERTICAL
-                                    }
+
+
+
+                                productList?.let {
+                                    displayItemsInRecycleView(it)
+                                    filterByAccessories(it)
+                                    filterByTShirt(it)
+                                    filterByShoes(it)
                                 }
                             }
 
-                            is ResponseState.OnError -> {}
+                            is ResponseState.OnError -> {
+                                binding.categoryProductRecView.visibility = View.GONE
+                                binding.categoryProgressbar.visibility = View.GONE
+                            }
                             else -> {}
                         }
                     }
@@ -144,26 +181,34 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
     }
-    fun filterByClothes(productList: MutableList<Product>){
+
+    fun filterByAccessories(productList: MutableList<Product>) {
         binding.fabCap.setOnClickListener {
-            Toast.makeText(requireContext(), "CAP", Toast.LENGTH_SHORT).show()
-             var filterList =productList.filter { it.product_type.equals("ACCESSORIES") }
-            adapterProduct.submitList(filterList)
-
+            adapterProduct.submitList(null)
+            var filterList = productList.filter { it.product_type.equals("ACCESSORIES") }
+            displayItemsInRecycleView(filterList)
         }
+    }
 
+    fun filterByTShirt(productList: MutableList<Product>) {
         binding.fabTShirt.setOnClickListener {
-            var filterList =productList.filter { it.product_type.equals("T-SHIRTS") }
-            adapterProduct.submitList(filterList)
+            adapterProduct.submitList(null)
+            var filterList = productList.filter { it.product_type.equals("T-SHIRTS") }
+            displayItemsInRecycleView(filterList)
 
         }
+    }
 
-        binding.fabJeans.setOnClickListener {
-            var  filterList =productList.filter { it.product_type.equals("SHOES") }
-            adapterProduct.submitList(filterList)
-
+    fun filterByShoes(productList: MutableList<Product>) {
+        binding.fabShoes.setOnClickListener {
+            adapterProduct.submitList(null)
+            var filterList = productList.filter { it.product_type.equals("SHOES") }
+            displayItemsInRecycleView(filterList)
         }
+    }
 
+    fun displayItemsInRecycleView(list: List<Product>) {
+        adapterProduct.submitList(list)
         binding.categoryProductRecView.apply {
             adapter = adapterProduct
             setHasFixedSize(true)

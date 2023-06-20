@@ -11,12 +11,17 @@ import iti.mad.marketly.data.repository.settings.SettingsRepoImplementation
 
 import iti.mad.marketly.data.repository.authRepository.IAuthRepository
 import iti.mad.marketly.data.repository.cart.CartRepoImplementation
+import iti.mad.marketly.data.repository.draftorderrepo.DraftOrderRepoImplementation
 import iti.mad.marketly.data.repository.productRepository.ProductRepo
 import iti.mad.marketly.data.repository.productRepository.ProductRepoImpl
 import iti.mad.marketly.data.repository.favourite_repo.FavouriteRep
 import iti.mad.marketly.data.repository.favourite_repo.IFavouriteRepo
+import iti.mad.marketly.data.repository.order.OrderRepo
+import iti.mad.marketly.data.repository.order.OrderRepoImpl
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepository
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepositoryImpl
+import iti.mad.marketly.data.repository.search.SearchRepo
+import iti.mad.marketly.data.repository.search.SearchRepoImpl
 import iti.mad.marketly.data.source.remote.RemoteDataSource
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.presentation.brandProduct.BrandProductViewModel
@@ -32,20 +37,27 @@ object AppDependencies {
     lateinit var favouriteRep: IFavouriteRepo
     lateinit var productRepo: ProductRepo
     lateinit var cartRepoImplementation: CartRepoImplementation
+    lateinit var orderRepo: OrderRepo
+    lateinit var searchRepo: SearchRepo
+    lateinit var draftOrderRepo : DraftOrderRepoImplementation
     fun initialization() {
         val api = RetrofitInstance.api
         val remote = RemoteDataSource(api)
         val currencyRetrofit= RetrofitInstance.currncyApi
         val remoteCurrency= RemoteDataSource(currencyRetrofit)
+
         settingsRepo = SettingsRepoImplementation(remoteCurrency)
         authRepository = AuthRepositoryImpl(remote)
         productDetailsRepository = ProductDetailsRepositoryImpl(remote)
-        categoryRepo = CategoryRepoImpl(api)
-        brandsRepo = BrandsRepoImpl(api)
-        adsRepoImplementation=AdsRepoImplementation(api)
+        categoryRepo = CategoryRepoImpl(remote)
+        brandsRepo = BrandsRepoImpl(remote)
+        adsRepoImplementation=AdsRepoImplementation(remote)
         favouriteRep= FavouriteRep(remote)
-        productRepo= ProductRepoImpl(api)
+        productRepo= ProductRepoImpl(remote)
         cartRepoImplementation= CartRepoImplementation(remote)
+        orderRepo = OrderRepoImpl(remote)
+        searchRepo=SearchRepoImpl(remote)
+        draftOrderRepo = DraftOrderRepoImplementation(remote)
     }
 
 }

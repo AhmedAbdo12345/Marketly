@@ -40,14 +40,18 @@ class BrandProductAdapter(
 
         holder.binding.tvBrandProductName.text = getItem(position).vendor
         holder.binding.tvProductName.text = getItem(position).title
-        holder.binding.tvProductPrice.text= getItem(position).variants!![0]!!.price
+        holder.binding.tvProductPrice.text= getItem(position).variants!![0]!!.price+" $"
         holder.binding.productModel = getItem(position)
         holder.binding.action = mClickListener
         holder.binding.imgVProductAddToFav.setOnClickListener {
+            
             onClickFavourite(getItem(position))
+
         }
-        if (getItem(position).isFavourite == true) holder.binding.imgVProductAddToFav.setImageResource(
-            R.drawable.ic_favorite
-        )
+        if (getItem(position).isFavourite == true) {
+            holder.binding.imgVProductAddToFav.setImageResource(R.drawable.ic_favorite)
+        }else{
+            holder.binding.imgVProductAddToFav.setImageResource(R.drawable.ic_fav)
+        }
     }
 }

@@ -3,11 +3,11 @@ package iti.mad.marketly.presentation.productdetails.view
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,26 +19,31 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.FirebaseAuth
 import iti.mad.marketly.R
-import iti.mad.marketly.data.model.productDetails.ProductDetails
-import iti.mad.marketly.databinding.FragmentProductDetailsBinding
 import iti.mad.marketly.data.model.Reviewer
+import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.product.Image
-import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
+import iti.mad.marketly.data.model.productDetails.ProductDetails
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
+import iti.mad.marketly.databinding.FragmentProductDetailsBinding
+import iti.mad.marketly.presentation.cart.CartViewModel
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
+import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
+import iti.mad.marketly.utils.AlertManager
+import iti.mad.marketly.utils.CartManager
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 import kotlin.math.abs
-import kotlin.properties.Delegates
 
 
 class ProductDetailsFragment : Fragment() {
     private val viewModel by viewModels<ProductDetailsViewModel> {
         ProductDetailsViewModel.Factory
+    }
+    private val cartViewModel by viewModels<CartViewModel> {
+        CartViewModel.Factory
     }
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var sliderHandler: Handler
@@ -49,28 +54,37 @@ class ProductDetailsFragment : Fragment() {
     private var isFavourite: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bottomNavigationView =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavView)
-        bottomNavigationView?.visibility = View.GONE
+        /*   val bottomNavigationView =
+               requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavView)
+           bottomNavigationView?.visibility = View.GONE*/
+
         sliderHandler = Handler(Looper.getMainLooper())
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.productDetails.collect { uiState ->
                     when (uiState) {
                         is ResponseState.OnSuccess -> {
+                            binding.progressBar6.visibility = View.GONE
+                            binding.scrollView2.visibility = View.VISIBLE
+                            binding.addToCartBackground.visibility = View.VISIBLE
                             renderDataOnScreen(uiState.response)
                             productDetails = uiState.response
                             viewModel.isFavourite(
-                                FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                                SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                                productDetails.product!!
                             )
                         }
 
                         is ResponseState.OnLoading -> {
-                            //todo
+                            if (uiState.loading) {
+                                binding.progressBar6.visibility = View.VISIBLE
+                                binding.scrollView2.visibility = View.GONE
+                                binding.addToCartBackground.visibility = View.GONE
+                            }
                         }
 
                         is ResponseState.OnError -> {
-                            //todo
+                            AlertManager.nonFunctionalDialog("Error", requireContext(), "")
                         }
                     }
                 }
@@ -170,31 +184,44 @@ class ProductDetailsFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         }
         binding.btnReviewsMore.setOnClickListener {
-        /*    val action =
+            val action =
                 ProductDetailsFragmentDirections.actionProductDetailsFragmentToReviewsFragment(
                     reviewsList.toTypedArray()
                 )
-            findNavController().navigate(action)*/
+            findNavController().navigate(action)
         }
         binding.cvFavorite.setOnClickListener {
             if (isFavourite) {
                 viewModel.deleteProductFromFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                    productDetails.product!!
                 )
                 viewModel.isFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                    productDetails.product!!
                 )
             } else {
                 viewModel.addProductToFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                    productDetails.product!!
                 )
                 viewModel.isFavourite(
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(), productDetails.product!!
+                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                    productDetails.product!!
                 )
 
             }
 
         }
+        binding.addToCartProductDetailsPage.setOnClickListener(View.OnClickListener {
+            val cartProduct = productDetails.product
+            val cartModel = CartModel(cartProduct?.id!!, cartProduct.image?.src!!
+            ,cartProduct.variants?.get(0)?.inventory_quantity?.toLong()!!,cartProduct.variants?.get(0)?.price?.toDouble()!!,cartProduct?.title!!,cartProduct.variants?.get(1)?.id!!)
+            cartViewModel.saveCart(cartModel)
+            CartManager.addItemToCartList(cartModel)
+            AlertManager.nonFunctionalDialog("Saved",requireContext(),"Product sent to cart")
+        })
+
     }
 
     private var sliderRunnable = Runnable {

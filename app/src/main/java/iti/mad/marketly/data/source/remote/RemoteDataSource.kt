@@ -1,18 +1,30 @@
 package iti.mad.marketly.data.source.remote
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
+import iti.mad.marketly.data.model.brands.BrandsResponse
+import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
+import iti.mad.marketly.data.model.discount.DiscountResponce
+import iti.mad.marketly.data.model.draftorder.DraftOrderBody
+import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
+import iti.mad.marketly.data.model.draftorderresponse.DraftOrderResponse
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
+import iti.mad.marketly.data.model.order.OrderModel
+import iti.mad.marketly.data.model.pricingrules.PricingRules
 import iti.mad.marketly.data.model.product.Product
-import iti.mad.marketly.data.source.remote.retrofit.ApiService
-import iti.mad.marketly.utils.Constants
+import iti.mad.marketly.data.model.product.ProductResponse
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.settings.Address
+import iti.mad.marketly.data.source.remote.retrofit.ApiService
+import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.utils.Constants.FAVOURITE
 import iti.mad.marketly.utils.Constants.USERS
 import iti.mad.marketly.utils.SettingsManager
@@ -87,7 +99,7 @@ class RemoteDataSource(
     }
 
     override suspend fun getAllAddresses(): Flow<List<Address>> = flow {
-        val db = Firebase.firestore.collection("settings").document(SettingsManager.documentID)
+        val db = Firebase.firestore.collection("settings").document(SettingsManager.getDocumentID())
             .collection("Addresses").get().await()
 
         val addressResponse: MutableList<Address> = mutableListOf()
@@ -104,15 +116,155 @@ class RemoteDataSource(
         emit(addressResponse)
     }
 
-    override suspend fun getAllCartProducts(): Flow<List<Product>> = flow {
-        val db = Firebase.firestore.collection("cart").document(SettingsManager.documentID)
+    override suspend fun getAllCartProducts(): Flow<List<CartModel>> = flow {
+        val db = Firebase.firestore.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").get().await()
 
-        val cartResponse : MutableList<Product> = mutableListOf()
+        val cartResponse : MutableList<CartModel> = mutableListOf()
         for(items in db.documents){
-            cartResponse.add(items.toObject(Product::class.java)!!)
+            cartResponse.add(CartModel(
+                items.get("id") as Long,
+                items.get("imageURL") as String,
+                items.get("quantity") as Long,
+                items.get("price") as Double,
+                items.get("title") as String
+            ))
         }
+
         emit(cartResponse)
     }
+
+    override fun deleteAddress(addressID: String) {
+        val db = Firebase.firestore
+        db.collection("settings").document(SettingsManager.getDocumentID())
+            .collection("Addresses").document(addressID).delete().addOnSuccessListener {
+                Log.i("DeleteAddress", "deleteAddress: DELETED")
+            }.addOnFailureListener {
+                Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
+            }
     }
+
+    override fun saveAddress(address: Address) {
+        val db = Firebase.firestore
+
+
+        SettingsManager.fillAddress(address)
+
+
+        db.collection("settings").document(SettingsManager.getDocumentID())
+            .collection("Addresses").document(address.AddressID).set(address).addOnSuccessListener {
+                Log.i("FireBassSuccess", "saveAddress: Data Saved")
+            }.addOnFailureListener {
+                Log.i("FireBassFailure", "saveAddress:${it.localizedMessage}")
+            }    }
+
+    override fun saveCartProduct(cartModel: CartModel) {
+        val db = Firebase.firestore
+        db.collection("cart").document(SettingsManager.getDocumentID())
+            .collection("CartProduct").document(cartModel.id.toString()).set(cartModel)
+            .addOnSuccessListener {
+                Log.i("FireBassSuccess", "saveProduct: Data Saved")
+            }.addOnFailureListener {
+                Log.i("FireBassFailure", "saveProduct:${it.message}")
+            }
+    }
+
+    override fun deleteCartItem(cartID: String) {
+        val db = Firebase.firestore
+        db.collection("cart").document(SettingsManager.getDocumentID())
+            .collection("CartProduct").document(cartID).delete().addOnSuccessListener {
+                Log.i("DeleteCart", "deleteCart: DELETED")
+            }.addOnFailureListener {
+                Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
+            }
+    }
+
+    //-------------------------------------------------------------------------------
+    override fun saveProductInOrder(orderModel: OrderModel) {
+        val db = Firebase.firestore
+
+    FirebaseAuth.getInstance().currentUser?.let {
+        var collectionReference =  db.collection("orders").document(it.email.toString()).collection("orderList")
+
+            collectionReference.document(orderModel.orderID)
+                .set(orderModel).addOnSuccessListener {
+                    Log.i("zxcvb", "saveProduct: Data Saved")
+                }.addOnFailureListener {
+                    Log.i("zxcvb", "saveProduct:${it.localizedMessage}")
+                }
+
+    }
+      }
+
+    override suspend fun getAllOrders(): Flow<List<OrderModel>> = flow {
+        FirebaseAuth.getInstance().currentUser?.let {
+            val db =
+                Firebase.firestore.collection("orders").document(it.email.toString()).collection("orderList").get().await()
+
+            val orderResponse: MutableList<OrderModel> = mutableListOf()
+            for(items in db.documents){
+                val data = items.toObject<OrderModel>()
+               /* if (data != null) {
+                    orderResponse.add(OrderModel(
+                        data.get("orderID") as String,
+                        data.get("itemList") as List<CartModel>,
+                        data.get("itemCount") as Int,
+                        data.get("date") as String))
+                }*/
+                orderResponse.add(data!!)
+                Log.d("zxcv", "getAllOrders: "+data)
+            }
+
+            emit(orderResponse)
+        }
+
+    }
+
+    override suspend fun getAllProducts(): Flow<ProductResponse> = flow {
+        emit(api.getAllProducts())
+    }
+
+    override suspend fun getBrands(): Flow<BrandsResponse> = flow{
+        emit(api.getBrandsFromAPI())
+    }
+
+    override suspend fun getProducts(id: String): Flow<ProductResponse> = flow{
+        emit(api.getProductFromApi(id))
+    }
+
+    override suspend fun getCategory(): Flow<CategoryResponse> = flow{
+        emit(api.getCategoryFromAPI())
+    }
+
+    override suspend fun getDiscount(pricingRule: Long): Flow<DiscountResponce> = flow {
+        emit(api.getDiscount(pricingRule))
+    }
+
+    override suspend fun getPricingRules(): Flow<PricingRules> = flow {
+        emit(api.getPricingRule())
+    }
+
+    override fun clearCart() {
+        val db = Firebase.firestore
+        db.collection("cart").document(SettingsManager.getDocumentID()).delete().addOnSuccessListener {
+            Log.i("DeleteCart", "deleteCart: DELETED")
+        }.addOnFailureListener {
+            Log.i("DeleteCart", "deleteCart: Faild")
+        }
+    }
+
+    override suspend fun createDraftOrder(draftOrderBody: DraftOrderRequest): Flow<DraftOrderResponse> = flow {
+        emit(api.createDraftOrder(draftOrderBody))
+    }
+
+    override suspend fun sendInvoice(invoice: DraftOrderInvoice,draftID:String): Flow<DraftOrderInvoice> = flow {
+        emit(api.sendInvoice(invoice,draftID))
+    }
+
+    override suspend fun completeOrder(draftID:String): Flow<DraftOrderResponse> = flow {
+        emit(api.completeOrder(draftID))
+    }
+
+    //--------------------------------------------------------------------------------
+}
 

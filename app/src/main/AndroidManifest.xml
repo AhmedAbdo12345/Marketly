@@ -17,7 +17,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".onboarding.DeciderActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +27,16 @@
         </activity>
         <activity
             android:name=".presentation.auth.AuthActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".presentation.MainActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".onboarding.OnboardingScreenActivity"
             android:exported="false">
 
         </activity>
