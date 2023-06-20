@@ -1,5 +1,6 @@
 package iti.mad.marketly.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import iti.mad.marketly.R
 import iti.mad.marketly.databinding.FragmentSplashBinding
+import iti.mad.marketly.onboarding.DeciderActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,11 +31,9 @@ class SplashFragment : Fragment() {
         // TODO val share = SharedManager.getInstance(requireContext())
         lifecycleScope.launch(Dispatchers.Main) {
             delay(1500)
-            var action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
+            var action = SplashFragmentDirections.actionSplashFragment2ToDeciderActivity()
             findNavController().navigate(action)
-
           //  findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-
         }
     }
 

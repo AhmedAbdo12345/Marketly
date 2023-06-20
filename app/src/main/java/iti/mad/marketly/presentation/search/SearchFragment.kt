@@ -76,9 +76,9 @@ class SearchFragment : Fragment() {
                                         requireContext(),
                                         "you should login or register to save this in your account"
                                     ) {
-                                       // val action =
-                                         //   SearchFragmentDirections.actionBrandProductFragmentToRegisterFragment()
-                                        //findNavController().navigate(action)
+                                        val action =
+                                            SearchFragmentDirections.actionSearchFragmentToLoginFragment()
+                                        findNavController().navigate(action)
                                     }.show()
                                 }
                             }, {
