@@ -1,7 +1,8 @@
 package iti.mad.marketly.utils
 
 object Constants {
-    val FIREBASE_USER_ID: String="FIREBASE_USER_ID"
+    const val ONBOARDING: String = "ONBOARDING"
+    const val FIREBASE_USER_ID: String="FIREBASE_USER_ID"
     const val USER_ID: String = "USER_ID"
     const val USER_EMAIL: String = "USER_EMAIL"
     const val USER_NAME: String = "USER_NAME"

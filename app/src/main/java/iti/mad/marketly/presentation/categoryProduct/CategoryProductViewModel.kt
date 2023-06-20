@@ -35,7 +35,6 @@ class CategoryProductViewModel(
 
     fun getAllCategoryProduct(collectionID: String, userID: String) {
         viewModelScope.launch {
-
             categoryProductRepo.getProducts(collectionID)
                 .combine(favouriteRep.getAllFavouriteIDS(userID)) { r1, r2 ->
                     r1.products.map { product ->
@@ -49,6 +48,21 @@ class CategoryProductViewModel(
 
                 }.collect {
                     _categoryProduct.emit(ResponseState.OnSuccess(it))
+                }
+        }
+
+    }
+
+    fun getAllCategoryProduct(collectionID: String) {
+        viewModelScope.launch {
+
+            categoryProductRepo.getProducts(collectionID)
+
+                .flowOn(Dispatchers.IO).catch {
+                    _categoryProduct.emit(ResponseState.OnError(it.localizedMessage))
+
+                }.collect {
+                    _categoryProduct.emit(ResponseState.OnSuccess(it.products))
                 }
         }
 

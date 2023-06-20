@@ -24,10 +24,10 @@ import iti.mad.marketly.R
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentLoginBinding
 import iti.mad.marketly.presentation.MainActivity
-import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.utils.SettingsManager
+import iti.mad.marketly.utils.setCustomFocusChangeListener
 import kotlinx.coroutines.launch
 
 
@@ -59,7 +59,7 @@ class LoginFragment : Fragment() {
                             SharedPreferenceManager.saveCurrency(
                                 uiState.response.customers?.get(0)?.currency ?: "", requireContext()
                             )
-                            Log.i("IDD",uiState.response.customers?.get(0)?.id.toString())
+                            Log.i("IDD", uiState.response.customers?.get(0)?.id.toString())
                             SharedPreferenceManager.saveUserData(
                                 requireContext(),
                                 uiState.response.customers?.get(0)?.id.toString() ?: "",
@@ -130,14 +130,13 @@ class LoginFragment : Fragment() {
                     s: CharSequence, start: Int, count: Int, after: Int
                 ) {
                 }
-
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable) {
                     val password = s.toString().trim { it <= ' ' }
                     if (password.isEmpty()) {
-                        binding.passwordErrorTV.text = "Password is required"
+                        binding.passwordErrorTV.text = getString(R.string.required)
                     } else if (password.length < 8) {
-                        binding.passwordErrorTV.text = "Password must be at least 6 characters"
+                        binding.passwordErrorTV.text = getString(R.string.password_length_error)
                     } else {
                         binding.passwordErrorTV.text = null
                     }
@@ -168,8 +167,7 @@ class LoginFragment : Fragment() {
                             getUserData(emailEditText.text.toString())
                             SettingsManager.documentIDSetter(emailEditText.text.toString())
                             SharedPreferenceManager.saveFirebaseUID(
-                                FirebaseAuth.getInstance().currentUser?.uid
-                                    ?: ""
+                                FirebaseAuth.getInstance().currentUser?.uid ?: ""
                             )
                         } else {
                             AlertManager.nonFunctionalDialog(
@@ -190,7 +188,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun getUserData(email: String) {
-        val e= "email:$email"
+        val e = "email:$email"
         loginViewModel.loginWithEmail(e)
 
     }

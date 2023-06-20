@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -43,9 +43,9 @@ import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
-    var cartItems: MutableList<CartModel> = mutableListOf()
+    private var cartItems: MutableList<CartModel> = mutableListOf()
 
-    lateinit var cartViewModel : CartViewModel
+    private lateinit var cartViewModel: CartViewModel
 
 
     private lateinit var brandsViewModel: BrandsViewModel
@@ -66,13 +66,13 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_home, container, false)
+
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
         displayToolBar()
-        setHasOptionsMenu(true);
+
+        //  setHasOptionsMenu(true);
 
 
         return binding.root
@@ -80,6 +80,27 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+
+                BadgeNotification(menu, menuInflater)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                Log.d("cart", "navigate")
+                return when (menuItem.itemId) {
+                    R.id.cartIcon -> {
+                        // Handle the item click here
+                        /*Log.d("cart","navigate")
+                        findNavController().navigate(R.id.cartFragment)*/
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
         getBrands()
         adsViewModel.getPricingRule()
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
@@ -90,13 +111,14 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                             binding.brandsRecView.visibility = View.GONE
                             binding.homeProgressbar.visibility = View.VISIBLE
                         }
+
                         is PricingRuleState.Success -> {
                             binding.brandsRecView.visibility = View.VISIBLE
                             binding.homeProgressbar.visibility = View.GONE
                             //Toast.makeText(requireContext(),"${it.pricingRules.price_rules.get(0).id}",Toast.LENGTH_LONG).show()
                             AdsManager.setValue(it.pricingRules.price_rules[0].value)
                             launchDiscount(it.pricingRules.price_rules[0].id)
-                            Log.d("IDDD",SharedPreferenceManager.getUserID(requireContext())!!)
+                            Log.d("IDDD", SharedPreferenceManager.getUserID(requireContext())!!)
                         }
 
                         is PricingRuleState.Failed -> {
@@ -106,28 +128,26 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                             Log.d("PRICINGERROR", "onViewCreated: $it")
                         }
 
+                        else -> {}
                     }
                 }
             }
-        }
-    /*    binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
-            val action =HomeFragmentDirections.actionHomeFragmentToSearchFragment()
-            findNavController().navigate(action)
-            Log.d("mmmms","navigate")
-        }*/
+        }/*    binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
+                val action =HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+                findNavController().navigate(action)
+                Log.d("mmmms","navigate")
+            }*/
 
 
     }
 
     override fun onClickBrand(smartCollection: SmartCollection) {
-        if (smartCollection != null) {
-            Log.d("zxcv", "onClickBrand: 8888" + smartCollection.title)
+        Log.d("zxcv", "onClickBrand: 8888" + smartCollection.title)
 
-            val action: HomeFragmentDirections.ActionHomeFragmentToBrandProductFragment =
-                HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection.id!!)
-            findNavController().navigate(action)
+        val action: HomeFragmentDirections.ActionHomeFragmentToBrandProductFragment =
+            HomeFragmentDirections.actionHomeFragmentToBrandProductFragment(smartCollection.id!!)
+        findNavController().navigate(action)
 
-        }
     }
 
     private fun getBrands() {
@@ -148,6 +168,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                                 }
                             }
                         }
+
                         else -> {}
                     }
                 }
@@ -212,6 +233,8 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         is AdsStats.Failed -> {
                             Log.d("PRICINGERROR", "onViewCreated: $it")
                         }
+
+                        else -> {}
                     }
                 }
             }
@@ -219,20 +242,20 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
     }
 
 
-   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-       when (item.itemId) {
-           R.id.cartIcon -> {
-               // Handle the item click here
-               findNavController().navigate(R.id.cartFragment2)
-               return true
-           }
+    /* override fun onOptionsItemSelected(item: MenuItem): Boolean {
+         when (item.itemId) {
+             R.id.cartIcon -> {
+                 // Handle the item click here
+                 findNavController().navigate(R.id.cartFragment2)
+                 return true
+             }
 
-           else -> return super.onOptionsItemSelected(item)
-       }
-       /*   if (item.getItemId()== R.id.profile){
+             else -> return super.onOptionsItemSelected(item)
+         }
+         *//*   if (item.getItemId()== R.id.profile){
             startActivity(new Intent(getApplicationContext() , ProfileActivity.class));
 
-        }*/
+        }*//*
 
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -240,19 +263,20 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         super.onCreateOptionsMenu(menu, inflater)
 
         BadgeNotification(menu,inflater)
-    }
+    }*/
 
-    fun displayToolBar(){
-        var toolbar = binding.toolbarHome
+    private fun displayToolBar() {
+        val toolbar = binding.toolbarHome
 
-        var activity : AppCompatActivity = getActivity() as AppCompatActivity
+        val activity: AppCompatActivity = activity as AppCompatActivity
+        activity.supportActionBar?.title = "Home"
         activity.setSupportActionBar(toolbar)
-        activity.supportActionBar?.setTitle("Home")
+
     }
-    fun BadgeNotification(menu: Menu,inflater: MenuInflater) {
+
+    fun BadgeNotification(menu: Menu, inflater: MenuInflater) {
         //-------- get number of Proudect from database and display in badge notification for cart icon-----------------
         inflater.inflate(R.menu.cart, menu)
-
         val menuItem = menu.findItem(R.id.cartIcon)
         cartViewModel.getAllCart()
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
@@ -267,11 +291,15 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                             } else {
                                 menuItem.setActionView(R.layout.badge_notification)
                                 val view = menuItem.actionView
-                                var badgeCounter = view!!.findViewById<TextView>(R.id.tv_badge_counter)
-                                badgeCounter.setText(cartItems.size.toString())
-                                view!!.setOnClickListener { onOptionsItemSelected(menuItem) }
+                                val badgeCounter =
+                                    view!!.findViewById<TextView>(R.id.tv_badge_counter)
+                                badgeCounter.text = cartItems.size.toString()
+                                view.setOnClickListener {
+                                    findNavController().navigate(R.id.cartFragment)
+                                }
                             }
                         }
+
                         is ResponseState.OnError -> {}
                         else -> {}
                     }

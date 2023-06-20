@@ -16,77 +16,70 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/backgroundAd"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/backgroundAd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/cartImage"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
 
                     tools:src="@tools:sample/avatars" />
 
                 <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/cartName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="Name"
-                        android:text="Test"
-
-                        android:textSize="18sp"
-                        android:maxLines="1"
-                        android:textColor="@color/mainText"
                         android:fontFamily="@font/metropolis_semibold"
-                        android:maxEms="12" />
+                        android:maxEms="12"
 
-                    <TextView
-                        android:id="@+id/cartPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:text="Price"
-
-
-                        android:textSize="14sp"
-                        android:textColor="@color/textAd"
-                        android:fontFamily="@font/metropolis_semibold" />
+                        android:maxLines="1"
+                        android:text="Test"
+                        android:textColor="@color/mainText"
+                        android:textSize="18sp"
+                        tools:text="Name" />
 
                     <LinearLayout
-                        android:gravity="center"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="center">
 
                         <LinearLayout
 
-                            android:orientation="horizontal"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:background="@drawable/circle_bg"
-                            android:elevation="5dp">
+                            android:elevation="5dp"
+                            android:orientation="horizontal">
 
                             <ImageView
                                 android:id="@+id/minusLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_baseline_remove_24"
                                 android:padding="8dp"
+                                android:src="@drawable/ic_baseline_remove_24"
                                 app:tint="@color/mainText" />
 
                         </LinearLayout>
@@ -95,28 +88,28 @@
                             android:id="@+id/quantityTvCart"
                             android:layout_width="50dp"
                             android:layout_height="match_parent"
-                            tools:text="14"
+                            android:layout_marginLeft="5dp"
 
+                            android:layout_marginRight="5dp"
+                            android:fontFamily="@font/metropolis_regular"
                             android:gravity="center"
                             android:textColor="@color/mainText"
                             android:textSize="18sp"
-                            android:fontFamily="@font/metropolis_regular"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp" />
+                            tools:text="14" />
 
                         <LinearLayout
-                            android:orientation="horizontal"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:background="@drawable/circle_bg"
-                            android:elevation="5dp">
+                            android:elevation="5dp"
+                            android:orientation="horizontal">
 
                             <ImageView
                                 android:id="@+id/plusLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_baseline_add_24"
                                 android:padding="8dp"
+                                android:src="@drawable/ic_baseline_add_24"
 
                                 app:tint="@color/mainText" />
 
@@ -124,15 +117,22 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/cartPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/metropolis_semibold"
+
+                        android:gravity="right"
+                        android:textColor="@color/textAd"
+                        android:textSize="10sp"
+                        tools:text="Price" />
+
+                    <TextView
                         android:id="@+id/totalItemCardPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:text="Price"
-                        android:gravity="right"
-
-                        android:textSize="10sp"
-                        android:textColor="@color/textAd"
-                        android:fontFamily="@font/metropolis_semibold" />
+                        android:gravity="end"
+                        android:text="total price" />
 
                 </LinearLayout>
 
@@ -143,10 +143,10 @@
 
                     <ImageView
 
+                        android:id="@+id/cartMore"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:id="@+id/cartMore"
                         android:src="@drawable/ic_baseline_clear_24"
                         app:tint="@color/mainText" />
 

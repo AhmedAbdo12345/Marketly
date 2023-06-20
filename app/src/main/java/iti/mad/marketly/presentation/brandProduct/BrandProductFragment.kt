@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
@@ -26,6 +28,7 @@ import iti.mad.marketly.R
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
+import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -38,9 +41,9 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     lateinit var productList: MutableList<Product>
 
-    lateinit var brandAdapter: BrandProductAdapter
+    private lateinit var brandAdapter: BrandProductAdapter
 
-    val brandProductViewModel: BrandProductViewModel by viewModels<BrandProductViewModel> {
+    private val brandProductViewModel: BrandProductViewModel by viewModels {
         BrandProductViewModel.Factory
     }
     lateinit var binding: FragmentBrandProductBinding
@@ -52,28 +55,70 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_brand_product, container, false)
         binding = FragmentBrandProductBinding.inflate(layoutInflater, container, false)
 
-        displayToolBar()
-        setHasOptionsMenu(true);
+       /* displayToolBar()*/
+
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+     /*   val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search, menu)
+                val searchItem = menu.findItem(R.id.search_Icon)
+                val searchView = searchItem?.actionView as SearchView
+                searchView.queryHint = "Search for something"
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        // Handle search query submission
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+
+                        return false
+                    }
+                })
+               *//* searchView.setOnClickListener {
+                    val action = BrandProductFragmentDirections.actionBrandProductFragmentToSearchFragment()
+                    findNavController().navigate(action)
+                }*//*
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Handle the menu selection
+                return when (menuItem.itemId) {
+                    R.id.search_Icon -> {
+                        val action = BrandProductFragmentDirections.actionBrandProductFragmentToSearchFragment()
+                        findNavController().navigate(action)
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)*/
         displaySliderFilter()
         filterProducts()
 
-        var smartCollection =
-            BrandProductFragmentArgs.fromBundle(requireArguments()).brandID
-        brandProductViewModel.getAllBrandProduct(
-            smartCollection.toString(),
-            SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
-        )
+        val smartCollection = BrandProductFragmentArgs.fromBundle(requireArguments()).brandID
+        if (SharedPreferenceManager.isUserLogin(requireContext())) {
+            brandProductViewModel.getAllBrandProduct(
+                smartCollection.toString(),
+                SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
+            )
+        } else {
+            brandProductViewModel.getAllBrandProduct(smartCollection.toString())
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 brandProductViewModel.brandProduct.collect { uiState ->
@@ -87,31 +132,42 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                             binding.brandProductRecycleView.visibility = View.VISIBLE
                             binding.brandProductProgressbar.visibility = View.GONE
                             brandAdapter = BrandProductAdapter(this@BrandProductFragment) {
-                                if (it.isFavourite == true) {
-                                    brandProductViewModel.deleteProductFromFavourite(
-                                        SharedPreferenceManager.getFirebaseUID(requireContext())
-                                            ?: "",
-                                        it
-                                    )
-                                    brandProductViewModel.getAllBrandProduct(
-                                        smartCollection.toString(),
-                                        SharedPreferenceManager.getFirebaseUID(requireContext())
-                                            ?: ""
-                                    )
+                                if (SharedPreferenceManager.isUserLogin(requireContext())) {
+                                    if (it.isFavourite == true) {
+                                        brandProductViewModel.deleteProductFromFavourite(
+                                            SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                ?: "", it
+                                        )
+                                        brandProductViewModel.getAllBrandProduct(
+                                            smartCollection.toString(),
+                                            SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                ?: ""
+                                        )
 
 
-                                } else {
-                                    brandProductViewModel.addProductToFavourite(
-                                        SharedPreferenceManager.getFirebaseUID(requireContext())
-                                            ?: "",
-                                        it
-                                    )
-                                    brandProductViewModel.getAllBrandProduct(
-                                        smartCollection.toString(),
-                                        SharedPreferenceManager.getFirebaseUID(requireContext())
-                                            ?: ""
-                                    )
+                                    } else {
+                                        brandProductViewModel.addProductToFavourite(
+                                            SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                ?: "", it
+                                        )
+                                        brandProductViewModel.getAllBrandProduct(
+                                            smartCollection.toString(),
+                                            SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                ?: ""
+                                        )
 
+                                    }
+                                }
+                                else {
+                                    AlertManager.functionalDialog(
+                                        "register",
+                                        requireContext(),
+                                        "you should login or register to save this in your account"
+                                    ) {
+                                        val action =
+                                            BrandProductFragmentDirections.actionBrandProductFragmentToRegisterFragment()
+                                        findNavController().navigate(action)
+                                    }.show()
                                 }
                             }
                             productList = uiState.response.toMutableList()
@@ -132,6 +188,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
                         }
 
+
                         else -> {}
                     }
                 }
@@ -141,19 +198,18 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
     }
 
     override fun onClickProduct(product: Product) {
-        val action =
-            product.id?.let {
-                BrandProductFragmentDirections.actionBrandProductFragmentToProductDetailsFragment(
-                    it
-                )
-            }
+        val action = product.id?.let {
+            BrandProductFragmentDirections.actionBrandProductFragmentToProductDetailsFragment(
+                it
+            )
+        }
         findNavController().navigate(action!!)
     }
 
 
-    fun filterProducts() {
-        var startValue = 0
-        var endValue = 0
+    private fun filterProducts() {
+        var startValue: Int = 0
+        var endValue: Int = 0
         binding.rangSlider.setLabelFormatter { value: Float ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
@@ -178,7 +234,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
             }
         })
 
-        binding.rangSlider.addOnChangeListener { rangeSlider, value, fromUser ->
+        binding.rangSlider.addOnChangeListener { _, _, _ ->
             // Responds to when slider's value is changed
 
         }*/
@@ -203,10 +259,10 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     }
 
-    fun displaySliderFilter() {
+    private fun displaySliderFilter() {
         binding.layoutFilter.setOnClickListener {
 
-            if (binding.framLayoutRangSlider.isVisible == true) {
+            if (binding.framLayoutRangSlider.isVisible) {
                 binding.framLayoutRangSlider.visibility = View.GONE
             } else {
                 binding.framLayoutRangSlider.visibility = View.VISIBLE
@@ -218,9 +274,9 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
     }
 
     fun filterByPrice(productList: MutableList<Product>, min: Int, max: Int) {
-        productList.let {
+        productList.let { it ->
             brandAdapter.submitList(null)
-            var filterList = it.filter {
+            val filterList = it.filter {
                 val doubleValue = (it.variants?.get(0)?.price)?.toDouble()
                 val intValue = doubleValue?.toInt()
                 (intValue in min..max)
@@ -236,40 +292,12 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         }
 
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.search_Icon -> {
-                // Handle the item click here
-                return true
-            }
 
-            else -> return super.onOptionsItemSelected(item)
-        }
+/*    private fun displayToolBar() {
+        val toolbar = binding.toolbarBrandProduct
 
-    }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search, menu)
-        val item = menu.findItem(R.id.search_Icon)
-        val searchView = item.actionView as SearchView?
-        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-               // onlineSearch(newText)
-                return false
-            }
-        })
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-
-    fun displayToolBar(){
-        var toolbar = binding.toolbarBrandProduct
-
-        var activity : AppCompatActivity = getActivity() as AppCompatActivity
+        val activity = activity as AppCompatActivity
         activity.setSupportActionBar(toolbar)
-        activity.supportActionBar?.setTitle("Products")
-    }
+        activity.supportActionBar?.title = "Products"
+    }*/
 }

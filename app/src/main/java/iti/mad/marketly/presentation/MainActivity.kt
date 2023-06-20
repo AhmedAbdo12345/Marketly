@@ -1,41 +1,29 @@
 package iti.mad.marketly.presentation
 
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.core.view.marginBottom
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
-import androidx.navigation.NavGraph
-import androidx.navigation.NavGraphNavigator
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import iti.mad.marketly.R
-import iti.mad.marketly.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
-    lateinit var floatButton : FloatingActionButton
-    lateinit var bottomAppBar : BottomAppBar
-    lateinit var  navHostFragment : NavHostFragment
-    lateinit var  layoutSpace : LinearLayout
+    lateinit var floatButton: FloatingActionButton
+    lateinit var bottomAppBar: BottomAppBar
+    lateinit var navHostFragment: NavHostFragment
+    lateinit var layoutSpace: LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,40 +52,35 @@ class MainActivity : AppCompatActivity() {
         // Set up the BottomNavigationView with the NavController
         bottomNavigationView.setupWithNavController(navController)
 
-       // Add an OnDestinationChangedListener to the NavController
+        // Add an OnDestinationChangedListener to the NavController
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Reset the selected item in the BottomNavigationView when the destination changes
             bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
-            if (destination.id == R.id.productDetailsFragment  || destination.id == R.id.cartFragment2 ) {
+            if (destination.id == R.id.productDetailsFragment  || destination.id == R.id.cartFragment ) {
                 bottomAppBar.visibility = View.GONE
                 floatButton.visibility = View.GONE
-                layoutSpace.visibility =  View.GONE
+                layoutSpace.visibility = View.GONE
                 changeMarginFragment(-40)
 
             } else {
                 bottomAppBar.visibility = View.VISIBLE
                 floatButton.visibility = View.VISIBLE
-                layoutSpace.visibility =  View.VISIBLE
+                layoutSpace.visibility = View.VISIBLE
                 changeMarginFragment(80)
             }
+
         }
 
 
-
-        // Set up the Bottom Navigation View with the Navigation Controller
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.categoryFragment,
-                R.id.cartFragment2,
+                R.id.cartFragment,
                 R.id.homeFragment,
-
                 R.id.favouriteFragment,
-                R.id.myProfile2
+                R.id.myProfile
             )
         )
-        // setupActionBarWithNavController(navController, appBarConfiguration)
-      //  bottomNavigationView.setupWithNavController(navController)
-
 
         floatButton.setOnClickListener {
             navController.navigate(R.id.homeFragment)
@@ -111,12 +94,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun changeMarginFragment(newValue : Int){
-        var layoutParent:ConstraintLayout= findViewById(R.id.constraintFragment)
+    private fun changeMarginFragment(newValue: Int) {
+        var layoutParent: ConstraintLayout = findViewById(R.id.constraintFragment)
 
         val layoutParams = layoutParent.layoutParams as CoordinatorLayout.LayoutParams
         layoutParams.bottomMargin = newValue
         layoutParent.layoutParams = layoutParams
     }
+
+
 
 }

@@ -8,7 +8,7 @@ class App:Application() {
 
     override fun onCreate() {
         super.onCreate()
-       /* StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll()   // or .detectAll() for all detectable problems
+        /*StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll()   // or .detectAll() for all detectable problems
             .penaltyLog()
             .build())
         StrictMode.setVmPolicy(
@@ -17,8 +17,8 @@ class App:Application() {
                // .detectLeakedClosableObjects()
                 .penaltyLog()
                // .penaltyDeath()
-                .build()
-        )*/
+                .build())*/
+        //)
 
 
         AppDependencies.initialization()
