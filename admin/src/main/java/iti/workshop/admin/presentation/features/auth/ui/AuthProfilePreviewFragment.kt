@@ -1,8 +1,5 @@
 package iti.workshop.admin.presentation.features.auth.ui
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
@@ -11,16 +8,14 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,16 +29,17 @@ import iti.workshop.admin.databinding.AuthFragmentProfilePreviewBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.auth.model.User
 import iti.workshop.admin.presentation.features.auth.viewModel.AuthViewModel
+import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.hideSoftKey
 import iti.workshop.admin.presentation.utils.loadingDialog
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.OutputStream
 
 @AndroidEntryPoint
 class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
 
-    private val PICK_IMAGE = 12345
+
     private val TAKE_PICTURE = 6352
     private val REQUEST_CAMERA_ACCESS_PERMISSION = 5674
     private var bitmap: Bitmap? = null
@@ -51,6 +47,7 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
     private var user:User? = null
     private lateinit var sharedManager: SharedManager
     private val viewModel: AuthViewModel by viewModels()
+
 
     lateinit var binding: AuthFragmentProfilePreviewBinding
 
@@ -65,20 +62,40 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
         storageRef = FirebaseStorage.getInstance(Constants.STORAGE_PATH)
 
         setEventClickListner()
-        if (requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            binding.fromCamera.visibility = View.GONE
-        }
+
         user = sharedManager.getUser()
         binding.model = user
         updateUser()
-        navigateToEdit()
         return binding.root
     }
 
     private fun setEventClickListner() {
         binding.upload.setOnClickListener(this)
-        binding.fromGallery.setOnClickListener(this)
-        binding.fromCamera.setOnClickListener(this)
+        binding.editImage.setOnClickListener(this)
+        binding.username.setOnClickListener {
+            binding.username.visibility = View.GONE
+            binding.productTitleInput.setText(binding.username.text.toString())
+            binding.productTitleHolder.visibility = View.VISIBLE
+        }
+
+        binding.productTitleInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                val username =  binding.username.text.toString()
+                if (username.isBlank()){
+                    binding.username.error = "You should to put username"
+                    false
+                }else{
+                    binding.productTitleHolder.visibility = View.GONE
+                    binding.username.visibility = View.VISIBLE
+                    binding.username.text = binding.productTitleInput.text.toString()
+                    requireActivity().hideSoftKey()
+                    uploadUsernameToServer()
+                    true
+                }
+            } else {
+                false
+            }
+        }
     }
 
 
@@ -88,9 +105,6 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
             user = bundle.getSerializable(ConstantsKeys.USER_KEY) as User
             binding.model = user
         }
-    }
-    private fun navigateToEdit() {
-
     }
 
     private fun persistImage(bitmap: Bitmap?, name: String): File {
@@ -108,13 +122,47 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
         return imageFile
     }
 
+    private fun uploadToServer() {
+
+        if (bitmap!=null){
+            uploadImageToServer()
+
+        }else{
+            uploadUsernameToServer()
+        }
+
+
+
+    }
+
+    private fun uploadUsernameToServer() {
+        val dialog: ProgressDialog = requireContext().loadingDialog()
+        dialog.show()
+        user?.let {
+            it.name = binding.username.text.toString()
+            FireStoreManager.saveUser(it) {
+                sharedManager.saveUser(user)
+                dialog.dismiss()
+                Message.snakeMessage(
+                    requireContext(),
+                    binding.root,
+                    "user data uploaded successfully",
+                    true
+                )?.show()
+            }
+        }
+    }
+
     private fun uploadImageToServer() {
         val dialog: ProgressDialog = requireContext().loadingDialog()
+        dialog.show()
+
         val imageFile: File = persistImage(bitmap, "profile")
         val folderName = "profiles"
         val profileImage = storageRef!!.reference.child(folderName + "/" + user?.name + ".jpg")
         val file = Uri.fromFile(imageFile)
         val uploadTask = profileImage.putFile(file)
+
         val urlTask = uploadTask.continueWithTask<Uri> { task ->
             if (!task.isSuccessful) {
                 throw task.exception!!
@@ -126,10 +174,17 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
             if (task.isSuccessful) {
                 val downloadUri = task.result
                 user?.let {
+                    it.name = binding.username.text.toString()
                     it.image = downloadUri.toString()
                     FireStoreManager.saveUser(it) {
                         dialog.dismiss()
-                        Toast.makeText(context, "data Uploaded", Toast.LENGTH_SHORT).show()
+
+                        Message.snakeMessage(
+                            requireContext(),
+                            binding.root,
+                            "user data uploaded successfully",
+                            true
+                        )?.show()
                         sharedManager.saveUser(user)
                     }
                 }
@@ -137,7 +192,12 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
             }
         }.addOnFailureListener { e ->
             dialog.dismiss()
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+            Message.snakeMessage(
+                requireContext(),
+                binding.root,
+                e.message,
+                false
+            )?.show()
         }
     }
 
@@ -148,39 +208,9 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
         }
     }
 
-    @SuppressLint("QueryPermissionsNeeded")
-    private fun getImageFromGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE)
-        }
-    }
 
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == PICK_IMAGE) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                try {
-//                    val inputStream = requireActivity().contentResolver.openInputStream(
-//                        data?.data!!
-//                    )
-//                    bitmap = BitmapFactory.decodeStream(inputStream)
-//                    binding.fromGallery.setImageBitmap(bitmap)
-//                } catch (e: FileNotFoundException) {
-//                    e.printStackTrace()
-//                }
-//            }
-//        } else if (requestCode == TAKE_PICTURE) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                val extras = data?.extras
-//                bitmap = extras!!["data"] as Bitmap?
-//                binding.fromGallery.setImageBitmap(bitmap)
-//            }
-//        }
-//    }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -207,18 +237,17 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
 //                getImageFromCamera()
 //            }
 
-            R.id.fromGallery -> chooseImage(requireContext())
-            R.id.upload -> if (bitmap != null) uploadImageToServer()
+            R.id.edit_image -> chooseImage(requireContext())
+            R.id.upload ->  uploadToServer()
         }
     }
 
     private fun chooseImage(context: Context) {
         val optionsMenu = arrayOf<CharSequence>(
             "Take Photo",
-            "Choose from Gallery",
-            "Exit"
-        ) // create a menuOption Array
-        // create a dialog for showing the optionsMenu
+            "Choose from Gallery"
+        )
+
         val builder = AlertDialog.Builder(context)
         // set the items in builder
         builder.setItems(optionsMenu) { dialogInterface, i ->
@@ -231,8 +260,6 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
                 val pickPhoto =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(pickPhoto, 1)
-            } else if (optionsMenu[i] == "Exit") {
-                dialogInterface.dismiss()
             }
         }
         builder.show()
@@ -244,7 +271,9 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
             when (requestCode) {
                 0 -> if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
                     bitmap = data.extras!!["data"] as Bitmap?
+
                     binding.fromGallery.setImageBitmap(bitmap)
+                    uploadImageToServer()
                 }
 
                 1 -> if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
@@ -259,6 +288,7 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
                             val picturePath = cursor.getString(columnIndex)
                             bitmap = BitmapFactory.decodeFile(picturePath)
                             binding.fromGallery.setImageBitmap(bitmap)
+                            uploadImageToServer()
 
                             cursor.close()
                         }

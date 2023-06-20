@@ -6,21 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import iti.workshop.admin.R
 import iti.workshop.admin.data.local.shared.SharedManager
+import iti.workshop.admin.data.remote.firestore.FireStoreManager
 import iti.workshop.admin.databinding.AuthFragmentLoginBinding
+import iti.workshop.admin.presentation.features.auth.model.JopTitle
 import iti.workshop.admin.presentation.features.auth.model.User
+import iti.workshop.admin.presentation.utils.Message
 import iti.workshop.admin.presentation.utils.loadingDialog
 
 private const val TAG = "AuthLoginFragment"
@@ -48,17 +46,31 @@ class AuthLoginFragment : Fragment() {
                         if (task.isSuccessful) {
                             Log.d(TAG, "createUserWithEmail:success")
                             val user = auth.currentUser
-                            val userName:String = if (user?.displayName!=null) user.displayName?: "Admin" else (user?.email?:"Unknown@mail.com").split("@")[0]
                             progressDialog.dismiss()
-                            sharedManager.saveUser(User(user?.uid,userName,user?.email))
-                            findNavController().navigate(R.id.action_authLoginFragment_to_homeFragment)
+                            FireStoreManager.getUser(user?.uid) {
+                                val userObj = it.toObject(User::class.java)
+
+                                if (userObj?.jopTitle == JopTitle.SuperUser){
+                                    sharedManager.saveUser(userObj)
+                                    findNavController().navigate(R.id.action_authLoginFragment_to_homeFragment)
+                                }else{
+                                    Message.snakeMessage(
+                                        requireContext(),
+                                        binding.root,
+                                        "Sorry you are not Admin user",
+                                        false
+                                    )?.show()
+                                }
+
+
+                            }
                         } else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(
+                            Message.snakeMessage(
                                 requireContext(),
+                                binding.root,
                                 "Authentication failed.",
-                                Toast.LENGTH_SHORT,
-                            ).show()
+                                false
+                            )?.show()
                             progressDialog.dismiss()
                             showErrorDialog()
                         }

@@ -11,56 +11,91 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/coordinatorlayout">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/edit_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="40dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toTopOf="@+id/username"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintStart_toEndOf="@+id/profile_image" />
+
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:layout_editor_absoluteX="-205dp"
+            tools:layout_editor_absoluteY="84dp" />
 
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profile_image"
+            android:layout_width="150dp"
 
+            android:layout_height="150dp"
 
+            android:layout_marginTop="32dp"
+            android:elevation="10dp"
+            app:cardCornerRadius="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/background_image"
+                android:id="@+id/fromGallery"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:cropToPadding="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_shop"
+                app:thumbnail="@{model.image}" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/username"
+            style="@style/main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:drawableEnd="@drawable/ic_edit"
+            android:text='@{" "+model.name+" "}'
+            app:layout_constraintEnd_toEndOf="@+id/profile_image"
+            app:layout_constraintStart_toStartOf="@+id/profile_image"
+            app:layout_constraintTop_toBottomOf="@+id/profile_image"
+            tools:text=" Mohamed Arfa " />
 
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/profile_image"
-                android:layout_width="150dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productTitleHolder"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:hint="Username"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/username"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/username">
 
-                android:layout_height="150dp"
-
-                android:layout_marginTop="32dp"
-                android:elevation="10dp"
-                app:cardCornerRadius="150dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    app:thumbnail="@{model.image}"
-                    android:id="@+id/fromGallery"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:cropToPadding="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_shop"
-                    />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                tools:text="Mohamed Arfa"
-                android:text="@{model.name}"
-                style="@style/main_title"
-                app:layout_constraintEnd_toEndOf="@+id/profile_image"
-                app:layout_constraintStart_toStartOf="@+id/profile_image"
-                app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productTitleInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/metropolis_regular"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:text="@={model.name}"
+                android:textColor="@color/mainText"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animationView"
@@ -70,43 +105,71 @@
             app:layout_constraintBottom_toTopOf="@+id/upload"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email"
+            app:layout_constraintTop_toBottomOf="@+id/jop_title"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/profile" />
 
-            <TextView
-                android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="16dp"
-                tools:text="Mohamed@mail.com"
-                android:text="@{model.email}"
-                style="@style/sub_title"
-                app:layout_constraintEnd_toEndOf="@+id/username"
-                app:layout_constraintHorizontal_bias="0.65"
-                app:layout_constraintStart_toStartOf="@+id/username"
-                app:layout_constraintTop_toBottomOf="@+id/username" />
 
-            <ImageView
-                android:id="@+id/fromCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/username"
-                app:layout_constraintStart_toEndOf="@+id/profile_image"
-                app:srcCompat="@drawable/ic_camera" />
+        <TextView
+            android:id="@+id/email"
+            style="@style/sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="56dp"
+            android:drawableStart="@drawable/ic_mail"
+            android:drawableTint="@color/primary"
+            android:padding="5dp"
+            android:text='@{"Email: "+model.email}'
+            app:layout_constraintEnd_toEndOf="@+id/username"
+            app:layout_constraintStart_toStartOf="@+id/username"
+            app:layout_constraintTop_toBottomOf="@+id/username"
+            tools:text=" Email: Mohamed@mail.com" />
 
-            <Button
-                android:id="@+id/upload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:text="Save"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/phone"
+            style="@style/sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:drawableStart="@drawable/ic_phone"
+            android:drawableTint="@color/primary"
+            android:padding="5dp"
+            android:text='@{"Phone: "+model.phone}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/email"
+            app:layout_constraintTop_toBottomOf="@+id/email"
+            tools:text=" Phone: 01557677210" />
+
+        <TextView
+            android:id="@+id/jop_title"
+            style="@style/sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:drawableStart="@drawable/ic_jop"
+            android:drawableTint="@color/primary"
+            android:padding="5dp"
+            android:text='@{"Position: "+model.jopTitle.name()}'
+            app:layout_constraintEnd_toEndOf="@+id/background_image"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/phone"
+            app:layout_constraintTop_toBottomOf="@+id/phone"
+            tools:text=" Position: Admin" />
+
+        <Button
+            android:id="@+id/upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

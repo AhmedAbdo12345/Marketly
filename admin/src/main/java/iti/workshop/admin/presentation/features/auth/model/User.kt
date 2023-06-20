@@ -7,8 +7,8 @@ data class User(
     var name:String?=null,
     var email:String?=null,
     var image:String?=null,
-//    var phone:String?=null,
-//    var jopTitle:JopTitle?=null,
+    var phone:String?=null,
+    var jopTitle:JopTitle?=null
 //    var activities:List<Activity>?=null
 ):Serializable
 
@@ -17,7 +17,7 @@ data class User(
 //    val date:String,
 //    val time:String
 //)
-//
-//enum class JopTitle{
-//    SuperUser,Admin,SuperVisor
-//}
+
+enum class JopTitle{
+    SuperUser,Admin,SuperVisor,User
+}

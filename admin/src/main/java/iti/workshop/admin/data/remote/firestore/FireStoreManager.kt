@@ -1,6 +1,8 @@
 package iti.workshop.admin.data.remote.firestore
 
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import iti.workshop.admin.presentation.features.auth.model.User
@@ -18,6 +20,16 @@ object FireStoreManager {
             .document(user.id?:"NuKnown")
             .set(user)
             .addOnCompleteListener(onCompleteListener)
+    }
+
+    fun getUser(uid: String?, onSuccessListener: OnSuccessListener<DocumentSnapshot>) {
+        uid?.let {
+            firebaseFirestore
+                .collection(ROOT_KEY)
+                .document(it)
+                .get().addOnSuccessListener(onSuccessListener)
+        }
+
     }
 
 }

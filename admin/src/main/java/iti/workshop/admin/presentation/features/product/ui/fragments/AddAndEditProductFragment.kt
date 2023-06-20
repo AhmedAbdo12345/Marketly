@@ -93,7 +93,7 @@ class AddAndEditProductFragment : Fragment() {
         val model:Product =  when(actionType){
             Action.Add -> {
                 Product(
-                    title = binding.titleProductInput.text.toString(),
+                    title = binding.productTitleInput.text.toString(),
                     body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
                     variants = listOf(Variant(price = binding.valueInput.text.toString())),
                     image = AddImage(src = image)
@@ -101,7 +101,7 @@ class AddAndEditProductFragment : Fragment() {
             }
             Action.Edit -> {
                     product.copy(
-                        title = binding.titleProductInput.text.toString(),
+                        title = binding.productTitleInput.text.toString(),
                         body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
                         image = AddImage(src = image)
                     )
@@ -111,8 +111,8 @@ class AddAndEditProductFragment : Fragment() {
     }
 
     private fun isValidData(): Boolean {
-        if (binding.titleProductInput.text.isNullOrBlank()) {
-            binding.titleProductInput.error = "Please put name of product"
+        if (binding.productTitleInput.text.isNullOrBlank()) {
+            binding.productTitleInput.error = "Please put name of product"
             return false
         }
         if (binding.descriptionInput.text.isNullOrBlank()) {
@@ -230,7 +230,7 @@ class AddAndEditProductFragment : Fragment() {
                         it
                     )?.show()
                     if (it){
-                        binding.titleProductInput.setText("")
+                        binding.productTitleInput.setText("")
                         binding.descriptionInput.setText("")
                         binding.valueInput.setText("")
                         binding.productImage.setImageDrawable(resources.getDrawable(R.drawable.bags))
