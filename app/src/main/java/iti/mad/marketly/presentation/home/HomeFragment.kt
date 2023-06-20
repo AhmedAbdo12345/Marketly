@@ -34,9 +34,9 @@ import iti.mad.marketly.presentation.cart.CartViewModel
 import iti.mad.marketly.presentation.home.ads.AdsViewModel
 import iti.mad.marketly.presentation.home.brands.BrandsAdapter
 import iti.mad.marketly.presentation.home.brands.BrandsViewModel
-import iti.mad.marketly.presentation.states.AdsStats
-import iti.mad.marketly.presentation.states.PricingRuleState
+
 import iti.mad.marketly.utils.AdsManager
+import iti.mad.marketly.utils.NetworkConnectivityChecker
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,6 +56,11 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val networkConnectivityChecker = NetworkConnectivityChecker(requireContext())
+        if(!networkConnectivityChecker.checkForInternet()){
+            val action = HomeFragmentDirections.actionHomeFragmentToErrorFragment6()
+            findNavController().navigate(action)
+        }
         brandsViewModel =
             ViewModelProvider(this, BrandsViewModel.Factory).get(BrandsViewModel::class.java)
 
@@ -107,21 +112,21 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adsViewModel._pricingRule.collect {
                     when (it) {
-                        is PricingRuleState.Loading -> {
+                        is ResponseState.OnLoading -> {
                             binding.brandsRecView.visibility = View.GONE
                             binding.homeProgressbar.visibility = View.VISIBLE
                         }
 
-                        is PricingRuleState.Success -> {
+                        is ResponseState.OnSuccess -> {
                             binding.brandsRecView.visibility = View.VISIBLE
                             binding.homeProgressbar.visibility = View.GONE
                             //Toast.makeText(requireContext(),"${it.pricingRules.price_rules.get(0).id}",Toast.LENGTH_LONG).show()
-                            AdsManager.setValue(it.pricingRules.price_rules[0].value)
-                            launchDiscount(it.pricingRules.price_rules[0].id)
+                            AdsManager.setValue(it.response.price_rules.get(0).value)
+                            launchDiscount(it.response.price_rules[0].id)
                             Log.d("IDDD", SharedPreferenceManager.getUserID(requireContext())!!)
                         }
 
-                        is PricingRuleState.Failed -> {
+                        is ResponseState.OnError -> {
                             binding.brandsRecView.visibility = View.GONE
                             binding.homeProgressbar.visibility = View.GONE
 
@@ -182,13 +187,13 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adsViewModel._discount.collect {
                     when (it) {
-                        is AdsStats.Loading -> {
+                        is ResponseState.OnLoading -> {
 
                         }
 
-                        is AdsStats.Success -> {
+                        is ResponseState.OnSuccess -> {
 
-                            AdsManager.addDiscountList(it.discountResponce.discount_codes)
+                            AdsManager.addDiscountList(it.response.discount_codes)
                             val imgList = ArrayList<SlideModel>()
                             imgList.add(
                                 SlideModel(
@@ -230,7 +235,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                             })
                         }
 
-                        is AdsStats.Failed -> {
+                        is ResponseState.OnError -> {
                             Log.d("PRICINGERROR", "onViewCreated: $it")
                         }
 
@@ -295,7 +300,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                                     view!!.findViewById<TextView>(R.id.tv_badge_counter)
                                 badgeCounter.text = cartItems.size.toString()
                                 view.setOnClickListener {
-                                    findNavController().navigate(R.id.cartFragment)
+                                    findNavController().navigate(R.id.cartFragment2)
                                 }
                             }
                         }

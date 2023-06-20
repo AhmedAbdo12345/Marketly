@@ -1,5 +1,6 @@
 package iti.mad.marketly.data.source.remote
 
+import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
 import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.category.CategoryResponse
@@ -7,6 +8,9 @@ import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.discount.DiscountResponce
+import iti.mad.marketly.data.model.draftorder.DraftOrderBody
+import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
+import iti.mad.marketly.data.model.draftorderresponse.DraftOrderResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.pricingrules.PricingRules
@@ -17,6 +21,7 @@ import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.model.product.ProductResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
+import retrofit2.http.Body
 
 interface IRemoteDataSource {
 
@@ -50,4 +55,7 @@ interface IRemoteDataSource {
     suspend fun getDiscount(pricingRule:Long): Flow<DiscountResponce>
     suspend fun getPricingRules():Flow<PricingRules>
     fun clearCart()
+    suspend fun createDraftOrder(draftOrderBody: DraftOrderRequest): Flow<DraftOrderResponse>
+    suspend fun sendInvoice(invoice: DraftOrderInvoice,draftID:String): Flow<DraftOrderInvoice>
+    suspend fun completeOrder(draftID:String):Flow<DraftOrderResponse>
 }

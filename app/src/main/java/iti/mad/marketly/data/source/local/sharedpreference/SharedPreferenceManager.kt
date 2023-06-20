@@ -3,6 +3,8 @@ package iti.mad.marketly.data.source.local.sharedpreference
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import iti.mad.marketly.utils.Constants
 
 object SharedPreferenceManager {
@@ -65,8 +67,18 @@ object SharedPreferenceManager {
         shared.edit().putString(Constants.USER_ID, userId).apply()
 
         shared.edit().putString(Constants.USER_NAME, userName).apply()
+        shared.edit().putString(Constants.FIREBASE_USER_ID,
+            FirebaseAuth.getInstance().currentUser?.uid).apply()
     }
 
+    fun deleteUserData(context: Context) {
+        checkPreferences(context)
+        shared.edit().putBoolean(Constants.IS_LOGIN, false).apply()
+        shared.edit().putString(Constants.USER_EMAIL, "").apply()
+        shared.edit().putString(Constants.USER_ID, "").apply()
+        shared.edit().putString(Constants.USER_NAME, "").apply()
+        shared.edit().putString(Constants.FIREBASE_USER_ID,"").apply()
+    }
     fun saveFirebaseUID(firebaseUID: String) {
         shared.edit().putString(Constants.FIREBASE_USER_ID, firebaseUID).apply()
     }
@@ -102,5 +114,9 @@ object SharedPreferenceManager {
     fun getOnBoardingSeen(context: Context): Boolean {
         checkPreferences(context)
         return shared.getBoolean(Constants.ONBOARDING, false)
+    }
+    fun getUserMAil(context: Context):String?{
+        checkPreferences(context)
+        return shared.getString(Constants.USER_EMAIL,"Sonic@gmail.com")
     }
 }
