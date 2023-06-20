@@ -38,7 +38,6 @@ class PreviewProductFragment : Fragment() {
     lateinit var binding:ProductFragmentPreviewProductBinding
     lateinit var imageAdapter: ProductImagesAdapter
     lateinit var variantAdapter: ProductVariantsAdapter
-
     lateinit var product:Product
 
     override fun onCreateView(

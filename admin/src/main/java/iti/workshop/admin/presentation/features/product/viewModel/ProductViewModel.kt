@@ -31,8 +31,8 @@ class ProductViewModel @Inject constructor(
     val productListResponses: StateFlow<DataListResponseState<ProductUIModel>> get() = _productListResponses
 
     private val _productImageListResponses =
-        MutableStateFlow<DataListResponseState<List<Image>>>(DataListResponseState.OnLoading())
-    val productImageListResponses: StateFlow<DataListResponseState<List<Image>>> get() = _productImageListResponses
+        MutableStateFlow<DataListResponseState<List<Image?>>>(DataListResponseState.OnLoading())
+    val productImageListResponses: StateFlow<DataListResponseState<List<Image?>>> get() = _productImageListResponses
 
     private val _productVariantsListResponses =
         MutableStateFlow<DataListResponseState<List<Variant>>>(DataListResponseState.OnLoading())
@@ -207,6 +207,8 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+
+
     fun deleteProduct(product: Product,isConnected: Boolean) {
         viewModelScope.launch {
             val response = async { _useCases.deleteProduct(product) }
@@ -223,6 +225,30 @@ class ProductViewModel @Inject constructor(
                 _actionResponse.value = Pair(true, "Product Deleted Successfully")
             } else {
                 _actionResponse.value = Pair(false, response.await().errorBody()?.string())
+            }
+        }
+    }
+
+    fun retrieveImagesProductFromLocal(product: Product) {
+        viewModelScope.launch {
+            product.images?.let {
+                if (product.images?.isNotEmpty() == true) {
+                    _productImageListResponses.value = DataListResponseState.OnSuccess(it)
+                } else {
+                    _productImageListResponses.value = DataListResponseState.OnNothingData()
+                }
+            }
+        }
+    }
+
+    fun retrieveVariantsProductFromLocal(product: Product) {
+        viewModelScope.launch {
+            product.variants?.let {
+                if (product.variants?.isNotEmpty() == true) {
+                    _productVariantsListResponses.value = DataListResponseState.OnSuccess(it)
+                } else {
+                    _productVariantsListResponses.value = DataListResponseState.OnNothingData()
+                }
             }
         }
     }

@@ -42,4 +42,19 @@
     <string name="ok">OK</string>
     <string name="email_or_password_error">email or password error</string>
     <string name="error">error</string>
+    <string-array name="product_types">
+        <item>T-SHIRTS</item>
+        <item>ACCESSORIES</item>
+        <item>SHOES</item>
+    </string-array>
+
+    <string-array name="product_categories">
+        <item>HOME PAGE</item>
+        <item>KID</item>
+        <item>MEN</item>
+        <item>SALE</item>
+        <item>WOMEN</item>
+    </string-array>
+
+
 </resources>

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
+import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.data.dto.Variant
 import iti.workshop.admin.databinding.ProductFragmentListVariantsBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProductsVariantsListFragment : Fragment() {
 
-    var productId:Long = -1
+    var product: Product? = null
     private val viewModel: ProductViewModel by viewModels()
     lateinit var binding:ProductFragmentListVariantsBinding
     lateinit var adapter: ProductVariantsAdapter
@@ -98,13 +99,13 @@ class ProductsVariantsListFragment : Fragment() {
     private fun updateVatiant() {
         val bundle = arguments
         if (bundle != null) {
-            productId = bundle.getLong(ConstantsKeys.PRODUCT_KEY)
-            viewModel.retrieveVariantsProductFromServer(productId)
+            product = bundle.getSerializable(ConstantsKeys.PRODUCT_KEY) as Product
+            viewModel.retrieveVariantsProductFromServer(product_id = product?.id?:-1)
         }
     }
     private fun addVariantNewOne() {
         binding.floatingActionButton.setOnClickListener {
-            val dialogFragment = AddVariantDialog(viewModel, productId)
+            val dialogFragment = AddVariantDialog(viewModel, product?.id?:-1)
             dialogFragment.show(requireActivity().supportFragmentManager, "AddVariantDialog")
         }
     }

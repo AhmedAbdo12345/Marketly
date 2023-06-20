@@ -5,7 +5,16 @@
 
     <data>
         <variable
+            name="imagesAdapter"
+            type="iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter" />
+
+        <variable
+            name="variantAdapter"
+            type="iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsAdapter" />
+
+        <variable
             name="viewModel"
+
             type="iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel" />
         <variable
             name="dataModel"
@@ -14,190 +23,253 @@
     </data>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background">
-
-
-        <ScrollView
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@color/background">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:hint="Value"
+                app:layout_constraintBottom_toTopOf="@+id/productVendorHolder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/productVendorHolder"
+                app:layout_constraintTop_toBottomOf="@+id/productTitleHolder">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout2"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="Value"
-                    app:layout_constraintBottom_toBottomOf="@+id/productTitleHolder"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="4"
-                    app:layout_constraintStart_toEndOf="@+id/productTitleHolder"
-                    app:layout_constraintTop_toTopOf="@+id/productTitleHolder">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/value_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:drawableStart="@drawable/ic_dolar"
-                        android:inputType="numberDecimal"
-                        app:endIconMode="clear_text" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <ImageView
-                    android:id="@+id/productImage"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/value_input"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bags"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:thumbnail="@{dataModel.image.src}" />
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"
+                    app:endIconMode="clear_text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/addProductImage"
-                    android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bags"
+                app:layout_constraintBottom_toTopOf="@+id/productTitleHolder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/productTitleHolder"
+                app:layout_constraintTop_toTopOf="parent"
+                app:thumbnail="@{dataModel.image.src}" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/addProductImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_bg"
+                android:drawableStart="@drawable/ic_camera"
+                android:drawableTint="@color/white"
+                android:padding="10dp"
+                android:text=" Add Picture To Product"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/productImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/productImage"
+                app:layout_constraintTop_toTopOf="@+id/productImage" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/productTitleHolder"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/title"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/productImage">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/productTitleInput"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_bg"
-                    android:drawableStart="@drawable/ic_camera"
-                    android:drawableTint="@color/white"
-                    android:padding="10dp"
-                    android:text=" Add Picture To Product"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/productImage"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/productImage"
-                    app:layout_constraintVertical_bias="0.333" />
+                    android:fontFamily="@font/metropolis_regular"
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/productTitleHolder"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="250dp"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:text="@={dataModel.body_html}"
+                    android:textColor="@color/mainText"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/productVendorHolder"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Vendor Name"
+                app:layout_constraintBottom_toTopOf="@+id/textInputLayout6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout6"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/productVendorInput"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:hint="@string/title"
-                    app:layout_constraintBottom_toTopOf="@+id/description"
-                    app:layout_constraintHorizontal_weight="6"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/productImage">
+                    android:fontFamily="@font/metropolis_regular"
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/productTitleInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:text="@={dataModel.body_html}"
+                    android:textColor="@color/mainText"
+                    android:textSize="15sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                        android:fontFamily="@font/metropolis_regular"
-                        android:inputType="textPersonName"
-                        android:maxLines="1"
-                        android:text="@={dataModel.body_html}"
-                        android:textColor="@color/mainText"
-                        android:textSize="15sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category Type"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"            app:layout_constraintBottom_toTopOf="@+id/textInputLayout5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout5"
+                app:layout_constraintTop_toBottomOf="@+id/productVendorHolder">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/description"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="10dp"
-                    android:hint="@string/description"
-                    app:layout_constraintBottom_toTopOf="@+id/addProductImages"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/productTitleHolder">
+                <AutoCompleteTextView
+                    android:id="@+id/categoryTypeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    app:simpleItems="@array/product_categories" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/descriptionInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/metropolis_regular"
-                        android:inputType="text"
-                        android:maxLines="5"
-                        android:drawableStart="@drawable/ic_variants"
-                        android:text="@={dataModel.body_html}"
-                        android:textColor="@color/mainText"
-                        android:textSize="15sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Type"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:layout_constraintBottom_toTopOf="@+id/description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/description"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/productTypeInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="none"
+                    app:simpleItems="@array/product_types" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/description"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="@string/description"
+                app:layout_constraintBottom_toTopOf="@+id/editVariantsAndImagesHolder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/editVariantsAndImagesHolder"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/descriptionInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_variants"
+                    android:fontFamily="@font/metropolis_regular"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:minLines="1"
+                    android:text="@={dataModel.body_html}"
+                    android:textColor="@color/mainText"
+                    android:textSize="15sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:id="@+id/editVariantsAndImagesHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout9"
+                app:layout_constraintTop_toBottomOf="@+id/description">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/addProductImages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:background="@drawable/btn_bg3"
                     android:drawableStart="@drawable/ic_camera"
                     android:drawableTint="@color/black"
                     android:padding="10dp"
+                    android:layout_margin="10dp"
                     android:text=" Add Some Pictures To Product"
                     android:textColor="@color/black"
-                    app:layout_constraintBottom_toTopOf="@+id/addProductVariants"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description" />
-
+                    tools:layout_editor_absoluteX="91dp"
+                    tools:layout_editor_absoluteY="735dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:layout_margin="10dp"
                     android:id="@+id/addProductVariants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:background="@drawable/btn_bg3"
                     android:drawableStart="@drawable/ic_variants"
                     android:drawableTint="@color/black"
                     android:padding="10dp"
                     android:text=" Add Some Variants To Product"
                     android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/addProductImages" />
+                    tools:layout_editor_absoluteX="75dp"
+                    tools:layout_editor_absoluteY="874dp" />
 
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/action_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="addProductImages,addProductVariants"
-                    tools:visibility="visible" />
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/action_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="addProductImages,addProductVariants"
+                tools:ignore="NotSibling" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/backgroundAd"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/saveActionBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/saveActionBtn"
+                app:layout_constraintTop_toBottomOf="@+id/editVariantsAndImagesHolder">
+
+
+            </LinearLayout>
+
             <Button
+                android:layout_margin="30dp"
                 android:id="@+id/saveActionBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/btn_bg"
-                android:text="@string/save_product" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="@string/save_product"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
 </layout>

@@ -306,7 +306,6 @@
                             android:layout_height="match_parent"
                             android:text="Images of products"/>
                     </LinearLayout>
-
                     <LinearLayout
                         android:gravity="center"
                         android:id="@+id/recycler_view_holder_image"

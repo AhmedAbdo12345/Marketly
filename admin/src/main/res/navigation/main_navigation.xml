@@ -135,11 +135,16 @@
         android:label="ProductsImagesListFragment" >
         <argument
             android:name="PRODUCT_KEY"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            app:argType="iti.workshop.admin.data.dto.Product"
+            android:defaultValue="@null"
+            app:nullable="true" />
         <action
             android:id="@+id/action_productsImagesListFragment_to_imagePreviewDialog"
             app:destination="@id/imagePreviewDialog" />
+        <argument
+            android:name="ACTION_KEY"
+            app:argType="iti.workshop.admin.presentation.comon.Action"
+            android:defaultValue="Add" />
     </fragment>
     <fragment
         tools:layout="@layout/product_fragment_list_variants"
@@ -148,8 +153,13 @@
         android:label="ProductsVariantsListFragment" >
         <argument
             android:name="PRODUCT_KEY"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            app:argType="iti.workshop.admin.data.dto.Product"
+            android:defaultValue="@null"
+            app:nullable="true" />
+        <argument
+            android:name="ACTION_KEY"
+            app:argType="iti.workshop.admin.presentation.comon.Action"
+            android:defaultValue="Add" />
     </fragment>
     <fragment
         tools:layout="@layout/auth_fragment_empolyers_list"

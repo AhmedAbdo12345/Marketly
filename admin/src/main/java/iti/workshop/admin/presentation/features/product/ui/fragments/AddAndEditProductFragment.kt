@@ -30,10 +30,13 @@ import iti.workshop.admin.data.dto.Variant
 import iti.workshop.admin.databinding.ProductFragmentEditAndAddBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.comon.Action
+import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter
+import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesOnCLickListener
+import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsAdapter
+import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsOnCLickListener
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.Message
-import iti.workshop.admin.presentation.utils.chooseImage
 import iti.workshop.admin.presentation.utils.loadingDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,6 +48,9 @@ class AddAndEditProductFragment : Fragment() {
 
     var actionType:Action = Action.Add
     var product: Product = Product()
+    lateinit var imageAdapter: ProductImagesAdapter
+    lateinit var variantAdapter: ProductVariantsAdapter
+
     private var bitmap: Bitmap? = null
     lateinit var loadingDialog:ProgressDialog
     private val viewModel: ProductViewModel by viewModels()
@@ -65,6 +71,11 @@ class AddAndEditProductFragment : Fragment() {
         loadingDialog =  requireContext().loadingDialog()
         binding.lifecycleOwner = viewLifecycleOwner
 
+        imageAdapter = ProductImagesAdapter(ProductImagesOnCLickListener(::selectImage,::deleteImage),true)
+        binding.imagesAdapter = imageAdapter
+
+        variantAdapter = ProductVariantsAdapter(ProductVariantsOnCLickListener(::selectVariant,::deleteVariant),true)
+        binding.variantAdapter = variantAdapter
 
         updateProduct()
         updateUIStates()
@@ -72,6 +83,23 @@ class AddAndEditProductFragment : Fragment() {
         productActionNavigate()
         saveProduct()
         return binding.root
+    }
+
+    private fun deleteVariant(variant: Variant) {
+
+    }
+
+    private fun selectVariant(variant: Variant) {
+
+    }
+
+    private fun deleteImage(image: Image) {
+
+    }
+
+    private fun selectImage(image: Image) {
+
+
     }
 
     private fun saveProduct() {
@@ -89,11 +117,14 @@ class AddAndEditProductFragment : Fragment() {
                 Product(
                     title = binding.productTitleInput.text.toString(),
                     body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
-                    variants = listOf(Variant(price = binding.valueInput.text.toString())),
+                    variants = mutableListOf(Variant(price = binding.valueInput.text.toString())),
                     image = generateImage(),
-                    images = listOf(
+                    images = mutableListOf(
                         generateImage()
-                    )
+                    ),
+                    tags = binding.categoryTypeInput.text.toString(),
+                    product_type = binding.productTypeInput.text.toString(),
+                    vendor = binding.productVendorInput.text.toString()
                 )
             }
             Action.Edit -> {
@@ -101,9 +132,12 @@ class AddAndEditProductFragment : Fragment() {
                         title = binding.productTitleInput.text.toString(),
                         body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
                         image = generateImage(),
-                        images = listOf(
+                        images = mutableListOf(
                             generateImage()
-                        )
+                        ),
+                        tags = binding.categoryTypeInput.text.toString(),
+                        product_type = binding.productTypeInput.text.toString(),
+                        vendor = binding.productVendorInput.text.toString()
                     )
             }
         }
@@ -116,16 +150,16 @@ class AddAndEditProductFragment : Fragment() {
             bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
             val byteArray = byteArrayOutputStream.toByteArray()
             val base64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
-            val type = when {
-                bitmap!!.compress(Bitmap.CompressFormat.JPEG, 0, null) -> ".jpg"
-                bitmap!!.compress(Bitmap.CompressFormat.PNG, 0, null) -> ".pmg"
-                bitmap!!.compress(Bitmap.CompressFormat.WEBP, 0, null) -> ".webp"
-                else -> ".jpg"
-            }
+//            val type = when {
+//                bitmap!!.compress(Bitmap.CompressFormat.JPEG, 0, null) -> ".jpg"
+//                bitmap!!.compress(Bitmap.CompressFormat.PNG, 0, null) -> ".pmg"
+//                bitmap!!.compress(Bitmap.CompressFormat.WEBP, 0, null) -> ".webp"
+//                else -> ".jpg"
+//            }
             return Image(
                 alt = binding.productTitleInput.text.toString(),
                 attachment = base64,
-                filename = binding.productTitleInput.text.toString()+type
+                filename = binding.productTitleInput.text.toString()
             )
         }
         return null
@@ -136,51 +170,92 @@ class AddAndEditProductFragment : Fragment() {
             binding.productTitleInput.error = "Please put name of product"
             return false
         }
-        if (binding.descriptionInput.text.isNullOrBlank()) {
-            binding.descriptionInput.error = "Please put some description"
-            return false
-        }
-
         if (binding.valueInput.text.isNullOrBlank()) {
             binding.valueInput.error = "Please put value of product"
             return false
         }
 
+        if (binding.valueInput.text.toString().toInt() == 0) {
+            binding.valueInput.error = "Please put value of product more than Zero"
+            return false
+        }
+
+        if (binding.valueInput.text.toString().toInt() > 10000) {
+            binding.valueInput.error = "Please don't put value of product more than 10,000"
+            return false
+        }
+
+        if (binding.productVendorInput.text.isNullOrBlank()) {
+            binding.productVendorInput.error = "Please put vendor Name of product"
+            return false
+        }
+
+        if (binding.categoryTypeInput.text.isNullOrBlank()) {
+            binding.categoryTypeInput.error = "Please put Category type of product"
+            return false
+        }
+
+        if (binding.productTypeInput.text.isNullOrBlank()) {
+            binding.productTypeInput.error = "Please put Product type of product"
+            return false
+        }
+
+        if (binding.descriptionInput.text.isNullOrBlank()) {
+            binding.descriptionInput.error = "Please put some description"
+            return false
+        }
 
         return true
     }
 
     private fun productActionNavigate() {
-        if (actionType == Action.Edit) {
-            val bundle = Bundle()
-            bundle.putLong(ConstantsKeys.PRODUCT_KEY, product.id)
+        val bundle = Bundle()
+        bundle.putSerializable(ConstantsKeys.PRODUCT_KEY, product)
+        bundle.putSerializable(ConstantsKeys.ACTION_KEY, actionType)
 
-            binding.addProductImages.setOnClickListener {
-                findNavController().navigate(R.id.action_addAndEditProductFragment_to_productsImagesListFragment,bundle)
-            }
-            binding.addProductVariants.setOnClickListener {
-                findNavController().navigate(R.id.action_addAndEditProductFragment_to_productsVariantsListFragment,bundle)
-
-            }
+        binding.addProductImages.setOnClickListener {
+            findNavController().navigate(R.id.action_addAndEditProductFragment_to_productsImagesListFragment,bundle)
         }
+        binding.addProductVariants.setOnClickListener {
+            findNavController().navigate(R.id.action_addAndEditProductFragment_to_productsVariantsListFragment,bundle)
+
+        }
+
     }
 
     private fun uploadProductImage() {
         binding.productImage.setOnLongClickListener {
-            requireActivity().chooseImage()
+            chooseImage(requireActivity())
             true
-
         }
         binding.addProductImage.setOnClickListener {
-
-            requireActivity().chooseImage()
-
+            chooseImage(requireActivity())
 //            if(checkAndRequestPermissions(requireActivity())){
 //            }
         }
     }
 
+    private fun chooseImage(context: Context) {
+        val optionsMenu = arrayOf<CharSequence>(
+            "Take Photo",
+            "Choose from Gallery",
+        )
 
+        val builder = AlertDialog.Builder(context)
+        builder.setItems(optionsMenu) { dialogInterface, i ->
+            if (optionsMenu[i] == "Take Photo") {
+
+                val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(takePicture, 0)
+            } else if (optionsMenu[i] == "Choose from Gallery") {
+                // choose from  external storage
+                val pickPhoto =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(pickPhoto, 1)
+            }
+        }
+        builder.show()
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -224,9 +299,12 @@ class AddAndEditProductFragment : Fragment() {
                 state.first?.let {
                     Message.snakeMessage(requireContext(), binding.root, state.second, it)?.show()
                     if (it){
-                        binding.productTitleInput.setText("")
-                        binding.descriptionInput.setText("")
-                        binding.valueInput.setText("")
+                        binding.productTitleInput.clearComposingText()
+                        binding.descriptionInput.clearComposingText()
+                        binding.valueInput.clearComposingText()
+                        binding.productVendorInput.clearComposingText()
+                        binding.productTypeInput.clearListSelection()
+                        binding.categoryTypeInput.clearListSelection()
                         binding.productImage.setImageDrawable(resources.getDrawable(R.drawable.bags))
                         delay(500)
                         findNavController().popBackStack()
@@ -260,9 +338,10 @@ class AddAndEditProductFragment : Fragment() {
             actionType = bundle.getSerializable(ConstantsKeys.ACTION_KEY) as Action
             if (actionType == Action.Edit){
                 binding.addProductImage.visibility = View.GONE
-                binding.actionGroup.visibility = View.VISIBLE
                 product = bundle.getSerializable(ConstantsKeys.PRODUCT_KEY) as Product
                 binding.dataModel = product
+            }else{
+                binding.editVariantsAndImagesHolder.visibility = View.GONE
             }
 
         }

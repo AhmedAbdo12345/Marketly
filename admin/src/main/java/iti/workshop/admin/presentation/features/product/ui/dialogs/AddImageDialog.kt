@@ -1,8 +1,10 @@
 package iti.workshop.admin.presentation.features.product.ui.dialogs
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -70,10 +72,10 @@ class AddImageDialog(
 
     private fun handleEvents() {
         binding.addImageBtn.setOnClickListener {
-            requireActivity().chooseImage()
+            chooseImage(requireContext())
         }
         binding.imageProduct.setOnLongClickListener {
-            requireActivity().chooseImage()
+            chooseImage(requireContext())
             true
         }
     }
@@ -151,6 +153,26 @@ class AddImageDialog(
         }
     }
 
+    private fun chooseImage(context: Context) {
+        val optionsMenu = arrayOf<CharSequence>(
+            "Take Photo",
+            "Choose from Gallery",
+        )
 
+        val builder = AlertDialog.Builder(context)
+        builder.setItems(optionsMenu) { dialogInterface, i ->
+            if (optionsMenu[i] == "Take Photo") {
+
+                val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(takePicture, 0)
+            } else if (optionsMenu[i] == "Choose from Gallery") {
+                // choose from  external storage
+                val pickPhoto =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(pickPhoto, 1)
+            }
+        }
+        builder.show()
+    }
 
 }

@@ -13,7 +13,9 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Image
+import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.databinding.ProductFragmentListImagesBinding
+import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesOnCLickListener
@@ -31,7 +33,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProductsImagesListFragment : Fragment() {
 
-    var productId:Long = -1
+    var actionType:Action = Action.Add
+    var product:Product? = null
     private val viewModel: ProductViewModel by viewModels()
     lateinit var binding:ProductFragmentListImagesBinding
     lateinit var adapter: ProductImagesAdapter
@@ -102,13 +105,16 @@ class ProductsImagesListFragment : Fragment() {
     private fun updateImage() {
         val bundle = arguments
         if (bundle != null) {
-            productId = bundle.getLong(ConstantsKeys.PRODUCT_KEY)
-            viewModel.retrieveImagesProductFromServer(productId)
+            actionType = bundle.getSerializable(ConstantsKeys.ACTION_KEY) as Action
+            product = bundle.getSerializable(ConstantsKeys.PRODUCT_KEY) as Product
+            if (actionType == Action.Edit){
+                viewModel.retrieveImagesProductFromServer(product_id = product?.id?:-1)
+            }
         }
     }
     private fun addImageNewOne() {
         binding.addAction.setOnClickListener {
-            val dialogFragment = AddImageDialog(viewModel, productId)
+            val dialogFragment = AddImageDialog(viewModel, product?.id?:-1)
             dialogFragment.show(requireActivity().supportFragmentManager, "AddImageDialog")
         }
     }
