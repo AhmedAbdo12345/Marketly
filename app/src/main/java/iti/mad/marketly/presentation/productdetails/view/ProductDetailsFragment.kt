@@ -168,25 +168,25 @@ class ProductDetailsFragment : Fragment() {
             Reviewer(
                 "Mahmoud Sayed",
                 2.5,
-                "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
+                "https://static.vecteezy.com/system/resources/previews/004/477/337/non_2x/face-young-man-in-frame-circular-avatar-character-icon-free-vector.jpg",
                 "the material wasn't good"
             ),
             Reviewer(
                 "Ahmed Abdo",
                 3.0,
-                "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
+                "https://static.vecteezy.com/system/resources/previews/004/477/337/non_2x/face-young-man-in-frame-circular-avatar-character-icon-free-vector.jpg",
                 "good product but the packaging was bad"
             ),
             Reviewer(
                 "Mohamed Arfa",
                 3.25,
-                "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
+                "https://static.vecteezy.com/system/resources/previews/004/477/337/non_2x/face-young-man-in-frame-circular-avatar-character-icon-free-vector.jpg",
                 "the material wasn't good"
             ),
             Reviewer(
                 "Hussien Ahmed",
                 4.0,
-                "https://cdn3.vectorstock.com/i/1000x1000/88/92/face-young-woman-in-frame-circular-avatar-vector-28828892.jpg",
+                "https://static.vecteezy.com/system/resources/previews/004/477/337/non_2x/face-young-man-in-frame-circular-avatar-character-icon-free-vector.jpg",
                 "Very good quality like the description"
             ),
         )

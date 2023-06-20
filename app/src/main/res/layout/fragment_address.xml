@@ -15,41 +15,21 @@
         <include
             android:id="@+id/topBarLayout"
             layout="@layout/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topBarLayout">
 
-            <TextView
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/metropolis_regular"
-                android:text="Address"
-                android:textColor="@color/mainText"
-                android:textSize="25sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-
-            </LinearLayout>
 
             <!--<TextView
                android:layout_width="match_parent"
@@ -86,28 +66,28 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 app:endIconMode="none"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="20dp">
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <AutoCompleteTextView
                     android:id="@+id/autoCompleteTxtViewCountry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:text="Egypt"
-                    android:enabled="false"
-                    android:maxLength="18"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:enabled="false"
+                    android:hint=""
+                    android:inputType="text"
+                    android:maxLength="18"
                     android:paddingStart="20dp"
-                    android:hint="" />
+                    android:text="Egypt" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,25 +112,25 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="20dp">
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <AutoCompleteTextView
                     android:id="@+id/autoCompleteTxtViewCity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
                     android:layout_weight="1"
+                    android:background="@color/white"
+                    android:hint=""
                     android:inputType="text"
                     android:maxLength="18"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="10dp"
-                    android:paddingStart="20dp"
-                    android:hint="" />
+                    android:paddingStart="20dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -177,25 +157,25 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="20dp">
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <EditText
                     android:id="@+id/editText_Street"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
                     android:layout_weight="1"
+                    android:background="@color/white"
+                    android:hint="Street"
                     android:inputType="text"
                     android:maxLength="30"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginTop="10dp"
-                    android:paddingStart="20dp"
-                    android:hint="Street" />
+                    android:paddingStart="20dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

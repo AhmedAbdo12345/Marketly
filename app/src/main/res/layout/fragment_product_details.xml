@@ -29,8 +29,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/background">
 
+            <include
+                android:id="@+id/appBar"
+                layout="@layout/app_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </include>
 
             <FrameLayout
                 android:id="@+id/fr"
@@ -38,7 +47,7 @@
                 android:layout_height="300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/appBar">
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/productImage_ProductDetailsPage"
@@ -244,7 +253,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button_bck"
-            android:text="Add To Bag" />
+            android:text="Add To Cart" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

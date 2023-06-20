@@ -15,14 +15,14 @@
         tools:context=".presentation.brandProduct.BrandProductFragment">
 
 
-        <!-- <include
-             android:id="@+id/app_bar_home"
-             layout="@layout/app_bar_home"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             app:layout_constraintEnd_toEndOf="parent"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toTopOf="parent" />-->
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <LinearLayout
@@ -30,12 +30,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
             <ImageView
                 android:layout_width="30dp"
@@ -56,20 +55,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/framLayout_RangSlider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_filter"
-            app:layout_constraintBottom_toTopOf="@id/framLayout_RangSlider" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_filter" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/brandProductRecycleView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/framLayout_RangSlider"
-            app:layout_constraintBottom_toBottomOf="parent"
 
             tools:listitem="@layout/rv_brand_product" />
 
@@ -77,11 +76,11 @@
             android:id="@+id/framLayout_RangSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bottom_sheet_background"
             android:elevation="5dp"
-            android:visibility="gone"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:visibility="gone"
             android:weightSum="4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,8 +94,8 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:stepSize="25.0"
                 android:layout_weight="3"
+                android:stepSize="25.0"
                 android:valueFrom="0.0"
                 android:valueTo="1000.0" />
 
@@ -105,17 +104,16 @@
                 android:id="@+id/tv_endRange"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text="70"
                 android:textSize="25sp" />
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
-<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"
+</layout><!--<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
