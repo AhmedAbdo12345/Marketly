@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Reset the selected item in the BottomNavigationView when the destination changes
             bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
-            if (destination.id == R.id.productDetailsFragment  || destination.id == R.id.cartFragment ) {
+          /*  if (destination.id == R.id.productDetailsFragment  || destination.id == R.id.cartFragment ) {
                 bottomAppBar.visibility = View.GONE
                 floatButton.visibility = View.GONE
                 layoutSpace.visibility = View.GONE
@@ -67,6 +67,19 @@ class MainActivity : AppCompatActivity() {
                 floatButton.visibility = View.VISIBLE
                 layoutSpace.visibility = View.VISIBLE
                 changeMarginFragment(80)
+            }*/
+            if (destination.id == R.id.categoryFragment || destination.id == R.id.searchFragment|| destination.id == R.id.homeFragment || destination.id == R.id.favouriteFragment  || destination.id == R.id.myProfile ) {
+
+                bottomAppBar.visibility = View.VISIBLE
+                floatButton.visibility = View.VISIBLE
+                layoutSpace.visibility = View.VISIBLE
+                changeMarginFragment(80)
+            } else {
+                bottomAppBar.visibility = View.GONE
+                floatButton.visibility = View.GONE
+                layoutSpace.visibility = View.GONE
+                changeMarginFragment(-40)
+
             }
 
         }

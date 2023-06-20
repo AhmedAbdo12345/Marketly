@@ -43,6 +43,7 @@ class MyProfile : Fragment() {
                     "Are You sure,Do You want to Leave"
                 ) {
                     FirebaseAuth.getInstance().signOut()
+
                 }.show()
             }
 
