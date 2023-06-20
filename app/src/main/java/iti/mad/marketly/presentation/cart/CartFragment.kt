@@ -17,18 +17,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.paypal.android.sdk.payments.PayPalConfiguration
-import com.paypal.android.sdk.payments.PayPalPayment
-import com.paypal.android.sdk.payments.PayPalService
-import com.paypal.android.sdk.payments.PaymentActivity
-import com.paypal.android.sdk.payments.PaymentConfirmation
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.customer.Customer
+import iti.mad.marketly.data.model.draftorder.LineItems
 import iti.mad.marketly.data.model.order.OrderModel
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCartBinding
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
+import iti.mad.marketly.presentation.settings.AddressListFragmentDirections
 import iti.mad.marketly.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -43,20 +43,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
         CartViewModel.Factory
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
 
-        val paymentConfermation: PaymentConfirmation? = it.data?.getParcelableExtra(
-            PaymentActivity.EXTRA_RESULT_CONFIRMATION,
-            PaymentConfirmation::class.java)
-        if (paymentConfermation != null) {
-            val paymentDetails = paymentConfermation.toJSONObject().toString()
-            val jObject: JSONObject = JSONObject(paymentDetails)
-            cartViewModel.clearCart()
-            cartItems.clear()
-            adapters.submitList(cartItems)
-        }
-    }
     lateinit var adapters: CartAdapter
     var cartItems: MutableList<CartModel> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +51,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
 
     }
 
-    lateinit var configuration: PayPalConfiguration
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,7 +62,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapters = CartAdapter(requireContext(), this)
@@ -114,35 +101,32 @@ class CartFragment : Fragment(), CartFragmentInterface {
             val itemCount = adapters.itemCount
             val currentItems = adapters.currentList
             var totalPrice = 0.0
+            val lineItemList = mutableListOf<LineItems>()
             for (items in currentItems) {
                 totalPrice += items.price
+                lineItemList.add(LineItems(items.price.toString(),items.id.toInt(),items.quantity.toInt(),"Custom "+items.title))
             }
-            val methodADS = {
-                val percentage = (totalPrice * 0.10)
-                totalPrice = totalPrice - percentage
-                val orderID = System.currentTimeMillis().toString()
-                val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
-                cartViewModel.saveProuctsInOrder(order)
-
-                configuration =
-                    PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-                        .clientId(Constants.CLIENT_ID)
-                getPayment(totalPrice.toString(), "USD")
+            DraftOrderManager.setItemList(lineItemList)
+            var customerEmail = "Sonic@gmail.com"
+            if(SharedPreferenceManager.getUserMAil(requireContext())!=null){
+                customerEmail = SharedPreferenceManager.getUserMAil(requireContext()).toString()
             }
-            if(!AdsManager.clipBoardCode.equals("")){
-                AlertManager.functionalDialog("Use Code",requireContext(),"Do you like to use the code saved in your clipboard?",methodADS)
-                    .show()
-
-            }else{
-                val orderID = System.currentTimeMillis().toString()
-                val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
-                cartViewModel.saveProuctsInOrder(order)
-
-                configuration =
-                    PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-                        .clientId(Constants.CLIENT_ID)
-                getPayment(totalPrice.toString(), "USD")
+            var customerName = "deff"
+            if(SharedPreferenceManager.getUserName(requireContext())!=null){
+                customerName = SharedPreferenceManager.getUserName(requireContext()).toString()
             }
+            var customerID = "123"
+            if(SharedPreferenceManager.getUserID(requireContext())!=null){
+                customerID = SharedPreferenceManager.getUserID(requireContext()).toString()
+            }
+            val customer = iti.mad.marketly.data.model.draftorder.Customer(customerID.toLong(),false)
+            DraftOrderManager.setCustomer(customer)
+            val orderID = System.currentTimeMillis().toString()
+            val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
+            cartViewModel.saveProuctsInOrder(order)
+            var action= CartFragmentDirections.actionCartFragment2ToDraftAddressFragment()
+            findNavController().navigate(action)
+
 
         })
     }
@@ -161,19 +145,5 @@ class CartFragment : Fragment(), CartFragmentInterface {
         ).show()
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun getPayment(amount: String, code: String) {
-        var payment = PayPalPayment(
-            BigDecimal(amount),
-            code,
-            "Code with Arvind",
-            PayPalPayment.PAYMENT_INTENT_SALE
-        )
-        val intent = Intent(requireActivity(), PaymentActivity::class.java)
-        if (this::configuration.isInitialized) {
-            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration)
-        }
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment)
-        launcher.launch(intent)
-    }
+
 }

@@ -5,12 +5,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
 import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.category.CategoryResponse
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.discount.DiscountResponce
+import iti.mad.marketly.data.model.draftorder.DraftOrderBody
+import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
+import iti.mad.marketly.data.model.draftorderresponse.DraftOrderResponse
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
@@ -247,6 +251,18 @@ class RemoteDataSource(
         }.addOnFailureListener {
             Log.i("DeleteCart", "deleteCart: Faild")
         }
+    }
+
+    override suspend fun createDraftOrder(draftOrderBody: DraftOrderRequest): Flow<DraftOrderResponse> = flow {
+        emit(api.createDraftOrder(draftOrderBody))
+    }
+
+    override suspend fun sendInvoice(invoice: DraftOrderInvoice,draftID:String): Flow<DraftOrderInvoice> = flow {
+        emit(api.sendInvoice(invoice,draftID))
+    }
+
+    override suspend fun completeOrder(draftID:String): Flow<DraftOrderResponse> = flow {
+        emit(api.completeOrder(draftID))
     }
 
     //--------------------------------------------------------------------------------

@@ -11,7 +11,7 @@ import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.repository.cart.CartRepoInterface
 import iti.mad.marketly.presentation.home.ads.AdsViewModel
-import iti.mad.marketly.presentation.states.AdsStats
+
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
