@@ -17,15 +17,20 @@ import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.R
 import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
 import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoiceX
+import iti.mad.marketly.data.model.draftorder.AppliedDiscount
 import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCheckoutBinding
 import iti.mad.marketly.databinding.FragmentDraftAddressBinding
+import iti.mad.marketly.presentation.cart.CartViewModel
 import iti.mad.marketly.presentation.settings.SettingsViewModel
+import iti.mad.marketly.utils.AdsManager
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.Constants
+import iti.mad.marketly.utils.CurrencyConverter
 import iti.mad.marketly.utils.DraftOrderManager
 import iti.mad.marketly.utils.ResponseState
+import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -35,6 +40,9 @@ class CheckoutFragment : Fragment() {
     lateinit var binding: FragmentCheckoutBinding
     private val draftOrderViewModel by viewModels<DraftOrderViewModel> {
         DraftOrderViewModel.Factory
+    }
+    private val cartViewModel by viewModels<CartViewModel>{
+        CartViewModel.Factory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +69,8 @@ class CheckoutFragment : Fragment() {
         var totalAmount = 0.0
         val invoice = DraftOrderInvoiceX(Constants.EMAIL_BODY,Constants.EMAIL_SUBJECT,SharedPreferenceManager.getUserMAil(requireContext()).toString())
         for (item in draftOrderLineItemList){
-            totalAmount =+ item.price.toDouble()
+            totalAmount =totalAmount+item.price.toDouble()
+            Toast.makeText(requireContext(),"${totalAmount}",Toast.LENGTH_LONG).show()
         }
         if(currency == null||currency == ""){
             currency = "USD"
@@ -92,7 +101,18 @@ class CheckoutFragment : Fragment() {
         binding.city.text = draftOrderAddress.city
         binding.discountText.text = draftAppliedDiscount.title
         binding.discountValueFromApi.text = draftAppliedDiscount.value
-        binding.totalAmountTextView.text = totalAmount.toString()
+        val percentage = (totalAmount)*(AdsManager.value/100)
+        totalAmount = totalAmount - percentage
+
+
+     if(SettingsManager.getCurrncy()=="EGP"){
+       binding.totalAmountTextView.text= CurrencyConverter.switchToEGP(totalAmount.toString(), binding.totalAmountTextView.id)+" LE"
+   }else{
+       binding.totalAmountTextView.text= CurrencyConverter.switchToUSD(totalAmount.toString(), binding.totalAmountTextView.id)+" $"
+   }
+
+
+
         val method = {
                 draftOrderViewModel.sendInvoice(DraftOrderInvoice(invoice),DraftOrderManager.getDraftOrderID().toString())
                 draftOrderViewModel.completeOrder(DraftOrderManager.getDraftOrderID().toString())
@@ -101,7 +121,34 @@ class CheckoutFragment : Fragment() {
         }
         binding.placeOrder.setOnClickListener(View.OnClickListener {
             AlertManager.functionalDialog("Order Confermation",requireContext(),"Do you want to checkout?",method).show()
+            cartViewModel.getAllCart()
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    cartViewModel._cartResponse.collect {
 
+                        when (it) {
+                            is ResponseState.OnLoading -> {
+                            }
+                            is ResponseState.OnSuccess -> {
+                               var cartItems = it.response.toMutableList()
+
+                                for (carts in it.response){
+                                    cartViewModel.deleteCartItem(carts.id.toString())
+                                }
+
+                            }
+                            is ResponseState.OnError -> {
+                                Log.i(
+                                    ContentValues.TAG,
+                                    "onViewCreated:${it.message} this is an errrror"
+                                )
+                            }
+                            else -> {}
+                        }
+
+                    }
+                }
+            }
         })
     }
 

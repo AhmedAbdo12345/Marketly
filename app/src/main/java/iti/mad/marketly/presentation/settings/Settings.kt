@@ -26,6 +26,7 @@ import iti.mad.marketly.databinding.FragmentHomeBinding
 import iti.mad.marketly.databinding.FragmentSettingsBinding
 import iti.mad.marketly.presentation.home.brands.BrandsViewModel
 import iti.mad.marketly.utils.AlertManager
+import iti.mad.marketly.utils.CurrencyConverter
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
@@ -71,10 +72,12 @@ class Settings : Fragment() {
                 SharedPreferenceManager.saveUserName(binding.nameEtSettingsPage.text.toString(),requireContext())
                 val selectedOption: Int = binding.money.checkedRadioButtonId
                 if(selectedOption==R.id.EGP){
-                    SettingsManager.curSetter("EGP")
+                    CurrencyConverter.setSwitch("EGP")
+                    SharedPreferenceManager.saveCurrency("EGP",requireContext())
                     SettingsManager.curSetter("EGP")
                 }else{
-                    SettingsManager.curSetter("USD")
+                    CurrencyConverter.setSwitch("USD")
+                    SharedPreferenceManager.saveCurrency("USD",requireContext())
                     SettingsManager.curSetter("USD")
                 }
                 getExchangeRate()

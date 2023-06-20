@@ -1,24 +1,18 @@
 package iti.mad.marketly.utils
 
 import iti.mad.marketly.data.model.discount.DiscountCode
+import iti.mad.marketly.data.model.pricingrules.PriceRule
 
 object AdsManager {
-    var adsList:MutableList<DiscountCode> = mutableListOf()
+   private var adsList:MutableList<DiscountCode> = mutableListOf()
+    private var ruleList:MutableList<PriceRule> = mutableListOf()
     var value:Double=0.0
-    var copounsUsed:MutableList<String> = mutableListOf()
-    var clipBoardCode:String=""
+
+    var clipBoardCode:DiscountCode= DiscountCode("","",0,0,"",0)
     fun addDiscountList(discountCode: List<DiscountCode>){
         adsList = discountCode.toMutableList()
     }
-    fun useCoupoune(code:String,productID:Long):Boolean{
-        var coup=code+productID.toString()
-        if (copounsUsed.contains(coup)){
-            return false
-        }else{
-            copounsUsed.add(coup)
-            return true
-        }
-    }
+
     fun useCode(code:String):Boolean{
         var flag=false
         for(i in 0..adsList.size-1){
@@ -33,10 +27,25 @@ object AdsManager {
         return flag
     }
     fun setValue(valu: String){
-        val temp=valu.drop(1)
+        var temp=valu.drop(1)
+        if(temp =="100"){
+            temp="10"
+        }
         value =temp.toDouble()
     }
-    fun setClipBoard(code:String){
-        clipBoardCode =code
+    fun setClipBoard(ads:DiscountCode){
+        clipBoardCode =ads
+    }
+    fun setPriceLists(priceList:MutableList<PriceRule>){
+        ruleList = priceList
+    }
+    fun getPriceList():MutableList<PriceRule>{
+        return ruleList
+    }
+    fun appendAdd(ads:MutableList<DiscountCode>){
+        adsList += ads
+    }
+    fun getAdsList():MutableList<DiscountCode>{
+        return adsList
     }
 }

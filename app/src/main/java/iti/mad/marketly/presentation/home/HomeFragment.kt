@@ -1,5 +1,6 @@
 package iti.mad.marketly.presentation.home
 
+import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,10 +35,13 @@ import iti.mad.marketly.presentation.cart.CartViewModel
 import iti.mad.marketly.presentation.home.ads.AdsViewModel
 import iti.mad.marketly.presentation.home.brands.BrandsAdapter
 import iti.mad.marketly.presentation.home.brands.BrandsViewModel
+import iti.mad.marketly.presentation.settings.SettingsViewModel
 
 import iti.mad.marketly.utils.AdsManager
+import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.NetworkConnectivityChecker
 import iti.mad.marketly.utils.ResponseState
+import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -53,13 +57,36 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
     private val adsViewModel by viewModels<AdsViewModel> {
         AdsViewModel.Factory
     }
-
+    private val settingsViewModel by viewModels<SettingsViewModel>{
+        SettingsViewModel.Factory
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val networkConnectivityChecker = NetworkConnectivityChecker(requireContext())
         if(!networkConnectivityChecker.checkForInternet()){
             val action = HomeFragmentDirections.actionHomeFragmentToErrorFragment6()
             findNavController().navigate(action)
+        }
+        getSavedSettings()
+        settingsViewModel.getExchangeRate()
+        lifecycleScope.launch(Dispatchers.Main){
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                settingsViewModel._currency.collect{
+                    when(it){
+                        is ResponseState.OnLoading->{
+
+                        }
+                        is ResponseState.OnSuccess->{
+
+                            SettingsManager.exchangeRateSetter(it.response.conversion_rates.EGP)
+                        }
+                        is ResponseState.OnError->{
+                            Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
+                        }
+                        else ->{}
+                    }
+                }
+            }
         }
         brandsViewModel =
             ViewModelProvider(this, BrandsViewModel.Factory).get(BrandsViewModel::class.java)
@@ -120,9 +147,11 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         is ResponseState.OnSuccess -> {
                             binding.brandsRecView.visibility = View.VISIBLE
                             binding.homeProgressbar.visibility = View.GONE
-                            //Toast.makeText(requireContext(),"${it.pricingRules.price_rules.get(0).id}",Toast.LENGTH_LONG).show()
-                            AdsManager.setValue(it.response.price_rules.get(0).value)
-                            launchDiscount(it.response.price_rules[0].id)
+                            AdsManager.setPriceLists(it.response.price_rules.toMutableList())
+                            for (rules in it.response.price_rules){
+                                launchDiscount(rules.id)
+                            }
+
                             Log.d("IDDD", SharedPreferenceManager.getUserID(requireContext())!!)
                         }
 
@@ -136,12 +165,51 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         else -> {}
                     }
                 }
+
             }
-        }/*    binding.appBarHome.txtInputEditTextSearch.setOnClickListener{
-                val action =HomeFragmentDirections.actionHomeFragmentToSearchFragment()
-                findNavController().navigate(action)
-                Log.d("mmmms","navigate")
-            }*/
+        }
+        val imgList = ArrayList<SlideModel>()
+        imgList.add(
+            SlideModel(
+                "https://cdn.vectorstock.com/i/1000x1000/01/58/summer-sales-seasonal-special-offer-advertisement-vector-25930158.webp",
+                "Summer Sales",
+                ScaleTypes.FIT
+            )
+        )
+        imgList.add(
+            SlideModel(
+                "https://cdn.vectorstock.com/i/1000x1000/25/02/great-winter-sales-neon-banner-vector-44882502.webp",
+                "Summer Sales",
+                ScaleTypes.FIT
+            )
+        )
+        binding.imageSlider.setImageList(imgList)
+        binding.imageSlider.setItemClickListener(object : ItemClickListener {
+            override fun onItemSelected(position: Int) {
+                val ad = AdsManager.getAdsList().get(position)
+                var rule = ""
+                for(rules in AdsManager.getPriceList()){
+                    if(ad.price_rule_id == rules.id){
+                        rule = rules.value
+                    }
+                }
+                val method = {
+                    AdsManager.setClipBoard(ad)
+                    for(rules in AdsManager.getPriceList()){
+                        if(AdsManager.getAdsList().get(0).price_rule_id == rules.id){
+                            AdsManager.setValue(rules.value)
+                        }
+                    }
+                    Toast.makeText(
+                        requireContext(),
+                        AdsManager.getAdsList().get(0).code,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                AlertManager.customDialog("The Code is:"+ad.code,requireContext(),"Its value ="+rule,method).show()
+
+            }
+        })
 
 
     }
@@ -192,47 +260,8 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         }
 
                         is ResponseState.OnSuccess -> {
+                            AdsManager.appendAdd(it.response.discount_codes.toMutableList())
 
-                            AdsManager.addDiscountList(it.response.discount_codes)
-                            val imgList = ArrayList<SlideModel>()
-                            imgList.add(
-                                SlideModel(
-                                    "https://cdn.vectorstock.com/i/1000x1000/01/58/summer-sales-seasonal-special-offer-advertisement-vector-25930158.webp",
-                                    "Summer Sales",
-                                    ScaleTypes.FIT
-                                )
-                            )
-                            imgList.add(
-                                SlideModel(
-                                    "https://cdn.vectorstock.com/i/1000x1000/25/02/great-winter-sales-neon-banner-vector-44882502.webp",
-                                    "Summer Sales",
-                                    ScaleTypes.FIT
-                                )
-                            )
-                            binding.imageSlider.setImageList(imgList)
-                            binding.imageSlider.setItemClickListener(object : ItemClickListener {
-                                override fun onItemSelected(position: Int) {
-                                    AdsManager.setClipBoard(AdsManager.adsList[0].code)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        AdsManager.adsList[0].code,
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    if (AdsManager.useCode(AdsManager.adsList[0].code)) {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "You can use The code",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    } else {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "You can't use The Code",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                    }
-                                }
-                            })
                         }
 
                         is ResponseState.OnError -> {
@@ -246,29 +275,6 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         }
     }
 
-
-    /* override fun onOptionsItemSelected(item: MenuItem): Boolean {
-         when (item.itemId) {
-             R.id.cartIcon -> {
-                 // Handle the item click here
-                 findNavController().navigate(R.id.cartFragment2)
-                 return true
-             }
-
-             else -> return super.onOptionsItemSelected(item)
-         }
-         *//*   if (item.getItemId()== R.id.profile){
-            startActivity(new Intent(getApplicationContext() , ProfileActivity.class));
-
-        }*//*
-
-    }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-      // inflater.inflate(R.menu.search, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-
-        BadgeNotification(menu,inflater)
-    }*/
 
     private fun displayToolBar() {
         val toolbar = binding.toolbarHome
@@ -314,7 +320,17 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
         }
     }
-
+    private fun getSavedSettings() {
+        SettingsManager.documentIDSetter(SharedPreferenceManager.getUserMAil(requireContext())!!)
+        SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
+        SettingsManager.addressSetter(SharedPreferenceManager.getDefaultAddress(requireContext())!!)
+        SettingsManager.curSetter(SharedPreferenceManager.getSavedCurrency(requireContext())!!)
+        SettingsManager.exchangeRateSetter(
+            SharedPreferenceManager.getDefaultExchangeRate(
+                requireContext()
+            )!!
+        )
+    }
 }
 
 
@@ -323,7 +339,47 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
 
 
-
+/*
+* AdsManager.addDiscountList(it.response.discount_codes)
+                            val imgList = ArrayList<SlideModel>()
+                            imgList.add(
+                                SlideModel(
+                                    "https://cdn.vectorstock.com/i/1000x1000/01/58/summer-sales-seasonal-special-offer-advertisement-vector-25930158.webp",
+                                    "Summer Sales",
+                                    ScaleTypes.FIT
+                                )
+                            )
+                            imgList.add(
+                                SlideModel(
+                                    "https://cdn.vectorstock.com/i/1000x1000/25/02/great-winter-sales-neon-banner-vector-44882502.webp",
+                                    "Summer Sales",
+                                    ScaleTypes.FIT
+                                )
+                            )
+                            binding.imageSlider.setImageList(imgList)
+                            binding.imageSlider.setItemClickListener(object : ItemClickListener {
+                                override fun onItemSelected(position: Int) {
+                                    AdsManager.setClipBoard(AdsManager.adsList[0].code)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        AdsManager.adsList[0].code,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    if (AdsManager.useCode(AdsManager.adsList[0].code)) {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "You can use The code",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    } else {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "You can't use The Code",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+                            })*/
 
 
 

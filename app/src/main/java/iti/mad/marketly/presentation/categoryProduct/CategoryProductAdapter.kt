@@ -10,6 +10,8 @@ import com.squareup.picasso.Picasso
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.RvCategoryProductBinding
+import iti.mad.marketly.utils.CurrencyConverter
+import iti.mad.marketly.utils.SettingsManager
 
 
 class CategoryProductAdapter(
@@ -43,7 +45,16 @@ class CategoryProductAdapter(
         }
         holder.binding.tvCategoryItemName.text = getItem(position).vendor
         holder.binding.tvCategoryProductName.text = getItem(position).title
-        holder.binding.tvCategoryProductPrice.text = getItem(position).variants?.get(0)!!.price+" $"
+
+
+     if(SettingsManager.getCurrncy()=="EGP"){
+       holder.binding.tvCategoryProductPrice.text = CurrencyConverter.switchToEGP(getItem(position).variants?.get(0)!!.price.toString(), holder.binding.tvCategoryProductPrice.id)+" LE"
+   }else{
+       holder.binding.tvCategoryProductPrice.text = CurrencyConverter.switchToUSD(getItem(position).variants?.get(0)!!.price.toString(), holder.binding.tvCategoryProductPrice.id)+" $"
+   }
+
+
+
         holder.binding.categoryProductModel = getItem(position)
         holder.binding.action = mClickListener
         holder.binding.imgVProductAddToFav.setOnClickListener {

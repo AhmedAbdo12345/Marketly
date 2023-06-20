@@ -33,7 +33,9 @@ import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsView
 import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.CartManager
+import iti.mad.marketly.utils.CurrencyConverter
 import iti.mad.marketly.utils.ResponseState
+import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -78,11 +80,11 @@ class ProductDetailsFragment : Fragment() {
                                     "Alert",
                                     requireContext(),
                                     "you should Login to use this feature"
-                                ) {
-                                    val action =
-                                        ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
-                                    findNavController().navigate(action)
-                                }
+                              ,{
+                                        val action =
+                                            ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
+                                        findNavController().navigate(action)
+                                    }  )
                             }
 
                         }
@@ -242,11 +244,11 @@ class ProductDetailsFragment : Fragment() {
             } else {
                 AlertManager.functionalDialog(
                     "Alert", requireContext(), "you should Login to use this feature"
-                ) {
-                    val action =
-                        ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
-                    findNavController().navigate(action)
-                }
+              ,{
+                        val action =
+                            ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
+                        findNavController().navigate(action)
+                    }  )
             }
 
         })
@@ -307,7 +309,15 @@ class ProductDetailsFragment : Fragment() {
                 productName += word.replaceFirstChar { it.uppercase() } + " "
             }
             binding.productNameProductDetailsPage.text = productName.trim()
-            binding.productPriceProductDetailsPage.text = it.product.variants?.get(0)?.price ?: ""
+
+     if(SettingsManager.getCurrncy()=="EGP"){
+       binding.productPriceProductDetailsPage.text= CurrencyConverter.switchToEGP(it.product.variants?.get(0)?.price.toString(), binding.productPriceProductDetailsPage.id)+" LE"
+   }else{
+         binding.productPriceProductDetailsPage.text= CurrencyConverter.switchToUSD(it.product.variants?.get(0)?.price.toString(), binding.productPriceProductDetailsPage.id)+" $"
+   }
+
+
+
             binding.productDesProductDetailsPage.text = it.product.body_html
 
         }

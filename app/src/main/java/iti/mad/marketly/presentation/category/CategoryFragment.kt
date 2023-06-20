@@ -171,10 +171,11 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                                             "register",
                                             requireContext(),
                                             "you should login or register to save this in your account"
-                                        ) {
-                                         //   val action = CategoryFragmentDirections.
-                                           // findNavController().navigate(action)
-                                        }.show()
+                                        ,{
+                                                val action =
+                                                    BrandProductFragmentDirections.actionBrandProductFragmentToLoginFragment()
+                                                findNavController().navigate(action)
+                                            }).show()
                                     }
 
 

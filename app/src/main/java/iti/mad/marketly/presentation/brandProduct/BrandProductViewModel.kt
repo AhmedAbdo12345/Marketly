@@ -9,13 +9,17 @@ import iti.mad.marketly.AppDependencies
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.repository.favourite_repo.IFavouriteRepo
 import iti.mad.marketly.data.repository.productRepository.ProductRepo
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.utils.ResponseState
+import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class BrandProductViewModel(
@@ -47,7 +51,7 @@ class BrandProductViewModel(
                     }
                 }.flowOn(Dispatchers.IO).catch {
                     _brandProduct.value = ResponseState.OnError(it.localizedMessage ?: "")
-                }.collect {
+                }.collect{
                     _brandProduct.value = ResponseState.OnSuccess(it)
                 }
         }

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.databinding.RvCartItemBinding
+import iti.mad.marketly.utils.CurrencyConverter
+import iti.mad.marketly.utils.SettingsManager
 
 
 class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface):
@@ -29,16 +31,27 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
         val recentPrice = currentItem.price
         Glide.with(context!!).load(currentItem.imageURL).centerCrop().into(holder.binding.cartImage)
         holder.binding.cartName.text = currentItem.title
-        holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
-        holder.binding.cartPrice.text = currentItem.price.toString()
+
+        if (SettingsManager.getCurrncy()=="EGP"){
+            holder.binding.totalItemCardPrice.text = CurrencyConverter.switchToEGP((currentItem.price).toString(),holder.binding.totalItemCardPrice.id)+" LE"
+
+        }else{
+            holder.binding.totalItemCardPrice.text =CurrencyConverter.switchToUSD((currentItem.price).toString(),holder.binding.totalItemCardPrice.id)+" $"
+        }
+
         holder.binding.quantityTvCart.text = quant.toString()
         holder.binding.plusLayout.setOnClickListener(View.OnClickListener {
             if(quant < maxQuant ){
                 quant++
                 currentItem.price = recentPrice * quant
                 holder.binding.quantityTvCart.text = quant.toString()
-                holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
 
+                if (SettingsManager.getCurrncy()=="EGP"){
+
+                    holder.binding.totalItemCardPrice.text=CurrencyConverter.switchToEGP((currentItem.price).toString(),holder.binding.totalItemCardPrice.id)+" LE"
+                }else{
+                    holder.binding.totalItemCardPrice.text=CurrencyConverter.switchToUSD((currentItem.price).toString(),holder.binding.totalItemCardPrice.id)+" $"
+                }
 
             }
         })

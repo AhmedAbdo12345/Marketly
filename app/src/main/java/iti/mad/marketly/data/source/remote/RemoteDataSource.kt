@@ -173,7 +173,7 @@ class RemoteDataSource(
         val db = Firebase.firestore
         db.collection("cart").document(SettingsManager.getDocumentID())
             .collection("CartProduct").document(cartID).delete().addOnSuccessListener {
-                Log.i("DeleteCart", "deleteCart: DELETED")
+                Log.i("DeleteCart", "deleteCart: DELETED ${cartID}")
             }.addOnFailureListener {
                 Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
             }
@@ -246,11 +246,15 @@ class RemoteDataSource(
 
     override fun clearCart() {
         val db = Firebase.firestore
-        db.collection("cart").document(SettingsManager.getDocumentID()).delete().addOnSuccessListener {
-            Log.i("DeleteCart", "deleteCart: DELETED")
-        }.addOnFailureListener {
-            Log.i("DeleteCart", "deleteCart: Faild")
-        }
+       for (ids in SettingsManager.getIDS()){
+
+           db.collection("cart").document(SettingsManager.getDocumentID())
+               .collection("CartProduct").document(ids).delete().addOnSuccessListener {
+                   Log.i("DeleteCart", "deleteCart: DELETED")
+               }.addOnFailureListener {
+                   Log.i("DeleteAddress", "deleteAddress: ${it.localizedMessage}")
+               }
+       }
     }
 
     override suspend fun createDraftOrder(draftOrderBody: DraftOrderRequest): Flow<DraftOrderResponse> = flow {

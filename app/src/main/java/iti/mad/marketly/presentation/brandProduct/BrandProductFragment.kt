@@ -30,6 +30,8 @@ import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManag
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
+import iti.mad.marketly.utils.SettingsManager
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Currency
@@ -129,6 +131,8 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                         }
 
                         is ResponseState.OnSuccess -> {
+                            //val newProductList:MutableList<Product> = mutableListOf()
+                        
                             binding.brandProductRecycleView.visibility = View.VISIBLE
                             binding.brandProductProgressbar.visibility = View.GONE
                             brandAdapter = BrandProductAdapter(this@BrandProductFragment) {
@@ -163,11 +167,11 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                                         "register",
                                         requireContext(),
                                         "you should login or register to save this in your account"
-                                    ) {
-                                        val action =
-                                            BrandProductFragmentDirections.actionBrandProductFragmentToLoginFragment()
-                                        findNavController().navigate(action)
-                                    }.show()
+                                    ,{
+                                            val action =
+                                                BrandProductFragmentDirections.actionBrandProductFragmentToLoginFragment()
+                                            findNavController().navigate(action)
+                                        }).show()
                                 }
                             }
                             productList = uiState.response.toMutableList()
