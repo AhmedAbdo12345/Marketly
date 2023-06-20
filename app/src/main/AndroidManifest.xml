@@ -15,9 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EcomerseApp"
         tools:targetApi="31">
-
         <activity
             android:name=".onboarding.DeciderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,19 +29,13 @@
         </activity>
         <activity
             android:name=".presentation.auth.AuthActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".onboarding.OnboardingScreenActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"/>
     </application>
 
 </manifest>
