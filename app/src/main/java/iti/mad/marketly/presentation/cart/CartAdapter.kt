@@ -24,7 +24,6 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val currentItem=getItem(position)
         val maxQuant = currentItem.quantity
-        val minQuant = 1
         var quant = 1
         Glide.with(context!!).load(currentItem.imageURL).centerCrop().into(holder.binding.cartImage)
         holder.binding.cartName.text = currentItem.title
@@ -36,15 +35,15 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
                 quant++
                 holder.binding.quantityTvCart.text = quant.toString()
                 holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
-                currentItem.price = currentItem.price * quant
+                //currentItem.price = currentItem.price * quant
             }
         })
         holder.binding.minusLayout.setOnClickListener(View.OnClickListener {
-            if(quant >= 1){
+            if(quant > 1){
                 quant--
                 holder.binding.quantityTvCart.text = quant.toString()
                 holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
-                currentItem.price = currentItem.price * quant
+                //currentItem.price = currentItem.price * quant
             }
         })
         holder.binding.cartMore.setOnClickListener(View.OnClickListener {

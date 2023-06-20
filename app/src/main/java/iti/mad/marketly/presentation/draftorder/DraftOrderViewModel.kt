@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import iti.mad.marketly.AppDependencies
 import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
 import iti.mad.marketly.data.model.draftorder.DraftOrderBody
+import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
 import iti.mad.marketly.data.model.draftorderresponse.DraftOrderResponse
 import iti.mad.marketly.data.repository.draftorderrepo.DraftOrderRepoInterface
 import iti.mad.marketly.utils.ResponseState
@@ -25,7 +26,7 @@ class DraftOrderViewModel(private val draftOrderRepoInterface: DraftOrderRepoInt
     private var draftInvoice : MutableStateFlow<ResponseState<DraftOrderInvoice>> = MutableStateFlow(
         ResponseState.OnLoading(false))
     val _draftInvoice: StateFlow<ResponseState<DraftOrderInvoice>> = draftInvoice
-    fun createDraftOrder(draftOrderBody: DraftOrderBody){
+    fun createDraftOrder(draftOrderBody: DraftOrderRequest){
         viewModelScope.launch {
             draftOrderRepoInterface.createDraftOrder(draftOrderBody).flowOn(Dispatchers.IO).catch {
                 draftResponse.emit(ResponseState.OnError(it.message!!))

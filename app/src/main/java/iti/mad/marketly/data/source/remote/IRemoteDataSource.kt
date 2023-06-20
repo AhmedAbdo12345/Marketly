@@ -9,6 +9,7 @@ import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.draftorder.DraftOrderBody
+import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
 import iti.mad.marketly.data.model.draftorderresponse.DraftOrderResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
 import iti.mad.marketly.data.model.order.OrderModel
@@ -54,7 +55,7 @@ interface IRemoteDataSource {
     suspend fun getDiscount(pricingRule:Long): Flow<DiscountResponce>
     suspend fun getPricingRules():Flow<PricingRules>
     fun clearCart()
-    suspend fun createDraftOrder(draftOrderBody: DraftOrderBody): Flow<DraftOrderResponse>
+    suspend fun createDraftOrder(draftOrderBody: DraftOrderRequest): Flow<DraftOrderResponse>
     suspend fun sendInvoice(invoice: DraftOrderInvoice,draftID:String): Flow<DraftOrderInvoice>
     suspend fun completeOrder(draftID:String):Flow<DraftOrderResponse>
 }

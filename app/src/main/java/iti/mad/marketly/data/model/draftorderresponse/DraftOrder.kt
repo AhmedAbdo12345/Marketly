@@ -9,7 +9,7 @@ data class DraftOrder(
     val currency: String,
     val customer: Customer,
     val email: String,
-    val id: Int,
+    val id: Long,
     val invoice_sent_at: Any,
     val invoice_url: String,
     val line_items: List<LineItem>,

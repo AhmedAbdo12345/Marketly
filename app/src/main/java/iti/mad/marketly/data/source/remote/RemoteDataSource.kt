@@ -13,6 +13,7 @@ import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.draftorder.DraftOrderBody
+import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
 import iti.mad.marketly.data.model.draftorderresponse.DraftOrderResponse
 import iti.mad.marketly.data.model.settings.CurrencyResponse
 import iti.mad.marketly.data.model.favourites.FavouriteResponse
@@ -252,7 +253,7 @@ class RemoteDataSource(
         }
     }
 
-    override suspend fun createDraftOrder(draftOrderBody: DraftOrderBody): Flow<DraftOrderResponse> = flow {
+    override suspend fun createDraftOrder(draftOrderBody: DraftOrderRequest): Flow<DraftOrderResponse> = flow {
         emit(api.createDraftOrder(draftOrderBody))
     }
 

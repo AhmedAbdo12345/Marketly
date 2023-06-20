@@ -17,13 +17,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.R
 import iti.mad.marketly.data.model.cart.CartModel
+import iti.mad.marketly.data.model.customer.Customer
+import iti.mad.marketly.data.model.draftorder.LineItems
 import iti.mad.marketly.data.model.order.OrderModel
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCartBinding
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
+import iti.mad.marketly.presentation.settings.AddressListFragmentDirections
 import iti.mad.marketly.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -96,29 +101,32 @@ class CartFragment : Fragment(), CartFragmentInterface {
             val itemCount = adapters.itemCount
             val currentItems = adapters.currentList
             var totalPrice = 0.0
+            val lineItemList = mutableListOf<LineItems>()
             for (items in currentItems) {
                 totalPrice += items.price
+                lineItemList.add(LineItems(items.price.toString(),items.id.toInt(),items.quantity.toInt(),"Custom "+items.title))
             }
-            val methodADS = {
-                val percentage = (totalPrice * 0.10)
-                totalPrice = totalPrice - percentage
-                val orderID = System.currentTimeMillis().toString()
-                val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
-
-
-
+            DraftOrderManager.setItemList(lineItemList)
+            var customerEmail = "Sonic@gmail.com"
+            if(SharedPreferenceManager.getUserMAil(requireContext())!=null){
+                customerEmail = SharedPreferenceManager.getUserMAil(requireContext()).toString()
             }
-            if(!AdsManager.clipBoardCode.equals("")){
-                AlertManager.functionalDialog("Use Code",requireContext(),"Do you like to use the code saved in your clipboard?",methodADS)
-                    .show()
-
-            }else{
-                val orderID = System.currentTimeMillis().toString()
-                val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
-                cartViewModel.saveProuctsInOrder(order)
-
-
+            var customerName = "deff"
+            if(SharedPreferenceManager.getUserName(requireContext())!=null){
+                customerName = SharedPreferenceManager.getUserName(requireContext()).toString()
             }
+            var customerID = "123"
+            if(SharedPreferenceManager.getUserID(requireContext())!=null){
+                customerID = SharedPreferenceManager.getUserID(requireContext()).toString()
+            }
+            val customer = iti.mad.marketly.data.model.draftorder.Customer(customerID.toLong(),false)
+            DraftOrderManager.setCustomer(customer)
+            val orderID = System.currentTimeMillis().toString()
+            val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
+            cartViewModel.saveProuctsInOrder(order)
+            var action= CartFragmentDirections.actionCartFragment2ToDraftAddressFragment()
+            findNavController().navigate(action)
+
 
         })
     }

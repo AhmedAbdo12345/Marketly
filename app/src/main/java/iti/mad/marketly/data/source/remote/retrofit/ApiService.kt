@@ -8,6 +8,7 @@ import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.model.customer.CustomerResponse
 import iti.mad.marketly.data.model.discount.DiscountResponce
 import iti.mad.marketly.data.model.draftorder.DraftOrderBody
+import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
 import iti.mad.marketly.data.model.draftorderresponse.DraftOrderResponse
 import iti.mad.marketly.data.model.pricingrules.PricingRules
 import iti.mad.marketly.data.model.product.ProductResponse
@@ -64,9 +65,9 @@ interface ApiService {
     suspend fun getAllProducts(): ProductResponse
     //---------------------------------------------------------//
     @POST("draft_orders.json")
-    suspend fun createDraftOrder(@Body draftOrderBody: DraftOrderBody):DraftOrderResponse
-    @POST("{draft_order_id}/send_invoice.json")
-    suspend fun sendInvoice(@Body invoice: DraftOrderInvoice,@Query("draft_order_id")draftID:String):DraftOrderInvoice
-    @PUT("{draft_order_id}/complete.json")
-    suspend fun completeOrder(@Query("draft_order_id")draftID:String):DraftOrderResponse
+    suspend fun createDraftOrder(@Body draftOrderRequest: DraftOrderRequest):DraftOrderResponse
+    @POST("draft_orders/{draft_order_id}/send_invoice.json")
+    suspend fun sendInvoice(@Body invoice: DraftOrderInvoice,@Path("draft_order_id")draftID:String):DraftOrderInvoice
+    @PUT("draft_orders/{draft_order_id}/complete.json")
+    suspend fun completeOrder(@Path("draft_order_id")draftID:String):DraftOrderResponse
 }

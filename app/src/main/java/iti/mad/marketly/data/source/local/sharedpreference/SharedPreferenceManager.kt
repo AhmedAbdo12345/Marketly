@@ -84,4 +84,8 @@ object SharedPreferenceManager {
         checkPreferences(context)
         return shared.getString(Constants.USER_ID,"")
     }
+    fun getUserMAil(context: Context):String?{
+        checkPreferences(context)
+        return shared.getString(Constants.USER_EMAIL,"Sonic@gmail.com")
+    }
 }
