@@ -110,7 +110,7 @@
                         style="@style/Widget.AppCompat.RatingBar.Indicator"
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:numStars="5"
                         tools:rating="3"
                         android:scaleX=".5"
@@ -119,16 +119,90 @@
                         android:transformPivotX="0dp"
                         android:transformPivotY="15dp" />
 
+                    <LinearLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="Brand: "
+                            style="@style/sub_title"
+                            tools:text="Brand:" />
+                        <TextView
+                            android:layout_marginStart="10dp"
+                            android:id="@+id/productBrandName_singleProduct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/metropolis_light"
+                            android:maxLines="1"
+                            android:text='@{dataModel.product_type}'
+                            android:textColor="@color/textAd"
+                            android:textSize="13sp"
+                            tools:text="Brand Name" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="Vendor: "
+                            style="@style/sub_title"
+                            tools:text="Vendor:" />
+                        <TextView
+                            android:layout_marginStart="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/metropolis_light"
+                            android:text='@{dataModel.vendor}'
+                            android:textColor="@color/textAd"
+                            android:textSize="13sp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            tools:text="Mohamed" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:text="Tags: "
+                            style="@style/sub_title"
+                            tools:text="Tags:" />
+
+                        <TextView
+                            android:layout_marginStart="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/metropolis_light"
+                            android:text='@{"Tags:"+dataModel.tags}'
+                            android:textColor="@color/textAd"
+                            android:textSize="13sp"
+                            android:ellipsize="end"
+                            android:lines="2"
+                            tools:text="Tags: Gendo" />
+                    </LinearLayout>
+
+
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginRight="10dp"
-                        android:fontFamily="@font/metropolis_regular"
                         android:text="Product Details"
-                        android:textColor="@color/mainText"
-                        android:textSize="15sp" />
+                        style="@style/sub_title" />
 
                     <TextView
                         android:id="@+id/productDes_ProductDetailsPage"

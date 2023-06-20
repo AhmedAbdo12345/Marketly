@@ -105,10 +105,10 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/metropolis_light"
                 android:maxLines="1"
-                android:text="@{dataModel.product_type}"
+                android:text='@{"Brand: "+dataModel.product_type}'
                 android:textColor="@color/textAd"
                 android:textSize="13sp"
-                tools:text="Brand Name" />
+                tools:text="Brand: Brand Name" />
 
             <TextView
                 android:id="@+id/productName_singleProduct"
@@ -136,36 +136,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/metropolis_light"
-                android:text="@{dataModel.body_html}"
+                android:text='@{"Vendor:"+dataModel.vendor}'
                 android:textColor="@color/textAd"
                 android:textSize="13sp"
                 android:ellipsize="end"
-                android:lines="2"
-                android:layout_marginBottom="10dp"
-                tools:text="Description" />
+                android:lines="1"
+                tools:text="Vendor: Mohamed" />
 
         </LinearLayout>
-
-
-<!--        <LinearLayout-->
-<!--            android:id="@+id/discount_singleProduct"-->
-<!--            android:layout_width="40dp"-->
-<!--            android:layout_height="20dp"-->
-<!--            android:background="@drawable/discount_bg"-->
-<!--            android:visibility="gone">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/discountTv_singleProduct"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/metropolis_semibold"-->
-<!--                android:gravity="center"-->
-<!--                android:text="-10%"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="11sp" />-->
-<!--        </LinearLayout>-->
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>
