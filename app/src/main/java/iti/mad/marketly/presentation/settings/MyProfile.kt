@@ -41,15 +41,15 @@ class MyProfile : Fragment() {
                     "Log Out",
                     requireContext(),
                     "Are You sure,Do You want to Leave"
-                ) {
-                    FirebaseAuth.getInstance().signOut()
+                , {
+                        FirebaseAuth.getInstance().signOut()
                     SharedPreferenceManager.deleteUserData(requireContext())
                     var action = MyProfileDirections.actionMyProfileToHomeFragment()
                     findNavController().navigate(action)
 
 
 
-                }.show()
+                    }).show()
             }
 
         } else {

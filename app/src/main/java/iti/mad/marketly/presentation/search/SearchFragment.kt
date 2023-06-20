@@ -75,11 +75,11 @@ class SearchFragment : Fragment() {
                                         "register",
                                         requireContext(),
                                         "you should login or register to save this in your account"
-                                    ) {
-                                        val action =
-                                            SearchFragmentDirections.actionSearchFragmentToLoginFragment()
-                                        findNavController().navigate(action)
-                                    }.show()
+                                  , {
+                                            val action =
+                                                SearchFragmentDirections.actionSearchFragmentToLoginFragment()
+                                            findNavController().navigate(action)
+                                        }  ).show()
                                 }
                             }, {
                                 it.id?.let { id ->

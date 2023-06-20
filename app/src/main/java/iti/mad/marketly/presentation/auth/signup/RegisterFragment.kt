@@ -58,11 +58,11 @@ class RegisterFragment : Fragment() {
                                 "Register Successfully",
                                 requireContext(),
                                 "please check your E-mail for verification"
-                            ) {
-                                val action =
-                                    RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
-                                findNavController().navigate(action)
-                            }.show()
+                            ,{
+                                    val action =
+                                        RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                                    findNavController().navigate(action)
+                                }).show()
                         }
 
                         is ResponseState.OnLoading -> {

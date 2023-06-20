@@ -50,9 +50,9 @@ class ForgetPasswordFragment : Fragment() {
 
                                     "Password reset email sent."
 
-                                ) {
-                                    findNavController().navigateUp()
-                                }
+                              ,{
+                                        findNavController().navigateUp()
+                                    }  )
 
                             } else {
                                 Toast.makeText(

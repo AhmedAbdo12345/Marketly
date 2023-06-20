@@ -77,6 +77,10 @@ class CartFragment : Fragment(), CartFragmentInterface {
                         }
                         is ResponseState.OnSuccess -> {
                             cartItems = it.response.toMutableList()
+                            var idsList = mutableListOf<String>()
+                            for (ids in it.response){
+                                idsList.add(ids.id.toString())
+                            }
                             adapters.submitList(cartItems)
                             binding.categoryProductRecView.apply {
                                 adapter = adapters

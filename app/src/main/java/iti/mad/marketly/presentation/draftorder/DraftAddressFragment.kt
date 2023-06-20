@@ -15,11 +15,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iti.mad.marketly.R
+import iti.mad.marketly.data.model.draftorder.AppliedDiscount
 import iti.mad.marketly.databinding.FragmentAddressListBinding
 import iti.mad.marketly.databinding.FragmentDraftAddressBinding
 import iti.mad.marketly.presentation.settings.AddressAdapter
 import iti.mad.marketly.presentation.settings.AddressListFragmentDirections
 import iti.mad.marketly.presentation.settings.SettingsViewModel
+import iti.mad.marketly.utils.AdsManager
+import iti.mad.marketly.utils.AlertManager
+import iti.mad.marketly.utils.DraftOrderManager
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -84,8 +88,24 @@ class DraftAddressFragment : Fragment(),DraftAddressInterface{
     }
 
     override fun onAddressSelected() {
-        var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToCheckoutFragment()
-        findNavController().navigate(action)
+        val method = {
+            DraftOrderManager.setDiscount(
+                AppliedDiscount(
+                    AdsManager.value.toString(),
+                    AdsManager.clipBoardCode.code,
+                    AdsManager.clipBoardCode.code,
+                    AdsManager.value.toString())
+
+            )
+            var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToCheckoutFragment()
+            findNavController().navigate(action)
+        }
+        val cancelMethod = {
+            var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToCheckoutFragment()
+            findNavController().navigate(action)
+        }
+        AlertManager.functionalDialog("Appling the coupon",requireContext(),"Do you want to apply the coupone you selected?",method,cancelMethod).show()
+
     }
 
 

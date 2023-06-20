@@ -85,11 +85,7 @@ class FavouriteFragment : Fragment() {
             )
 
         }
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.appBarHome.toolbar)
-        binding.appBarHome.toolbar.title = getString(R.string.favourite)
-        binding.appBarHome.backArrow.setOnClickListener {
-            navController.navigateUp()
-        }
+
 
     }
 
@@ -97,14 +93,14 @@ class FavouriteFragment : Fragment() {
         favAdapter = FavoriteAdapter(requireContext(), {
             AlertManager.functionalDialog(
                 "Alert", requireContext(), "Do You want to delete this item from favourite"
-            ) {
-                favoriteViewModel.deleteProductFromFavourite(
-                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "", it
-                )
-                favoriteViewModel.getAllFavourite(
-                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
-                )
-            }.show()
+           , {
+                    favoriteViewModel.deleteProductFromFavourite(
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "", it
+                    )
+                    favoriteViewModel.getAllFavourite(
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
+                    )
+                } ).show()
         }, { product ->
             val action = product.id?.let {
                 FavouriteFragmentDirections.actionFavouriteFragmentToProductDetailsFragment(
