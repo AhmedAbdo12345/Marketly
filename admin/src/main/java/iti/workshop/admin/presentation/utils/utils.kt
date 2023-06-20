@@ -4,8 +4,10 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.ConnectivityManager
+import android.provider.MediaStore
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import java.io.File
@@ -26,6 +28,27 @@ fun Activity.hideSoftKey(){
     inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 }
 
+fun Activity.chooseImage() {
+    val optionsMenu = arrayOf<CharSequence>(
+        "Take Photo",
+        "Choose from Gallery",
+    )
+
+    val builder = AlertDialog.Builder(this)
+    builder.setItems(optionsMenu) { dialogInterface, i ->
+        if (optionsMenu[i] == "Take Photo") {
+
+            val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(takePicture, 0)
+        } else if (optionsMenu[i] == "Choose from Gallery") {
+            // choose from  external storage
+            val pickPhoto =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(pickPhoto, 1)
+        }
+    }
+    builder.show()
+}
 fun persistImage(activity: Activity, bitmap: Bitmap?, name: String): File {
     val filesDir = activity.applicationContext.filesDir
     val imageFile = File(filesDir, "$name.jpg")

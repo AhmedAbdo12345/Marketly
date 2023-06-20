@@ -43,8 +43,8 @@ data class Product(
 
     var images: List<Image?>?=null,
     var variants: List<Variant>?= listOf(Variant(price = Random().nextInt(100).toString())),
-    @Ignore
-    var options: List<Option>?=null,
+//    @Ignore
+//    var options: List<Option>?=null,
     @Ignore
     var metafields: List<Metafield> = listOf(Metafield()),
     var rating:Float = Random().nextInt(5).toFloat()

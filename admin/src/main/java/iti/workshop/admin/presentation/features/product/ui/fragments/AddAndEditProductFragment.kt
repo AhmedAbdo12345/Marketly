@@ -33,6 +33,7 @@ import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.chooseImage
 import iti.workshop.admin.presentation.utils.loadingDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,7 +46,6 @@ class AddAndEditProductFragment : Fragment() {
     var actionType:Action = Action.Add
     var product: Product = Product()
     private var bitmap: Bitmap? = null
-    var storageRef: FirebaseStorage? = null
     lateinit var loadingDialog:ProgressDialog
     private val viewModel: ProductViewModel by viewModels()
     lateinit var binding: ProductFragmentEditAndAddBinding
@@ -55,7 +55,6 @@ class AddAndEditProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        storageRef = FirebaseStorage.getInstance(Constants.STORAGE_PATH)
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -77,10 +76,7 @@ class AddAndEditProductFragment : Fragment() {
 
     private fun saveProduct() {
         binding.saveActionBtn.setOnClickListener {
-            if (isValidData()) {
-                saveData()
-
-            }
+            if (isValidData()) { saveData() }
         }
     }
 
@@ -120,10 +116,16 @@ class AddAndEditProductFragment : Fragment() {
             bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
             val byteArray = byteArrayOutputStream.toByteArray()
             val base64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
+            val type = when {
+                bitmap!!.compress(Bitmap.CompressFormat.JPEG, 0, null) -> ".jpg"
+                bitmap!!.compress(Bitmap.CompressFormat.PNG, 0, null) -> ".pmg"
+                bitmap!!.compress(Bitmap.CompressFormat.WEBP, 0, null) -> ".webp"
+                else -> ".jpg"
+            }
             return Image(
                 alt = binding.productTitleInput.text.toString(),
                 attachment = base64,
-                filename = binding.productTitleInput.text.toString()
+                filename = binding.productTitleInput.text.toString()+type
             )
         }
         return null
@@ -165,40 +167,20 @@ class AddAndEditProductFragment : Fragment() {
 
     private fun uploadProductImage() {
         binding.productImage.setOnLongClickListener {
-            chooseImage(requireActivity())
+            requireActivity().chooseImage()
             true
 
         }
         binding.addProductImage.setOnClickListener {
 
-            chooseImage(requireActivity())
+            requireActivity().chooseImage()
 
 //            if(checkAndRequestPermissions(requireActivity())){
 //            }
         }
     }
 
-    private fun chooseImage(context: Context) {
-        val optionsMenu = arrayOf<CharSequence>(
-            "Take Photo",
-            "Choose from Gallery",
-        )
 
-        val builder = AlertDialog.Builder(context)
-        builder.setItems(optionsMenu) { dialogInterface, i ->
-            if (optionsMenu[i] == "Take Photo") {
-
-                val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(takePicture, 0)
-            } else if (optionsMenu[i] == "Choose from Gallery") {
-                // choose from  external storage
-                val pickPhoto =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(pickPhoto, 1)
-            }
-        }
-        builder.show()
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

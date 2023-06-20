@@ -39,14 +39,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-
-                app:thumbnail="@{model.src}"
-                android:id="@+id/image_product"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bags"/>
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_weight="1"
+                    app:thumbnail="@{model.src}"
+                    android:id="@+id/image_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bags"/>
+                <TextView
+                    android:layout_margin="3dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{model.alt}"
+                    style="@style/sub_title"
+                    tools:text = "This is image"/>
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 

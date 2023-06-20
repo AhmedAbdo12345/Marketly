@@ -17,6 +17,8 @@ import iti.workshop.admin.databinding.ProductFragmentListImagesBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesOnCLickListener
+import iti.workshop.admin.presentation.features.product.ui.dialogs.AddImageDialog
+import iti.workshop.admin.presentation.features.product.ui.dialogs.AddVariantDialog
 import iti.workshop.admin.presentation.features.product.ui.dialogs.ImagePreviewDialog
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
@@ -105,8 +107,9 @@ class ProductsImagesListFragment : Fragment() {
         }
     }
     private fun addImageNewOne() {
-        binding.floatingActionButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Add New One", Toast.LENGTH_SHORT).show()
+        binding.addAction.setOnClickListener {
+            val dialogFragment = AddImageDialog(viewModel, productId)
+            dialogFragment.show(requireActivity().supportFragmentManager, "AddImageDialog")
         }
     }
 

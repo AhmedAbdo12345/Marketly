@@ -1,5 +1,6 @@
 package iti.workshop.admin.data.dto
 
+import java.io.Serializable
 
 
 data class VariantListResponse(
@@ -42,4 +43,4 @@ data class Variant(
     val updated_at: String?=null,
     val weight: Int?=null,
     val weight_unit: String?=null
-)
+):Serializable

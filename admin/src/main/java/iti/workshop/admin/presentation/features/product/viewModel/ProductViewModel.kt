@@ -155,6 +155,19 @@ class ProductViewModel @Inject constructor(
                     )
             } }
     }
+
+    fun addImage(product_id: Long,image:Image){
+        viewModelScope.launch {
+            val response = async { _useCases.addEditImage(product_id,image)}
+            if (response.await().isSuccessful) {
+                retrieveImagesProductFromServer(product_id)
+                _actionResponse.value = Pair(true, "Product Image Added Successfully")
+            } else {
+                _actionResponse.value = Pair(false, response.await().errorBody()?.string())
+            }
+
+        }
+    }
     fun addVariant(product_id: Long,variant:Variant){
         viewModelScope.launch {
             val response = async { _useCases.addEditVariant(product_id,variant)}

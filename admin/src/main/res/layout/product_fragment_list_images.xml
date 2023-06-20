@@ -12,30 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:visibility="gone"
-
-            android:id="@+id/floatingActionButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.92"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            tools:ignore="SpeakableTextPresentCheck" />
-
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/saveAction"
+            app:layout_constraintBottom_toTopOf="@+id/addAction"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -129,10 +112,9 @@
         </LinearLayout>
 
         <Button
-            android:visibility="gone"
+            android:layout_margin="10dp"
             android:layout_marginBottom="10dp"
-
-            android:id="@+id/saveAction"
+            android:id="@+id/addAction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_bg"

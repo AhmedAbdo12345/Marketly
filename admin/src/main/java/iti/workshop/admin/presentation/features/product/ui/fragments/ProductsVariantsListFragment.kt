@@ -91,7 +91,7 @@ class ProductsVariantsListFragment : Fragment() {
 
         binding.mAdapter = adapter
         // calls
-        updateUISate();addImageNewOne();updateVatiant()
+        updateUISate();addVariantNewOne();updateVatiant()
         return binding.root
     }
 
@@ -102,11 +102,10 @@ class ProductsVariantsListFragment : Fragment() {
             viewModel.retrieveVariantsProductFromServer(productId)
         }
     }
-    private fun addImageNewOne() {
+    private fun addVariantNewOne() {
         binding.floatingActionButton.setOnClickListener {
             val dialogFragment = AddVariantDialog(viewModel, productId)
             dialogFragment.show(requireActivity().supportFragmentManager, "AddVariantDialog")
-
         }
     }
 
