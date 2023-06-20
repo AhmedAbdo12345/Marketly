@@ -33,7 +33,7 @@
                 android:id="@+id/imgv_category_product"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:src="@drawable/bn" />
 
         </androidx.cardview.widget.CardView>

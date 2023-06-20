@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Reset the selected item in the BottomNavigationView when the destination changes
             bottomNavigationView.menu.findItem(destination.id)?.isChecked = true
-            if (destination.id == R.id.productDetailsFragment || destination.id == R.id.splashFragment || destination.id == R.id.cartFragment2 ) {
+            if (destination.id == R.id.productDetailsFragment || destination.id == R.id.splashFragment || destination.id == R.id.cartFragment ) {
                 bottomAppBar.visibility = View.GONE
                 floatButton.visibility = View.GONE
                 layoutSpace.visibility = View.GONE
@@ -68,37 +68,10 @@ class MainActivity : AppCompatActivity() {
                 layoutSpace.visibility = View.VISIBLE
                 changeMarginFragment(80)
             }
-            /*addMenuProvider(object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    // Add menu items here
-                 //   menuInflater.inflate(R.menu.example_menu, menu)
-                    menuInflater.inflate(R.menu.search, menu)
-                    val searchItem = menu.findItem(R.id.search_Icon)
-                    val searchView = searchItem?.actionView as SearchView
-                    searchView.queryHint = "Search for something"
-                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            // Handle search query submission
-                            return false
-                        }
 
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            // Handle search query text change
-                            return false
-                        }
-                    })
-                 //   return true
-                }
-
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    // Handle the menu selection
-                    return true
-                }
-            })*/
         }
 
 
-        // Set up the Bottom Navigation View with the Navigation Controller
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.categoryFragment,
@@ -108,9 +81,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.myProfile
             )
         )
-        // setupActionBarWithNavController(navController, appBarConfiguration)
-        //  bottomNavigationView.setupWithNavController(navController)
-
 
         floatButton.setOnClickListener {
             navController.navigate(R.id.homeFragment)
@@ -124,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun changeMarginFragment(newValue: Int) {
+    private fun changeMarginFragment(newValue: Int) {
         var layoutParent: ConstraintLayout = findViewById(R.id.constraintFragment)
 
         val layoutParams = layoutParent.layoutParams as CoordinatorLayout.LayoutParams
@@ -132,40 +102,6 @@ class MainActivity : AppCompatActivity() {
         layoutParent.layoutParams = layoutParams
     }
 
-    /* override fun onOptionsItemSelected(item: MenuItem): Boolean {
-         when (item.itemId) {
-             R.id.search_Icon -> {
-                 // Handle the item click here
-                 return true
-             }
 
-             else -> return super.onOptionsItemSelected(item)
-         }
-
-     }
-
-     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-         menuInflater.inflate(R.menu.search, menu)
-         val searchItem = menu?.findItem(R.id.search_Icon)
-         val searchView = searchItem?.actionView as SearchView
-         searchView.queryHint = "Search for something"
-         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-             override fun onQueryTextSubmit(query: String?): Boolean {
-                 // Handle search query submission
-                 return false
-             }
-
-             override fun onQueryTextChange(newText: String?): Boolean {
-                 // Handle search query text change
-                 return false
-             }
-         })
-         return true
-     }*/
-
-    /* override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-         super.onCreateOptionsMenu(menu, inflater)
-     }*/
 
 }

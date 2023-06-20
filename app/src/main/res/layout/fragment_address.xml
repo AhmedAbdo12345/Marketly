@@ -12,30 +12,12 @@
         android:background="@color/background">
 
 
-
-        <LinearLayout
+        <include
             android:id="@+id/topBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginRight="10dp"
-            android:gravity="left"
+            layout="@layout/app_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <ImageView
-                android:id="@+id/backIv_ProfileFrag"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_back"
-                app:tint="@color/mainText" />
-
-
-
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:orientation="vertical"
