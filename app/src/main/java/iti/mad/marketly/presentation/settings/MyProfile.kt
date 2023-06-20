@@ -43,6 +43,11 @@ class MyProfile : Fragment() {
                     "Are You sure,Do You want to Leave"
                 ) {
                     FirebaseAuth.getInstance().signOut()
+                    SharedPreferenceManager.deleteUserData(requireContext())
+                    var action = MyProfileDirections.actionMyProfileToHomeFragment()
+                    findNavController().navigate(action)
+
+
 
                 }.show()
             }

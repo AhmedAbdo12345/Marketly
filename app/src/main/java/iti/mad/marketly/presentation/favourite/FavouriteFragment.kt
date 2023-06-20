@@ -73,10 +73,8 @@ class FavouriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.navController = findNavController()
-        if (SharedPreferenceManager.getFirebaseUID(requireContext()) == null || SharedPreferenceManager.getFirebaseUID(
-                requireContext()
-            ).equals("")
-        ) {
+
+        if ( !SharedPreferenceManager.isUserLogin(requireContext())) {
             binding.notLoginConstraint.visibility = View.VISIBLE
             handleRegister()
 

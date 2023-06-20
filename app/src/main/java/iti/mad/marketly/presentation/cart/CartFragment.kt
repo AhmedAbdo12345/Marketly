@@ -67,6 +67,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
         super.onViewCreated(view, savedInstanceState)
         adapters = CartAdapter(requireContext(), this)
         cartViewModel.getAllCart()
+
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 cartViewModel._cartResponse.collect {
@@ -136,13 +137,19 @@ class CartFragment : Fragment(), CartFragmentInterface {
             cartViewModel.deleteCartItem(cartModel.id.toString())
             cartItems.remove(cartModel)
             adapters.submitList(cartItems)
-
+            binding.categoryProductRecView.adapter = adapters
+            binding.categoryProductRecView.layoutManager = LinearLayoutManager(context).apply {
+                orientation = RecyclerView.VERTICAL
+            }
         }
+
 
         AlertManager.functionalDialog(
             "Deleting CartItem", requireContext(), "Are you sure you want to delete this?",
             routine
         ).show()
+
+
     }
 
 
