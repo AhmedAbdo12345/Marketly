@@ -26,12 +26,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.auth.AuthActivity"
-            android:exported="false">
-
-        </activity>
-        <activity
             android:name=".presentation.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false">
 
         </activity>

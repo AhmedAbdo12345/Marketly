@@ -1,6 +1,5 @@
 package iti.mad.marketly.presentation.favourite
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +17,6 @@ import iti.mad.marketly.R
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentFavouriteBinding
-import iti.mad.marketly.presentation.MainActivity
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
@@ -80,16 +78,19 @@ class FavouriteFragment : Fragment() {
             ).equals("")
         ) {
             binding.notLoginConstraint.visibility = View.VISIBLE
+            handleRegister()
+
         } else {
             binding.notLoginConstraint.visibility = View.GONE
             favoriteViewModel.getAllFavourite(
                 SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
             )
-            (requireActivity() as AppCompatActivity).setSupportActionBar(binding.appBarHome.toolbar)
-            binding.appBarHome.toolbar.title = getString(R.string.favourite)
-            binding.appBarHome.backArrow.setOnClickListener {
-                navController.navigateUp()
-            }
+
+        }
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.appBarHome.toolbar)
+        binding.appBarHome.toolbar.title = getString(R.string.favourite)
+        binding.appBarHome.backArrow.setOnClickListener {
+            navController.navigateUp()
         }
 
     }
@@ -123,14 +124,14 @@ class FavouriteFragment : Fragment() {
 
     fun handleRegister() {
         binding.loginBtn.setOnClickListener {
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
+            val action = FavouriteFragmentDirections.actionFavouriteFragmentToLoginFragment()
+            findNavController().navigate(action)
         }
         binding.registerBtn.setOnClickListener {
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
+            val action = FavouriteFragmentDirections.actionFavouriteFragmentToRegisterFragment()
+            findNavController().navigate(action)
+
+
         }
     }
 

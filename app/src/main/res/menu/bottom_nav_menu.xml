@@ -20,7 +20,7 @@
         android:title="Favourites"
         android:icon="@drawable/favorite_black"/>
     <item
-        android:id="@+id/myProfile2"
+        android:id="@+id/myProfile"
         android:title="Profile"
         android:icon="@drawable/profile_black"/>
 

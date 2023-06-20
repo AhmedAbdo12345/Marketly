@@ -39,7 +39,7 @@
                     android:id="@+id/imgV_brand"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ads_img" />
 
                 <TextView

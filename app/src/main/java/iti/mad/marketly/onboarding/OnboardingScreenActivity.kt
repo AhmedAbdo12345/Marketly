@@ -1,8 +1,6 @@
 package iti.mad.marketly.onboarding
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Html
 import android.widget.Button
@@ -12,16 +10,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import iti.mad.marketly.R
-import iti.mad.marketly.presentation.auth.AuthActivity
+import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
+import iti.mad.marketly.presentation.MainActivity
+
 
 class OnboardingScreenActivity : AppCompatActivity() {
-   lateinit var viewPager: ViewPager
-   lateinit var onBoardingModels: List<OnBoardingScreenModel>
+    lateinit var viewPager: ViewPager
+    lateinit var onBoardingModels: List<OnBoardingScreenModel>
     lateinit var pagerAdapter: PagerAdapter
     lateinit var linearLayout: LinearLayout
     lateinit var dots: Array<TextView?>
     lateinit var GetStarted: Button
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_onboarding_screen)
@@ -33,9 +33,7 @@ class OnboardingScreenActivity : AppCompatActivity() {
         add_dotsSlider(0)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
+                position: Int, positionOffset: Float, positionOffsetPixels: Int
             ) {
             }
 
@@ -51,7 +49,7 @@ class OnboardingScreenActivity : AppCompatActivity() {
     private val startedButton: Unit
         private get() {
             GetStarted = findViewById<Button>(R.id.btn_Get_Start)
-            val intent = Intent(this, AuthActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             GetStarted!!.setOnClickListener {
                 updateScreen()
                 startActivity(intent)
@@ -73,10 +71,6 @@ class OnboardingScreenActivity : AppCompatActivity() {
     }
 
     private fun updateScreen() {
-        val Shared: SharedPreferences =
-            getSharedPreferences(DeciderActivity.MYPREFERENCES, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = Shared.edit()
-        editor.putBoolean("seen", true)
-        editor.commit()
+        SharedPreferenceManager.saveOnBoardingSeen(true, this)
     }
 }

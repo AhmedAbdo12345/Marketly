@@ -1,7 +1,5 @@
 package iti.mad.marketly.presentation.auth.signup
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,9 +22,9 @@ import iti.mad.marketly.data.model.customer.Customer
 import iti.mad.marketly.data.model.customer.CustomerBody
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentRegisterBinding
-import iti.mad.marketly.presentation.setCustomFocusChangeListener
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
+import iti.mad.marketly.utils.setCustomFocusChangeListener
 import kotlinx.coroutines.launch
 
 
@@ -51,14 +49,18 @@ class RegisterFragment : Fragment() {
                 registerViewModel.customerRespoonse.collect { uiState ->
                     when (uiState) {
                         is ResponseState.OnSuccess -> {
-                            SharedPreferenceManager.saveUserName(nameEditText.text.toString(),requireContext())
+                            SharedPreferenceManager.saveUserName(
+                                nameEditText.text.toString(),
+                                requireContext()
+                            )
                             binding.progressBar.visibility = View.GONE
                             AlertManager.functionalDialog(
                                 "Register Successfully",
                                 requireContext(),
                                 "please check your E-mail for verification"
                             ) {
-                                val action = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                                val action =
+                                    RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
                                 findNavController().navigate(action)
                             }.show()
                         }
@@ -184,13 +186,13 @@ class RegisterFragment : Fragment() {
                 override fun afterTextChanged(s: Editable) {
                     val password = s.toString().trim { it <= ' ' }
                     if (password.isEmpty()) {
-                        binding.textViewConfirmPasswordError.text = "Password is required"
+                        binding.textViewPasswordError.text = getString(R.string.required)
                     } else if (password.length < 8) {
+                        binding.textViewPasswordError.text =
+                            getString(R.string.password_length_error)
+                    } else if (password != binding.confirmPasswordET.text.toString()) {
                         binding.textViewConfirmPasswordError.text =
-                            "Password must be at least 6 characters"
-                    } else if (password != passwordEditText.text.toString()) {
-                        binding.textViewConfirmPasswordError.text = "Password must be identical"
-
+                            getString(R.string.confirm_password_error)
                     } else {
                         binding.textViewConfirmPasswordError.text = null
                     }

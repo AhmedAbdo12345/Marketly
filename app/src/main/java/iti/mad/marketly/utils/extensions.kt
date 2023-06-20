@@ -1,16 +1,13 @@
-package iti.mad.marketly.presentation
+package iti.mad.marketly.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.EditText
-import com.google.android.material.textfield.TextInputEditText
+import androidx.appcompat.widget.SearchView
 import iti.mad.marketly.R
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.debounce
+
 
 fun EditText.setCustomFocusChangeListener() {
     setOnFocusChangeListener { view, hasFocus ->
@@ -28,26 +25,19 @@ fun Context.hasNetwork(): Boolean {
     val activeNetwork = connectivityManager.activeNetworkInfo
     return activeNetwork != null && activeNetwork.isConnected
 }
-
-
-
-
-fun TextInputEditText.getQueryTextChangeStateFlow(): StateFlow<String> {
-
+fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
     val query = MutableStateFlow("")
-    addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(
-            s: CharSequence, start: Int, count: Int, after: Int
-        ) {
+    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            // Handle search query submission
+            return false
         }
 
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
-            query.value = s.toString()
-        }
-
-        override fun afterTextChanged(s: Editable) {
-
+        override fun onQueryTextChange(newText: String?): Boolean {
+            if (!newText.isNullOrEmpty()&& newText.isNotBlank()) {
+                query.value = newText.trimStart()
+            }
+            return false
         }
     })
 

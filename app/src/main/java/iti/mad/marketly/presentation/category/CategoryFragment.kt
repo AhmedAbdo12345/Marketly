@@ -19,8 +19,10 @@ import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCategoryBinding
+import iti.mad.marketly.presentation.brandProduct.BrandProductFragmentDirections
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
+import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.ResponseState
 import kotlinx.coroutines.launch
 
@@ -45,7 +47,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentCategoryBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
@@ -96,7 +98,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                             for (x in 0 until it.response.custom_collections.size) {
 
                                 var collectionObj = it.response.custom_collections[x]
-                                if (x == 0){
+                                if (x == 0) {
                                     collectionObj.title = "HOME"
                                 }
                                 val myTab = tabLayout.newTab()
@@ -121,37 +123,60 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 val categoryObj = tab.tag as CustomCollection
 
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModelCategoryProduct.getAllCategoryProduct(
-                        categoryObj.id.toString(),
-                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
-                    )
-                    viewModelCategoryProduct.categoryProduct.collect {
+                    if (SharedPreferenceManager.isUserLogin(requireContext())) {
+                        viewModelCategoryProduct.getAllCategoryProduct(
+                            categoryObj.id.toString(),
+                            SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
+                        )
+                    } else {
+                        viewModelCategoryProduct.getAllCategoryProduct(
+                            categoryObj.id.toString(),
+                        )
+
+                    }
+
+                    viewModelCategoryProduct.categoryProduct.collect { it ->
                         when (it) {
-                            is ResponseState.OnLoading ->{
+                            is ResponseState.OnLoading -> {
                                 binding.categoryProductRecView.visibility = View.GONE
                                 binding.categoryProgressbar.visibility = View.VISIBLE
                             }
+
                             is ResponseState.OnSuccess -> {
                                 binding.categoryProductRecView.visibility = View.VISIBLE
                                 binding.categoryProgressbar.visibility = View.GONE
-                                adapterProduct = CategoryProductAdapter(this@CategoryFragment) {
-                                    if (it.isFavourite == true) {
-                                        viewModelCategoryProduct.deleteProductFromFavourite(
-                                            SharedPreferenceManager.getFirebaseUID(requireContext())
-                                                ?: "", it
-                                        )
+                                adapterProduct = CategoryProductAdapter(this@CategoryFragment) {product->
+                                    if (SharedPreferenceManager.isUserLogin(requireContext())){
+                                        if (product.isFavourite == true) {
+                                            viewModelCategoryProduct.deleteProductFromFavourite(
+                                                SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                    ?: "", product
+                                            )
 
 
-                                    } else {
-                                        viewModelCategoryProduct.addProductToFavourite(
+                                        } else {
+                                            viewModelCategoryProduct.addProductToFavourite(
+                                                SharedPreferenceManager.getFirebaseUID(requireContext())
+                                                    ?: "", product
+                                            )
+                                        }
+                                        viewModelCategoryProduct.getAllCategoryProduct(
+                                            categoryObj.id.toString(),
                                             SharedPreferenceManager.getFirebaseUID(requireContext())
-                                                ?: "", it
+                                                ?: ""
                                         )
+
+                                    }else{
+                                        AlertManager.functionalDialog(
+                                            "register",
+                                            requireContext(),
+                                            "you should login or register to save this in your account"
+                                        ) {
+                                         //   val action = CategoryFragmentDirections.
+                                           // findNavController().navigate(action)
+                                        }.show()
                                     }
-                                    viewModelCategoryProduct.getAllCategoryProduct(
-                                        categoryObj.id.toString(),
-                                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: ""
-                                    )
+
 
                                 }
                                 productList = it.response.toMutableList()
@@ -170,6 +195,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                                 binding.categoryProductRecView.visibility = View.GONE
                                 binding.categoryProgressbar.visibility = View.GONE
                             }
+
                             else -> {}
                         }
                     }

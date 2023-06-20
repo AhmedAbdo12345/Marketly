@@ -53,8 +53,7 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var productDetails: ProductDetails
     private var isFavourite: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        /*   val bottomNavigationView =
+        super.onCreate(savedInstanceState)/*   val bottomNavigationView =
                requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavView)
            bottomNavigationView?.visibility = View.GONE*/
 
@@ -69,10 +68,23 @@ class ProductDetailsFragment : Fragment() {
                             binding.addToCartBackground.visibility = View.VISIBLE
                             renderDataOnScreen(uiState.response)
                             productDetails = uiState.response
-                            viewModel.isFavourite(
-                                SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
-                                productDetails.product!!
-                            )
+                            if (SharedPreferenceManager.isUserLogin(requireContext())) {
+                                viewModel.isFavourite(
+                                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                                    productDetails.product!!
+                                )
+                            } else {
+                                AlertManager.functionalDialog(
+                                    "Alert",
+                                    requireContext(),
+                                    "you should Login to use this feature"
+                                ) {
+                                    val action =
+                                        ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
+                                    findNavController().navigate(action)
+                                }
+                            }
+
                         }
 
                         is ResponseState.OnLoading -> {
@@ -191,24 +203,25 @@ class ProductDetailsFragment : Fragment() {
             findNavController().navigate(action)
         }
         binding.cvFavorite.setOnClickListener {
-            if (isFavourite) {
-                viewModel.deleteProductFromFavourite(
-                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
-                    productDetails.product!!
-                )
-                viewModel.isFavourite(
-                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
-                    productDetails.product!!
-                )
-            } else {
-                viewModel.addProductToFavourite(
-                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
-                    productDetails.product!!
-                )
-                viewModel.isFavourite(
-                    SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
-                    productDetails.product!!
-                )
+            if (SharedPreferenceManager.isUserLogin(requireContext())) {
+                if (isFavourite) {
+                    viewModel.deleteProductFromFavourite(
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                        productDetails.product!!
+                    )
+                    viewModel.isFavourite(
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                        productDetails.product!!
+                    )
+                } else {
+                    viewModel.addProductToFavourite(
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                        productDetails.product!!
+                    )
+                    viewModel.isFavourite(
+                        SharedPreferenceManager.getFirebaseUID(requireContext()) ?: "",
+                        productDetails.product!!
+                    )
 
             }
 
@@ -220,6 +233,28 @@ class ProductDetailsFragment : Fragment() {
             cartViewModel.saveCart(cartModel)
             CartManager.addItemToCartList(cartModel)
             AlertManager.nonFunctionalDialog("Saved",requireContext(),"Product sent to cart")
+            if (SharedPreferenceManager.isUserLogin(requireContext())) {
+                val cartProduct = productDetails.product
+                val cartModel = CartModel(
+                    cartProduct?.id!!,
+                    cartProduct.image?.src!!,
+                    cartProduct.variants?.get(0)?.inventory_quantity?.toLong()!!,
+                    cartProduct.variants?.get(0)?.price?.toDouble()!!,
+                    cartProduct?.title!!
+                )
+                cartViewModel.saveCart(cartModel)
+                CartManager.addItemToCartList(cartModel)
+                AlertManager.nonFunctionalDialog("Saved", requireContext(), "Product sent to cart")
+            } else {
+                AlertManager.functionalDialog(
+                    "Alert", requireContext(), "you should Login to use this feature"
+                ) {
+                    val action =
+                        ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
+                    findNavController().navigate(action)
+                }
+            }
+
         })
 
     }
