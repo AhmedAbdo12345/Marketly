@@ -4,8 +4,13 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.ConnectivityManager
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 fun Context.hasNetwork(): Boolean {
@@ -20,6 +25,22 @@ fun Activity.hideSoftKey(){
     val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 }
+
+fun persistImage(activity: Activity, bitmap: Bitmap?, name: String): File {
+    val filesDir = activity.applicationContext.filesDir
+    val imageFile = File(filesDir, "$name.jpg")
+    val os: OutputStream
+    try {
+        os = FileOutputStream(imageFile)
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, os)
+        os.flush()
+        os.close()
+    } catch (e: Exception) {
+        Log.e("Error", "Error writing bitmap", e)
+    }
+    return imageFile
+}
+
 fun Context.loadingDialog(
     title: String = "Loading Action",
     message: String = "Please wait until finish .."

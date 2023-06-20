@@ -25,20 +25,13 @@ data class Image(
 
     val created_at: String?=null,
     val updated_at: String?=null,
-
+    // OnPost
+    val attachment: String?=null,
+    val metafields: List<Metafield?>? = listOf(Metafield()),
+    val filename: String?=null,
     // val variant_ids: List<Int?>?,
 )
 
 data class PostImage(
-    val image: AddImage?
+    val image: Image?
 )
-
-data class AddImage(
-    val alt: String?=null,
-    val attachment: String?=null,
-    val filename: String?=null,
-    val metafields: List<Metafield?>? = listOf(iti.workshop.admin.data.dto.Metafield()),
-    val position: Int? = null,
-    val src: String?="https://img.freepik.com/free-vector/warehouse-robotization-abstract-concept-vector-illustration_335657-5680.jpg",
-
-    )

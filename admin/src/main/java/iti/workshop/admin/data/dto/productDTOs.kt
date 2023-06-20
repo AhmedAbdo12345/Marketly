@@ -1,6 +1,5 @@
 package iti.workshop.admin.data.dto
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -30,7 +29,7 @@ data class Product(
     var handle: String?=null,
 
     @Ignore
-    var image: AddImage?=null,
+    var image: Image?=null,
 
     var product_type: String?=null,
     var published_scope: String?=null,
@@ -42,7 +41,7 @@ data class Product(
     var created_at: String?=null,
     var updated_at: String?=null,
 
-    var images: List<Image>?=null,
+    var images: List<Image?>?=null,
     var variants: List<Variant>?= listOf(Variant(price = Random().nextInt(100).toString())),
     @Ignore
     var options: List<Option>?=null,

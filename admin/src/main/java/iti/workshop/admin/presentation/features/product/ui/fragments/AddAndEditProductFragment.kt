@@ -2,15 +2,13 @@ package iti.workshop.admin.presentation.features.product.ui.fragments
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,22 +23,17 @@ import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.Constants
-import iti.workshop.admin.data.dto.AddImage
+import iti.workshop.admin.data.dto.Image
 import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.data.dto.Variant
-import iti.workshop.admin.data.remote.firestore.FireStoreManager
 import iti.workshop.admin.databinding.ProductFragmentEditAndAddBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.Message
-import iti.workshop.admin.presentation.utils.loadingDialog
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
-import java.util.Random
+import java.io.ByteArrayOutputStream
 
 
 @AndroidEntryPoint
@@ -81,33 +74,52 @@ class AddAndEditProductFragment : Fragment() {
     private fun saveProduct() {
         binding.saveActionBtn.setOnClickListener {
             if (isValidData()) {
-                uploadImageToServer{
-                    saveData(it)
-                }
+                saveData()
 
             }
         }
     }
 
-    private fun saveData(image: String) {
+    private fun saveData() {
         val model:Product =  when(actionType){
             Action.Add -> {
                 Product(
                     title = binding.productTitleInput.text.toString(),
                     body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
                     variants = listOf(Variant(price = binding.valueInput.text.toString())),
-                    image = AddImage(src = image)
+                    image = generateImage(),
+                    images = listOf(
+                        generateImage()
+                    )
                 )
             }
             Action.Edit -> {
                     product.copy(
                         title = binding.productTitleInput.text.toString(),
                         body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
-                        image = AddImage(src = image)
+                        image = generateImage(),
+                        images = listOf(
+                            generateImage()
+                        )
                     )
             }
         }
         viewModel.addOrEditProduct(actionType,model)
+    }
+
+    private fun generateImage(): Image? {
+        if (bitmap!=null){
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            val byteArray = byteArrayOutputStream.toByteArray()
+            val base64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
+            return Image(
+                alt = binding.productTitleInput.text.toString(),
+                attachment = base64,
+                filename = binding.productTitleInput.text.toString()
+            )
+        }
+        return null
     }
 
     private fun isValidData(): Boolean {
@@ -163,14 +175,12 @@ class AddAndEditProductFragment : Fragment() {
         val optionsMenu = arrayOf<CharSequence>(
             "Take Photo",
             "Choose from Gallery",
-            "Exit"
-        ) // create a menuOption Array
-        // create a dialog for showing the optionsMenu
+        )
+
         val builder = AlertDialog.Builder(context)
-        // set the items in builder
         builder.setItems(optionsMenu) { dialogInterface, i ->
             if (optionsMenu[i] == "Take Photo") {
-                // Open the camera and get the photo
+
                 val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(takePicture, 0)
             } else if (optionsMenu[i] == "Choose from Gallery") {
@@ -178,8 +188,6 @@ class AddAndEditProductFragment : Fragment() {
                 val pickPhoto =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(pickPhoto, 1)
-            } else if (optionsMenu[i] == "Exit") {
-                dialogInterface.dismiss()
             }
         }
         builder.show()
@@ -222,13 +230,7 @@ class AddAndEditProductFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.actionResponse.collect{ state ->
                 state.first?.let {
-
-                    Message.snakeMessage(
-                        requireContext(),
-                        binding.root,
-                        state.second,
-                        it
-                    )?.show()
+                    Message.snakeMessage(requireContext(), binding.root, state.second, it)?.show()
                     if (it){
                         binding.productTitleInput.setText("")
                         binding.descriptionInput.setText("")
@@ -272,48 +274,6 @@ class AddAndEditProductFragment : Fragment() {
         }
     }
 
-
-    private fun persistImage(bitmap: Bitmap?, name: String): File {
-        val filesDir = requireActivity().applicationContext.filesDir
-        val imageFile = File(filesDir, "$name.jpg")
-        val os: OutputStream
-        try {
-            os = FileOutputStream(imageFile)
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, os)
-            os.flush()
-            os.close()
-        } catch (e: Exception) {
-            Log.e(javaClass.simpleName, "Error writing bitmap", e)
-        }
-        return imageFile
-    }
-
-    private fun uploadImageToServer(getImage:(image:String)->Unit) {
-        val dialog: ProgressDialog = requireContext().loadingDialog()
-        val imageFile: File = persistImage(bitmap, "product")
-        val folderName = "products"
-        val profileImage = storageRef!!.reference.child(folderName + "/" + Random().nextInt() + ".jpg")
-        val file = Uri.fromFile(imageFile)
-        val uploadTask = profileImage.putFile(file)
-        val urlTask = uploadTask.continueWithTask<Uri> { task ->
-            if (!task.isSuccessful) {
-                throw task.exception!!
-            }
-
-            // Continue with the task to get the download URL
-            profileImage.downloadUrl
-        }.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val downloadUri = task.result
-                    val image = downloadUri.toString()
-                getImage(image)
-
-            }
-        }.addOnFailureListener { e ->
-            dialog.dismiss()
-            Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
-        }
-    }
 
 
 }

@@ -2,8 +2,6 @@ package iti.workshop.admin.data.remote.retrofit.product
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import iti.workshop.admin.data.dto.AddImage
-import iti.workshop.admin.data.dto.PostImage
 import iti.workshop.admin.data.dto.Variant
 import iti.workshop.admin.data.dto.VariantSingleResponseAndRequest
 import iti.workshop.admin.data.remote.retrofit.RetrofitInstance

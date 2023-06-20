@@ -1,7 +1,6 @@
 package iti.workshop.admin.data.local.room
 
 import androidx.room.TypeConverter
-import iti.workshop.admin.data.dto.AddImage
 import iti.workshop.admin.data.dto.Image
 import iti.workshop.admin.data.dto.Variant
 
@@ -30,12 +29,12 @@ class ImageListConverters {
 
 class ImageConverters {
     @TypeConverter
-    fun fromSrcToImage(data: String?): AddImage {
-        return AddImage(src = data)
+    fun fromSrcToImage(data: String?): Image {
+        return Image(src = data)
     }
 
     @TypeConverter
-    fun fromImageListToString(data: AddImage?): String? {
+    fun fromImageListToString(data: Image?): String? {
         return data?.src
     }
 }
