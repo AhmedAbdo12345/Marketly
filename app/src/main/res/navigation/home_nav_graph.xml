@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -32,11 +32,11 @@
             android:id="@+id/action_brandProductFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
         <action
-            android:id="@+id/action_brandProductFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
-        <action
             android:id="@+id/action_brandProductFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_brandProductFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -142,22 +142,14 @@
         tools:layout="@layout/fragment_search">
         <argument
             android:name="come_from"
-            android:defaultValue="HOME"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="HOME" />
         <action
             android:id="@+id/action_searchFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="iti.mad.marketly.presentation.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash">
         <action
-            android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"/>
+            android:id="@+id/action_searchFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/draftAddressFragment"
