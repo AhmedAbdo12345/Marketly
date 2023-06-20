@@ -223,16 +223,10 @@ class ProductDetailsFragment : Fragment() {
                         productDetails.product!!
                     )
 
+                }
             }
-
         }
         binding.addToCartProductDetailsPage.setOnClickListener(View.OnClickListener {
-            val cartProduct = productDetails.product
-            val cartModel = CartModel(cartProduct?.id!!, cartProduct.image?.src!!
-            ,cartProduct.variants?.get(0)?.inventory_quantity?.toLong()!!,cartProduct.variants?.get(0)?.price?.toDouble()!!,cartProduct?.title!!,cartProduct.variants?.get(1)?.id!!)
-            cartViewModel.saveCart(cartModel)
-            CartManager.addItemToCartList(cartModel)
-            AlertManager.nonFunctionalDialog("Saved",requireContext(),"Product sent to cart")
             if (SharedPreferenceManager.isUserLogin(requireContext())) {
                 val cartProduct = productDetails.product
                 val cartModel = CartModel(

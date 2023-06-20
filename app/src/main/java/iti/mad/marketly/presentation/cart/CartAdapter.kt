@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import iti.mad.marketly.data.model.cart.CartModel
@@ -25,25 +26,30 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
         val currentItem=getItem(position)
         val maxQuant = currentItem.quantity
         var quant = 1
+        val recentPrice = currentItem.price
         Glide.with(context!!).load(currentItem.imageURL).centerCrop().into(holder.binding.cartImage)
         holder.binding.cartName.text = currentItem.title
         holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
         holder.binding.cartPrice.text = currentItem.price.toString()
         holder.binding.quantityTvCart.text = quant.toString()
         holder.binding.plusLayout.setOnClickListener(View.OnClickListener {
-            if(quant < maxQuant && maxQuant > 1){
+            if(quant < maxQuant ){
                 quant++
+                currentItem.price = recentPrice * quant
                 holder.binding.quantityTvCart.text = quant.toString()
                 holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
-                //currentItem.price = currentItem.price * quant
+
+
             }
         })
         holder.binding.minusLayout.setOnClickListener(View.OnClickListener {
             if(quant > 1){
                 quant--
+                currentItem.price = recentPrice * quant
                 holder.binding.quantityTvCart.text = quant.toString()
                 holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()
-                //currentItem.price = currentItem.price * quant
+
+
             }
         })
         holder.binding.cartMore.setOnClickListener(View.OnClickListener {
