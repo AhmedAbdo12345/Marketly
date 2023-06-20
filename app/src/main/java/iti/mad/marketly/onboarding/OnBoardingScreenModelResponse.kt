@@ -11,7 +11,7 @@ object OnBoardingScreenModelResponse {
                 OnBoardingScreenModel(
                     R.drawable.onboarding4, "Discover Trends",
                     """
-                Now we one here to provide variety
+               Now we one here to provide variety
                     of the best fashion
                 """.trimIndent()
                 )

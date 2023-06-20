@@ -16,12 +16,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/dots_Slider"/>
+            app:layout_constraintBottom_toTopOf="@+id/dots_Slider"/>
 
     <LinearLayout
         android:id="@+id/dots_Slider"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:layoutDirection="ltr"
@@ -36,8 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:layout_marginBottom="18dp"
-        android:background="@drawable/button_bck"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_bg"
         android:text="GET STARTED"
         android:textAllCaps="false"
         android:textColor="@color/white"
