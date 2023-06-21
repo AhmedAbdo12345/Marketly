@@ -18,8 +18,8 @@ data class Variant(
     val product_id: Long? = null,
 
     // Options
-    val option1: String="Nothing",
-    val option2: String="Nothing",
+    val option1: String?=null,
+    val option2: String?=null,
     val option3: String?=null,
 
     val admin_graphql_api_id: String?=null,
