@@ -34,6 +34,8 @@ import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImage
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesOnCLickListener
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsOnCLickListener
+import iti.workshop.admin.presentation.features.product.ui.dialogs.AddImageToLocalDialog
+import iti.workshop.admin.presentation.features.product.ui.dialogs.AddVariantToLocalDialog
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.Message
@@ -46,17 +48,29 @@ import java.io.ByteArrayOutputStream
 @AndroidEntryPoint
 class AddAndEditProductFragment : Fragment() {
 
-    var actionType:Action = Action.Add
+    var actionType: Action = Action.Add
     var product: Product = Product()
-    lateinit var imageAdapter: ProductImagesAdapter
-    lateinit var variantAdapter: ProductVariantsAdapter
+
 
     private var bitmap: Bitmap? = null
-    lateinit var loadingDialog:ProgressDialog
+    lateinit var loadingDialog: ProgressDialog
     private val viewModel: ProductViewModel by viewModels()
     lateinit var binding: ProductFragmentEditAndAddBinding
 
 
+    // Variant and Images List Issues
+    // Adapters
+    lateinit var imageAdapter: ProductImagesAdapter
+    lateinit var variantAdapter: ProductVariantsAdapter
+
+    // Dialogs
+    lateinit var addImageDialog: AddImageToLocalDialog
+    lateinit var addVariantDialog: AddVariantToLocalDialog
+
+    // MutableLists
+
+    var variantsList: MutableList<Variant> = mutableListOf()
+    var imagesList: MutableList<Image?> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -68,14 +82,14 @@ class AddAndEditProductFragment : Fragment() {
             container,
             false
         )
-        loadingDialog =  requireContext().loadingDialog()
+        loadingDialog = requireContext().loadingDialog()
         binding.lifecycleOwner = viewLifecycleOwner
 
-        imageAdapter = ProductImagesAdapter(ProductImagesOnCLickListener(::selectImage,::deleteImage),true)
-        binding.imagesAdapter = imageAdapter
+        adapterHandler()
+        dialogHandler()
+        checkIfListOfVariantsIsNull()
+        checkIfListOfImagesIsNull()
 
-        variantAdapter = ProductVariantsAdapter(ProductVariantsOnCLickListener(::selectVariant,::deleteVariant),true)
-        binding.variantAdapter = variantAdapter
 
         updateProduct()
         updateUIStates()
@@ -85,67 +99,60 @@ class AddAndEditProductFragment : Fragment() {
         return binding.root
     }
 
-    private fun deleteVariant(variant: Variant) {
-
-    }
-
-    private fun selectVariant(variant: Variant) {
-
-    }
-
-    private fun deleteImage(image: Image) {
-
-    }
-
-    private fun selectImage(image: Image) {
-
-
-    }
 
     private fun saveProduct() {
         binding.saveActionBtn.setOnClickListener {
-            if (isValidData()) { saveData() }
+            if (isValidData()) {
+                saveData()
+            }
         }
     }
 
     private fun saveData() {
-        if (::loadingDialog.isInitialized){
+        if (::loadingDialog.isInitialized) {
             loadingDialog.show()
         }
-        val model:Product =  when(actionType){
+
+
+
+        val imageHeader = generateImage()
+
+        val model: Product = when (actionType) {
             Action.Add -> {
+
+                val varaintHeader =
+                    Variant(title = "Main Product", price = binding.valueInput.text.toString())
+                imagesList.add(0, imageHeader)
+                variantsList.add(0, varaintHeader)
+
                 Product(
                     title = binding.productTitleInput.text.toString(),
                     body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
-                    variants = mutableListOf(Variant(price = binding.valueInput.text.toString())),
-                    image = generateImage(),
-                    images = mutableListOf(
-                        generateImage()
-                    ),
+                    variants = variantsList,
+                    image = imageHeader,
+                    images = imagesList,
                     tags = binding.categoryTypeInput.text.toString(),
                     product_type = binding.productTypeInput.text.toString(),
                     vendor = binding.productVendorInput.text.toString()
                 )
             }
+
             Action.Edit -> {
-                    product.copy(
-                        title = binding.productTitleInput.text.toString(),
-                        body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
-                        image = generateImage(),
-                        images = mutableListOf(
-                            generateImage()
-                        ),
-                        tags = binding.categoryTypeInput.text.toString(),
-                        product_type = binding.productTypeInput.text.toString(),
-                        vendor = binding.productVendorInput.text.toString()
-                    )
+                product.copy(
+                    title = binding.productTitleInput.text.toString(),
+                    body_html = "<p>${binding.descriptionInput.text.toString()}</p>",
+                    image = imageHeader,
+                    tags = binding.categoryTypeInput.text.toString(),
+                    product_type = binding.productTypeInput.text.toString(),
+                    vendor = binding.productVendorInput.text.toString()
+                )
             }
         }
-        viewModel.addOrEditProduct(actionType,model)
+        viewModel.addOrEditProduct(actionType, model)
     }
 
     private fun generateImage(): Image? {
-        if (bitmap!=null){
+        if (bitmap != null) {
             val byteArrayOutputStream = ByteArrayOutputStream()
             bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
             val byteArray = byteArrayOutputStream.toByteArray()
@@ -175,12 +182,12 @@ class AddAndEditProductFragment : Fragment() {
             return false
         }
 
-        if (binding.valueInput.text.toString().toInt() == 0) {
+        if (binding.valueInput.text.toString().toFloat() == 0f) {
             binding.valueInput.error = "Please put value of product more than Zero"
             return false
         }
 
-        if (binding.valueInput.text.toString().toInt() > 10000) {
+        if (binding.valueInput.text.toString().toFloat() > 10000f) {
             binding.valueInput.error = "Please don't put value of product more than 10,000"
             return false
         }
@@ -214,10 +221,16 @@ class AddAndEditProductFragment : Fragment() {
         bundle.putSerializable(ConstantsKeys.ACTION_KEY, actionType)
 
         binding.addProductImages.setOnClickListener {
-            findNavController().navigate(R.id.action_addAndEditProductFragment_to_productsImagesListFragment,bundle)
+            findNavController().navigate(
+                R.id.action_addAndEditProductFragment_to_productsImagesListFragment,
+                bundle
+            )
         }
         binding.addProductVariants.setOnClickListener {
-            findNavController().navigate(R.id.action_addAndEditProductFragment_to_productsVariantsListFragment,bundle)
+            findNavController().navigate(
+                R.id.action_addAndEditProductFragment_to_productsVariantsListFragment,
+                bundle
+            )
 
         }
 
@@ -272,7 +285,13 @@ class AddAndEditProductFragment : Fragment() {
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
                     if (selectedImage != null) {
                         val cursor =
-                            requireActivity().contentResolver.query(selectedImage, filePathColumn, null, null, null)
+                            requireActivity().contentResolver.query(
+                                selectedImage,
+                                filePathColumn,
+                                null,
+                                null,
+                                null
+                            )
                         if (cursor != null) {
                             cursor.moveToFirst()
                             val columnIndex = cursor.getColumnIndex(filePathColumn[0])
@@ -292,13 +311,13 @@ class AddAndEditProductFragment : Fragment() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun updateUIStates() {
         lifecycleScope.launch {
-            viewModel.actionResponse.collect{ state ->
-                if (loadingDialog.isShowing){
+            viewModel.actionResponse.collect { state ->
+                if (loadingDialog.isShowing) {
                     loadingDialog.dismiss()
                 }
                 state.first?.let {
                     Message.snakeMessage(requireContext(), binding.root, state.second, it)?.show()
-                    if (it){
+                    if (it) {
                         binding.productTitleInput.clearComposingText()
                         binding.descriptionInput.clearComposingText()
                         binding.valueInput.clearComposingText()
@@ -318,10 +337,13 @@ class AddAndEditProductFragment : Fragment() {
                     is DataListResponseState.OnError -> {
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
+
                     is DataListResponseState.OnLoading -> {
                     }
+
                     is DataListResponseState.OnNothingData -> {
                     }
+
                     is DataListResponseState.OnSuccess -> {
                         Toast.makeText(requireContext(), "Data Has been Added", Toast.LENGTH_SHORT)
                             .show()
@@ -336,11 +358,16 @@ class AddAndEditProductFragment : Fragment() {
         val bundle = arguments
         if (bundle != null) {
             actionType = bundle.getSerializable(ConstantsKeys.ACTION_KEY) as Action
-            if (actionType == Action.Edit){
+            if (actionType == Action.Edit) {
                 binding.addProductImage.visibility = View.GONE
+                binding.imageRecyclerHolder.visibility = View.GONE
+                binding.variantRecyclerHolder.visibility = View.GONE
                 product = bundle.getSerializable(ConstantsKeys.PRODUCT_KEY) as Product
                 binding.dataModel = product
-            }else{
+//                variantsList= product.variants as MutableList<Variant>
+//                imagesList = product.images as MutableList<Image?>
+
+            } else {
                 binding.editVariantsAndImagesHolder.visibility = View.GONE
             }
 
@@ -348,5 +375,94 @@ class AddAndEditProductFragment : Fragment() {
     }
 
 
+    // region Variant and Image Rank
+    private fun AddImage(image: Image) {
+        imagesList.add(image)
+        imageAdapter.submitList(imagesList)
+        imageAdapter.notifyItemInserted(imagesList.lastIndex)
+        checkIfListOfImagesIsNull()
+    }
+
+    private fun AddVaraint(variant: Variant) {
+        variantsList.add(variant)
+        variantAdapter.submitList(variantsList)
+        variantAdapter.notifyItemInserted(variantsList.lastIndex)
+        checkIfListOfVariantsIsNull()
+    }
+
+    private fun deleteVariant(variant: Variant) {
+        variantsList.remove(variant)
+        variantAdapter.notifyItemRemoved(variantsList.indexOf(variant))
+        checkIfListOfVariantsIsNull()
+    }
+
+    private fun selectVariant(variant: Variant) {
+
+    }
+
+    private fun deleteImage(image: Image) {
+        imagesList.remove(image)
+        variantAdapter.notifyItemRemoved(imagesList.indexOf(image))
+        checkIfListOfImagesIsNull()
+    }
+
+    private fun selectImage(image: Image) {
+        val bundle = Bundle()
+        bundle.putSerializable(ConstantsKeys.IMAGE_KEY, image)
+        findNavController().navigate(
+            R.id.action_addAndEditProductFragment_to_imagePreviewDialog,
+            bundle
+        )
+    }
+
+    private fun dialogHandler() {
+        addVariantDialog = AddVariantToLocalDialog(::AddVaraint)
+        addImageDialog = AddImageToLocalDialog(::AddImage)
+        binding.addPictureAction.setOnClickListener {
+            addImageDialog.show(requireActivity().supportFragmentManager, "addPictureAction")
+        }
+        binding.addVariantAction.setOnClickListener {
+            addVariantDialog.show(requireActivity().supportFragmentManager, "addVariantAction")
+        }
+    }
+
+
+    private fun adapterHandler() {
+        imageAdapter = ProductImagesAdapter(
+            ProductImagesOnCLickListener(::selectImage, ::deleteImage), disableDelete = false,
+            isBase64 = true
+        )
+        binding.imagesAdapter = imageAdapter
+
+        variantAdapter = ProductVariantsAdapter(
+            ProductVariantsOnCLickListener(::selectVariant, ::deleteVariant),
+            disableDelete = false
+        )
+        binding.variantAdapter = variantAdapter
+
+    }
+
+    private fun checkIfListOfVariantsIsNull() {
+        if (variantsList.isEmpty()) {
+            binding.nothingDataResponse.visibility = View.VISIBLE
+            binding.recyclerView.visibility = View.GONE
+        } else {
+            binding.nothingDataResponse.visibility = View.GONE
+            binding.recyclerView.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun checkIfListOfImagesIsNull() {
+        if (imagesList.isEmpty()) {
+            binding.nothingDataResponseImage.visibility = View.VISIBLE
+            binding.recyclerViewImage.visibility = View.GONE
+        } else {
+            binding.nothingDataResponseImage.visibility = View.GONE
+            binding.recyclerViewImage.visibility = View.VISIBLE
+        }
+    }
+
+    // endregion Variant and Image Rank
 
 }

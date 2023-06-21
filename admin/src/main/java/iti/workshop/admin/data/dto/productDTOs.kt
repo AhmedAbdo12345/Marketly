@@ -41,8 +41,8 @@ data class Product(
     var created_at: String?=null,
     var updated_at: String?=null,
 
-    var images: MutableList<Image?>?=null,
-    var variants: MutableList<Variant>?= mutableListOf(Variant(price = Random().nextInt(100).toString())),
+    var images: MutableList<Image?>?= mutableListOf(),
+    var variants: List<Variant>?= listOf(Variant(price = Random().nextInt(100).toString())),
 //    @Ignore
 //    var options: List<Option>?=null,
     @Ignore

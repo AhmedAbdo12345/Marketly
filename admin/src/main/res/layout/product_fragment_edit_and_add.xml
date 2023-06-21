@@ -46,6 +46,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/value_input"
+                    android:text="@{dataModel.variants.get(0).price}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
@@ -141,7 +142,8 @@
                     android:id="@+id/categoryTypeInput"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="none"
+                    android:inputType="textAutoComplete"
+                    android:text="@{dataModel.tags}"
                     app:simpleItems="@array/product_categories" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -161,7 +163,8 @@
                     android:id="@+id/productTypeInput"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="none"
+                    android:text="@{dataModel.product_type}"
+                    android:inputType="textAutoComplete"
                     app:simpleItems="@array/product_types" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -252,6 +255,142 @@
                 app:layout_constraintStart_toStartOf="@+id/saveActionBtn"
                 app:layout_constraintTop_toBottomOf="@+id/editVariantsAndImagesHolder">
 
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:id="@+id/variantRecyclerHolder">
+                   <LinearLayout
+                       android:layout_margin="10dp"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+
+                       <TextView
+                           android:layout_weight="1"
+                           style="@style/sub_title"
+                           android:drawableTint="@color/primary"
+                           android:drawableStart="@drawable/ic_variants"
+                           android:layout_margin="3dp"
+                           android:gravity="start|center_vertical"
+                           android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:text="Product Variants"/>
+                       <androidx.appcompat.widget.AppCompatButton
+                           android:id="@+id/addVariantAction"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/btn_bg3"
+                           android:drawableStart="@drawable/ic_variants"
+                           android:drawableTint="@color/black"
+                           android:padding="10dp"
+                           android:layout_margin="10dp"
+                           android:text=" Add Variant"
+                           android:textColor="@color/black" />
+
+
+
+                   </LinearLayout>
+                   <LinearLayout
+                       android:gravity="center"
+                       android:id="@+id/recycler_view_holder"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical">
+
+
+                       <LinearLayout
+                           android:id="@+id/nothing_data_response"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:visibility="gone">
+
+                           <include layout="@layout/utils_no_data_view_lottie" />
+                       </LinearLayout>
+
+                       <androidx.recyclerview.widget.RecyclerView
+
+                           android:id="@+id/recycler_view"
+                           android:layout_width="match_parent"
+                           android:layout_height="0dp"
+                           android:layout_weight="1"
+                           android:adapter="@{variantAdapter}"
+                           android:orientation="horizontal"
+                           app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                           app:spanCount="1"
+                           tools:listitem="@layout/product_item_variant">
+
+                       </androidx.recyclerview.widget.RecyclerView>
+                   </LinearLayout>
+               </LinearLayout>
+
+
+               <LinearLayout
+                   android:id="@+id/imageRecyclerHolder"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_margin="10dp"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+
+                       <TextView
+                           style="@style/sub_title"
+                           android:drawableTint="@color/primary"
+                           android:drawableStart="@drawable/ic_images"
+                           android:gravity="start|center_vertical"
+                           android:layout_weight="1"
+                           android:layout_width="wrap_content"
+                           android:layout_height="match_parent"
+                           android:text=" Product Images"/>
+
+                       <androidx.appcompat.widget.AppCompatButton
+                           android:id="@+id/addPictureAction"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:background="@drawable/btn_bg3"
+                           android:drawableStart="@drawable/ic_camera"
+                           android:drawableTint="@color/black"
+                           android:padding="10dp"
+                           android:layout_margin="10dp"
+                           android:text=" Add Picture"
+                           android:textColor="@color/black" />
+
+                   </LinearLayout>
+                   <LinearLayout
+                       android:gravity="center"
+                       android:id="@+id/recycler_view_holder_image"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical">
+                       <LinearLayout
+                           android:id="@+id/nothing_data_response_image"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:visibility="gone">
+
+                           <include layout="@layout/utils_no_data_view_lottie" />
+                       </LinearLayout>
+
+                       <androidx.recyclerview.widget.RecyclerView
+
+                           android:id="@+id/recycler_view_image"
+                           android:layout_width="match_parent"
+                           android:layout_height="0dp"
+                           android:layout_weight="1"
+                           android:adapter="@{imagesAdapter}"
+                           android:orientation="horizontal"
+                           app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                           app:spanCount="1"
+                           tools:listitem="@layout/product_item_image">
+
+                       </androidx.recyclerview.widget.RecyclerView>
+                   </LinearLayout>
+               </LinearLayout>
 
             </LinearLayout>
 

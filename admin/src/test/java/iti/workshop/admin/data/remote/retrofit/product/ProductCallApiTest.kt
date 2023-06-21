@@ -29,7 +29,7 @@ class ProductCallApiTest {
 
     @Before
     fun initRetrofit() {
-        productCallApi = RetrofitInstance.productCallApi
+//        productCallApi = RetrofitInstance.productCallApi
     }
 
     @Test

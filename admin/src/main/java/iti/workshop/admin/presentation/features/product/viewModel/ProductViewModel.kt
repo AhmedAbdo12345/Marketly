@@ -187,7 +187,7 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch {
             val response = async { _useCases.deleteImageProduct(product_id, image_id) }
             if (response.await().isSuccessful) {
-                // TODO
+                retrieveImagesProductFromServer(product_id)
                 _actionResponse.value = Pair(true, "Image Deleted Successfully")
             } else {
                 _actionResponse.value = Pair(false, response.await().errorBody()?.string())
@@ -199,7 +199,7 @@ class ProductViewModel @Inject constructor(
         viewModelScope.launch {
             val response = async { _useCases.deleteVariantProduct(product_id, variant_id) }
             if (response.await().isSuccessful) {
-                // TODO
+                retrieveVariantsProductFromServer(product_id)
                 _actionResponse.value = Pair(true, "Variant Deleted Successfully")
             } else {
                 _actionResponse.value = Pair(false, response.await().errorBody()?.string())

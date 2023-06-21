@@ -92,6 +92,9 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_addAndEditProductFragment_to_imagePreviewDialog"
+            app:destination="@id/imagePreviewDialog" />
     </fragment>
     <fragment
         android:id="@+id/previewProductFragment"

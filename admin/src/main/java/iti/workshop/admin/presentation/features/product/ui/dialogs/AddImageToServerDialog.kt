@@ -12,25 +12,19 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import iti.workshop.admin.R
-import iti.workshop.admin.data.dto.DiscountCode
 import iti.workshop.admin.data.dto.Image
-import iti.workshop.admin.data.dto.Variant
-import iti.workshop.admin.databinding.CouponDialogAddDiscountCodeBinding
 import iti.workshop.admin.databinding.ProductDialogAddImageBinding
-import iti.workshop.admin.databinding.ProductDialogAddVariantBinding
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
-import iti.workshop.admin.presentation.utils.chooseImage
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
-class AddImageDialog(
+class AddImageToServerDialog(
     private val viewModel:ProductViewModel,
     private val productId:Long = -1L
 ) : DialogFragment() {

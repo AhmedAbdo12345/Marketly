@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,9 +18,7 @@ import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductImagesOnCLickListener
-import iti.workshop.admin.presentation.features.product.ui.dialogs.AddImageDialog
-import iti.workshop.admin.presentation.features.product.ui.dialogs.AddVariantDialog
-import iti.workshop.admin.presentation.features.product.ui.dialogs.ImagePreviewDialog
+import iti.workshop.admin.presentation.features.product.ui.dialogs.AddImageToServerDialog
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
@@ -114,7 +111,7 @@ class ProductsImagesListFragment : Fragment() {
     }
     private fun addImageNewOne() {
         binding.addAction.setOnClickListener {
-            val dialogFragment = AddImageDialog(viewModel, product?.id?:-1)
+            val dialogFragment = AddImageToServerDialog(viewModel, product?.id?:-1)
             dialogFragment.show(requireActivity().supportFragmentManager, "AddImageDialog")
         }
     }

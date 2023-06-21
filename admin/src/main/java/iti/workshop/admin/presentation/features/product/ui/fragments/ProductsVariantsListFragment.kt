@@ -17,7 +17,7 @@ import iti.workshop.admin.databinding.ProductFragmentListVariantsBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsAdapter
 import iti.workshop.admin.presentation.features.product.ui.adapters.ProductVariantsOnCLickListener
-import iti.workshop.admin.presentation.features.product.ui.dialogs.AddVariantDialog
+import iti.workshop.admin.presentation.features.product.ui.dialogs.AddVariantToServerDialog
 import iti.workshop.admin.presentation.features.product.viewModel.ProductViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
@@ -105,7 +105,7 @@ class ProductsVariantsListFragment : Fragment() {
     }
     private fun addVariantNewOne() {
         binding.floatingActionButton.setOnClickListener {
-            val dialogFragment = AddVariantDialog(viewModel, product?.id?:-1)
+            val dialogFragment = AddVariantToServerDialog(viewModel, product?.id?:-1)
             dialogFragment.show(requireActivity().supportFragmentManager, "AddVariantDialog")
         }
     }

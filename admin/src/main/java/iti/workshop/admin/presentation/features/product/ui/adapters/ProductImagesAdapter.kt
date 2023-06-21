@@ -1,11 +1,16 @@
 package iti.workshop.admin.presentation.features.product.ui.adapters
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.Image
 import iti.workshop.admin.databinding.ProductItemImageBinding
@@ -13,7 +18,8 @@ import iti.workshop.admin.databinding.ProductItemImageBinding
 
 class ProductImagesAdapter(
     private val clickListener: ProductImagesOnCLickListener,
-    private val disableDelete: Boolean = false
+    private val disableDelete: Boolean = false,
+    private val isBase64: Boolean = false,
 ) : ListAdapter<Image, ProductImagesAdapter.MyViewHolder>(ProductImagesDiffCallback()) {
 
 
@@ -34,6 +40,7 @@ class ProductImagesAdapter(
             } else {
                 binder.productAddToFavSingleProduct.visibility = View.VISIBLE
             }
+            bindingImage(binder.imageProduct,data)
             binder.model = data
             binder.clickListener = itemOnCLickListener
             binder.executePendingBindings()
@@ -41,6 +48,18 @@ class ProductImagesAdapter(
     }
 
 
+    fun bindingImage(imageView: ImageView, data: Image) {
+            if (isBase64){
+                val decodedBytes = Base64.decode(data.attachment, Base64.DEFAULT)
+                val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                imageView.setImageBitmap(bitmap)
+            }else{
+                Glide.with(imageView.context)
+                    .load(data.src)
+                    .apply( RequestOptions())
+                    .into(imageView)
+            }
+    }
 }
 
 class ProductImagesDiffCallback : DiffUtil.ItemCallback<Image>() {

@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
         binding.adminTitle.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_authProfilePreviewFragment) }
         binding.adminImage.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_authProfilePreviewFragment) }
         binding.cardsHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_productsListFragment) }
-        binding.inventoryHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_inventoryFragment) }
+//        binding.inventoryHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_inventoryFragment) }
         binding.couponHolder.setOnClickListener { findNavController().navigate(R.id.action_homeFragment_to_priceRuleFragment) }
     }
 
