@@ -126,13 +126,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         // Handle the item click here
                         /*Log.d("cart","navigate")*/
                        // binding.notLoginConstraint.visibility = View.GONE
-                        if (SharedPreferenceManager.isUserLogin(requireContext())) {
-                      findNavController().navigate(R.id.cartFragment2)
-                  }else{
-                     // menuItem.isEnabled = false
-                   //   binding.notLoginConstraint.visibility = View.VISIBLE
-                    //  handleRegister()
-                  }
+
                         true
                     }
 
