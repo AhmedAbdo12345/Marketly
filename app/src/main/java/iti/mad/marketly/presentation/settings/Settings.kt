@@ -49,6 +49,9 @@ class Settings : Fragment() {
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.topBarLayout.backArrow.setOnClickListener(View.OnClickListener {
+            findNavController().navigateUp()
+        })
         binding.nameEtSettingsPage.isEnabled=false
         val name=binding.nameEtSettingsPage.text.toString()
         binding.nameEtSettingsPage.setText(SettingsManager.getUserName())

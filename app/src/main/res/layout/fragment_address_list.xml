@@ -12,6 +12,17 @@
         android:layout_height="match_parent"
         tools:context=".presentation.category.CategoryFragment">
 
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="668dp"
+            app:layout_constraintBottom_toBottomOf="@+id/addressProductRecView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
         <ProgressBar
             android:id="@+id/address_progressbar"
             android:layout_width="match_parent"
