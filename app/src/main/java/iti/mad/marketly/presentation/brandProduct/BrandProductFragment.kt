@@ -109,6 +109,8 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)*/
+        displayToolBar()
+
         displaySliderFilter()
         filterProducts()
 
@@ -303,11 +305,13 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
 
     }
 
-/*    private fun displayToolBar() {
-        val toolbar = binding.toolbarBrandProduct
-
+    private fun displayToolBar() {
+        val toolbar = binding.appBar.toolbar
         val activity = activity as AppCompatActivity
         activity.setSupportActionBar(toolbar)
         activity.supportActionBar?.title = "Products"
-    }*/
+        binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
+            findNavController().navigateUp()
+        })
+    }
 }

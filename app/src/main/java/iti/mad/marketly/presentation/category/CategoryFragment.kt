@@ -19,7 +19,6 @@ import iti.mad.marketly.data.model.category.CustomCollection
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCategoryBinding
-import iti.mad.marketly.presentation.brandProduct.BrandProductFragmentDirections
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductAdapter
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductViewModel
 import iti.mad.marketly.utils.AlertManager
@@ -67,7 +66,7 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 binding.fabTShirt.visibility = View.VISIBLE
                 binding.fabShoes.visibility = View.VISIBLE
                 binding.faMenu.setImageResource(R.drawable.close_white)
-            }else{
+            } else {
                 binding.fabCap.visibility = View.GONE
                 binding.fabTShirt.visibility = View.GONE
                 binding.fabShoes.visibility = View.GONE
@@ -145,41 +144,44 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                             is ResponseState.OnSuccess -> {
                                 binding.categoryProductRecView.visibility = View.VISIBLE
                                 binding.categoryProgressbar.visibility = View.GONE
-                                adapterProduct = CategoryProductAdapter(this@CategoryFragment) {product->
-                                    if (SharedPreferenceManager.isUserLogin(requireContext())){
-                                        if (product.isFavourite == true) {
-                                            viewModelCategoryProduct.deleteProductFromFavourite(
-                                                SharedPreferenceManager.getFirebaseUID(requireContext())
-                                                    ?: "", product
-                                            )
+                                adapterProduct =
+                                    CategoryProductAdapter(this@CategoryFragment) { product ->
+                                        if (SharedPreferenceManager.isUserLogin(requireContext())) {
+                                            if (product.isFavourite == true) {
+                                                viewModelCategoryProduct.deleteProductFromFavourite(
+                                                    SharedPreferenceManager.getFirebaseUID(
+                                                        requireContext()
+                                                    ) ?: "", product
+                                                )
 
+
+                                            } else {
+                                                viewModelCategoryProduct.addProductToFavourite(
+                                                    SharedPreferenceManager.getFirebaseUID(
+                                                        requireContext()
+                                                    ) ?: "", product
+                                                )
+                                            }
+                                            viewModelCategoryProduct.getAllCategoryProduct(
+                                                categoryObj.id.toString(),
+                                                SharedPreferenceManager.getFirebaseUID(
+                                                    requireContext()
+                                                ) ?: ""
+                                            )
 
                                         } else {
-                                            viewModelCategoryProduct.addProductToFavourite(
-                                                SharedPreferenceManager.getFirebaseUID(requireContext())
-                                                    ?: "", product
-                                            )
+                                            AlertManager.functionalDialog("register",
+                                                requireContext(),
+                                                "you should login or register to save this in your account",
+                                                {
+                                                    val action =
+                                                        CategoryFragmentDirections.actionCategoryFragmentToLoginFragment()
+                                                    findNavController().navigate(action)
+                                                }).show()
                                         }
-                                        viewModelCategoryProduct.getAllCategoryProduct(
-                                            categoryObj.id.toString(),
-                                            SharedPreferenceManager.getFirebaseUID(requireContext())
-                                                ?: ""
-                                        )
 
-                                    }else{
-                                        AlertManager.functionalDialog(
-                                            "register",
-                                            requireContext(),
-                                            "you should login or register to save this in your account"
-                                        ,{
-                                                val action =
-                                                    BrandProductFragmentDirections.actionBrandProductFragmentToLoginFragment()
-                                                findNavController().navigate(action)
-                                            }).show()
+
                                     }
-
-
-                                }
                                 productList = it.response.toMutableList()
 
 

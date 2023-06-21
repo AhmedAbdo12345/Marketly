@@ -122,16 +122,16 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/metropolis_semibold"
 
-                        android:gravity="right"
+                        android:gravity="start"
                         android:textColor="@color/textAd"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
                         tools:text="Price" />
 
                     <TextView
                         android:id="@+id/totalItemCardPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="end"
+                        android:gravity="start"
                         android:text="total price" />
 
                 </LinearLayout>
