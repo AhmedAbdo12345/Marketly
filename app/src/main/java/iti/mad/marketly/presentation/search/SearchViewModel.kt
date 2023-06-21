@@ -45,7 +45,7 @@ class SearchViewModel(private val searchRepo: SearchRepo, val favouriteRep: IFav
     }
 
     fun searchForProduct(searchName: String) {
-        if (searchName.isEmpty()) {
+        if (searchName.isEmpty() || searchName.isBlank()) {
             if (::products.isInitialized) {
                 _resultProducts.value = ResponseState.OnSuccess(products)
             }

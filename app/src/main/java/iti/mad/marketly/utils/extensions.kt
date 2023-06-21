@@ -25,6 +25,7 @@ fun Context.hasNetwork(): Boolean {
     val activeNetwork = connectivityManager.activeNetworkInfo
     return activeNetwork != null && activeNetwork.isConnected
 }
+
 fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
     val query = MutableStateFlow("")
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -34,8 +35,10 @@ fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            if (!newText.isNullOrEmpty()&& newText.isNotBlank()) {
+            if (!newText.isNullOrEmpty() && newText.isNotBlank()) {
                 query.value = newText.trimStart()
+            } else {
+                query.value = ""
             }
             return false
         }

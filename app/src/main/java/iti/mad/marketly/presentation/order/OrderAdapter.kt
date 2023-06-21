@@ -32,12 +32,17 @@ class OrderAdapter (var mClickListener: ListItemClickListener) : ListAdapter<Ord
 
     override fun onBindViewHolder(holder: AdapterViewHolder, position: Int)  {
 val order=getItem(position)
+        var quant = 0
+        var totalPrice = 0.0
         binding.orderModel = getItem(position)
         binding.action = mClickListener
 binding.tvOrderId.text = getItem(position).orderID
         binding.tvOrderDate.text = getItem(position).date
         binding.tvOrderTotalPrice.text = "${getItem(position).orderTotalPrice} $"
-        binding.tvOrderQuantity.text = getItem(position).itemCount.toString()
-
+        //binding.tvOrderQuantity.text = getItem(position).itemList.get(position-1).quantity.toString()
+        for (item in order.itemList){
+            quant+=item.quantity.toInt()
+        }
+        binding.tvOrderQuantity.text = order.itemCount.toString()
     }
 }

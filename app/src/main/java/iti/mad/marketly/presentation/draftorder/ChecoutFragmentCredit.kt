@@ -160,7 +160,17 @@ class ChecoutFragmentCredit : Fragment() {
 
                     val orderID = System.currentTimeMillis().toString()
 
-                    val order = OrderModel(orderID,DraftOrderManager.getOrder(),DraftOrderManager.getOrder().size, DateFormatter.getCurrentDate(),totalAmount)
+                    var quant = 0
+                    for (oreder in DraftOrderManager.getOrder()){
+                        quant+=oreder.quantity.toInt()
+                    }
+                    val order = OrderModel(
+                        orderID,
+                        DraftOrderManager.getOrder(),
+                        quant,
+                        DateFormatter.getCurrentDate(),
+                        totalAmount
+                    )
                     cartViewModel.saveProuctsInOrder(order)
                     DraftOrderManager.clearCredit()
                     val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
