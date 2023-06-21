@@ -28,7 +28,7 @@ class DraftAddressAdapter (var context: Context?, val draftAddressInterface: Dra
         binding.DeleteAddress.visibility = View.GONE
         binding.addressCountryCity.text = currentItem.Country+"/"+currentItem.City
         binding.addressStreet.text = currentItem.Street
-        binding.saveAddress.setOnClickListener(View.OnClickListener {
+        binding.cardViewAddress.setOnClickListener(View.OnClickListener {
             val address=ShippingAddress(currentItem.Country+"/"+currentItem.City+"/"+currentItem.Street,currentItem.City,currentItem.Country)
             DraftOrderManager.setAddress(address)
             Toast.makeText(context,"This Address has been set successfully",Toast.LENGTH_LONG).show()

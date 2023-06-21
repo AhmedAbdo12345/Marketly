@@ -21,7 +21,7 @@ class AddressAdapter(var context: Context?,val addressInterface:AddressFragmentI
         val currentItem=getItem(position)
         holder.binding.addressCountryCity.text=currentItem.Country +"/"+currentItem.City
         holder.binding.addressStreet.text=currentItem.Street
-        holder.binding.saveAddress.setOnClickListener(View.OnClickListener {
+        holder.binding.cardViewAddress.setOnClickListener(View.OnClickListener {
             addressInterface.onSetAsDefault(currentItem)
 
         })
