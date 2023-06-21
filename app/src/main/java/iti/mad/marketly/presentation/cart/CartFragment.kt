@@ -55,7 +55,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentCartBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner

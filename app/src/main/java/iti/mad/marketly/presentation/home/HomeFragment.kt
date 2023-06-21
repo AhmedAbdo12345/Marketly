@@ -57,33 +57,37 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
     private val adsViewModel by viewModels<AdsViewModel> {
         AdsViewModel.Factory
     }
-    private val settingsViewModel by viewModels<SettingsViewModel>{
+    private val settingsViewModel by viewModels<SettingsViewModel> {
         SettingsViewModel.Factory
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val networkConnectivityChecker = NetworkConnectivityChecker(requireContext())
-        if(!networkConnectivityChecker.checkForInternet()){
+        if (!networkConnectivityChecker.checkForInternet()) {
             val action = HomeFragmentDirections.actionHomeFragmentToErrorFragment6()
             findNavController().navigate(action)
         }
         getSavedSettings()
         settingsViewModel.getExchangeRate()
-        lifecycleScope.launch(Dispatchers.Main){
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                settingsViewModel._currency.collect{
-                    when(it){
-                        is ResponseState.OnLoading->{
+        lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                settingsViewModel._currency.collect {
+                    when (it) {
+                        is ResponseState.OnLoading -> {
 
                         }
-                        is ResponseState.OnSuccess->{
+
+                        is ResponseState.OnSuccess -> {
 
                             SettingsManager.exchangeRateSetter(it.response.conversion_rates.EGP)
                         }
-                        is ResponseState.OnError->{
+
+                        is ResponseState.OnError -> {
                             Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
                         }
-                        else ->{}
+
+                        else -> {}
                     }
                 }
             }
@@ -115,8 +119,10 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                if (SharedPreferenceManager.isUserLogin(requireContext())) {
+                    BadgeNotification(menu, menuInflater)
+                }
 
-                BadgeNotification(menu, menuInflater)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -148,7 +154,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                             binding.brandsRecView.visibility = View.VISIBLE
                             binding.homeProgressbar.visibility = View.GONE
                             AdsManager.setPriceLists(it.response.price_rules.toMutableList())
-                            for (rules in it.response.price_rules){
+                            for (rules in it.response.price_rules) {
                                 launchDiscount(rules.id)
                             }
 
@@ -188,15 +194,15 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             override fun onItemSelected(position: Int) {
                 val ad = AdsManager.getAdsList().get(position)
                 var rule = ""
-                for(rules in AdsManager.getPriceList()){
-                    if(ad.price_rule_id == rules.id){
+                for (rules in AdsManager.getPriceList()) {
+                    if (ad.price_rule_id == rules.id) {
                         rule = rules.value
                     }
                 }
                 val method = {
                     AdsManager.setClipBoard(ad)
-                    for(rules in AdsManager.getPriceList()){
-                        if(AdsManager.getAdsList().get(0).price_rule_id == rules.id){
+                    for (rules in AdsManager.getPriceList()) {
+                        if (AdsManager.getAdsList().get(0).price_rule_id == rules.id) {
                             AdsManager.setValue(rules.value)
                         }
                     }
@@ -206,7 +212,12 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                AlertManager.customDialog("The Code is:"+ad.code,requireContext(),"Its value ="+rule,method).show()
+                AlertManager.customDialog(
+                    "The Code is:" + ad.code,
+                    requireContext(),
+                    "Its value =" + rule,
+                    method
+                ).show()
 
             }
         })
@@ -320,6 +331,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
         }
     }
+
     private fun getSavedSettings() {
         SettingsManager.documentIDSetter(SharedPreferenceManager.getUserMAil(requireContext())!!)
         SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
@@ -332,11 +344,6 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         )
     }
 }
-
-
-
-
-
 
 
 /*

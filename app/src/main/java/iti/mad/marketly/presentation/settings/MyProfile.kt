@@ -40,17 +40,19 @@ class MyProfile : Fragment() {
                 AlertManager.functionalDialog(
                     "Log Out",
                     requireContext(),
-                    "Are You sure,Do You want to Leave"
-                , {
+                    "Are You sure,Do You want to Leave", {
                         FirebaseAuth.getInstance().signOut()
-                    SharedPreferenceManager.deleteUserData(requireContext())
-                    var action = MyProfileDirections.actionMyProfileToHomeFragment()
-                    findNavController().navigate(action)
-
+                        SharedPreferenceManager.deleteUserData(requireContext())
+                        var action = MyProfileDirections.actionMyProfileToHomeFragment()
+                        findNavController().navigate(action)
 
 
                     }).show()
             }
+            binding.profileNameProfileFrag.text =
+                SharedPreferenceManager.getUserName(requireContext())
+            binding.profileEmailProfileFrag.text =
+                SharedPreferenceManager.getUserMAil(requireContext())
 
         } else {
             binding.loginConstraint.visibility = View.GONE
