@@ -162,14 +162,18 @@
         android:name="iti.mad.marketly.presentation.draftorder.DraftAddressFragment"
         android:label="DraftAddressFragment" >
         <action
-            android:id="@+id/action_draftAddressFragment_to_checkoutFragment"
-            app:destination="@id/checkoutFragment" />
+            android:id="@+id/action_draftAddressFragment_to_paymentMethodFragment"
+            app:destination="@id/paymentMethodFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="iti.mad.marketly.presentation.draftorder.CheckoutFragment"
         android:label="fragment_checkout"
-        tools:layout="@layout/fragment_checkout" />
+        tools:layout="@layout/fragment_checkout" >
+        <action
+            android:id="@+id/action_checkoutFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="iti.mad.marketly.presentation.auth.login.LoginFragment"
@@ -222,4 +226,32 @@
         android:id="@+id/errorFragment6"
         android:name="iti.mad.marketly.presentation.home.ErrorFragment"
         android:label="ErrorFragment" />
+    <fragment
+        android:id="@+id/paymentMethodFragment"
+        android:name="iti.mad.marketly.presentation.draftorder.PaymentMethodFragment"
+        android:label="PaymentMethodFragment" >
+        <action
+            android:id="@+id/action_paymentMethodFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+        <action
+            android:id="@+id/action_paymentMethodFragment_to_checoutFragmentCredit"
+            app:destination="@id/checoutFragmentCredit" />
+    </fragment>
+    <fragment
+        android:id="@+id/creditFragment"
+        android:name="iti.mad.marketly.presentation.draftorder.CreditFragment"
+        android:label="fragment_credit"
+        tools:layout="@layout/fragment_credit" />
+    <fragment
+        android:id="@+id/checoutFragmentCredit"
+        android:name="iti.mad.marketly.presentation.draftorder.ChecoutFragmentCredit"
+        android:label="fragment_checout_credit"
+        tools:layout="@layout/fragment_checout_credit" >
+        <action
+            android:id="@+id/action_checoutFragmentCredit_to_creditFragment"
+            app:destination="@id/creditFragment" />
+        <action
+            android:id="@+id/action_checoutFragmentCredit_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
