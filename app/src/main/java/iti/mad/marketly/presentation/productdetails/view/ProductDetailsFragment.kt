@@ -254,7 +254,7 @@ class ProductDetailsFragment : Fragment() {
                 )
                 cartViewModel.saveCart(cartModel)
                 CartManager.addItemToCartList(cartModel)
-                AlertManager.nonFunctionalDialog("Saved", requireContext(), "Product sent to cart")
+                AlertManager.nonFunctionalDialog("Saved", requireContext(), "Product sent to Bag")
             } else {
                 AlertManager.functionalDialog(
                     "Alert", requireContext(), "you should Login to use this feature"

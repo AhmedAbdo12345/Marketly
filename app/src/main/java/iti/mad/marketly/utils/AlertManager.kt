@@ -38,13 +38,17 @@ object AlertManager {
         val binding = AdsAlertDialogBinding.inflate(inflater)
 
         dialog.setView(binding.root)
+        val alert = dialog.create()
         binding.ctv1.text =title
         binding.ctv2.text =message
         binding.back.setOnClickListener(View.OnClickListener {
             method()
-
+            AlertManager.dismessDialog(alert)
         })
-        val alert = dialog.create()
+
         return  alert
+    }
+    fun dismessDialog(alertDialog: AlertDialog){
+        alertDialog.dismiss()
     }
 }
