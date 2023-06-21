@@ -1,6 +1,7 @@
 package iti.mad.marketly.presentation.draftorder
 
 import android.content.Context
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,9 @@ class DraftAddressAdapter (var context: Context?, val draftAddressInterface: Dra
 
     override fun onBindViewHolder(holder: DraftAddressViewHolder, position: Int) {
         val currentItem=getItem(position)
+        binding.saveAddress.visibility = View.GONE
+        binding.addressCountryCity.text = currentItem.Country+"/"+currentItem.City
+        binding.addressStreet.text = currentItem.Street
         binding.DeleteAddress.setOnClickListener(View.OnClickListener {
             val address=ShippingAddress(currentItem.Country+"/"+currentItem.City+"/"+currentItem.Street,currentItem.City,currentItem.Country)
             DraftOrderManager.setAddress(address)
