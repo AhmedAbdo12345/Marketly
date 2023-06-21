@@ -108,6 +108,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
             var totalPrice = 0.0
             val lineItemList = mutableListOf<LineItems>()
             for (items in currentItems) {
+
                 totalPrice += items.price
                 lineItemList.add(LineItems(items.price.toString(),items.id.toInt(),items.quantity.toInt(),"Custom "+items.title))
             }
@@ -127,7 +128,7 @@ class CartFragment : Fragment(), CartFragmentInterface {
             val customer = iti.mad.marketly.data.model.draftorder.Customer(customerID.toLong(),false)
             DraftOrderManager.setCustomer(customer)
             val orderID = System.currentTimeMillis().toString()
-            val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate())
+            val order = OrderModel(orderID, currentItems, itemCount, DateFormatter.getCurrentDate(),totalPrice)
             cartViewModel.saveProuctsInOrder(order)
             var action= CartFragmentDirections.actionCartFragment2ToDraftAddressFragment()
             findNavController().navigate(action)
