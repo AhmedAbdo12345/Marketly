@@ -47,7 +47,7 @@ fun setDiscount(appliedDiscount: AppliedDiscount){
         if(this::appliedDiscount.isInitialized){
             return appliedDiscount
         }else{
-            return AppliedDiscount("0","dummy discount","dummy","0")
+            return AppliedDiscount("0","No Code Applied","No Code Applied","0")
         }
     }
     fun setDraftOrderID(id:Long){
