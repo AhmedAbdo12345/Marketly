@@ -39,12 +39,12 @@ object AlertManager {
 
         dialog.setView(binding.root)
         val alert = dialog.create()
-        binding.ctv1.text =title
-        binding.ctv2.text =message
-        binding.back.setOnClickListener(View.OnClickListener {
+        binding.tvAdsCouponCode.text =title
+        binding.tvAdsCouponValue.text =message
+    /*    binding.back.setOnClickListener(View.OnClickListener {
             method()
             AlertManager.dismessDialog(alert)
-        })
+        })*/
 
         return  alert
     }

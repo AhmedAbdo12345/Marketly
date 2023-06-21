@@ -214,9 +214,9 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                     ).show()
                 }
                 AlertManager.customDialog(
-                    "The Code is:" + ad.code,
+                    ad.code,
                     requireContext(),
-                    "Its value =" + rule,
+                    rule,
                     method
                 ).show()
 
