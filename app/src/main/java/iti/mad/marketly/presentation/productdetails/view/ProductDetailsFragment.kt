@@ -28,6 +28,7 @@ import iti.mad.marketly.data.model.product.Image
 import iti.mad.marketly.data.model.productDetails.ProductDetails
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentProductDetailsBinding
+import iti.mad.marketly.presentation.brandProduct.BrandProductFragmentDirections
 import iti.mad.marketly.presentation.cart.CartViewModel
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
 import iti.mad.marketly.presentation.reviews.adapters.ReviewsAdapter
@@ -226,7 +227,18 @@ class ProductDetailsFragment : Fragment() {
                     )
 
                 }
+            }else{
+                AlertManager.functionalDialog(
+                    "register",
+                    requireContext(),
+                    "you should login or register to save this in your account"
+                    ,{
+                        val action =
+                            BrandProductFragmentDirections.actionBrandProductFragmentToLoginFragment()
+                        findNavController().navigate(action)
+                    }).show()
             }
+
         }
         binding.addToCartProductDetailsPage.setOnClickListener(View.OnClickListener {
             if (SharedPreferenceManager.isUserLogin(requireContext())) {

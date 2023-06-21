@@ -32,11 +32,11 @@ import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentHomeBinding
 import iti.mad.marketly.presentation.cart.CartViewModel
+import iti.mad.marketly.presentation.favourite.FavouriteFragmentDirections
 import iti.mad.marketly.presentation.home.ads.AdsViewModel
 import iti.mad.marketly.presentation.home.brands.BrandsAdapter
 import iti.mad.marketly.presentation.home.brands.BrandsViewModel
 import iti.mad.marketly.presentation.settings.SettingsViewModel
-
 import iti.mad.marketly.utils.AdsManager
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.NetworkConnectivityChecker
@@ -130,8 +130,9 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                 return when (menuItem.itemId) {
                     R.id.cartIcon -> {
                         // Handle the item click here
-                        /*Log.d("cart","navigate")
-                        findNavController().navigate(R.id.cartFragment)*/
+                        /*Log.d("cart","navigate")*/
+                       // binding.notLoginConstraint.visibility = View.GONE
+
                         true
                     }
 
@@ -343,6 +344,18 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
             )!!
         )
     }
+  /*  fun handleRegister() {
+        binding.loginBtn.setOnClickListener {
+            val action = FavouriteFragmentDirections.actionFavouriteFragmentToLoginFragment()
+            findNavController().navigate(action)
+        }
+        binding.registerBtn.setOnClickListener {
+            val action = FavouriteFragmentDirections.actionFavouriteFragmentToRegisterFragment()
+            findNavController().navigate(action)
+
+
+        }
+    }*/
 }
 
 
