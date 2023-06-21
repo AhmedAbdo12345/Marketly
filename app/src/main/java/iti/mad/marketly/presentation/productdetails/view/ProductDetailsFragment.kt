@@ -163,7 +163,9 @@ class ProductDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
+            findNavController().navigateUp()
+        })
         viewModel.getProductDetails(args.productID)
 
         reviewsAdapter = ReviewsAdapter(requireContext())

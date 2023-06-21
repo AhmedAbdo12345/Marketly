@@ -45,7 +45,9 @@ lateinit var binding: FragmentOrderBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
+            findNavController().navigateUp()
+        })
         viewmodel.getAllOrders()
         viewLifecycleOwner.lifecycleScope.launch {
             viewmodel.orderResponse.collect{

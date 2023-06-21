@@ -29,6 +29,7 @@ import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentBrandProductBinding
 import iti.mad.marketly.utils.AlertManager
+import iti.mad.marketly.utils.CurrencyConverter
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.flow.map
@@ -253,7 +254,12 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                 endValue = slider.value.toInt()
                 filterByPrice(productList, startValue, endValue)
              //   binding.tvStartRange.text = "${startValue}"
-                binding.tvEndRange.text = "${endValue}$"
+                //binding.tvEndRange.text = "${endValue}$"
+                if(SettingsManager.getCurrncy()=="EGP"){
+                    binding.tvEndRange.text= CurrencyConverter.switchToEGP(endValue.toString(),  binding.tvEndRange.id)+" LE"
+                }else{
+                    binding.tvEndRange.text== CurrencyConverter.switchToUSD(endValue.toString(), binding.tvEndRange.id)+" $"
+                }
             }
         })
 

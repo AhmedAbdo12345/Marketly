@@ -65,6 +65,9 @@ class CartFragment : Fragment(), CartFragmentInterface {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
+            findNavController().navigateUp()
+        })
         adapters = CartAdapter(requireContext(), this)
         cartViewModel.getAllCart()
 

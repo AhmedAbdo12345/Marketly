@@ -43,6 +43,9 @@ var addresses:MutableList<iti.mad.marketly.data.model.settings.Address> = mutabl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
+            findNavController().navigateUp()
+        })
         adapters= AddressAdapter(requireContext(),this)
         binding.floatingActionButton.setOnClickListener(View.OnClickListener {
             var action= AddressListFragmentDirections.actionAddressListFragmentToAddress()

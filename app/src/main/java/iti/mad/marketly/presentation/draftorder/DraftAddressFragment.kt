@@ -43,6 +43,9 @@ class DraftAddressFragment : Fragment(),DraftAddressInterface{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
+            findNavController().navigateUp()
+        })
         adapters= DraftAddressAdapter(requireContext(),this)
         settingsViewModel.getAddresses()
         viewLifecycleOwner.lifecycleScope.launch (Dispatchers.Main){
