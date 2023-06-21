@@ -31,7 +31,7 @@ class OrderAdapter (var mClickListener: ListItemClickListener) : ListAdapter<Ord
     }
 
     override fun onBindViewHolder(holder: AdapterViewHolder, position: Int)  {
-
+val order=getItem(position)
         binding.orderModel = getItem(position)
         binding.action = mClickListener
 binding.tvOrderId.text = getItem(position).orderID

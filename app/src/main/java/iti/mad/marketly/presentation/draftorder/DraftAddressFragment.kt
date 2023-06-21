@@ -100,11 +100,11 @@ class DraftAddressFragment : Fragment(),DraftAddressInterface{
                     AdsManager.value.toString())
 
             )
-            var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToCheckoutFragment()
+            var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToPaymentMethodFragment()
             findNavController().navigate(action)
         }
         val cancelMethod = {
-            var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToCheckoutFragment()
+            var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToPaymentMethodFragment()
             findNavController().navigate(action)
         }
         AlertManager.functionalDialog("Appling the coupon",requireContext(),"Do you want to apply the coupone you selected?",method,cancelMethod).show()

@@ -20,6 +20,7 @@ import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
 import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoiceX
 import iti.mad.marketly.data.model.draftorder.AppliedDiscount
 import iti.mad.marketly.data.model.draftorder.DraftOrderRequest
+import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentCheckoutBinding
 import iti.mad.marketly.databinding.FragmentDraftAddressBinding
@@ -29,6 +30,7 @@ import iti.mad.marketly.utils.AdsManager
 import iti.mad.marketly.utils.AlertManager
 import iti.mad.marketly.utils.Constants
 import iti.mad.marketly.utils.CurrencyConverter
+import iti.mad.marketly.utils.DateFormatter
 import iti.mad.marketly.utils.DraftOrderManager
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.utils.SettingsManager
@@ -118,41 +120,55 @@ class CheckoutFragment : Fragment() {
 
 
         val method = {
-                draftOrderViewModel.sendInvoice(DraftOrderInvoice(invoice),DraftOrderManager.getDraftOrderID().toString())
+
+
+                draftOrderViewModel.sendInvoice(
+                    DraftOrderInvoice(invoice),
+                    DraftOrderManager.getDraftOrderID().toString())
                 draftOrderViewModel.completeOrder(DraftOrderManager.getDraftOrderID().toString())
+                cartViewModel.getAllCart()
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        cartViewModel._cartResponse.collect {
+
+                            when (it) {
+                                is ResponseState.OnLoading -> {
+                                }
+                                is ResponseState.OnSuccess -> {
+                                    var cartItems = it.response.toMutableList()
+
+                                    for (carts in it.response){
+                                        cartViewModel.deleteCartItem(carts.id.toString())
+                                    }
+
+                                }
+                                is ResponseState.OnError -> {
+                                    Log.i(
+                                        ContentValues.TAG,
+                                        "onViewCreated:${it.message} this is an errrror"
+                                    )
+                                }
+                                else -> {}
+                            }
+
+                        }
+                    }
+                }
+                AlertManager.customDialog("Completed",requireContext(),"CONGRATULATIONS",{
+                    val orderID = System.currentTimeMillis().toString()
+
+                    val order = OrderModel(orderID,DraftOrderManager.getOrder(),DraftOrderManager.getOrder().size, DateFormatter.getCurrentDate(),totalAmount)
+                    cartViewModel.saveProuctsInOrder(order)
+                    val action = CheckoutFragmentDirections.actionCheckoutFragmentToHomeFragment()
+                    findNavController().navigate(action)
+                }).show()
+
 
 
         }
         binding.placeOrder.setOnClickListener(View.OnClickListener {
             AlertManager.functionalDialog("Order Confermation",requireContext(),"Do you want to checkout?",method).show()
-            cartViewModel.getAllCart()
-            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    cartViewModel._cartResponse.collect {
 
-                        when (it) {
-                            is ResponseState.OnLoading -> {
-                            }
-                            is ResponseState.OnSuccess -> {
-                               var cartItems = it.response.toMutableList()
-
-                                for (carts in it.response){
-                                    cartViewModel.deleteCartItem(carts.id.toString())
-                                }
-
-                            }
-                            is ResponseState.OnError -> {
-                                Log.i(
-                                    ContentValues.TAG,
-                                    "onViewCreated:${it.message} this is an errrror"
-                                )
-                            }
-                            else -> {}
-                        }
-
-                    }
-                }
-            }
         })
     }
 

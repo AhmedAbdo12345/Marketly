@@ -36,11 +36,13 @@ object AlertManager {
         val dialog = AlertDialog.Builder(contex)
         val inflater =contex.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = AdsAlertDialogBinding.inflate(inflater)
+
         dialog.setView(binding.root)
         binding.ctv1.text =title
         binding.ctv2.text =message
         binding.back.setOnClickListener(View.OnClickListener {
             method()
+
         })
         val alert = dialog.create()
         return  alert
