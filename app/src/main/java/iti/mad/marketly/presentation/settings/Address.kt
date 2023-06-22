@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -28,7 +29,7 @@ lateinit var binding: FragmentAddressBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        displayToolBar()
         var arrayCity = resources.getStringArray(R.array.city)
         binding.autoCompleteTxtViewCity.hint = "Choose Your City"
         val arrayCityDrop_menu = ArrayAdapter<String>(requireContext(), R.layout.dropdown_city, arrayCity)
@@ -59,6 +60,15 @@ lateinit var binding: FragmentAddressBinding
     }
 
 
+    private fun displayToolBar() {
+        val toolbar = binding.topBarLayout
 
+        val activity = activity as AppCompatActivity
+        activity.setSupportActionBar(toolbar.toolbar)
+        activity.supportActionBar?.title = "Address"
+        toolbar.backArrow.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
 
 }
