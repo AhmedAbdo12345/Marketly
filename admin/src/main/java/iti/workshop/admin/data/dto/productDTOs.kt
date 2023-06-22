@@ -73,4 +73,4 @@ data class Metafield(
     val namespace: String = System.currentTimeMillis().toString(),
     val type: String = "single_line_text_field",
     val value: String = "newvalue"
-)
+):Serializable

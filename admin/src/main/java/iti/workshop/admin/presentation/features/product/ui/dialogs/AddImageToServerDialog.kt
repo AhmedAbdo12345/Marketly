@@ -101,16 +101,11 @@ class AddImageToServerDialog(
             bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
             val byteArray = byteArrayOutputStream.toByteArray()
             val base64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
-            val type = when {
-                bitmap!!.compress(Bitmap.CompressFormat.JPEG, 0, null) -> ".jpg"
-                bitmap!!.compress(Bitmap.CompressFormat.PNG, 0, null) -> ".pmg"
-                bitmap!!.compress(Bitmap.CompressFormat.WEBP, 0, null) -> ".webp"
-                else -> ".jpg"
-            }
+
             return Image(
                 attachment = base64,
                 alt = binding.titleInput.text.toString(),
-                filename = binding.titleInput.text.toString()+type,
+                filename = binding.titleInput.text.toString(),
             )
         }
         return null
