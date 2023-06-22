@@ -237,6 +237,9 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
     }
 
     fun displayItemsInRecycleView(list: List<Product>) {
+        if(list.isNotEmpty()){
+            binding.linearEmptyFavorite.visibility = View.GONE
+            binding.categoryProductRecView.visibility = View.VISIBLE
         adapterProduct.submitList(list)
         binding.categoryProductRecView.apply {
             adapter = adapterProduct
@@ -245,5 +248,10 @@ class CategoryFragment : Fragment(), CategoryProductAdapter.ListItemClickListene
                 orientation = RecyclerView.VERTICAL
             }
         }
+    }else{
+            binding.linearEmptyFavorite.visibility = View.VISIBLE
+            binding.categoryProductRecView.visibility = View.GONE
+    }
+
     }
 }

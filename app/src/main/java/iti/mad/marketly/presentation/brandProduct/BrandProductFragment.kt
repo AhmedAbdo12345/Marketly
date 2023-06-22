@@ -1,5 +1,6 @@
 package iti.mad.marketly.presentation.brandProduct
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -220,7 +221,7 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
         binding.rangSlider.setLabelFormatter { value: Float ->
             val format = NumberFormat.getCurrencyInstance()
             format.maximumFractionDigits = 0
-            format.currency = Currency.getInstance("USD")
+            format.currency = Currency.getInstance("EGP")
             format.format(value.toDouble())
         }
         /*binding.rangSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
@@ -293,14 +294,23 @@ class BrandProductFragment : Fragment(), BrandProductAdapter.ListItemClickListen
                 val intValue = doubleValue?.toInt()
                 (intValue in min..max)
             }
-            brandAdapter.submitList(filterList)
-            binding.brandProductRecycleView.apply {
-                adapter = brandAdapter
-                setHasFixedSize(true)
-                layoutManager = GridLayoutManager(context, 2).apply {
-                    orientation = RecyclerView.VERTICAL
+            if(filterList.isNotEmpty()){
+                binding.linearEmptyFavorite.visibility = View.GONE
+                binding.brandProductRecycleView.visibility = View.VISIBLE
+                binding.brandProductRecycleView.apply {
+                    adapter = brandAdapter
+                    setHasFixedSize(true)
+                    layoutManager = GridLayoutManager(context, 2).apply {
+                        orientation = RecyclerView.VERTICAL
+                    }
                 }
+                brandAdapter.submitList(filterList)
+            }else{
+                binding.linearEmptyFavorite.visibility = View.VISIBLE
+                binding.brandProductRecycleView.visibility = View.GONE
             }
+
+
         }
 
     }
