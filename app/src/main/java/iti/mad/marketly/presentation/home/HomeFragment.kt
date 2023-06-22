@@ -115,6 +115,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -131,7 +132,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         // Handle the item click here
                         /*Log.d("cart","navigate")*/
                         // binding.notLoginConstraint.visibility = View.GONE
-
+                        findNavController().navigate(R.id.cartFragment2)
                         true
                     }
 
@@ -317,6 +318,8 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                             cartItems = it.response.toMutableList()
                             if (cartItems.size == 0) {
                                 menuItem.actionView = null
+                              //  findNavController().navigate(R.id.cartFragment2)
+
                             } else {
                                 menuItem.setActionView(R.layout.badge_notification)
                                 val view = menuItem.actionView
