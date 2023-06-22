@@ -64,8 +64,8 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         super.onCreate(savedInstanceState)
         val networkConnectivityChecker = NetworkConnectivityChecker(requireContext())
         if (!networkConnectivityChecker.checkForInternet()) {
-//            val action = HomeFragmentDirections.actionHomeFragmentToErrorFragment6()
-//            findNavController().navigate(action)
+            val action = HomeFragmentDirections.actionHomeFragmentToErrorFragment()
+            findNavController().navigate(action)
         }
         getSavedSettings()
         settingsViewModel.getExchangeRate()
@@ -344,7 +344,6 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
         SettingsManager.addressSetter(SharedPreferenceManager.getDefaultAddress(requireContext())!!)
         SettingsManager.curSetter(SharedPreferenceManager.getSavedCurrency(requireContext())!!)
-        Log.d("aaaaa7777aaaaaaa", SharedPreferenceManager.getSavedCurrency(requireContext()).toString())
         SettingsManager.exchangeRateSetter(
             SharedPreferenceManager.getDefaultExchangeRate(
                 requireContext()

@@ -20,8 +20,8 @@
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment2" />
         <action
-            android:id="@+id/action_homeFragment_to_errorFragment6"
-            app:destination="@id/errorFragment6" />
+            android:id="@+id/action_homeFragment_to_errorFragment"
+            app:destination="@id/errorFragment" />
     </fragment>
     <fragment
         android:id="@+id/brandProductFragment"
@@ -223,7 +223,7 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/errorFragment6"
+        android:id="@+id/errorFragment"
         android:name="iti.mad.marketly.presentation.home.ErrorFragment"
         android:label="ErrorFragment" />
     <fragment
