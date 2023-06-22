@@ -29,6 +29,9 @@ object RetrofitInstance {
             .build()
     }
 
+
+
+
     val api: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
@@ -44,6 +47,14 @@ private val currencyRetrofit:Retrofit by lazy {
         .build()
 
 }
+     val yRetrofit:StripeApiClient by lazy {
+        Retrofit.Builder()
+            .baseUrl(StripeApiClient.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(StripeApiClient::class.java)
+
+    }
 
     private fun cashAndLoggerManager(): OkHttpClient {
         // Logging Retrofit
@@ -57,4 +68,9 @@ private val currencyRetrofit:Retrofit by lazy {
 
 
 
+/*Retrofit.Builder()
+            .baseUrl(StripeApiClient.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(StripeApiClient::class.java)*/
 }

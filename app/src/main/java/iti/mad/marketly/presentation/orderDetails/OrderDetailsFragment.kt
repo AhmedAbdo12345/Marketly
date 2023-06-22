@@ -13,6 +13,8 @@ import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.databinding.FragmentOrderDetailsBinding
 import iti.mad.marketly.presentation.brandProduct.BrandProductFragmentArgs
 import iti.mad.marketly.presentation.order.OrderFragment
+import iti.mad.marketly.utils.CurrencyConverter
+import iti.mad.marketly.utils.SettingsManager
 
 
 class OrderDetailsFragment : Fragment() {
@@ -41,6 +43,11 @@ lateinit var binding: FragmentOrderDetailsBinding
         binding.tvOrderDetailsId.text= order.orderID
         binding.tvOrderDetailsQuantity.text = order.itemCount.toString()
         binding.tvOrderDetailsTotalPrice.text= "${order.orderTotalPrice} $"
+        if(SettingsManager.getCurrncy()=="EGP"){
+            binding.tvOrderDetailsTotalPrice.text = CurrencyConverter.switchToEGP(order.orderTotalPrice.toString(), binding.tvOrderDetailsTotalPrice.id)+ " LE"
+        }else{
+            binding.tvOrderDetailsTotalPrice.text = CurrencyConverter.switchToUSD(order.orderTotalPrice.toString(), binding.tvOrderDetailsTotalPrice.id)+ " $"
+        }
         binding.tvOrderDetailsDate.text = order.date
 
 

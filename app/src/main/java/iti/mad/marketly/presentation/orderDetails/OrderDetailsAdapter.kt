@@ -43,13 +43,14 @@ class OrderDetailsAdapter (val orderModel: OrderModel) : RecyclerView.Adapter<Or
 
         binding.tvOrderItemName.text =orderModel.itemList[position].title
         binding.tvOrderItemQuantity.text = "Quantity: ${orderModel.itemList[position].numberOfItems}"
-       // binding.tvOderItemTotalPrice.text ="Total Price: ${(orderModel.itemList[position].price)} $"
+        binding.tvOderItemTotalPrice.text ="Total Price: ${(orderModel.itemList[position].price)} $"
         if(SettingsManager.getCurrncy()=="EGP"){
-
-            holder.binding.tvOderItemTotalPrice.text= CurrencyConverter.switchToEGP(orderModel.itemList[position].price.toString(),holder.binding.tvOderItemTotalPrice.id)+" LE"
+            binding.tvOderItemTotalPrice.text = CurrencyConverter.switchToEGP(orderModel.itemList[position].price.toString(),binding.tvOderItemTotalPrice.id)+" LE"
         }else{
-            holder.binding.tvOderItemTotalPrice.text= CurrencyConverter.switchToUSD(orderModel.itemList[position].price.toString(),holder.binding.tvOderItemTotalPrice.id)+" $"
+            binding.tvOderItemTotalPrice.text = CurrencyConverter.switchToUSD(orderModel.itemList[position].price.toString(),binding.tvOderItemTotalPrice.id)+" $"
+
         }
+
 
 
     }
