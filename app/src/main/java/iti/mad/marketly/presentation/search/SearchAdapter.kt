@@ -31,13 +31,12 @@ class SearchAdapter(
 
         holder.binding.tvCategoryItemName.text = getItem(position).vendor
         holder.binding.tvCategoryProductName.text = getItem(position).title
-        if(SettingsManager.getCurrncy()=="EGP"){
-
-            holder.binding.tvCategoryProductPrice.text= CurrencyConverter.switchToEGP(getItem(position).variants!![0]!!.price.toString(),holder.binding.tvCategoryProductPrice.id)+" LE"
+        holder.binding.tvCategoryProductPrice.text = getItem(position).variants!![0]!!.price
+        if(SettingsManager.getCurrncy() == "EGP"){
+            holder.binding.tvCategoryProductPrice.text = CurrencyConverter.switchToEGP(getItem(position).variants!![0]!!.price.toString(), holder.binding.tvCategoryProductPrice.id)+ " LE"
         }else{
-            holder.binding.tvCategoryProductPrice.text= CurrencyConverter.switchToUSD(getItem(position).variants!![0]!!.price.toString(),holder.binding.tvCategoryProductPrice.id)+" $"
+            holder.binding.tvCategoryProductPrice.text = CurrencyConverter.switchToUSD(getItem(position).variants!![0]!!.price.toString(), holder.binding.tvCategoryProductPrice.id)+ " $"
         }
-       // holder.binding.tvCategoryProductPrice.text = getItem(position).variants!![0]!!.price
         holder.binding.categoryProductModel = getItem(position)
         holder.binding.cardView.setOnClickListener {
             onClickItem(getItem(position))

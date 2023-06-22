@@ -113,7 +113,7 @@
                 android:fontFamily="@font/metropolis_light"
                 android:maxLines="1"
                 android:text="Product Price"
-                android:textColor="@color/primary"
+                android:textColor="@color/sale"
                 android:textSize="13sp" />
 
         </LinearLayout>

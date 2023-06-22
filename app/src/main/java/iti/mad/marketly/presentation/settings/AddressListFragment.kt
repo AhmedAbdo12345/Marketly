@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -43,6 +44,8 @@ var addresses:MutableList<iti.mad.marketly.data.model.settings.Address> = mutabl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        displayToolBar()
+
         binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
             findNavController().navigateUp()
         })
@@ -118,5 +121,14 @@ var addresses:MutableList<iti.mad.marketly.data.model.settings.Address> = mutabl
             .show()
     }
 
+    private fun displayToolBar() {
+        val toolbar = binding.appBar
 
+        val activity = activity as AppCompatActivity
+        activity.setSupportActionBar(toolbar.toolbar)
+        activity.supportActionBar?.title = "Address"
+        toolbar.backArrow.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
 }
