@@ -83,7 +83,7 @@ class ChecoutFragmentCredit : Fragment() {
             SharedPreferenceManager.getUserMAil(requireContext()).toString())
         for (item in draftOrderLineItemList){
             totalAmount =totalAmount+item.price.toDouble()
-            Toast.makeText(requireContext(),"${totalAmount}", Toast.LENGTH_LONG).show()
+
         }
         if(currency == null||currency == ""){
             currency = "USD"
@@ -100,7 +100,6 @@ class ChecoutFragmentCredit : Fragment() {
                         is ResponseState.OnSuccess->{
                             DraftOrderManager.setInvoice(it.response.draft_order.invoice_url)
                             DraftOrderManager.setDraftOrderID(it.response.draft_order.id)
-                            Toast.makeText(requireContext(),"Order Created Successfully", Toast.LENGTH_LONG).show()
                         }
                         is ResponseState.OnError->{
                             Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
@@ -115,8 +114,16 @@ class ChecoutFragmentCredit : Fragment() {
         binding.city.text = draftOrderAddress.city
         binding.discountText.text = draftAppliedDiscount.title
         binding.discountValueFromApi.text = draftAppliedDiscount.value
-        val percentage = (totalAmount)*(AdsManager.value/100)
-        totalAmount = totalAmount - percentage
+        if(AdsManager.clipBoardCode.code.isEmpty()||AdsManager.clipBoardCode.code.equals("DUMMY")){
+            totalAmount = totalAmount
+        }else{
+            if(AdsManager.value.toInt() == 100){
+                totalAmount = totalAmount
+            }else{
+                val percentage = (totalAmount)*(AdsManager.value/100)
+                totalAmount = totalAmount - percentage
+            }
+        }
 
 
         if(SettingsManager.getCurrncy()=="EGP"){
@@ -130,12 +137,28 @@ class ChecoutFragmentCredit : Fragment() {
         val method = {
 
             if(DraftOrderManager.checkCreditCard()){
+                val orderID = System.currentTimeMillis().toString()
+                var quant = 0
+                for (oreder in DraftOrderManager.getOrder()){
+                    quant+=oreder.numberOfItems.toInt()
+                }
+                val order = OrderModel(
+                    orderID,
+                    DraftOrderManager.getOrder(),
+                    quant,
+                    DateFormatter.getCurrentDate(),
+                    totalAmount,
+                    AdsManager.clipBoardCode.code,
+                    AdsManager.value.toString(),
+                    DraftOrderManager.getShippingAddress().address1
+                )
+                cartViewModel.saveProuctsInOrder(order)
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(DraftOrderManager.getInvoice()))
                 startActivity(intent)
                 draftOrderViewModel.sendInvoice(
                     DraftOrderInvoice(invoice),
                     DraftOrderManager.getDraftOrderID().toString())
-                draftOrderViewModel.completeOrder(DraftOrderManager.getDraftOrderID().toString())
+
                 cartViewModel.getAllCart()
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -183,22 +206,8 @@ class ChecoutFragmentCredit : Fragment() {
     }
     suspend fun checkout(){
         AlertManager.checkoutDialog(requireContext(), {
-            val orderID = System.currentTimeMillis().toString()
-            var quant = 0
-            for (oreder in DraftOrderManager.getOrder()){
-                quant+=oreder.numberOfItems.toInt()
-            }
-            val order = OrderModel(
-                orderID,
-                DraftOrderManager.getOrder(),
-                quant,
-                DateFormatter.getCurrentDate(),
-                totalAmount,
-                AdsManager.clipBoardCode.code,
-                AdsManager.value.toString(),
-                DraftOrderManager.getShippingAddress().address1
-            )
-            cartViewModel.saveProuctsInOrder(order)
+
+            draftOrderViewModel.completeOrder(DraftOrderManager.getDraftOrderID().toString())
             val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
             findNavController().navigate(action)
         }).show()

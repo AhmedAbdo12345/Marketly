@@ -76,7 +76,6 @@ class CheckoutFragment : Fragment() {
         val invoice = DraftOrderInvoiceX(Constants.EMAIL_BODY,Constants.EMAIL_SUBJECT,SharedPreferenceManager.getUserMAil(requireContext()).toString())
         for (item in draftOrderLineItemList){
             totalAmount =totalAmount+item.price.toDouble()
-            Toast.makeText(requireContext(),"${totalAmount}",Toast.LENGTH_LONG).show()
         }
         if(currency == null||currency == ""){
             currency = "USD"
@@ -92,7 +91,6 @@ class CheckoutFragment : Fragment() {
                         }
                         is ResponseState.OnSuccess->{
                            DraftOrderManager.setDraftOrderID(it.response.draft_order.id)
-                            Toast.makeText(requireContext(),"Order Created Successfully",Toast.LENGTH_LONG).show()
                         }
                         is ResponseState.OnError->{
                             Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
@@ -107,8 +105,16 @@ class CheckoutFragment : Fragment() {
         binding.city.text = draftOrderAddress.city
         binding.discountText.text = draftAppliedDiscount.title
         binding.discountValueFromApi.text = draftAppliedDiscount.value
-        val percentage = (totalAmount)*(AdsManager.value/100)
-        totalAmount = totalAmount - percentage
+        if(AdsManager.clipBoardCode.code.isEmpty()||AdsManager.clipBoardCode.code.equals("DUMMY")){
+            totalAmount = totalAmount
+        }else{
+            if(AdsManager.value.toInt() == 100){
+                totalAmount = totalAmount
+            }else{
+                val percentage = (totalAmount)*(AdsManager.value/100)
+                totalAmount = totalAmount - percentage
+            }
+        }
 
 
      if(SettingsManager.getCurrncy()=="EGP"){

@@ -8,7 +8,7 @@ object AdsManager {
     private var ruleList:MutableList<PriceRule> = mutableListOf()
     var value:Double=0.0
 
-    var clipBoardCode:DiscountCode= DiscountCode("","",0,0,"",0)
+    var clipBoardCode:DiscountCode= DiscountCode("DUMMY","",0,0,"",0)
     fun addDiscountList(discountCode: List<DiscountCode>){
         adsList = discountCode.toMutableList()
     }
@@ -47,5 +47,8 @@ object AdsManager {
     }
     fun getAdsList():MutableList<DiscountCode>{
         return adsList
+    }
+    fun clearClip(){
+        clipBoardCode = DiscountCode("","",0,0,"",1)
     }
 }

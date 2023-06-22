@@ -20,7 +20,7 @@ object CurrencyConverter {
     }
     fun switchToUSD(price:String, id:Int):String {
         var tempPrice = price
-        tempPrice = ((price.toDouble()/SettingsManager.getExchangeRate()).toFloat()).toString()
+        tempPrice = ((price.toDouble()/SettingsManager.getExchangeRate()).toFloat()).toString().substring(0,5)
 //        if(!this::currencySwitch.isInitialized){
 //            if(SettingsManager.getCurrncy() == "USD"&& !textIDSUSD.contains(id)){
 //                tempPrice = ((price.toDouble()/SettingsManager.getExchangeRate()).toFloat()).toString()

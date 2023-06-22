@@ -104,10 +104,24 @@ class DraftAddressFragment : Fragment(),DraftAddressInterface{
             findNavController().navigate(action)
         }
         val cancelMethod = {
+            AdsManager.clearClip()
             var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToPaymentMethodFragment()
             findNavController().navigate(action)
         }
-        AlertManager.functionalDialog("Appling the coupon",requireContext(),"Do you want to apply the coupone you selected?",method,cancelMethod).show()
+        if(!AdsManager.clipBoardCode.code.equals("DUMMY")){
+            AlertManager.functionalDialog("Appling the coupon",requireContext(),"Do you want to apply the coupone you selected?",method,cancelMethod).show()
+        }else{
+            DraftOrderManager.setDiscount(
+                AppliedDiscount(
+                    AdsManager.value.toString(),
+                    AdsManager.clipBoardCode.code,
+                    AdsManager.clipBoardCode.code,
+                    AdsManager.value.toString())
+
+            )
+            var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToPaymentMethodFragment()
+            findNavController().navigate(action)
+        }
 
     }
 

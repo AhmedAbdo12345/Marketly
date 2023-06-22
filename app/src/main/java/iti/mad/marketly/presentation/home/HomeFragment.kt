@@ -218,6 +218,13 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                     rule,
                     method
                 ).show()
+                AdsManager.setClipBoard(ad)
+                for (rules in AdsManager.getPriceList()) {
+                    if (AdsManager.getAdsList().get(0).price_rule_id == rules.id) {
+                        AdsManager.setValue(rules.value)
+                    }
+                }
+
 
             }
         })
