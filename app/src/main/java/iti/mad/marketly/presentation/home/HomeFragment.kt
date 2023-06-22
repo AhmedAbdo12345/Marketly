@@ -216,7 +216,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                 AlertManager.customDialog(
                     ad.code,
                     requireContext(),
-                    rule,
+                    rule + " LE",
                     method
                 ).show()
                 AdsManager.setClipBoard(ad)
