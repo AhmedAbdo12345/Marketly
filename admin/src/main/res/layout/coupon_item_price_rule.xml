@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
 
                     <TextView
@@ -103,6 +103,13 @@
                         android:textColor="@color/red"
                         android:textSize="19sp"
                         tools:text="250" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{model.value}"
+                        android:textColor="@color/title_gray"
+                        android:textSize="12sp"
+                        tools:text=" L.E" />
                 </LinearLayout>
 
                 <LinearLayout

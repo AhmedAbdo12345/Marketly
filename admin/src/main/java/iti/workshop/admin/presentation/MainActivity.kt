@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
             when(navDestination.id){
                 R.id.splashFragment,
+                R.id.authProfileAddEditFragment,
                 R.id.introOnBoardingFragment,
                 R.id.authLoginFragment -> {
                     bottomNavigationView.visibility = View.GONE
