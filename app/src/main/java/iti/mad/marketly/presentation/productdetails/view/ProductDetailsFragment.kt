@@ -77,15 +77,14 @@ class ProductDetailsFragment : Fragment() {
                                     productDetails.product!!
                                 )
                             } else {
-                                AlertManager.functionalDialog(
-                                    "Alert",
+                                AlertManager.functionalDialog("Alert",
                                     requireContext(),
-                                    "you should Login to use this feature"
-                              ,{
+                                    "you should Login to use this feature",
+                                    {
                                         val action =
                                             ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
                                         findNavController().navigate(action)
-                                    }  )
+                                    })
                             }
 
                         }
@@ -163,9 +162,11 @@ class ProductDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.appBar.toolbar.title = "product details"
         binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
             findNavController().navigateUp()
         })
+
         viewModel.getProductDetails(args.productID)
 
         reviewsAdapter = ReviewsAdapter(requireContext())
@@ -229,12 +230,11 @@ class ProductDetailsFragment : Fragment() {
                     )
 
                 }
-            }else{
-                AlertManager.functionalDialog(
-                    "register",
+            } else {
+                AlertManager.functionalDialog("register",
                     requireContext(),
-                    "you should login or register to save this in your account"
-                    ,{
+                    "you should login or register to save this in your account",
+                    {
                         val action =
                             BrandProductFragmentDirections.actionBrandProductFragmentToLoginFragment()
                         findNavController().navigate(action)
@@ -254,15 +254,16 @@ class ProductDetailsFragment : Fragment() {
                 )
                 cartViewModel.saveCart(cartModel)
                 CartManager.addItemToCartList(cartModel)
-                Toast.makeText(requireContext(),"Item sent to cart",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Item sent to cart", Toast.LENGTH_LONG).show()
             } else {
-                AlertManager.functionalDialog(
-                    "Alert", requireContext(), "you should Login to use this feature"
-              ,{
+                AlertManager.functionalDialog("Alert",
+                    requireContext(),
+                    "you should Login to use this feature",
+                    {
                         val action =
                             ProductDetailsFragmentDirections.actionProductDetailsFragmentToRegisterFragment()
                         findNavController().navigate(action)
-                    }  )
+                    })
             }
 
         })
@@ -324,11 +325,17 @@ class ProductDetailsFragment : Fragment() {
             }
             binding.productNameProductDetailsPage.text = productName.trim()
 
-     if(SettingsManager.getCurrncy()=="EGP"){
-       binding.productPriceProductDetailsPage.text= CurrencyConverter.switchToEGP(it.product.variants?.get(0)?.price.toString(), binding.productPriceProductDetailsPage.id)+" LE"
-   }else{
-         binding.productPriceProductDetailsPage.text= CurrencyConverter.switchToUSD(it.product.variants?.get(0)?.price.toString(), binding.productPriceProductDetailsPage.id)+" $"
-   }
+            if (SettingsManager.getCurrncy() == "EGP") {
+                binding.productPriceProductDetailsPage.text = CurrencyConverter.switchToEGP(
+                    it.product.variants?.get(0)?.price.toString(),
+                    binding.productPriceProductDetailsPage.id
+                ) + " LE"
+            } else {
+                binding.productPriceProductDetailsPage.text = CurrencyConverter.switchToUSD(
+                    it.product.variants?.get(0)?.price.toString(),
+                    binding.productPriceProductDetailsPage.id
+                ) + " $"
+            }
 
 
 
