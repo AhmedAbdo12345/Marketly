@@ -166,7 +166,7 @@ class RegisterFragment : Fragment() {
                         binding.textViewPasswordError.text = "Password is required"
                     } else if (password.length < 8) {
                         binding.textViewPasswordError.text =
-                            "Password must be at least 6 characters"
+                            "Password must be at least 8 characters"
                     } else {
                         binding.textViewPasswordError.text = null
                     }

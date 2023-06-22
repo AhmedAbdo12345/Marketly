@@ -27,7 +27,7 @@ object SharedPreferenceManager {
 
     fun getSavedCurrency(context: Context): String? {
         checkPreferences(context)
-        return shared.getString(Constants.CURRENCY, "")
+        return shared.getString(Constants.CURRENCY, "EGP")
     }
 
     fun saveDefaultAddress(address: String, context: Context) {

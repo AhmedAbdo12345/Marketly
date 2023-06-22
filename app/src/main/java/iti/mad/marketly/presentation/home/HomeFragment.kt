@@ -32,7 +32,6 @@ import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManager
 import iti.mad.marketly.databinding.FragmentHomeBinding
 import iti.mad.marketly.presentation.cart.CartViewModel
-import iti.mad.marketly.presentation.favourite.FavouriteFragmentDirections
 import iti.mad.marketly.presentation.home.ads.AdsViewModel
 import iti.mad.marketly.presentation.home.brands.BrandsAdapter
 import iti.mad.marketly.presentation.home.brands.BrandsViewModel
@@ -131,7 +130,7 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                     R.id.cartIcon -> {
                         // Handle the item click here
                         /*Log.d("cart","navigate")*/
-                       // binding.notLoginConstraint.visibility = View.GONE
+                        // binding.notLoginConstraint.visibility = View.GONE
 
                         true
                     }
@@ -338,24 +337,25 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         SettingsManager.userNameSetter(SharedPreferenceManager.getUserName(requireContext())!!)
         SettingsManager.addressSetter(SharedPreferenceManager.getDefaultAddress(requireContext())!!)
         SettingsManager.curSetter(SharedPreferenceManager.getSavedCurrency(requireContext())!!)
+        Log.d("aaaaa7777aaaaaaa", SharedPreferenceManager.getSavedCurrency(requireContext()).toString())
         SettingsManager.exchangeRateSetter(
             SharedPreferenceManager.getDefaultExchangeRate(
                 requireContext()
             )!!
         )
     }
-  /*  fun handleRegister() {
-        binding.loginBtn.setOnClickListener {
-            val action = FavouriteFragmentDirections.actionFavouriteFragmentToLoginFragment()
-            findNavController().navigate(action)
-        }
-        binding.registerBtn.setOnClickListener {
-            val action = FavouriteFragmentDirections.actionFavouriteFragmentToRegisterFragment()
-            findNavController().navigate(action)
+    /*  fun handleRegister() {
+          binding.loginBtn.setOnClickListener {
+              val action = FavouriteFragmentDirections.actionFavouriteFragmentToLoginFragment()
+              findNavController().navigate(action)
+          }
+          binding.registerBtn.setOnClickListener {
+              val action = FavouriteFragmentDirections.actionFavouriteFragmentToRegisterFragment()
+              findNavController().navigate(action)
 
 
-        }
-    }*/
+          }
+      }*/
 }
 
 

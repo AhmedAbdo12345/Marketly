@@ -43,6 +43,7 @@ class BrandProductAdapter(
         holder.binding.tvBrandProductName.text = getItem(position).vendor
         holder.binding.tvProductName.text = getItem(position).title
         if(SettingsManager.getCurrncy()=="EGP"){
+
             holder.binding.tvProductPrice.text= CurrencyConverter.switchToEGP(getItem(position).variants!![0]!!.price.toString(),holder.binding.tvProductPrice.id)+" LE"
         }else{
             holder.binding.tvProductPrice.text= CurrencyConverter.switchToUSD(getItem(position).variants!![0]!!.price.toString(),holder.binding.tvProductPrice.id)+" $"

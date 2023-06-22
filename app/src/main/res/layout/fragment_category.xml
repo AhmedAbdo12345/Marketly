@@ -20,16 +20,17 @@
             android:layout_marginEnd="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ProgressBar
             android:id="@+id/category_progressbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/faMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
-            app:layout_constraintBottom_toBottomOf="@id/faMenu" />
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryProductRecView"
@@ -37,78 +38,106 @@
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            tools:listitem="@layout/rv_category_product"
-            tools:itemCount="5"
+            app:layout_constraintBottom_toBottomOf="@id/faMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tab_layout"
-            app:layout_constraintBottom_toBottomOf="@id/faMenu"/>
+            tools:itemCount="5"
+            tools:listitem="@layout/rv_category_product" />
+
+        <LinearLayout
+            android:id="@+id/linearEmptyFavorite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/faMenu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+
+
+            >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/metropolis_semibold"
+                android:text="no products found"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/faMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right|end"
-            app:fab_labelsPosition="left"
-            app:tint="@null"
             android:src="@drawable/filter_alt_white"
+            app:fab_labelsPosition="left"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.905"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@null" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_cap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/cap"
-                app:backgroundTint="@color/white"
-                app:borderWidth="0dp"
-                android:visibility="gone"
-                app:tint="@null"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="@id/fab_t_shirt"
-                android:layout_marginVertical="70dp"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_cap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="70dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cap"
+            android:visibility="gone"
+            app:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/fab_t_shirt"
+            app:layout_constraintEnd_toEndOf="parent"
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.905"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+            app:layout_constraintHorizontal_bias="0.905"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@null" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_t_shirt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/t_shirt"
-                android:scaleType="fitCenter"
-                app:tint="@null"
-                app:backgroundTint="@color/white"
-                app:borderWidth="0dp"
-               android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.905"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/fab_shoes"
-                android:layout_marginVertical="70dp"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_t_shirt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="70dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/t_shirt"
+            android:visibility="gone"
+            app:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/fab_shoes"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.905"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@null" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_shoes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="70dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/shoes"
-            app:tint="@null"
+            android:visibility="gone"
             app:backgroundTint="@color/white"
             app:borderWidth="0dp"
-            android:scaleType="fitCenter"
-            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/faMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.905"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/faMenu"
-            android:layout_marginVertical="70dp"/>
+            app:tint="@null" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
-<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"
+</layout><!--<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
