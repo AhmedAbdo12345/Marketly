@@ -48,9 +48,11 @@ class PriceRuleDiffCallback: DiffUtil.ItemCallback<PriceRule>() {
 
 class PriceRuleOnCLickListener(
     val clickListener: (model: PriceRule) -> Unit,
-    val deleteItemListener: (model: PriceRule) -> Unit
+    val deleteItemListener: (model: PriceRule) -> Unit,
+    val onAddNotification: (model: PriceRule) -> Unit,
 ) {
     fun onClick(model: PriceRule) = clickListener(model)
     fun onDeleteItem(model: PriceRule) = deleteItemListener(model)
+    fun addNotification(model: PriceRule) = onAddNotification(model)
 }
 

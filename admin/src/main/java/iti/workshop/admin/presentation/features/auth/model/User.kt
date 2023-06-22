@@ -8,6 +8,7 @@ data class User(
     var email:String?=null,
     var image:String?=null,
     var phone:String?=null,
+    var password:String?=null,
     var jopTitle:JopTitle?=null
 //    var activities:List<Activity>?=null
 ):Serializable

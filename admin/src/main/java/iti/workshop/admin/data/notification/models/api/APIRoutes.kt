@@ -1,4 +1,4 @@
-package iti.workshop.admin.data.notification.api
+package iti.workshop.admin.data.notification.models.api
 
 class APIRoutes {
 

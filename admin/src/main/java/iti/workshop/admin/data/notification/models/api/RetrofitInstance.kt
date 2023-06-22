@@ -1,6 +1,6 @@
-package iti.workshop.admin.data.notification.api
+package iti.workshop.admin.data.notification.models.api
 
-import iti.workshop.admin.data.notification.api.APIRoutes.Companion.NOTIFICATION_URL
+import iti.workshop.admin.data.notification.models.api.APIRoutes.Companion.NOTIFICATION_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

@@ -56,5 +56,13 @@
         <item>WOMEN</item>
     </string-array>
 
+    <string-array name="jop_titles">
+        <item>SuperUser</item>
+        <item>Admin</item>
+        <item>SuperVisor</item>
+    </string-array>
+
+
+
 
 </resources>

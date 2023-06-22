@@ -22,6 +22,7 @@ import iti.workshop.admin.presentation.features.auth.viewModel.AuthViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.alertDialog
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -48,13 +49,17 @@ class AuthUsersListFragment : Fragment() {
     }
 
     private fun deleteItem(model: User) {
+        requireContext().alertDialog("Delete Action","Do you want delete ${model.name} ? \n Are you sure?",{
+        },{
+            viewModel.removeUser(model)
+        })
 
     }
 
     private fun selectItem(model: User) {
         val bundle = Bundle()
         bundle.putSerializable(ConstantsKeys.USER_KEY, model)
-        findNavController().navigate(R.id.action_authEmployersListFragment_to_authProfilePreviewFragment,bundle)
+        findNavController().navigate(R.id.action_actorsManagmentFragment_to_authProfilePreviewFragment,bundle)
     }
 
     private fun updateUISate() {

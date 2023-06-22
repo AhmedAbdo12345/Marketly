@@ -1,7 +1,7 @@
-package iti.workshop.admin.data.notification.api
+package iti.workshop.admin.data.notification.models.api
 
-import iti.workshop.admin.data.notification.api.APIRoutes.Companion.CONTENT_TYPE
-import iti.workshop.admin.data.notification.api.APIRoutes.Companion.SERVER_KEY
+import iti.workshop.admin.data.notification.models.api.APIRoutes.Companion.CONTENT_TYPE
+import iti.workshop.admin.data.notification.models.api.APIRoutes.Companion.SERVER_KEY
 import iti.workshop.admin.data.notification.models.PushNotification
 import okhttp3.ResponseBody
 import retrofit2.Response

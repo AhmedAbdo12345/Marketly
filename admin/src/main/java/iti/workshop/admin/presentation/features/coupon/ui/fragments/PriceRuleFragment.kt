@@ -1,9 +1,14 @@
 package iti.workshop.admin.presentation.features.coupon.ui.fragments
 
+import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,6 +17,10 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
 import iti.workshop.admin.data.dto.PriceRule
+import iti.workshop.admin.data.notification.models.NotificationData
+import iti.workshop.admin.data.notification.models.PushNotification
+import iti.workshop.admin.data.notification.models.api.APIRoutes.Companion.TOPIC
+import iti.workshop.admin.data.notification.models.api.RetrofitInstance
 import iti.workshop.admin.databinding.CouponFragmentPriceRuleBinding
 import iti.workshop.admin.presentation.comon.ConstantsKeys
 import iti.workshop.admin.presentation.features.coupon.adapters.PriceRuleAdapter
@@ -22,7 +31,11 @@ import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
 import iti.workshop.admin.presentation.utils.alertDialog
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class PriceRuleFragment : Fragment() {
@@ -39,13 +52,52 @@ class PriceRuleFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.coupon_fragment_price_rule, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        adapter = PriceRuleAdapter(PriceRuleOnCLickListener(::selectItem,::deleteItem))
+        adapter = PriceRuleAdapter(PriceRuleOnCLickListener(::selectItem,::deleteItem,::onAddNotification))
         binding.mAdapter = adapter
 
         viewModel.retrievePriceRules()
         updateUISate()
         addPriceRuleAction()
         return binding.root
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun onAddNotification(priceRule: PriceRule) {
+        val builder = AlertDialog.Builder(requireContext())
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.dialog_layout, null)
+        val editText = dialogLayout.findViewById<EditText>(R.id.edit_text)
+
+        builder.setView(dialogLayout)
+            .setPositiveButton("OK") { dialogInterface, i ->
+                // Ok button clicked, do something with the input
+                val inputText = editText.text.toString()
+                lifecycleScope.launch {
+                    val noification = PushNotification(
+                        data = NotificationData(
+                            title = "Discount Notificationi",
+                            message =  inputText,
+                            date = getCurrentDate(),
+                            time = getCurrentTime(),
+                            id = Random.nextInt()
+                        ),
+                        to = TOPIC
+
+                    )
+                    val response = async { RetrofitInstance.api.postNotification(noification)}
+                    if (response.await().isSuccessful){
+                        Toast.makeText(requireContext(), "Notification has been added", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(requireContext(), "There is problem during send", Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+
+            }
+            .setNegativeButton("Cancel") { dialogInterface, i ->
+                // Cancel button clicked, do nothing
+            }
+            .show()
     }
 
     private fun addPriceRuleAction() {
@@ -143,5 +195,25 @@ class PriceRuleFragment : Fragment() {
         }
 
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getCurrentDate():String{
+        val currentDate = LocalDate.now()
+        val year = currentDate.year
+        val month = currentDate.monthValue
+        val day = currentDate.dayOfMonth
+        return "$year/$month/$day"
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getCurrentTime():String{
+        val currentTime = LocalTime.now()
+        val hour = currentTime.hour
+        val minute = currentTime.minute
+        val second = currentTime.second
+       return "$hour:$minute:$second"
+    }
+
+
 
 }

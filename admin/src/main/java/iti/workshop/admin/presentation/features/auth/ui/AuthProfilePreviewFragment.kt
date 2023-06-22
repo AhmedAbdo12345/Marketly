@@ -39,7 +39,6 @@ import java.io.OutputStream
 @AndroidEntryPoint
 class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
 
-
     private val TAKE_PICTURE = 6352
     private val REQUEST_CAMERA_ACCESS_PERMISSION = 5674
     private var bitmap: Bitmap? = null
@@ -63,8 +62,7 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
 
         setEventClickListner()
 
-        user = sharedManager.getUser()
-        binding.model = user
+
         updateUser()
         return binding.root
     }
@@ -103,8 +101,10 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
         val bundle = arguments
         if (bundle != null && bundle.containsKey(ConstantsKeys.USER_KEY)) {
             user = bundle.getSerializable(ConstantsKeys.USER_KEY) as User
-            binding.model = user
+        }else{
+            user = sharedManager.getUser()
         }
+        binding.model = user
     }
 
     private fun persistImage(bitmap: Bitmap?, name: String): File {
@@ -123,16 +123,11 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
     }
 
     private fun uploadToServer() {
-
         if (bitmap!=null){
             uploadImageToServer()
-
         }else{
             uploadUsernameToServer()
         }
-
-
-
     }
 
     private fun uploadUsernameToServer() {
@@ -221,7 +216,6 @@ class AuthProfilePreviewFragment : Fragment(),View.OnClickListener {
         when (requestCode) {REQUEST_CAMERA_ACCESS_PERMISSION -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getImageFromCamera()
             }
-
             else -> {}
         }
     }

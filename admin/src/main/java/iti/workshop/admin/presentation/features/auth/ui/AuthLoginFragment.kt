@@ -36,6 +36,12 @@ class AuthLoginFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.auth_fragment_login, container, false)
         sharedManager = SharedManager.getInstance(requireContext())
         auth = FirebaseAuth.getInstance()
+
+        binding.createNewAccount.setOnClickListener {
+            val bundler = Bundle()
+            bundler.putBoolean("signUp",true)
+            findNavController().navigate(R.id.action_authLoginFragment_to_authProfileAddEditFragment,bundler)
+        }
         val progressDialog: ProgressDialog = requireContext().loadingDialog("Checking Authentication","Please wait until checking if email and Password is Valid")
         binding.loginBtn.setOnClickListener {
 

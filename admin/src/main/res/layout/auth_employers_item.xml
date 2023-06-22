@@ -48,6 +48,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     tools:text="Mohamed" />
 
+                <ImageView
+                    android:onClick="@{()->clickListener.onDeleteItem(model)}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/clear_ic"/>
             </LinearLayout>
 
 
@@ -59,10 +64,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent">
+                android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -70,6 +72,13 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{model.jopTitle.name()}"
+                        android:textColor="@color/title_gray"
+                        android:textSize="22sp"
+                        tools:text="Superuser" />
 
                     <TextView
                         android:layout_width="wrap_content"

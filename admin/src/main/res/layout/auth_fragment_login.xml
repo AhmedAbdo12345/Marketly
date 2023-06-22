@@ -114,16 +114,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/PasswordET" />
 
             <TextView
-                android:id="@+id/forgotPasswordTv"
+                android:id="@+id/createNewAccount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/metropolis_regular"
                 android:gravity="end"
-                android:text="@string/forgot_password"
+                android:text="Create New Account"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@+id/PasswordET"
                 app:layout_constraintStart_toStartOf="@+id/PasswordET"
                 app:layout_constraintTop_toBottomOf="@+id/passwordErrorTV" />
@@ -138,9 +137,9 @@
                 android:fontFamily="@font/metropolis_regular"
                 android:text="@string/login"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="@+id/forgotPasswordTv"
-                app:layout_constraintStart_toStartOf="@+id/forgotPasswordTv"
-                app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTv" />
+                app:layout_constraintEnd_toEndOf="@+id/createNewAccount"
+                app:layout_constraintStart_toStartOf="@+id/createNewAccount"
+                app:layout_constraintTop_toBottomOf="@+id/createNewAccount" />
 
             <ProgressBar
                 android:id="@+id/progressBar2"

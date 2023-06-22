@@ -20,9 +20,12 @@
         android:title="@string/inventory_navigation_title"
         android:icon="@drawable/ic_bag"/>
 
-
+<!--    <item-->
+<!--        android:id="@+id/actorsManagmentFragment"-->
+<!--        android:title="@string/employers_navigation_title"-->
+<!--        android:icon="@drawable/ic_users"/>-->
     <item
-        android:id="@+id/actorsManagmentFragment"
+        android:id="@+id/authEmployersListFragment"
         android:title="@string/employers_navigation_title"
         android:icon="@drawable/ic_users"/>
 

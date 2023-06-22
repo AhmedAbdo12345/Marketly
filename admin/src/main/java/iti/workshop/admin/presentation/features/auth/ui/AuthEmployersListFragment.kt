@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
+import iti.workshop.admin.data.dto.Product
 import iti.workshop.admin.databinding.AuthFragmentEmpolyersListBinding
 import iti.workshop.admin.presentation.comon.Action
 import iti.workshop.admin.presentation.comon.ConstantsKeys
@@ -21,6 +22,7 @@ import iti.workshop.admin.presentation.features.auth.viewModel.AuthViewModel
 import iti.workshop.admin.presentation.utils.DataListResponseState
 import iti.workshop.admin.presentation.utils.DataStates
 import iti.workshop.admin.presentation.utils.Message
+import iti.workshop.admin.presentation.utils.alertDialog
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -42,22 +44,26 @@ class AuthEmployersListFragment : Fragment() {
         binding.mAdapter = adapter
 
         viewModel.getUsersList()
+
         updateUISate()
         addUserAction()
         return binding.root
     }
 
-    private fun addUserAction() {
 
+    private fun addUserAction() {
         binding.floatingActionButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putSerializable(ConstantsKeys.ACTION_KEY,Action.Add)
             findNavController().navigate(R.id.action_authEmployersListFragment_to_authProfileAddEditFragment,bundle)
-
         }
      }
 
     private fun deleteItem(model: User) {
+        requireContext().alertDialog("Delete Action","Do you want delete ${model.name} ? \n Are you sure?",{
+        },{
+            viewModel.removeUser(model)
+        })
 
     }
 

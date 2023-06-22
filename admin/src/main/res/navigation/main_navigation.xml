@@ -185,6 +185,9 @@
 
             android:id="@+id/action_authLoginFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_authLoginFragment_to_authProfileAddEditFragment"
+            app:destination="@id/authProfileAddEditFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/auth_fragment_profile_add_edit"
@@ -200,6 +203,10 @@
             android:name="ACTION_KEY"
             app:argType="iti.workshop.admin.presentation.comon.Action"
             android:defaultValue="Add" />
+        <argument
+            android:name="signUp"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         tools:layout="@layout/auth_fragment_profile_preview"
@@ -242,6 +249,10 @@
         tools:layout="@layout/auth_actors_fragment"
         android:id="@+id/actorsManagmentFragment"
         android:name="iti.workshop.admin.presentation.features.auth.ui.ActorsManagmentFragment"
-        android:label="ActorsManagmentFragment" />
+        android:label="ActorsManagmentFragment" >
+        <action
+            android:id="@+id/action_actorsManagmentFragment_to_authProfilePreviewFragment"
+            app:destination="@id/authProfilePreviewFragment" />
+    </fragment>
 
 </navigation>
