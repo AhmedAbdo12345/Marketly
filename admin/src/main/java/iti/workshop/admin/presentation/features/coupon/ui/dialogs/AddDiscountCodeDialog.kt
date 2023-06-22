@@ -14,6 +14,7 @@ import iti.workshop.admin.data.dto.DiscountCode
 import iti.workshop.admin.databinding.CouponDialogAddDiscountCodeBinding
 import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class AddDiscountCodeDialog(
     private val viewModel:CouponViewModel,
@@ -38,7 +39,7 @@ class AddDiscountCodeDialog(
         }
 //        dialog?.window?.setBackgroundDrawable( ColorDrawable(Color.TRANSPARENT))
 
-
+        binding.titleInput.setText(generateRandomString())
 
         lifecycleScope.launch {
             viewModel.discountCodeActionResponse.collect{ state ->
@@ -66,7 +67,6 @@ class AddDiscountCodeDialog(
         val model = DiscountCode(
             code = binding.titleInput.text.toString(),
             price_rule_id = priceRuleId,
-            usage_count = binding.valueInput.text.toString().toInt()
         )
 
         viewModel.saveDiscountCode(model)
@@ -78,14 +78,23 @@ class AddDiscountCodeDialog(
            return  false
        }
 
-        if (binding.valueInput.text.isNullOrBlank()){
-            binding.valueInput.error = "Please put usage count"
-            return  false
-        }
+
 
         return true
     }
 
 
+    fun generateRandomString(): String {
+        val chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+        val length = 15
+        val random = Random.Default
+        val sb = StringBuilder(length)
+
+        for (i in 0 until length) {
+            sb.append(chars[random.nextInt(chars.length)])
+        }
+
+        return sb.toString()
+    }
 
 }

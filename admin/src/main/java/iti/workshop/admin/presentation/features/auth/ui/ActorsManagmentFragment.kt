@@ -1,4 +1,4 @@
-package iti.workshop.admin.presentation.features.coupon.ui.fragments
+package iti.workshop.admin.presentation.features.auth.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,24 +9,24 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import iti.workshop.admin.R
-import iti.workshop.admin.databinding.CouponFragmentBinding
+import iti.workshop.admin.databinding.AuthActorsFragmentBinding
 import iti.workshop.admin.presentation.features.coupon.adapters.TabsPagerAdapter
 import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 
 @AndroidEntryPoint
-class CouponFragment : Fragment() {
+class ActorsManagmentFragment : Fragment() {
 
-    lateinit var binding:CouponFragmentBinding
+    lateinit var binding:AuthActorsFragmentBinding
     val viewModel: CouponViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater,R.layout.coupon_fragment,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.auth_actors_fragment,container,false)
         binding.tabs.setupWithViewPager(binding.viewpager)
         val adapter = TabsPagerAdapter(requireActivity().supportFragmentManager)
-        adapter.addFragment(DiscountCodeFragment(),"Discount Code")
-        adapter.addFragment(PriceRuleFragment(),"Price Rule")
+        adapter.addFragment(AuthUsersListFragment(),"Users")
+        adapter.addFragment(AuthEmployersListFragment(),"Employers")
         binding.viewpager.adapter = adapter
 
         return binding.root

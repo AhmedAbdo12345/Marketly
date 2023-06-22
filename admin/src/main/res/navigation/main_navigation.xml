@@ -61,11 +61,11 @@
             app:destination="@id/couponFragment"
             app:enterAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_homeFragment_to_authEmployersListFragment"
-            app:destination="@id/authEmployersListFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_authProfilePreviewFragment"
             app:destination="@id/authProfilePreviewFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_actorsManagmentFragment"
+            app:destination="@id/actorsManagmentFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAndEditProductFragment"
@@ -238,5 +238,10 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </dialog>
+    <fragment
+        tools:layout="@layout/auth_actors_fragment"
+        android:id="@+id/actorsManagmentFragment"
+        android:name="iti.workshop.admin.presentation.features.auth.ui.ActorsManagmentFragment"
+        android:label="ActorsManagmentFragment" />
 
 </navigation>
