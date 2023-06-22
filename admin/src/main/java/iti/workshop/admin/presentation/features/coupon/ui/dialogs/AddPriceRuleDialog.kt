@@ -22,9 +22,7 @@ import iti.workshop.admin.presentation.features.coupon.viewModel.CouponViewModel
 import iti.workshop.admin.presentation.utils.TimeConverter
 import kotlinx.coroutines.launch
 
-class AddPriceRuleDialog(
-    private val viewModel:CouponViewModel
-    ) : DialogFragment() {
+class AddPriceRuleDialog(private val viewModel:CouponViewModel) : DialogFragment() {
 
     private lateinit var datePickerTo: MaterialDatePicker<Long?>
     var dateFrom: String? = null;
@@ -54,11 +52,13 @@ class AddPriceRuleDialog(
             }
         }
 
-
+        val constraintBuilder = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.from(System.currentTimeMillis())).build()
         val datePickerFrom =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date From")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                .setCalendarConstraints(constraintBuilder)
                 .build()
 
         binding.dateFromInput.setOnClickListener {
