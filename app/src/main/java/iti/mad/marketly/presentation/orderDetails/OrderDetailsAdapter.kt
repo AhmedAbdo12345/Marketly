@@ -10,6 +10,8 @@ import iti.mad.marketly.data.model.cart.CartModel
 import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.databinding.RvOrderBinding
 import iti.mad.marketly.databinding.RvOrderDetailsBinding
+import iti.mad.marketly.utils.CurrencyConverter
+import iti.mad.marketly.utils.SettingsManager
 
 class OrderDetailsAdapter (val orderModel: OrderModel) : RecyclerView.Adapter<OrderDetailsAdapter.OrderDetailsViewHolder>() {
 
@@ -42,6 +44,13 @@ class OrderDetailsAdapter (val orderModel: OrderModel) : RecyclerView.Adapter<Or
         binding.tvOrderItemName.text =orderModel.itemList[position].title
         binding.tvOrderItemQuantity.text = "Quantity: ${orderModel.itemList[position].numberOfItems}"
         binding.tvOderItemTotalPrice.text ="Total Price: ${(orderModel.itemList[position].price)} $"
+        if(SettingsManager.getCurrncy()=="EGP"){
+            binding.tvOderItemTotalPrice.text = CurrencyConverter.switchToEGP(orderModel.itemList[position].price.toString(),binding.tvOderItemTotalPrice.id)+" LE"
+        }else{
+            binding.tvOderItemTotalPrice.text = CurrencyConverter.switchToUSD(orderModel.itemList[position].price.toString(),binding.tvOderItemTotalPrice.id)+" $"
+
+        }
+
 
 
     }
