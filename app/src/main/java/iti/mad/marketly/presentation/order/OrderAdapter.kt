@@ -11,6 +11,8 @@ import iti.mad.marketly.data.model.order.OrderModel
 import iti.mad.marketly.data.model.product.Product
 import iti.mad.marketly.databinding.RvOrderBinding
 import iti.mad.marketly.presentation.categoryProduct.CategoryProductDiffUtils
+import iti.mad.marketly.utils.CurrencyConverter
+import iti.mad.marketly.utils.SettingsManager
 
 class OrderAdapter (var mClickListener: ListItemClickListener) : ListAdapter<OrderModel, OrderAdapter.AdapterViewHolder>(
     OrderDiffUtils()
@@ -38,7 +40,14 @@ val order=getItem(position)
         binding.action = mClickListener
 binding.tvOrderId.text = getItem(position).orderID
         binding.tvOrderDate.text = getItem(position).date
-        binding.tvOrderTotalPrice.text = "${getItem(position).orderTotalPrice} $"
+        //binding.tvOrderTotalPrice.text = "${getItem(position).orderTotalPrice} $"
+        if(SettingsManager.getCurrncy()=="USD"){
+            binding.tvOrderTotalPrice.text = CurrencyConverter.switchToUSD(getItem(position).orderTotalPrice.toString(),binding.tvOrderTotalPrice.id)+" $"
+
+        }else{
+            binding.tvOrderTotalPrice.text = CurrencyConverter.switchToEGP(getItem(position).orderTotalPrice.toString(),binding.tvOrderTotalPrice.id)+" LE"
+
+        }
         //binding.tvOrderQuantity.text = getItem(position).itemList.get(position-1).quantity.toString()
         for (item in order.itemList){
             quant+=item.quantity.toInt()

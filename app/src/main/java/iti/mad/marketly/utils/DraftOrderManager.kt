@@ -14,6 +14,7 @@ object DraftOrderManager {
     private var draftOrderID:Long = 0
     private var direction = 0
     private var creditNumber:Long = 0
+    private var invoiceURL = ""
     fun buildDraftOrder(lineItems:List<LineItems>, customer: Customer,address: ShippingAddress
     ,cur:String,appliedDiscount: AppliedDiscount):DraftOrderBody{
         draftOrderBody = DraftOrderBody(lineItems,customer,address,cur,appliedDiscount)
@@ -83,5 +84,11 @@ fun setOrder(list:MutableList<CartModel>){
 }
     fun getOrder():MutableList<CartModel>{
         return orders
+    }
+    fun setInvoice(url:String){
+        invoiceURL = url
+    }
+    fun getInvoice():String{
+        return invoiceURL
     }
 }

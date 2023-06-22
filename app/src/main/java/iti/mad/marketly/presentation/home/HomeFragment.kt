@@ -65,8 +65,8 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
         super.onCreate(savedInstanceState)
         val networkConnectivityChecker = NetworkConnectivityChecker(requireContext())
         if (!networkConnectivityChecker.checkForInternet()) {
-            val action = HomeFragmentDirections.actionHomeFragmentToErrorFragment6()
-            findNavController().navigate(action)
+//            val action = HomeFragmentDirections.actionHomeFragmentToErrorFragment6()
+//            findNavController().navigate(action)
         }
         getSavedSettings()
         settingsViewModel.getExchangeRate()

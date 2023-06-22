@@ -43,8 +43,9 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
         holder.binding.plusLayout.setOnClickListener(View.OnClickListener {
             if(quant < maxQuant ){
                 quant++
-                currentItem.quantity = quant.toLong()
+
                 currentItem.price = recentPrice * quant
+                currentItem.numberOfItems = quant.toLong()
                 holder.binding.quantityTvCart.text = quant.toString()
 
                 if (SettingsManager.getCurrncy()=="EGP"){
@@ -59,7 +60,7 @@ class CartAdapter(var context: Context?, val cartInterface:CartFragmentInterface
         holder.binding.minusLayout.setOnClickListener(View.OnClickListener {
             if(quant > 1){
                 quant--
-                currentItem.quantity = quant.toLong()
+                currentItem.numberOfItems = quant.toLong()
                 currentItem.price = recentPrice * quant
                 holder.binding.quantityTvCart.text = quant.toString()
                 holder.binding.totalItemCardPrice.text = (currentItem.price * quant).toString()

@@ -40,7 +40,7 @@ class OrderDetailsAdapter (val orderModel: OrderModel) : RecyclerView.Adapter<Or
         }
 
         binding.tvOrderItemName.text =orderModel.itemList[position].title
-        binding.tvOrderItemQuantity.text = "Quantity: ${orderModel.itemList[position].quantity}"
+        binding.tvOrderItemQuantity.text = "Quantity: ${orderModel.itemList[position].numberOfItems}"
         binding.tvOderItemTotalPrice.text ="Total Price: ${(orderModel.itemList[position].price)} $"
 
 

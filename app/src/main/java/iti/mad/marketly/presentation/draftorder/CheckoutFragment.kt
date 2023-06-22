@@ -154,23 +154,26 @@ class CheckoutFragment : Fragment() {
                         }
                     }
                 }
-                AlertManager.customDialog("Completed",requireContext(),"CONGRATULATIONS") {
+                AlertManager.checkoutDialog(requireContext(), {
                     val orderID = System.currentTimeMillis().toString()
                     var quant = 0
                     for (oreder in DraftOrderManager.getOrder()){
-                       quant+=oreder.quantity.toInt()
+                        quant+=oreder.numberOfItems.toInt()
                     }
                     val order = OrderModel(
                         orderID,
                         DraftOrderManager.getOrder(),
                         quant,
                         DateFormatter.getCurrentDate(),
-                        totalAmount
+                        totalAmount,
+                        AdsManager.clipBoardCode.code,
+                        AdsManager.value.toString(),
+                        DraftOrderManager.getShippingAddress().address1
                     )
                     cartViewModel.saveProuctsInOrder(order)
                     val action = CheckoutFragmentDirections.actionCheckoutFragmentToHomeFragment()
                     findNavController().navigate(action)
-                }.show()
+                }).show()
 
 
 

@@ -1,6 +1,8 @@
 package iti.mad.marketly.presentation.draftorder
 
 import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -31,12 +33,14 @@ import iti.mad.marketly.utils.DraftOrderManager
 import iti.mad.marketly.utils.ResponseState
 import iti.mad.marketly.utils.SettingsManager
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 class ChecoutFragmentCredit : Fragment() {
 
     lateinit var binding: FragmentChecoutCreditBinding
+    var totalAmount = 0.0
     private val draftOrderViewModel by viewModels<DraftOrderViewModel> {
         DraftOrderViewModel.Factory
     }
@@ -59,6 +63,7 @@ class ChecoutFragmentCredit : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        totalAmount = 0.0
         binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
             findNavController().navigateUp()
         })
@@ -71,7 +76,7 @@ class ChecoutFragmentCredit : Fragment() {
         val draftOrderCustomer = DraftOrderManager.getCustomer()
         val draftAppliedDiscount = DraftOrderManager.getDiscount()
         var currency:String = SharedPreferenceManager.getSavedCurrency(requireContext()).toString()
-        var totalAmount = 0.0
+
         val invoice = DraftOrderInvoiceX(
             Constants.EMAIL_BODY,
             Constants.EMAIL_SUBJECT,
@@ -93,6 +98,7 @@ class ChecoutFragmentCredit : Fragment() {
 
                         }
                         is ResponseState.OnSuccess->{
+                            DraftOrderManager.setInvoice(it.response.draft_order.invoice_url)
                             DraftOrderManager.setDraftOrderID(it.response.draft_order.id)
                             Toast.makeText(requireContext(),"Order Created Successfully", Toast.LENGTH_LONG).show()
                         }
@@ -124,6 +130,8 @@ class ChecoutFragmentCredit : Fragment() {
         val method = {
 
             if(DraftOrderManager.checkCreditCard()){
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(DraftOrderManager.getInvoice()))
+                startActivity(intent)
                 draftOrderViewModel.sendInvoice(
                     DraftOrderInvoice(invoice),
                     DraftOrderManager.getDraftOrderID().toString())
@@ -156,26 +164,11 @@ class ChecoutFragmentCredit : Fragment() {
                         }
                     }
                 }
-                AlertManager.customDialog("Completed",requireContext(),"CONGRATULATIONS",{
-
-                    val orderID = System.currentTimeMillis().toString()
-
-                    var quant = 0
-                    for (oreder in DraftOrderManager.getOrder()){
-                        quant+=oreder.quantity.toInt()
-                    }
-                    val order = OrderModel(
-                        orderID,
-                        DraftOrderManager.getOrder(),
-                        quant,
-                        DateFormatter.getCurrentDate(),
-                        totalAmount
-                    )
-                    cartViewModel.saveProuctsInOrder(order)
-                    DraftOrderManager.clearCredit()
-                    val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
-                    findNavController().navigate(action)
-                }).show()
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    delay(5000)
+                    checkout()
+                }
+                Toast.makeText(requireContext(),"done",Toast.LENGTH_SHORT).show()
             }else{
                 AlertManager.nonFunctionalDialog("ERROR",requireContext(),"Please Enter a valid Credit Card")
             }
@@ -183,8 +176,31 @@ class ChecoutFragmentCredit : Fragment() {
 
         }
         binding.placeOrder.setOnClickListener(View.OnClickListener {
+
             AlertManager.functionalDialog("Order Confermation",requireContext(),"Do you want to checkout?",method).show()
 
         })
+    }
+    suspend fun checkout(){
+        AlertManager.checkoutDialog(requireContext(), {
+            val orderID = System.currentTimeMillis().toString()
+            var quant = 0
+            for (oreder in DraftOrderManager.getOrder()){
+                quant+=oreder.numberOfItems.toInt()
+            }
+            val order = OrderModel(
+                orderID,
+                DraftOrderManager.getOrder(),
+                quant,
+                DateFormatter.getCurrentDate(),
+                totalAmount,
+                AdsManager.clipBoardCode.code,
+                AdsManager.value.toString(),
+                DraftOrderManager.getShippingAddress().address1
+            )
+            cartViewModel.saveProuctsInOrder(order)
+            val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
+            findNavController().navigate(action)
+        }).show()
     }
 }

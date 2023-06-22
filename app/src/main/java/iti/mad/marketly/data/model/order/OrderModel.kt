@@ -8,5 +8,8 @@ data class OrderModel(
     var itemList: List<CartModel> = mutableListOf(),
     var itemCount: Int = 0,
     var date: String = "",
-    var orderTotalPrice: Double = 0.0
+    var orderTotalPrice: Double = 0.0,
+    var coupone:String = "",
+    var couponeValue:String = "",
+    var address:String = ""
 ) : Serializable
