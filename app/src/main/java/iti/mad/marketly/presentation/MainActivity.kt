@@ -1,6 +1,7 @@
 package iti.mad.marketly.presentation
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -14,7 +15,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.installations.FirebaseInstallations
+import com.google.firebase.messaging.FirebaseMessaging
 import iti.mad.marketly.R
+import iti.mad.marketly.data.FirebaseService
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +38,13 @@ class MainActivity : AppCompatActivity() {
         layoutSpace = findViewById(R.id.layoutSpace)
 
 
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/myTopic2")
+
+        FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+
+        FirebaseInstallations.getInstance().getToken(false).addOnSuccessListener {
+            FirebaseService.token = it.token
+        }
         // Set up the Navigation Controller
         /*  navController = findNavController(R.id.navHostFragment)
         navController.addOnDestinationChangedListener { _, destination, _ ->
