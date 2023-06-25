@@ -162,6 +162,7 @@ class ChecoutFragmentCredit : Fragment() {
             }
             is PaymentSheetResult.Completed -> {
                 // Display for example, an order confirmation screen
+                eraseCart()
                 val orderID = System.currentTimeMillis().toString()
                 var quant = 0
                 for (oreder in DraftOrderManager.getOrder()){
@@ -178,8 +179,7 @@ class ChecoutFragmentCredit : Fragment() {
                     DraftOrderManager.getShippingAddress().address1
                 )
                 cartViewModel.saveProuctsInOrder(order)
-                val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
-                findNavController().navigate(action)
+
             }
         }
     }
@@ -237,6 +237,37 @@ class ChecoutFragmentCredit : Fragment() {
                         }
                         else ->{}
                     }
+                }
+            }
+        }
+    }
+    fun eraseCart(){
+        cartViewModel.getAllCart()
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                cartViewModel._cartResponse.collect {
+
+                    when (it) {
+                        is ResponseState.OnLoading -> {
+                        }
+                        is ResponseState.OnSuccess -> {
+                            var cartItems = it.response.toMutableList()
+
+                            for (carts in it.response){
+                                cartViewModel.deleteCartItem(carts.id.toString())
+                            }
+                            val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
+                            findNavController().navigate(action)
+                        }
+                        is ResponseState.OnError -> {
+                            Log.i(
+                                ContentValues.TAG,
+                                "onViewCreated:${it.message} this is an errrror"
+                            )
+                        }
+                        else -> {}
+                    }
+
                 }
             }
         }
