@@ -33,7 +33,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/metropolis_semibold"
             android:padding="5dp"
-            android:text="Coupon"
+            android:text="Back to Home"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="@+id/textView16"
             app:layout_constraintStart_toStartOf="@+id/textView16"
