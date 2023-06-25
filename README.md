@@ -12,8 +12,12 @@ It is an application that starts with displaying the most famous brands and allo
 
 ### Mahmoud Sayed 
 -
-### Hussin 
- - 
+### Hussein Ahmed Abdelhammed 
+ - Online payment
+ - Cart impelementation
+ - Coupon
+ - Settings Page
+ - Currency Convertion
 
 # Link Trello
 - https://trello.com/b/Kt2Gv5AQ/developing
