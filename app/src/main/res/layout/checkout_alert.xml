@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:textSize="18dp"
-            android:text="Your Order has been completed"
+            android:text="Your Order has been Completed"
             app:layout_constraintEnd_toEndOf="@+id/textView15"
             app:layout_constraintStart_toStartOf="@+id/textView15"
             app:layout_constraintTop_toBottomOf="@+id/textView15" />
