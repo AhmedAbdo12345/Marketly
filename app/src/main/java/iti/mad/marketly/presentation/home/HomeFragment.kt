@@ -198,6 +198,9 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                 for (rules in AdsManager.getPriceList()) {
                     if (ad.price_rule_id == rules.id) {
                         rule = rules.value
+                        if(rule == "-100.0"){
+                            rule =="-10"
+                        }
                     }
                 }
                 val method = {
@@ -213,10 +216,13 @@ class HomeFragment : Fragment(), BrandsAdapter.ListItemClickListener {
                         Toast.LENGTH_LONG
                     ).show()
                 }
+                if (rule=="-100.0"){
+                    rule ="-10.0"
+                }
                 AlertManager.customDialog(
                     ad.code,
                     requireContext(),
-                    rule + " LE",
+                    rule + " %",
                     method
                 ).show()
                 AdsManager.setClipBoard(ad)

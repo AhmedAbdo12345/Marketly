@@ -104,7 +104,7 @@ class CheckoutFragment : Fragment() {
         binding.countryName.text = draftOrderAddress.country
         binding.city.text = draftOrderAddress.city
         binding.discountText.text = draftAppliedDiscount.title
-        binding.discountValueFromApi.text = draftAppliedDiscount.value
+        binding.discountValueFromApi.text = draftAppliedDiscount.amount+"%"
         if(AdsManager.clipBoardCode.code.isEmpty()||AdsManager.clipBoardCode.code.equals("DUMMY")){
             totalAmount = totalAmount
         }else{

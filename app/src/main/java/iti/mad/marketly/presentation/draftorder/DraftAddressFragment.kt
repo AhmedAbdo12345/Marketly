@@ -97,7 +97,7 @@ class DraftAddressFragment : Fragment(),DraftAddressInterface{
                     AdsManager.value.toString(),
                     AdsManager.clipBoardCode.code,
                     AdsManager.clipBoardCode.code,
-                    AdsManager.value.toString())
+                    "percentage")
 
             )
             var action= DraftAddressFragmentDirections.actionDraftAddressFragmentToPaymentMethodFragment()
@@ -109,7 +109,7 @@ class DraftAddressFragment : Fragment(),DraftAddressInterface{
             findNavController().navigate(action)
         }
         if(!AdsManager.clipBoardCode.code.equals("DUMMY")){
-            AlertManager.functionalDialog("Appling the coupon",requireContext(),"Do you want to apply the coupone you selected?",method,cancelMethod).show()
+            AlertManager.functionalDialog("Appling the coupon",requireContext(),"Do you want to apply the coupone you selected with code = ${AdsManager.clipBoardCode.code} and value = ${AdsManager.value} %?",method,cancelMethod).show()
         }else{
             DraftOrderManager.setDiscount(
                 AppliedDiscount(

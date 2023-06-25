@@ -41,6 +41,7 @@ object AlertManager {
         dialog.setView(binding.root)
         val alert = dialog.create()
         binding.tvAdsCouponCode.text =title
+
         binding.tvAdsCouponValue.text =message
     /*    binding.back.setOnClickListener(View.OnClickListener {
             method()
