@@ -27,11 +27,16 @@ object AdsManager {
         return flag
     }
     fun setValue(valu: String){
-        var temp=valu.drop(1)
-        if(temp =="100"){
-            temp="10"
+        var temp = valu
+        if(temp == "-100"){
+            temp = "-10"
         }
+        temp=temp.drop(1)
+
         value =temp.toDouble()
+        if(value == 100.0){
+            value = 10.0
+        }
     }
     fun setClipBoard(ads:DiscountCode){
         clipBoardCode =ads
