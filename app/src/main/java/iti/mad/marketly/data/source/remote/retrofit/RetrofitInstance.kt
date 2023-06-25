@@ -40,6 +40,7 @@ object RetrofitInstance {
     }
 private val currencyRetrofit:Retrofit by lazy {
     val httpCurrency = OkHttpClient.Builder().build()
+
     Retrofit.Builder()
         .baseUrl(Constants.BASE_URL_CUR)
         .client(httpCurrency)
@@ -47,9 +48,12 @@ private val currencyRetrofit:Retrofit by lazy {
         .build()
 
 }
-     val yRetrofit:StripeApiClient by lazy {
+     val stripeRetrofit:StripeApiClient by lazy {
+         val interceptor = HttpLoggingInterceptor()
+         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+         val httpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         Retrofit.Builder()
-            .baseUrl(StripeApiClient.BASE_URL)
+            .baseUrl(StripeApiClient.BASE_URL).client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(StripeApiClient::class.java)

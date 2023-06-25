@@ -1,18 +1,19 @@
-package com.example.shopify.data.stripe.repository
+package iti.mad.marketly.data.source.remote
 
 import com.example.shopify.data.stripe.response.CreateEphemeralKeyResponse
 import com.example.shopify.data.stripe.response.CreatePaymentIntentResponse
 import com.example.shopify.data.stripe.response.StripeCustomerResponse
 import kotlinx.coroutines.flow.Flow
 
-
-interface StripeRepository {
+interface StripeRDataSourceInterface {
     suspend fun createCustomer(): Flow<StripeCustomerResponse>
-    suspend fun createEphemeralKey(customerId: String): Flow<CreateEphemeralKeyResponse>
+    suspend fun createEphemeralKey(
+        customerId: String
+    ): Flow<CreateEphemeralKeyResponse>
     suspend fun createPaymentIntent(
-        customerId: String,
-        amount: Int,
+       customerId: String,
+       amount: Int,
         currency: String,
-        autoPaymentMethodsEnable: Boolean
+        autoPaymentMethodsEnable: Boolean,
     ): Flow<CreatePaymentIntentResponse>
 }

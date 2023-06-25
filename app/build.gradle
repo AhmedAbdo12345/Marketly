@@ -47,7 +47,8 @@ android {
 dependencies {
 //stripe
     implementation 'com.stripe:stripe-android:20.25.7'
-
+//stripe server-side
+    implementation "com.stripe:stripe-java:22.0.0"
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'

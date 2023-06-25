@@ -1,5 +1,7 @@
 package iti.mad.marketly.data.source.remote
 
+import com.example.shopify.data.stripe.response.CreateEphemeralKeyResponse
+import com.example.shopify.data.stripe.response.StripeCustomerResponse
 import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
 import iti.mad.marketly.data.model.brands.BrandsResponse
 import iti.mad.marketly.data.model.cart.CartModel
@@ -22,6 +24,7 @@ import iti.mad.marketly.data.model.product.ProductResponse
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Query
 
 interface IRemoteDataSource {
 
@@ -58,4 +61,6 @@ interface IRemoteDataSource {
     suspend fun createDraftOrder(draftOrderBody: DraftOrderRequest): Flow<DraftOrderResponse>
     suspend fun sendInvoice(invoice: DraftOrderInvoice,draftID:String): Flow<DraftOrderInvoice>
     suspend fun completeOrder(draftID:String):Flow<DraftOrderResponse>
+
+
 }

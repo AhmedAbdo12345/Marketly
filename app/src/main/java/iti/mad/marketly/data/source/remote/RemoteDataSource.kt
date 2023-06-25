@@ -1,6 +1,9 @@
 package iti.mad.marketly.data.source.remote
 
 import android.util.Log
+import com.example.shopify.data.stripe.response.CreateEphemeralKeyResponse
+import com.example.shopify.data.stripe.response.CreatePaymentIntentResponse
+import com.example.shopify.data.stripe.response.StripeCustomerResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -268,6 +271,8 @@ class RemoteDataSource(
     override suspend fun completeOrder(draftID:String): Flow<DraftOrderResponse> = flow {
         emit(api.completeOrder(draftID))
     }
+
+
 
     //--------------------------------------------------------------------------------
 }
