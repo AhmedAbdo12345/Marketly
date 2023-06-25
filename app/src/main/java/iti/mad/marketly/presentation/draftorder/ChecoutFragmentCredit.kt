@@ -15,6 +15,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
 import iti.mad.marketly.R
 import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoice
 import iti.mad.marketly.data.draftOrderInvoice.DraftOrderInvoiceX
@@ -24,31 +29,28 @@ import iti.mad.marketly.data.source.local.sharedpreference.SharedPreferenceManag
 import iti.mad.marketly.databinding.FragmentCheckoutBinding
 import iti.mad.marketly.databinding.FragmentChecoutCreditBinding
 import iti.mad.marketly.presentation.cart.CartViewModel
-import iti.mad.marketly.utils.AdsManager
-import iti.mad.marketly.utils.AlertManager
-import iti.mad.marketly.utils.Constants
-import iti.mad.marketly.utils.CurrencyConverter
-import iti.mad.marketly.utils.DateFormatter
-import iti.mad.marketly.utils.DraftOrderManager
-import iti.mad.marketly.utils.ResponseState
-import iti.mad.marketly.utils.SettingsManager
+import iti.mad.marketly.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
 class ChecoutFragmentCredit : Fragment() {
-
+    lateinit var paymentSheet: PaymentSheet
     lateinit var binding: FragmentChecoutCreditBinding
+    lateinit var customerConfig: PaymentSheet.CustomerConfiguration
     var totalAmount = 0.0
-    private val draftOrderViewModel by viewModels<DraftOrderViewModel> {
-        DraftOrderViewModel.Factory
-    }
+
     private val cartViewModel by viewModels<CartViewModel>{
         CartViewModel.Factory
     }
+    private val stripeViewModel by viewModels<StripeViewModel>{
+        StripeViewModel.Factory
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        paymentSheet = PaymentSheet(this,::onPaymentSheetResult)
     }
 
     override fun onCreateView(
@@ -67,20 +69,14 @@ class ChecoutFragmentCredit : Fragment() {
         binding.appBar.backArrow.setOnClickListener(View.OnClickListener {
             findNavController().navigateUp()
         })
-        binding.creditCardPage.setOnClickListener(View.OnClickListener {
-            val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToCreditFragment()
-            findNavController().navigate(action)
-        })
+
         val draftOrderLineItemList = DraftOrderManager.getLineList()
         val draftOrderAddress = DraftOrderManager.getShippingAddress()
         val draftOrderCustomer = DraftOrderManager.getCustomer()
         val draftAppliedDiscount = DraftOrderManager.getDiscount()
         var currency:String = SharedPreferenceManager.getSavedCurrency(requireContext()).toString()
 
-        val invoice = DraftOrderInvoiceX(
-            Constants.EMAIL_BODY,
-            Constants.EMAIL_SUBJECT,
-            SharedPreferenceManager.getUserMAil(requireContext()).toString())
+
         for (item in draftOrderLineItemList){
             totalAmount =totalAmount+item.price.toDouble()
 
@@ -88,28 +84,7 @@ class ChecoutFragmentCredit : Fragment() {
         if(currency == null||currency == ""){
             currency = "USD"
         }
-        val draftOrder= DraftOrderManager.buildDraftOrder(draftOrderLineItemList,draftOrderCustomer,draftOrderAddress,currency,draftAppliedDiscount)
-        draftOrderViewModel.createDraftOrder(DraftOrderRequest(draftOrder))
-        viewLifecycleOwner.lifecycleScope.launch (Dispatchers.Main){
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                draftOrderViewModel._draftResponse.collect{
-                    when(it){
-                        is ResponseState.OnLoading->{
 
-                        }
-                        is ResponseState.OnSuccess->{
-                            DraftOrderManager.setInvoice(it.response.draft_order.invoice_url)
-                            DraftOrderManager.setDraftOrderID(it.response.draft_order.id)
-                        }
-                        is ResponseState.OnError->{
-                            Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
-                            Toast.makeText(requireContext(),it.message, Toast.LENGTH_LONG).show()
-                        }
-                        else ->{}
-                    }
-                }
-            }
-        }
         binding.countryName.text = draftOrderAddress.country
         binding.city.text = draftOrderAddress.city
         binding.discountText.text = draftAppliedDiscount.title
@@ -133,70 +108,47 @@ class ChecoutFragmentCredit : Fragment() {
         }
 
 
-
         val method = {
+            PaymentConfiguration.init(requireContext(),"pk_test_51NLhznEtHa5WFOrtsgXSsAKfgIRP64BiI0Sv5yMGEVQoSVW55Ml0VlOe9LdiLrXfdxi4Hc7b9meVFIG3mylOIRTj00t69BIBHK")
+            presentPaymentSheet(StripeConfigs.getPaymentKey(),customerConfig)
+            val orderID = System.currentTimeMillis().toString()
+            var quant = 0
+            for (oreder in DraftOrderManager.getOrder()){
+                quant+=oreder.numberOfItems.toInt()
+            }
+            val order = OrderModel(
+                orderID,
+                DraftOrderManager.getOrder(),
+                quant,
+                DateFormatter.getCurrentDate(),
+                totalAmount,
+                AdsManager.clipBoardCode.code,
+                AdsManager.value.toString(),
+                DraftOrderManager.getShippingAddress().address1
+            )
+            cartViewModel.saveProuctsInOrder(order)
 
-            if(DraftOrderManager.checkCreditCard()){
-                val orderID = System.currentTimeMillis().toString()
-                var quant = 0
-                for (oreder in DraftOrderManager.getOrder()){
-                    quant+=oreder.numberOfItems.toInt()
-                }
-                val order = OrderModel(
-                    orderID,
-                    DraftOrderManager.getOrder(),
-                    quant,
-                    DateFormatter.getCurrentDate(),
-                    totalAmount,
-                    AdsManager.clipBoardCode.code,
-                    AdsManager.value.toString(),
-                    DraftOrderManager.getShippingAddress().address1
-                )
-                cartViewModel.saveProuctsInOrder(order)
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(DraftOrderManager.getInvoice()))
-                startActivity(intent)
-                draftOrderViewModel.sendInvoice(
-                    DraftOrderInvoice(invoice),
-                    DraftOrderManager.getDraftOrderID().toString())
-
-                cartViewModel.getAllCart()
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                    repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        cartViewModel._cartResponse.collect {
-
-                            when (it) {
-                                is ResponseState.OnLoading -> {
-                                }
-                                is ResponseState.OnSuccess -> {
-                                    var cartItems = it.response.toMutableList()
-
-                                    for (carts in it.response){
-                                        cartViewModel.deleteCartItem(carts.id.toString())
-                                    }
-
-                                }
-                                is ResponseState.OnError -> {
-                                    Log.i(
-                                        ContentValues.TAG,
-                                        "onViewCreated:${it.message} this is an errrror"
-                                    )
-                                }
-                                else -> {}
-                            }
+        }
+        stripeViewModel.createUser()
+        viewLifecycleOwner.lifecycleScope.launch (Dispatchers.Main){
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                stripeViewModel._customerCreationResponce.collect{
+                    when(it){
+                        is ResponseState.OnLoading->{
 
                         }
+                        is ResponseState.OnSuccess->{
+                            StripeConfigs.setCustomerConfig(it.response.id)
+                            createKey(it.response.id)
+                        }
+                        is ResponseState.OnError->{
+
+                            Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
+                        }
+                        else ->{}
                     }
                 }
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                    delay(5000)
-                    checkout()
-                }
-                Toast.makeText(requireContext(),"done",Toast.LENGTH_SHORT).show()
-            }else{
-                AlertManager.nonFunctionalDialog("ERROR",requireContext(),"Please Enter a valid Credit Card")
             }
-
-
         }
         binding.placeOrder.setOnClickListener(View.OnClickListener {
 
@@ -204,12 +156,87 @@ class ChecoutFragmentCredit : Fragment() {
 
         })
     }
-    suspend fun checkout(){
-        AlertManager.checkoutDialog(requireContext(), {
-
-            draftOrderViewModel.completeOrder(DraftOrderManager.getDraftOrderID().toString())
-            val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
-            findNavController().navigate(action)
-        }).show()
+    fun presentPaymentSheet(paymentIntentClientSecret:String,customerConfig:PaymentSheet.CustomerConfiguration) {
+        paymentSheet.presentWithPaymentIntent(
+            paymentIntentClientSecret,
+            PaymentSheet.Configuration(
+                merchantDisplayName = "My merchant name",
+                customer = customerConfig,
+                // Set `allowsDelayedPaymentMethods` to true if your business
+                // can handle payment methods that complete payment after a delay, like SEPA Debit and Sofort.
+                allowsDelayedPaymentMethods = true
+            )
+        )
     }
+    fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult){
+        when(paymentSheetResult) {
+            is PaymentSheetResult.Canceled -> {
+                print("Canceled")
+            }
+            is PaymentSheetResult.Failed -> {
+                print("Error: ${paymentSheetResult.error}")
+            }
+            is PaymentSheetResult.Completed -> {
+                // Display for example, an order confirmation screen
+                val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
+                findNavController().navigate(action)
+            }
+        }
+    }
+    fun createKey(customerKey:String){
+        stripeViewModel.createKey(customerKey)
+        viewLifecycleOwner.lifecycleScope.launch (Dispatchers.Main){
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                stripeViewModel._keyCreationResponce.collect{
+                    when(it){
+                        is ResponseState.OnLoading->{
+
+                        }
+                        is ResponseState.OnSuccess->{
+                            StripeConfigs.setKey(it.response.id)
+                            createPaymentIntent(StripeConfigs.getCustomerConfig(),totalAmount.toInt(),SettingsManager.getCurrncy())
+                        }
+                        is ResponseState.OnError->{
+
+                            Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
+                        }
+                        else ->{}
+                    }
+                }
+            }
+        }
+    }
+    fun createPaymentIntent(customerID:String,amount:Int,currency:String){
+        var cur = ""
+        if(SettingsManager.getCurrncy()=="EGP"){
+            cur = "EGP"
+        }else{
+            cur="USD"
+        }
+        stripeViewModel.createPaymentIntent(customerID,amount*100,cur,autoPaymentMethodsEnable = true)
+        viewLifecycleOwner.lifecycleScope.launch (Dispatchers.Main){
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                stripeViewModel._paymentIntent.collect{
+                    when(it){
+                        is ResponseState.OnLoading->{
+
+                        }
+                        is ResponseState.OnSuccess->{
+                            StripeConfigs.setPaymentKey(it.response.clientSecret)
+                            customerConfig = PaymentSheet.CustomerConfiguration(
+                                StripeConfigs.getCustomerConfig(),StripeConfigs.getKey()
+                            )
+                        }
+                        is ResponseState.OnError->{
+
+                            Log.i(ContentValues.TAG, "onViewCreated:${it.message} ")
+                        }
+                        else ->{}
+                    }
+                }
+            }
+        }
+    }
+
+
 }

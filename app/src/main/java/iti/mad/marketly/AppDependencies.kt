@@ -22,7 +22,9 @@ import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsReposit
 import iti.mad.marketly.data.repository.productdetailsRepo.ProductDetailsRepositoryImpl
 import iti.mad.marketly.data.repository.search.SearchRepo
 import iti.mad.marketly.data.repository.search.SearchRepoImpl
+import iti.mad.marketly.data.repository.stripe.StripeRepoImplementation
 import iti.mad.marketly.data.source.remote.RemoteDataSource
+import iti.mad.marketly.data.source.remote.StripeRemoteDataSource
 import iti.mad.marketly.data.source.remote.retrofit.RetrofitInstance
 import iti.mad.marketly.presentation.brandProduct.BrandProductViewModel
 import iti.mad.marketly.presentation.productdetails.viewmodel.ProductDetailsViewModel
@@ -40,12 +42,14 @@ object AppDependencies {
     lateinit var orderRepo: OrderRepo
     lateinit var searchRepo: SearchRepo
     lateinit var draftOrderRepo : DraftOrderRepoImplementation
+    lateinit var stripeRepo:StripeRepoImplementation
     fun initialization() {
         val api = RetrofitInstance.api
         val remote = RemoteDataSource(api)
         val currencyRetrofit= RetrofitInstance.currncyApi
         val remoteCurrency= RemoteDataSource(currencyRetrofit)
-
+        val stripeAPI = RetrofitInstance.stripeRetrofit
+        val stripeDataSource = StripeRemoteDataSource(stripeAPI)
         settingsRepo = SettingsRepoImplementation(remoteCurrency)
         authRepository = AuthRepositoryImpl(remote)
         productDetailsRepository = ProductDetailsRepositoryImpl(remote)
@@ -58,6 +62,7 @@ object AppDependencies {
         orderRepo = OrderRepoImpl(remote)
         searchRepo=SearchRepoImpl(remote)
         draftOrderRepo = DraftOrderRepoImplementation(remote)
+        stripeRepo = StripeRepoImplementation(stripeDataSource)
     }
 
 }
