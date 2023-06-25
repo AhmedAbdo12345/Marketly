@@ -111,22 +111,6 @@ class ChecoutFragmentCredit : Fragment() {
         val method = {
             PaymentConfiguration.init(requireContext(),"pk_test_51NLhznEtHa5WFOrtsgXSsAKfgIRP64BiI0Sv5yMGEVQoSVW55Ml0VlOe9LdiLrXfdxi4Hc7b9meVFIG3mylOIRTj00t69BIBHK")
             presentPaymentSheet(StripeConfigs.getPaymentKey(),customerConfig)
-            val orderID = System.currentTimeMillis().toString()
-            var quant = 0
-            for (oreder in DraftOrderManager.getOrder()){
-                quant+=oreder.numberOfItems.toInt()
-            }
-            val order = OrderModel(
-                orderID,
-                DraftOrderManager.getOrder(),
-                quant,
-                DateFormatter.getCurrentDate(),
-                totalAmount,
-                AdsManager.clipBoardCode.code,
-                AdsManager.value.toString(),
-                DraftOrderManager.getShippingAddress().address1
-            )
-            cartViewModel.saveProuctsInOrder(order)
 
         }
         stripeViewModel.createUser()
@@ -178,6 +162,22 @@ class ChecoutFragmentCredit : Fragment() {
             }
             is PaymentSheetResult.Completed -> {
                 // Display for example, an order confirmation screen
+                val orderID = System.currentTimeMillis().toString()
+                var quant = 0
+                for (oreder in DraftOrderManager.getOrder()){
+                    quant+=oreder.numberOfItems.toInt()
+                }
+                val order = OrderModel(
+                    orderID,
+                    DraftOrderManager.getOrder(),
+                    quant,
+                    DateFormatter.getCurrentDate(),
+                    totalAmount,
+                    AdsManager.clipBoardCode.code,
+                    AdsManager.value.toString(),
+                    DraftOrderManager.getShippingAddress().address1
+                )
+                cartViewModel.saveProuctsInOrder(order)
                 val action = ChecoutFragmentCreditDirections.actionChecoutFragmentCreditToHomeFragment()
                 findNavController().navigate(action)
             }
@@ -212,6 +212,10 @@ class ChecoutFragmentCredit : Fragment() {
             cur = "EGP"
         }else{
             cur="USD"
+        }
+        
+        if (totalAmount == 0.0){
+            totalAmount = .01
         }
         stripeViewModel.createPaymentIntent(customerID,amount*100,cur,autoPaymentMethodsEnable = true)
         viewLifecycleOwner.lifecycleScope.launch (Dispatchers.Main){
