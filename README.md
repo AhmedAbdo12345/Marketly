@@ -18,7 +18,17 @@ It is an application that starts with displaying the most famous brands and allo
  - Coupon
  - Settings Page
  - Currency Convertion
-
+ - 
+### Mohamed Mounir Mohamed Arfa
+- Initialize Base prodjct and Handle dependencies in gradle
+- [Admin App] Design and Implementing Create, Update, Delete and Retreive `Products` with thier Images and Variants
+- [Admin App] Design and Implementing Create, Update, Delete and Retreive `Price rule and Discount Code` 
+- [Admin App] Design and Implementing `Home Page`
+- [Admin App] Add  `Notification FCM` between Admin and theier Clients
+- [Admin App] Add `OnBoarding` Screens
+- [Admin App] Design and Implementing Create, Update, Delete and Retreive `Employers`
+- [Admin App] Design and Implementing Login and Register system 
+  
 # Link Trello
 - https://trello.com/b/Kt2Gv5AQ/developing
 
