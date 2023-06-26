@@ -11,13 +11,16 @@ It is an application that starts with displaying the most famous brands and allo
 - Add OnBoarding Screens
 
 ### Mahmoud Sayed 
--
+- Authentication flow
+- product details
+- Search in products
+- add products to favorite using firestore
 ### Hussein Ahmed Abdelhammed 
  - Online payment
  - Cart impelementation
  - Coupon
  - Settings Page
- - Currency Convertion
+ - Currency Conversion
  - 
 ### Mohamed Mounir Mohamed Arfa
 - Initialize Base prodjct and Handle dependencies in gradle
