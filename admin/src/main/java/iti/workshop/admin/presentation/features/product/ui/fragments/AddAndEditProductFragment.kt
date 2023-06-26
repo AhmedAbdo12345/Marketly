@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
@@ -114,7 +115,6 @@ class AddAndEditProductFragment : Fragment() {
         }
 
 
-
         val imageHeader = generateImage()
 
         val model: Product = when (actionType) {
@@ -151,6 +151,14 @@ class AddAndEditProductFragment : Fragment() {
         viewModel.addOrEditProduct(actionType, model)
     }
 
+    /*
+    if (bitmap != null) {
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+            val byteArray = byteArrayOutputStream.toByteArray()
+            val base64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
+            }
+     */
     private fun generateImage(): Image? {
         if (bitmap != null) {
             val byteArrayOutputStream = ByteArrayOutputStream()
@@ -242,7 +250,21 @@ class AddAndEditProductFragment : Fragment() {
             true
         }
         binding.addProductImage.setOnClickListener {
-            chooseImage(requireActivity())
+            val requestPermissionLauncher =
+                registerForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+                ) { isGranted: Boolean ->
+                    if (isGranted) {
+                        chooseImage(requireActivity())
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "permission not granted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
 //            if(checkAndRequestPermissions(requireActivity())){
 //            }
         }
@@ -256,20 +278,22 @@ class AddAndEditProductFragment : Fragment() {
 
         val builder = AlertDialog.Builder(context)
         builder.setItems(optionsMenu) { dialogInterface, i ->
-            if (optionsMenu[i] == "Take Photo") {
-
-                val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(takePicture, 0)
-            } else if (optionsMenu[i] == "Choose from Gallery") {
-                // choose from  external storage
-                val pickPhoto =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(pickPhoto, 1)
+            when(optionsMenu[i]){
+                "Take Photo" -> {
+                    val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(takePicture, 0)
+                }
+                "Choose from Gallery" -> {
+                    val pickPhoto =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    startActivityForResult(pickPhoto, 1)
+                }
             }
         }
         builder.show()
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != AppCompatActivity.RESULT_CANCELED) {
@@ -282,27 +306,15 @@ class AddAndEditProductFragment : Fragment() {
 
                 1 -> if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
                     val selectedImage = data.data
-                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-                    if (selectedImage != null) {
-                        val cursor =
-                            requireActivity().contentResolver.query(
-                                selectedImage,
-                                filePathColumn,
-                                null,
-                                null,
-                                null
-                            )
-                        if (cursor != null) {
-                            cursor.moveToFirst()
-                            val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                            val picturePath = cursor.getString(columnIndex)
-                            bitmap = BitmapFactory.decodeFile(picturePath)
+                    val inputStream = selectedImage?.let { requireActivity().contentResolver.openInputStream(it) }
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+//                            imageView.setImageBitmap(bitmap)
+//                            bitmap = BitmapFactory.decodeFile(picturePath)
                             binding.productImage.setImageBitmap(bitmap)
                             binding.addProductImage.visibility = View.GONE
 
-                            cursor.close()
-                        }
-                    }
+
+
                 }
             }
         }
