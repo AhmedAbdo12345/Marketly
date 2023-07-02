@@ -15,7 +15,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="165dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             app:cardBackgroundColor="@color/backgroundAd"
@@ -44,7 +44,9 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
 
                     <TextView
                         android:id="@+id/cartName"
@@ -64,7 +66,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="8dp"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:padding="10dp"
+                        >
 
                         <LinearLayout
 
